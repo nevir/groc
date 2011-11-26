@@ -1,0 +1,6 @@
+{
+  "_":     ["lib"],
+  "index": "README.md",
+  "strip": ["lib"],
+  "very-verbose": true
+}

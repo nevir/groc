@@ -1,0 +1,17 @@
+!!! 5
+html(lang="en")
+  head
+    title= targetPath
+  meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0")
+  link(rel="stylesheet", type="text/css", media="all", href=relativeRoot + "assets/style.css")
+
+  body
+    - for (var i in segments)
+      .segment
+        - if (segments[i].markdownedComments != '')
+          .comments
+            .wrapper!= segments[i].markdownedComments
+
+        - if (segments[i].highlightedCode != '')
+          .code
+            .wrapper!= segments[i].highlightedCode

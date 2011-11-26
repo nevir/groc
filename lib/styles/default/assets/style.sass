@@ -1,0 +1,234 @@
+@import "compass"
+@import "code_styles"
+
+@import "compass/reset"
+
+// NOTE!  You must be using a fork of sass until this pull request gets merged in:
+// https://github.com/nex3/sass/pull/217
+
+
+// Sizing
+
+// Margin between segments in two-column mode, padding for code/comments in single-column mode.
+$common-margin: 1em
+// Additional padding to each column in two-column mode
+$column-padding: 1em
+// The line length of the commentary column in both modes.
+$commentary-width: 29em
+
+// Smooth-scale the page in viewports that are between ideal widths for two-column and one-column
+// modes.  $scale-start is the distance into the code column where scaling should start
+$scale-start: 25em
+$scale-steps: 100 // Crazy, frivolous, but silky-smooth (on Gecko)
+$scale-min:   0.85
+
+// Typography
+
+$base-line-height: 1.35
+
+=commentary-font
+  font-family: "Helvetica Neue", Helvetica, "Droid Sans", sans-serif
+  font-weight: 300
+  font-size:   0.9375em
+
+=code-font
+  font-family: "Droid Sans Mono", Menlo, Monaco, monospace
+  font-size:   0.75em
+
+=header-font
+  font-family:    "HelveticaNeue-UltraLight", "Helvetica Neue", Helvetica, "Droid Sans", sans-serif
+  font-weight:    100
+  letter-spacing: 0.0625em
+
+=header-font-sizes
+  h1, h2
+    font-size: 2em
+  h3
+    font-size: 1.8em
+  h4
+    font-size: 1.6em
+  h5
+    font-size: 1.5em
+  h6
+    font-size: 1.4em
+
+// Visual Style
+
+$commentary-background-color: #f5fbff
+$commentary-foreground-color: #4a525a
+$commentary-shadow-color:     #ffffff
+
+$code-background-color: #4a525a
+$code-foreground-color: #cbd1d8
+$code-shadow-color:     darken($code-background-color, 15%)
+
+$link-color: #a8614e
+$link-hover-foreground-color: #a8614e
+$link-hover-background-color: lighten(#a8614e, 43%)
+$link-hover-shadow-color:     lighten(#a8614e, 60%)
+
+$inline-code-background-color: #FBF8F3 // #FBF6EF
+
+
+///////////////////////
+// Two-Column Layout //
+///////////////////////
+$commentary-column-width: $commentary-width + ($common-margin + $column-padding) * 2
+
+body
+  padding: $column-padding 0
+
+.segment
+  padding-left: $commentary-column-width
+  margin:       $common-margin 0
+  white-space:  nowrap // Ensure that code blocks don't wrap (they're inline-blocks)
+
+.comments, .code
+  display:        inline-block
+  vertical-align: top
+  padding:        0 ($common-margin + $column-padding)
+
+.comments
+  width:        $commentary-width
+  margin-left: -$commentary-column-width
+  white-space:  normal // Return comments back to normal flow
+
+.code .wrapper
+  white-space: pre
+
+// Scale the page down as we approach single column mode - (squeeze a bit more life out of
+// two-column mode)
+$scale-start-width: $commentary-column-width + $scale-start
+
+@for $i from 0 through $scale-steps - 1
+  $scale: 1.0 - (1.0 - $scale-min) * ($i / ($scale-steps - 1))
+  @media (max-width: #{$scale-start-width * $scale})
+    html
+      font-size: 1em * $scale
+
+
+//////////////////////////
+// Single-Column Layout //
+//////////////////////////
+$single-column-toggle-width: $commentary-column-width * 1.125
+
+// Switch modes at a little wider than a full (padded) column
+@media (max-width: #{$single-column-toggle-width})
+  html
+    font-size: 1em // return our scale to normal
+
+  body
+    // We're dropping $column-padding and the margin becomes padding for each code & comment block
+    padding: $common-margin 0
+
+  .segment
+    padding-left: 0
+    margin:       0 auto // Center the column
+    max-width:    $commentary-width + $common-margin * 2
+
+  .comments, .code
+    display: block
+    // It's ok to resize smaller for super small screens (phone in portrait)
+    width:   100%
+    padding: 0
+
+    .wrapper
+      padding: $common-margin
+
+  .comments
+    margin-left: 0
+
+  .code
+    overflow-x: auto
+    overflow-y: hidden
+
+
+////////////////
+// Typography //
+////////////////
+
+body
+  line-height: $base-line-height
+
+.comments .wrapper
+  +commentary-font
+
+  h1, h2, h3, h4, h5, h6
+    +header-font
+  +header-font-sizes
+
+  p
+    margin: 1em 0
+
+  code
+    +code-font
+
+.code .wrapper
+  +code-font
+
+
+///////////////////
+// Visual Styles //
+///////////////////
+$background-gradient: linear-gradient(left, darken($code-background-color, 15%), darken($code-background-color, 5%) 0.3em, $code-background-color 1em)
+
+body
+  +background($background-gradient $commentary-column-width no-repeat, $commentary-background-color)
+
+  @media (max-width: #{$single-column-toggle-width})
+    +background($commentary-background-color)
+
+.comments .wrapper
+  +text-shadow($commentary-shadow-color 1px 1px 0)
+  color: $commentary-foreground-color
+
+  a
+    display:         inline-block
+    color:           $link-color
+    text-decoration: none
+
+    &:hover, &:hover *
+      text-decoration: underline
+
+  code
+    +border-radius(0.4em)
+    border:     1px solid darken(desaturate($inline-code-background-color, 25%), 10%)
+    display:    inline-block
+    background: $inline-code-background-color
+    padding:    0.3em 0.3em 0 0.3em
+
+  pre code
+    +box-shadow(darken(desaturate($inline-code-background-color, 25%), 10%) 0 0 0.4em 0.2em)
+    border:   1px solid darken(desaturate($inline-code-background-color, 25%), 30%)
+    display:  block
+    padding:  $common-margin
+    overflow: hidden
+
+.code
+  .wrapper
+    +code-styles
+    +text-shadow($code-shadow-color 1px 1px 0)
+    color: $code-foreground-color
+
+  @media (max-width: #{$single-column-toggle-width})
+    +border-radius(0.4em)
+    +box-shadow(darken($code-background-color, 15%) 0 0 0.5em 0.2em inset)
+    background: $code-background-color
+
+  @media (max-width: #{$commentary-width + $common-margin * 2})
+    +border-radius(0)
+
+///////////////////
+// Browser Hacks //
+///////////////////
+
+html, body
+  min-height: 100%
+
+body
+  // Don't allow (mobile) WebKit clients to mess with the font size
+  -webkit-text-size-adjust: none
+
+// WebKit sticks a dark border around this
+a:visited code
+  border: 1px solid darken(desaturate($inline-code-background-color, 25%), 10%)
