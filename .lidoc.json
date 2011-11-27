@@ -1,5 +1,4 @@
 {
-  "github": true,
   "_":     ["lib", "README.md"],
   "index": "README.md",
   "strip": ["lib"],

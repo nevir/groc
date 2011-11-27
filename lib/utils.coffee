@@ -1,5 +1,23 @@
 # Miscellaneous code fragments reside here.
 Utils =
+  # Detect and return the language that a given file is written in.
+  #
+  # The language is also annotated with a name property, matching the laguages key in LANGUAGES.
+  getLanguage: (filePath) ->
+    unless @_languageDetectionCache?
+      @_languageDetectionCache = []
+
+      for name, language of LANGUAGES
+        language.name = name
+
+        for matcher in language.nameMatchers
+          @_languageDetectionCache.push [matcher, language]
+
+    baseName = path.basename filePath
+
+    for pair in @_languageDetectionCache
+      return pair[1] if baseName.match pair[0]
+
   # Map a list of file paths to relative target paths by stripping prefixes off of them.
   mapFiles: (files, stripPrefixes) ->
     # Prefixes are stripped in order of most specific to least (# of directories deep)

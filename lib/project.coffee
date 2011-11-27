@@ -41,7 +41,7 @@ class Project
     # Prefix paths are either relative to the project root, or absolute
     @stripPrefixes.push "#{path.resolve @root, pathPrefix}/"
 
-  # This is both a performance (over) optimization and debugging aid.  Instead of spamming the
+  # This is both a performance (over-)optimization and debugging aid.  Instead of spamming the
   # system with file I/O and overhead all at once, we only process a certain number of source files
   # concurrently.  This is similar to what [graceful-fs](https://github.com/isaacs/node-graceful-fs)
   # accomplishes.
@@ -67,28 +67,39 @@ class Project
 
     processFile = =>
       currentFile = toProcess.pop()
-      inFlight   += 1
-      @log.trace "Processing %s (%d in flight)", currentFile, inFlight
+      if currentFile?
+        language = Utils.getLanguage currentFile
+        unless language?
+          @log.warn '%s is not in a supported language, skipping.', currentFile
+          return processFile()
+
+        inFlight += 1
+        @log.debug "Processing %s (%d in flight)", currentFile, inFlight
+
+      else
+        if inFlight == 0
+          style.renderCompleted (error) =>
+            return callback error if error
+
+            @log.info ''
+            @log.pass 'Documentation generated'
+            callback()
+
+        # End of the line; we're done chaining processFile()
+        return
 
       fs.readFile currentFile, 'utf-8', (error, data) =>
         if error
           @log.error "Failed to process %s: %s", currentFile, error.message
           return callback error
 
-        style.renderFile data, currentFile, fileMap[currentFile], (error) =>
+        style.renderFile data, language, currentFile, fileMap[currentFile], (error) =>
           return callback error if error
 
           inFlight -= 1
-          if toProcess.length > 0
-            processFile()
-          else
-            if inFlight == 0
-              style.renderCompleted (error) =>
-                return callback error if error
+          processFile()
 
-                @log.info ''
-                @log.pass 'Documentation generated'
-                callback()
-
+    # Kick off the initial batch of files to process.  They'll continue to keep the same number of
+    # files in flight by chaining to processFile() once they finish.
     while toProcess.length > 0 and inFlight < @BATCH_SIZE
       processFile()

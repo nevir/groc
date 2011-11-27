@@ -4,10 +4,9 @@ class BaseStyle
     @log     = project.log
     @outline = {}
 
-  renderFile: (data, sourcePath, targetPath, callback) ->
-    @log.trace 'BaseStyle#renderFile(..., %s, %s, ...)', sourcePath, targetPath
+  renderFile: (data, language, sourcePath, targetPath, callback) ->
+    @log.trace 'BaseStyle#renderFile(..., %s, %s, %s, ...)', language.name, sourcePath, targetPath
 
-    language = LANGUAGES.CoffeeScript
     segments = Utils.splitSource data, language
     @log.debug 'Split %s into %d segments', sourcePath, segments.length
 
