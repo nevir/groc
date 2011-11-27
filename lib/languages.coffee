@@ -1,6 +1,6 @@
 LANGUAGES =
   Markdown:
-    nameMatchers: ['.notMatch']
+    nameMatchers: ['.md']
     commentsOnly: true
 
   CoffeeScript:

@@ -50,6 +50,9 @@ Utils =
     # array to update indices.
     lines[0] = '' if lines[0][0..1] == '#!'
 
+    # Special case: If the language is comments-only, we can skip pygments
+    return [new @Segment [], lines] if language.commentsOnly
+
     segments = []
     currSegment = new @Segment
 
@@ -77,6 +80,14 @@ Utils =
 
   # Annotate an array of segments by running their code through [Pygments](http://pygments.org/).
   highlightCode: (segments, language, callback) ->
+    # Don't bother spawning pygments if we have nothing to highlight
+    numCodeLines = segments.reduce ( (c,s) -> c + s.code.length ), 0
+    if numCodeLines == 0
+      for segment in segments
+        segment.highlightedCode = ''
+
+      return callback()
+
     pygmentize = childProcess.spawn 'pygmentize', [
       '-l', language.pygmentsLexer
       '-f', 'html'
