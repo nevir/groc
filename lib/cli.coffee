@@ -40,11 +40,16 @@ CLI = (inputArgs, callback) ->
 
     # * Booleans don't jive very well with the `options` call, and they need to be declared prior to
     #   referencing `opts.argv`, or you risk associating positional options with a boolean flag.
-    .boolean(['help', 'h', '?', 'verbose', 'very-verbose'])
+    .boolean(['help', 'h', '?', 'github', 'gh', 'verbose', 'very-verbose'])
 
     .options('help',
       describe: "You're looking at it."
       alias:    ['h', '?']
+    )
+
+    .options('github',
+      describe: "Generate your docs in the gh-pages branch of your git repository.  --out is ignored."
+      alias:    'gh'
     )
 
     .options('out',
@@ -103,6 +108,9 @@ CLI = (inputArgs, callback) ->
 
       return callback err
 
+  # Squirrel the docs away inside our git directory if we're building for github pages
+  argv.out = path.join '.git', 'lidoc-tmp' if argv.github
+
   project = new Project argv.root, argv.out
 
   # Set up our logging configuration if the user cares about verbosity
@@ -115,4 +123,20 @@ CLI = (inputArgs, callback) ->
   project.add         p for p in argv._
   project.stripPrefix p for p in argv.strip when p # --no-strip will result in argv.strip == [false]
 
-  project.generate callback
+  project.generate (error) =>
+    return callback error if error or !argv.github
+
+    project.log.info ''
+    project.log.info 'Publishing documentation to github...'
+
+    # Dealing with generation for github pages is a bit more involved, so we farm that out to a
+    # shell script
+    script = childProcess.spawn path.resolve(__dirname, '..', 'scripts', 'publish-git-pages')
+
+    script.stdout.on 'data', (data) -> project.log.info  data.toString().trim()
+    script.stderr.on 'data', (data) -> project.log.error data.toString().trim()
+
+    script.on 'exit', (code) ->
+      return callback new Error 'Git publish failed' if code != 0
+
+      callback()

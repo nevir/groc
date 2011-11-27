@@ -177,8 +177,24 @@ body
   p
     margin: 1em 0
 
+  > *
+    &:first-child
+      margin-top: 0
+
+    &:last-child
+      margin-bottom: 0
+
   code
     +code-font
+
+  ol, ul
+    padding-left: 1.75em
+
+  ol li
+    list-style: number
+
+  ul li
+    list-style: disc
 
 .code .wrapper
   +code-font

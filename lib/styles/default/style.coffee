@@ -35,7 +35,7 @@ class Style extends BaseStyle
   compileScript: (assetPath, callback) ->
     @log.trace 'styles.default.Style#compileScript(%s, ...)', assetPath
 
-    scriptPath = path.resolve __dirname, 'assets', 'behavior.coffee.ujs'
+    scriptPath = path.resolve __dirname, 'assets', 'behavior.coffee'
     fs.readFile scriptPath, 'utf-8', (error, data) =>
       if error
         @log.error 'Failed to read %s: %s', scriptPath, error.message

@@ -49,11 +49,19 @@ class Project
 
   # Where the magic happens.
   generate: (callback) ->
+    @log.trace 'Project#Generate(...)'
+    @log.info 'Generating documentation...'
+
     # We want to support multiple documentation styles, but we don't expect to have a stable API for
     # that just yet.
     style = new styles.default.Style @
 
-    fileMap   = Utils.mapFiles @files, @stripPrefixes
+    fileMap = Utils.mapFiles @files, @stripPrefixes
+    # If we were given an index file, map that
+    if @index
+      indexPath = path.resolve @root, @index
+      fileMap[indexPath] = 'index' if fileMap[indexPath]
+
     toProcess = (k for k of fileMap)
     inFlight  = 0
 

@@ -1,9 +1,7 @@
 outline = <%= JSON.stringify(outline) %>
 
-# Performance and sanity - don't update the DOM unless we filter to this many items or less
-MIN_FILTER_THRESHOLD = 0.5
-# But, if the sample set is small enough, always filter
-ALWAYS_FILTER_SIZE = 10
+# Only show a filter if it matches this many or fewer nodes
+MAX_FILTER_SIZE = 20
 
 
 #############
@@ -30,8 +28,7 @@ searchNodes = (queryString) ->
   for nodeInfo in searchableNodes
     if matcher.test nodeInfo[0] then matched.push nodeInfo[1] else filtered.push nodeInfo[1]
 
-  if searchableNodes.length > ALWAYS_FILTER_SIZE and matched.length / searchableNodes.length >= MIN_FILTER_THRESHOLD
-    return clearFilter()
+  return clearFilter() if matched.length > MAX_FILTER_SIZE
 
   # Update the DOM
   for node$ in filtered

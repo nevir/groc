@@ -1,0 +1,65 @@
+#!/usr/bin/env sh
+set -e # Stop on the first failure that occurs
+
+DOCS_PATH=.git/lidoc-tmp
+TARGET_BRANCH=gh-pages
+TARGET_REMOTE=origin
+
+if [[ `git status -s` != "" ]]; then
+  echo "Please commit or stash your changes before publishing documentation to github!" >&2
+  exit 1
+fi
+
+CURRENT_BRANCH=`git branch 2>/dev/null| sed -n '/^\*/s/^\* //p'`
+CURRENT_COMMIT=`git rev-parse HEAD`
+
+# Preserve the project's .gitignore so that we don't check in or otherwise screw up hidden files
+if [[ -e .gitignore ]]; then
+  cp .gitignore $DOCS_PATH/
+fi
+
+if [[ `git branch --no-color | grep " $TARGET_BRANCH"` == "" ]]; then
+  # Do a fetch from origin to see if it was created remotely
+  git fetch $TARGET_REMOTE
+
+  # Does it exist remotely?
+  if [[ `git branch -a --no-color | grep " remotes/$TARGET_REMOTE/$TARGET_BRANCH"` == "" ]]; then
+    echo "No '$TARGET_BRANCH' branch exists.  Creating one"
+    git symbolic-ref HEAD refs/heads/$TARGET_BRANCH
+    rm .git/index
+
+    # Preserve ignored files, but make sure they're actually ignored!
+    if [[ -e $DOCS_PATH/.gitignore ]]; then
+      cp $DOCS_PATH/.gitignore .gitignore
+      git add .gitignore
+    fi
+
+    git clean -fdq
+  else
+    echo "No local branch '$TARGET_BRANCH', checking out 'origin/$TARGET_BRANCH' and tracking that"
+    git checkout -b $TARGET_BRANCH $TARGET_REMOTE/$TARGET_BRANCH
+  fi
+
+else
+  git checkout $TARGET_BRANCH
+fi
+
+# We want to keep in complete sync (deleting old docs, or cruft from previous documentation output)
+git ls-files | xargs rm
+
+cp -Rf $DOCS_PATH/* .
+if [[ -e $DOCS_PATH/.gitignore ]]; then
+  cp $DOCS_PATH/.gitignore .gitignore
+fi
+
+# Do nothing unless we actually have changes
+if [[ `git status -s` != "" ]]; then
+  git add -A
+  git commit -m "Generated documentation for $CURRENT_COMMIT"
+  git push origin $TARGET_BRANCH
+fi
+
+# Clean up after ourselves
+rm -rf $DOCS_PATH
+
+git checkout $CURRENT_BRANCH

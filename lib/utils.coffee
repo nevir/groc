@@ -64,8 +64,8 @@ Utils =
       '-f', 'html'
       '-O', 'encoding=utf-8,tabsize=2'
     ]
-    pygmentize.stderr.addListener 'data', (error) -> callback error if error
-    pygmentize.stdin.addListener 'error', (error) -> callback error if error
+    pygmentize.stderr.addListener 'data', (data)  -> callback data.toString()
+    pygmentize.stdin.addListener 'error', (error) -> callback error
 
     # We'll just split the output at the end.  pygmentize doesn't stream its output, and a given
     # source file is small enough that it shouldn't matter.
