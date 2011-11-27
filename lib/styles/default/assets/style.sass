@@ -18,7 +18,7 @@ $commentary-width: 29em
 
 // Smooth-scale the page in viewports that are between ideal widths for two-column and one-column
 // modes.  $scale-start is the distance into the code column where scaling should start
-$scale-start: 25em
+$scale-start: 20em
 $scale-steps: 100 // Crazy, frivolous, but silky-smooth (on Gecko)
 $scale-min:   0.85
 
@@ -41,16 +41,18 @@ $base-line-height: 1.35
   letter-spacing: 0.0625em
 
 =header-font-sizes
-  h1, h2
+  h1
     font-size: 2em
+  h2
+    font-size: 1.75em
   h3
-    font-size: 1.8em
-  h4
-    font-size: 1.6em
-  h5
     font-size: 1.5em
+  h4
+    font-size: 1.3em
+  h5
+    font-size: 1.2em
   h6
-    font-size: 1.4em
+    font-size: 1.1em
 
 // Visual Style
 
@@ -167,6 +169,16 @@ body
   +code-font
 
 
+///////////////////////////
+// Navigation & Behavior //
+///////////////////////////
+
+nav
+  position: fixed
+  right:    0
+  top:      0
+
+
 ///////////////////
 // Visual Styles //
 ///////////////////
@@ -199,10 +211,11 @@ body
 
   pre code
     +box-shadow(darken(desaturate($inline-code-background-color, 25%), 10%) 0 0 0.4em 0.2em)
-    border:   1px solid darken(desaturate($inline-code-background-color, 25%), 30%)
-    display:  block
-    padding:  $common-margin
-    overflow: hidden
+    border:     1px solid darken(desaturate($inline-code-background-color, 25%), 30%)
+    display:    block
+    padding:    $common-margin
+    overflow-x: auto
+    overflow-y: hidden
 
 .code
   .wrapper
@@ -218,6 +231,31 @@ body
   @media (max-width: #{$commentary-width + $common-margin * 2})
     +border-radius(0)
 
+nav
+  +commentary-font
+  +text-shadow($code-shadow-color 1px 1px 0)
+  color:      $code-foreground-color
+  background: $code-background-color
+  border:     1px solid $code-shadow-color
+  padding:    $common-margin
+
+  a
+    display: block
+    color:   $code-foreground-color
+
+    &.filtered
+      display: none
+
+      &.matched-child
+        +opacity(0.25)
+        display: block
+
+    em
+      font-weight: bold
+
+  li ol
+    padding-left: 1em
+
 ///////////////////
 // Browser Hacks //
 ///////////////////
@@ -226,9 +264,15 @@ html, body
   min-height: 100%
 
 body
-  // Don't allow (mobile) WebKit clients to mess with the font size
-  -webkit-text-size-adjust: none
+  // Don't allow mobile WebKit clients to mess with the font size
+  -webkit-text-size-adjust: 100%
 
 // WebKit sticks a dark border around this
 a:visited code
   border: 1px solid darken(desaturate($inline-code-background-color, 25%), 10%)
+
+// Give us native scrolling where it makes sense
+.code, pre code
+  // Note that this breaks scroll to top functionality!  We think this is ok because our nav takes
+  // care of the need for that, but it sucks.
+  -webkit-overflow-scrolling: touch

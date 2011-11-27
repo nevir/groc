@@ -61,4 +61,5 @@ class Logger
 globalLogger = new Logger Logger::LEVELS.TRACE
 
 for level of globalLogger.LEVELS
-  Logger[level.toLowerCase()] = (args...) -> globalLogger[level.toLowerCase()] args...
+  do (level) ->
+    Logger[level.toLowerCase()] = (args...) -> globalLogger[level.toLowerCase()] args...

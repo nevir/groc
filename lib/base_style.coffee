@@ -2,6 +2,7 @@ class BaseStyle
   constructor: (project) ->
     @project = project
     @log     = project.log
+    @outline = {}
 
   renderFile: (data, sourcePath, targetPath, callback) ->
     @log.trace 'BaseStyle#renderFile(..., %s, %s, ...)', sourcePath, targetPath
@@ -20,6 +21,8 @@ class BaseStyle
         if error
           @log.error 'Failed to markdown %s: %s', sourcePath, error.message
           return callback error
+
+        @outline[targetPath] = Utils.outlineHeaders segments
 
         @renderDocFile segments, sourcePath, targetPath, callback
 
