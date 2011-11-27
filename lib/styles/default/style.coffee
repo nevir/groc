@@ -1,5 +1,5 @@
 class Style extends BaseStyle
-  STATIC_ASSETS: ['style.css', 'jquery.js']
+  STATIC_ASSETS: ['style.css']
 
   constructor: (args...) ->
     super(args...)
@@ -33,7 +33,7 @@ class Style extends BaseStyle
             @compileScript assetPath, callback unless numCopied < @STATIC_ASSETS.length
 
   compileScript: (assetPath, callback) ->
-    @log.trace 'styles.default.Style#compileScript(...)'
+    @log.trace 'styles.default.Style#compileScript(%s, ...)', assetPath
 
     scriptPath = path.resolve __dirname, 'assets', 'behavior.coffee.ujs'
     fs.readFile scriptPath, 'utf-8', (error, data) =>
@@ -55,7 +55,24 @@ class Style extends BaseStyle
         @log.error 'Failed to compile %s: %s', scriptPath, error.message
         return callback error
 
-      fs.writeFile path.resolve(assetPath, 'behavior.js'), scriptSource, (error) =>
+      @compressScripts assetPath, scriptSource, callback
+
+  compressScripts: (assetPath, scriptSource, callback) ->
+    @log.trace 'styles.default.Style#compressScripts(%s, ..., ...)', assetPath
+
+    jqueryPath = path.resolve __dirname, 'assets', 'jquery.js'
+    fs.readFile jqueryPath, 'utf-8', (error, data) =>
+      if error
+        @log.error 'Failed to read %s: %s', jqueryPath, error.message
+        return callback error
+
+      ast = uglifyJs.parser.parse data + scriptSource
+      ast = uglifyJs.uglify.ast_mangle  ast
+      ast = uglifyJs.uglify.ast_squeeze ast
+
+      compiledSource = uglifyJs.uglify.gen_code ast
+
+      fs.writeFile path.resolve(assetPath, 'behavior.js'), compiledSource, (error) =>
         if error
           @log.error 'Failed to write assets/behavior.js: %s', error.message
           return callback error

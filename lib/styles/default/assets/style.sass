@@ -17,6 +17,8 @@ $column-padding: 1em
 $commentary-width: 29em
 // Width of the tools pulldown in two-column mode
 $tools-width: 20em
+// Height of the main toolbar
+$tools-height: 2em
 
 // Smooth-scale the page in viewports that are between ideal widths for two-column and one-column
 // modes.  Scaling starts at the same width as $tools-width into the code column.
@@ -91,7 +93,7 @@ $inline-code-background-color: #FBF8F3 // #FBF6EF
 $commentary-column-width: $commentary-width + ($common-margin + $column-padding) * 2
 
 body
-  padding: $column-padding 0
+  padding: $tools-height 0 $column-padding 0
 
 .segment
   padding-left: $commentary-column-width
@@ -134,7 +136,7 @@ $single-column-toggle-width: $commentary-column-width * 1.125
 
   body
     // We're dropping $column-padding and the margin becomes padding for each code & comment block
-    padding: $common-margin 0
+    padding: $tools-height + $common-margin 0 $common-margin 0
 
   .segment
     padding-left: 0
@@ -185,14 +187,18 @@ body
 ///////////////////////////
 // Navigation & Behavior //
 ///////////////////////////
-$tools-height: 2em
 
 nav
   position: fixed
   right:    0
   top:      0
-  height:   100%
   width:    $tools-width
+
+  &.active
+    height:   100%
+
+  @media (max-width: #{$single-column-toggle-width})
+    width: 100%
 
   .tools, .toc
     position: absolute
@@ -215,16 +221,19 @@ nav
     z-index:    10
     top:        $tools-height
     bottom:     $common-margin
-    left:       $common-margin
-    right:      $common-margin
+    left:       $tools-width + $common-margin
+    width:      $tools-width - 0.5em
     overflow-y: auto
-    display:    none
 
     .file
       margin: 0.5em 0
 
   &.active .toc
-    display: block
+    left: $common-margin
+
+    @media (max-width: #{$single-column-toggle-width})
+      right: $common-margin
+      width: auto
 
 
 ///////////////////
@@ -293,6 +302,9 @@ nav
     +border-bottom-left-radius(0.4em)
     cursor: pointer
 
+    @media (max-width: #{$single-column-toggle-width})
+      +border-bottom-left-radius(0)
+
   &.active
     +box-shadow(darken($tools-background-color, 15%) 0 0 0.75em 0)
     border-left: 1px solid darken($tools-background-color, 10%)
@@ -359,7 +371,7 @@ a:visited code
   border: 1px solid darken(desaturate($inline-code-background-color, 25%), 10%)
 
 // Give us native scrolling where it makes sense
-.code, pre code
+.code, pre code, nav .toc
   // Note that this breaks scroll to top functionality!  We think this is ok because our nav takes
   // care of the need for that, but it sucks.
   -webkit-overflow-scrolling: touch

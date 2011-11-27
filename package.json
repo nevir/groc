@@ -35,6 +35,7 @@
     "jade":          "~> 0.17.0",
     "optimist":      "~> 0.2.8",
     "showdown":      "~> 0.0.1",
+    "uglify-js":     "~> 1.1.1",
     "underscore":    "~> 1.2.2"
   },
   "devDependencies": {},
