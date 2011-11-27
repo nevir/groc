@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="en"><head><title>base_style</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="lidoc-relative-root" content=""><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div class="segment"><div class="code"><div class="wrapper"><span class="k">class</span> <span class="nx">BaseStyle</span>
+  <span class="nv">constructor: </span><span class="nf">(project) -&gt;</span>
+    <span class="vi">@project = </span><span class="nx">project</span>
+    <span class="vi">@log     = </span><span class="nx">project</span><span class="p">.</span><span class="nx">log</span>
+    <span class="vi">@outline = </span><span class="p">{}</span>
+
+  <span class="nv">renderFile: </span><span class="nf">(data, sourcePath, targetPath, callback) -&gt;</span>
+    <span class="nx">@log</span><span class="p">.</span><span class="nx">trace</span> <span class="s1">&#39;BaseStyle#renderFile(..., %s, %s, ...)&#39;</span><span class="p">,</span> <span class="nx">sourcePath</span><span class="p">,</span> <span class="nx">targetPath</span>
+
+    <span class="nv">language = </span><span class="nx">LANGUAGES</span><span class="p">.</span><span class="nx">CoffeeScript</span>
+    <span class="nv">segments = </span><span class="nx">Utils</span><span class="p">.</span><span class="nx">splitSource</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">language</span>
+    <span class="nx">@log</span><span class="p">.</span><span class="nx">debug</span> <span class="s1">&#39;Split %s into %d segments&#39;</span><span class="p">,</span> <span class="nx">sourcePath</span><span class="p">,</span> <span class="nx">segments</span><span class="p">.</span><span class="nx">length</span>
+
+    <span class="nx">Utils</span><span class="p">.</span><span class="nx">highlightCode</span> <span class="nx">segments</span><span class="p">,</span> <span class="nx">language</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span>
+      <span class="k">if</span> <span class="nx">error</span>
+        <span class="nx">@log</span><span class="p">.</span><span class="nx">debug</span> <span class="nx">error</span><span class="p">.</span><span class="nx">pygmentsOutput</span> <span class="k">if</span> <span class="nx">error</span><span class="p">.</span><span class="nx">pygmentsOutput</span>
+        <span class="nx">@log</span><span class="p">.</span><span class="nx">error</span> <span class="s1">&#39;Failed to highlight %s: %s&#39;</span><span class="p">,</span> <span class="nx">sourcePath</span><span class="p">,</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
+        <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
+
+      <span class="nx">Utils</span><span class="p">.</span><span class="nx">markdownComments</span> <span class="nx">segments</span><span class="p">,</span> <span class="nx">@project</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span>
+        <span class="k">if</span> <span class="nx">error</span>
+          <span class="nx">@log</span><span class="p">.</span><span class="nx">error</span> <span class="s1">&#39;Failed to markdown %s: %s&#39;</span><span class="p">,</span> <span class="nx">sourcePath</span><span class="p">,</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
+          <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
+
+        <span class="nx">@outline</span><span class="p">[</span><span class="nx">targetPath</span><span class="p">]</span> <span class="o">=</span> <span class="nx">Utils</span><span class="p">.</span><span class="nx">outlineHeaders</span> <span class="nx">segments</span>
+
+        <span class="nx">@renderDocFile</span> <span class="nx">segments</span><span class="p">,</span> <span class="nx">sourcePath</span><span class="p">,</span> <span class="nx">targetPath</span><span class="p">,</span> <span class="nx">callback</span>
+
+  <span class="nv">renderDocFile: </span><span class="nf">(segments, sourcePath, targetPath, callback) -&gt;</span>
+    <span class="nx">@log</span><span class="p">.</span><span class="nx">trace</span> <span class="s1">&#39;BaseStyle#renderDocFile(..., %s, %s, ...)&#39;</span><span class="p">,</span> <span class="nx">sourcePath</span><span class="p">,</span> <span class="nx">targetPath</span>
+
+    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span> <span class="s2">&quot;@templateFunc must be defined by subclasses!&quot;</span> <span class="nx">unless</span> <span class="nx">@templateFunc</span>
+
+    <span class="nv">docPath = </span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span> <span class="nx">@project</span><span class="p">.</span><span class="nx">outPath</span><span class="p">,</span> <span class="s2">&quot;#{targetPath}.html&quot;</span>
+
+    <span class="nx">fsTools</span><span class="p">.</span><span class="nx">mkdir</span> <span class="nx">path</span><span class="p">.</span><span class="nx">dirname</span><span class="p">(</span><span class="nx">docPath</span><span class="p">),</span> <span class="mi">0755</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span>
+      <span class="k">if</span> <span class="nx">error</span>
+        <span class="nx">@log</span><span class="p">.</span><span class="nx">error</span> <span class="s1">&#39;Unable to create directory %s: %s&#39;</span><span class="p">,</span> <span class="nx">path</span><span class="p">.</span><span class="nx">dirname</span><span class="p">(</span><span class="nx">docPath</span><span class="p">),</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
+        <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
+
+      <span class="k">for</span> <span class="nx">segment</span> <span class="k">in</span> <span class="nx">segments</span>
+        <span class="nv">segment.markdownedComments = </span><span class="nx">Utils</span><span class="p">.</span><span class="nx">trimBlankLines</span> <span class="nx">segment</span><span class="p">.</span><span class="nx">markdownedComments</span>
+        <span class="nv">segment.highlightedCode    = </span><span class="nx">Utils</span><span class="p">.</span><span class="nx">trimBlankLines</span> <span class="nx">segment</span><span class="p">.</span><span class="nx">highlightedCode</span>
+
+      <span class="nv">templateContext =</span>
+        <span class="nv">project: </span>   <span class="nx">@project</span>
+        <span class="nv">segments: </span>  <span class="nx">segments</span>
+        <span class="nv">sourcePath: </span><span class="nx">sourcePath</span>
+        <span class="nv">targetPath: </span><span class="nx">targetPath</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>How many levels deep are we?</p></div></div><div class="code"><div class="wrapper">      <span class="nv">pathChunks = </span><span class="nx">path</span><span class="p">.</span><span class="nx">dirname</span><span class="p">(</span><span class="nx">targetPath</span><span class="p">).</span><span class="nx">split</span><span class="p">(</span><span class="sr">/[\/\\]/</span><span class="p">)</span>
+      <span class="k">if</span> <span class="nx">pathChunks</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nx">pathChunks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;.&#39;</span>
+        <span class="nv">templateContext.relativeRoot = </span><span class="s1">&#39;&#39;</span>
+      <span class="k">else</span>
+        <span class="nv">templateContext.relativeRoot = </span><span class="s2">&quot;#{pathChunks.map(-&gt; &#39;..&#39;).join &#39;/&#39;}/&quot;</span>
+
+      <span class="k">try</span>
+        <span class="nv">data = </span><span class="nx">@templateFunc</span> <span class="nx">templateContext</span>
+
+      <span class="k">catch</span> <span class="nx">error</span>
+        <span class="nx">@log</span><span class="p">.</span><span class="nx">error</span> <span class="s1">&#39;Rendering documentation template for %s failed: %s&#39;</span><span class="p">,</span> <span class="nx">docPath</span><span class="p">,</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
+        <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
+
+      <span class="nx">fs</span><span class="p">.</span><span class="nx">writeFile</span> <span class="nx">docPath</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span>
+        <span class="k">if</span> <span class="nx">error</span>
+          <span class="nx">@log</span><span class="p">.</span><span class="nx">error</span> <span class="s1">&#39;Failed to write documentation file %s: %s&#39;</span><span class="p">,</span> <span class="nx">docPath</span><span class="p">,</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
+          <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
+
+        <span class="nx">@log</span><span class="p">.</span><span class="nx">pass</span> <span class="nx">docPath</span>
+        <span class="nx">callback</span><span class="p">()</span>
+
+  <span class="nv">renderCompleted: </span><span class="nf">(callback) -&gt;</span>
+    <span class="nx">@log</span><span class="p">.</span><span class="nx">trace</span> <span class="s1">&#39;BaseStyle#renderCompleted(...)&#39;</span>
+
+    <span class="nx">callback</span><span class="p">()</span></div></div></div></body></html>

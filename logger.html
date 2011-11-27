@@ -1,0 +1,60 @@
+<!DOCTYPE html><html lang="en"><head><title>logger</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="lidoc-relative-root" content=""><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div class="segment"><div class="comments"><div class="wrapper"><p>We have pretty simple needs for a logger, and so far have been unable to find a reasonable
+off-the-shelf solution that fits them without being too overbearing:</p></div></div><div class="code"><div class="wrapper"><span class="k">class</span> <span class="nx">Logger</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+<li>We want the standard levels of output, plus a few more.</li>
+</ul></div></div><div class="code"><div class="wrapper">  <span class="nv">LEVELS:</span>
+    <span class="nv">TRACE: </span><span class="mi">0</span>
+    <span class="nv">DEBUG: </span><span class="mi">1</span>
+    <span class="nv">INFO: </span> <span class="mi">2</span>
+    <span class="nv">PASS: </span> <span class="mi">2</span>
+    <span class="nv">WARN: </span> <span class="mi">3</span>
+    <span class="nv">ERROR: </span><span class="mi">4</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+<li>Full on level: labels are <strong>extremely</strong> heavy for what is primarily a command-line tool.  The
+common case - <code>INFO</code> - does not even expose a label.  We only want it to call out uncommon
+events with some slight symbolism.</li>
+</ul></div></div><div class="code"><div class="wrapper">  <span class="nv">LEVEL_PREFIXES:</span>
+    <span class="nv">TRACE: </span><span class="s1">&#39;∴ &#39;</span>
+    <span class="nv">DEBUG: </span><span class="s1">&#39;‡ &#39;</span>
+    <span class="nv">INFO: </span> <span class="s1">&#39;  &#39;</span>
+    <span class="nv">PASS: </span> <span class="s1">&#39;✓ &#39;</span>
+    <span class="nv">WARN: </span> <span class="s1">&#39;» &#39;</span>
+    <span class="nv">ERROR: </span><span class="s1">&#39;! &#39;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+<li>Colors make the world better.</li>
+</ul></div></div><div class="code"><div class="wrapper">  <span class="nv">LEVEL_COLORS:</span>
+    <span class="nv">TRACE: </span><span class="s1">&#39;grey&#39;</span>
+    <span class="nv">DEBUG: </span><span class="s1">&#39;grey&#39;</span>
+    <span class="nv">INFO: </span> <span class="s1">&#39;black&#39;</span>
+    <span class="nv">PASS: </span> <span class="s1">&#39;green&#39;</span>
+    <span class="nv">WARN: </span> <span class="s1">&#39;yellow&#39;</span>
+    <span class="nv">ERROR: </span><span class="s1">&#39;red&#39;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+<li>Don't forget the semantics of our output.</li>
+</ul></div></div><div class="code"><div class="wrapper">  <span class="nv">LEVEL_STREAMS:</span>
+    <span class="nv">TRACE: </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span>
+    <span class="nv">DEBUG: </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span>
+    <span class="nv">INFO: </span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span>
+    <span class="nv">PASS: </span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span>
+    <span class="nv">WARN: </span> <span class="nx">console</span><span class="p">.</span><span class="nx">error</span>
+    <span class="nv">ERROR: </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span>
+
+  <span class="nv">constructor: </span><span class="nf">(minLevel = @LEVELS.INFO) -&gt;</span>
+    <span class="vi">@minLevel = </span><span class="nx">minLevel</span>
+
+    <span class="k">for</span> <span class="nx">name</span> <span class="k">of</span> <span class="nx">@LEVELS</span>
+      <span class="nx">do</span> <span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="o">=&gt;</span>
+        <span class="err">@</span><span class="p">[</span><span class="nx">name</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">()]</span> <span class="o">=</span> <span class="nf">(args...) -&gt;</span>
+          <span class="nx">@emit</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">args</span><span class="p">...</span>
+
+  <span class="nv">emit: </span><span class="nf">(levelName, args...) -&gt;</span>
+    <span class="k">if</span> <span class="nx">@LEVELS</span><span class="p">[</span><span class="nx">levelName</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="nx">@minLevel</span>
+      <span class="nv">output = </span><span class="nx">util</span><span class="p">.</span><span class="nx">format</span> <span class="nx">args</span><span class="p">...</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+<li>We like nicely indented output</li>
+</ul></div></div><div class="code"><div class="wrapper">      <span class="nv">output = </span><span class="nx">output</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="sr">/\r?\n/</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;\n  &#39;</span><span class="p">)</span>
+
+      <span class="nx">@LEVEL_STREAMS</span><span class="p">[</span><span class="nx">levelName</span><span class="p">]</span> <span class="nx">colors</span><span class="p">[</span><span class="nx">@LEVEL_COLORS</span><span class="p">[</span><span class="nx">levelName</span><span class="p">]]</span> <span class="s2">&quot;#{@LEVEL_PREFIXES[levelName]}#{output}&quot;</span>
+
+      <span class="nx">output</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+<li>Sometimes we just want one-off logging</li>
+</ul></div></div><div class="code"><div class="wrapper"><span class="nv">globalLogger = </span><span class="k">new</span> <span class="nx">Logger</span> <span class="nx">Logger</span><span class="o">::</span><span class="nx">LEVELS</span><span class="p">.</span><span class="nx">TRACE</span>
+
+<span class="k">for</span> <span class="nx">level</span> <span class="k">of</span> <span class="nx">globalLogger</span><span class="p">.</span><span class="nx">LEVELS</span>
+  <span class="nx">do</span> <span class="nf">(level) -&gt;</span>
+    <span class="nx">Logger</span><span class="p">[</span><span class="nx">level</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">()]</span> <span class="o">=</span> <span class="nf">(args...) -&gt;</span> <span class="nx">globalLogger</span><span class="p">[</span><span class="nx">level</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">()]</span> <span class="nx">args</span><span class="p">...</span></div></div></div></body></html>

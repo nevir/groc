@@ -1,0 +1,118 @@
+<!DOCTYPE html><html lang="en"><head><title>cli</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="lidoc-relative-root" content=""><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div class="segment"><div class="comments"><div class="wrapper"><p>Readable command line output is just as important as readable documentation!  It is the first
+interaction that a developer will have with a tool like this, so we want to leave a good
+impression with nicely formatted and readable output.</p></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>It's the caller's responsibility to give us a nice list of ARGV options.  It's only a minor
+annoyance in our binary, but a real win for the crazed developer who wants to be lazy and emulate
+command line behavior.</p></div></div><div class="code"><div class="wrapper"><span class="nv">CLI = </span><span class="nf">(inputArgs, callback) -&gt;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>As such, we don't want our output bumping up against the shell execution lines and blurring
+together; use that whitespace with great gusto!</p></div></div><div class="code"><div class="wrapper">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s1">&#39;&#39;</span>
+
+  <span class="nv">actualCallback = </span><span class="nx">callback</span>
+  <span class="nv">callback = </span><span class="nf">(args...) -&gt;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>In keeping with our console beautification project, make sure that our output isn't getting
+too comfortable with the user's next shell line!</p></div></div><div class="code"><div class="wrapper">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s1">&#39;&#39;</span>
+
+    <span class="nx">actualCallback</span> <span class="nx">args</span><span class="p">...</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p><a href="https://github.com/substack/node-optimist">Optimist</a> is a fantastic options parsing tool, but
+it does have a few rough edges for our uses:</p>
+
+<ul>
+<li>We don't want to goof up the global optimist instance; it costs us this line of code, and
+allows the enterprising scripter to call into our CLI handling, if they're crazy enough to.</li>
+</ul></div></div><div class="code"><div class="wrapper">  <span class="nv">opts = </span><span class="nx">optimist</span> <span class="nx">inputArgs</span>
+
+  <span class="nx">opts</span>
+    <span class="p">.</span><span class="nx">usage</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    Usage: lidoc [options] dirs/ sou/rce.files</span>
+
+<span class="s2">    You can also specify arguments via a configuration file in the current directory named</span>
+<span class="s2">    .lidoc.json.  It should contain a mapping between (full) option names and their values.  Search</span>
+<span class="s2">    paths (the positional arguments) should be set via the key &quot;</span><span class="nx">_</span><span class="s2">&quot;.  For example:</span>
+
+<span class="s2">      { &quot;</span><span class="nx">_</span><span class="s2">&quot;: [&quot;</span><span class="nx">lib</span><span class="s2">&quot;, &quot;</span><span class="nx">vendor</span><span class="s2">&quot;], out: &quot;</span><span class="nx">documentation</span><span class="s2">&quot;, strip: [] }</span>
+
+<span class="s2">    Run lidoc without arguments to use the configuration file.</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+<li>Booleans don't jive very well with the <code>options</code> call, and they need to be declared prior to
+referencing <code>opts.argv</code>, or you risk associating positional options with a boolean flag.</li>
+</ul></div></div><div class="code"><div class="wrapper">    <span class="p">.</span><span class="nx">boolean</span><span class="p">([</span><span class="s1">&#39;help&#39;</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="s1">&#39;github&#39;</span><span class="p">,</span> <span class="s1">&#39;gh&#39;</span><span class="p">,</span> <span class="s1">&#39;verbose&#39;</span><span class="p">,</span> <span class="s1">&#39;very-verbose&#39;</span><span class="p">])</span>
+
+    <span class="p">.</span><span class="nx">options</span><span class="p">(</span><span class="s1">&#39;help&#39;</span><span class="p">,</span>
+      <span class="nv">describe: </span><span class="s2">&quot;You&#39;re looking at it.&quot;</span>
+      <span class="nv">alias: </span>   <span class="p">[</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;?&#39;</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="p">.</span><span class="nx">options</span><span class="p">(</span><span class="s1">&#39;github&#39;</span><span class="p">,</span>
+      <span class="nv">describe: </span><span class="s2">&quot;Generate your docs in the gh-pages branch of your git repository.  --out is ignored.&quot;</span>
+      <span class="nv">alias: </span>   <span class="s1">&#39;gh&#39;</span>
+    <span class="p">)</span>
+
+    <span class="p">.</span><span class="nx">options</span><span class="p">(</span><span class="s1">&#39;out&#39;</span><span class="p">,</span>
+      <span class="nv">describe: </span><span class="s2">&quot;The directory to place generated documentation, relative to the project root.&quot;</span>
+      <span class="nv">alias: </span>   <span class="s1">&#39;o&#39;</span>
+      <span class="nv">default: </span> <span class="s1">&#39;doc&#39;</span>
+    <span class="p">)</span>
+
+    <span class="p">.</span><span class="nx">options</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">,</span>
+      <span class="nv">describe: </span><span class="s2">&quot;The file to use as the index of the generated documentation.&quot;</span>
+      <span class="nv">alias: </span>   <span class="s1">&#39;i&#39;</span>
+    <span class="p">)</span>
+
+    <span class="p">.</span><span class="nx">options</span><span class="p">(</span><span class="s1">&#39;root&#39;</span><span class="p">,</span>
+      <span class="nv">describe: </span><span class="s2">&quot;The root directory of the project.&quot;</span>
+      <span class="nv">alias: </span>   <span class="s1">&#39;r&#39;</span>
+      <span class="nv">default: </span> <span class="nx">process</span><span class="p">.</span><span class="nx">cwd</span><span class="p">()</span>
+    <span class="p">)</span>
+
+    <span class="p">.</span><span class="nx">options</span><span class="p">(</span><span class="s1">&#39;strip&#39;</span><span class="p">,</span>
+      <span class="nv">describe: </span><span class="s2">&quot;A path prefix to strip when generating documentation paths (or --no-strip).&quot;</span>
+      <span class="nv">alias: </span>   <span class="s1">&#39;s&#39;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+<li>We want the default value of <code>--strip</code> to mirror the first directory given to us by the
+user. This ensures that the common case of <code>lidoc lib/</code> will map <code>lib/some/file.coffee</code> to
+<code>doc/some/file.html</code>, and not a redundant and ugly path such as <code>doc/lib/some/file.html</code>.</li>
+</ul></div></div><div class="code"><div class="wrapper">      <span class="nv">default: </span><span class="p">(</span><span class="nx">p</span> <span class="k">for</span> <span class="nx">p</span> <span class="k">in</span> <span class="nx">opts</span><span class="p">.</span><span class="nx">argv</span><span class="p">.</span><span class="nx">_</span> <span class="k">when</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">statSync</span><span class="p">(</span><span class="nx">p</span><span class="p">).</span><span class="nx">isDirectory</span><span class="p">())</span>
+    <span class="p">)</span>
+
+    <span class="p">.</span><span class="nx">options</span><span class="p">(</span><span class="s1">&#39;verbose&#39;</span><span class="p">,</span>
+      <span class="nv">describe: </span><span class="s2">&quot;Output the inner workings of lidoc to help diagnose issues.&quot;</span>
+    <span class="p">)</span>
+
+    <span class="p">.</span><span class="nx">options</span><span class="p">(</span><span class="s1">&#39;very-verbose&#39;</span><span class="p">,</span>
+      <span class="nv">describe: </span><span class="s2">&quot;Hey, you asked for it.&quot;</span>
+    <span class="p">)</span>
+
+  <span class="nv">argv = </span><span class="nx">opts</span><span class="p">.</span><span class="nx">argv</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+<li>There also does not be a way to enforce that a particular option is an array, so we do this
+coercion ourselves.</li>
+</ul></div></div><div class="code"><div class="wrapper">  <span class="nv">argv.strip = </span><span class="p">[</span><span class="nx">argv</span><span class="p">.</span><span class="nx">strip</span><span class="p">]</span> <span class="nx">unless</span> <span class="nx">util</span><span class="p">.</span><span class="nx">isArray</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">strip</span>
+
+  <span class="k">return</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">opts</span><span class="p">.</span><span class="nx">help</span><span class="p">()</span> <span class="k">if</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">help</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>For the .lidoc.json configuration, we merge it into argv in order to pick up default values such
+as the root mapping to <code>process.cwd()</code>.  Please don't treat this as a contract; it has the
+potential to change behavior in the future.</p></div></div><div class="code"><div class="wrapper">  <span class="k">if</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">_</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">try</span>
+      <span class="nv">config = </span><span class="nx">require</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span> <span class="nx">process</span><span class="p">.</span><span class="nx">cwd</span><span class="p">(),</span> <span class="s1">&#39;.lidoc.json&#39;</span>
+      <span class="nx">argv</span><span class="p">[</span><span class="nx">k</span><span class="p">]</span> <span class="o">=</span> <span class="nx">v</span> <span class="k">for</span> <span class="nx">k</span><span class="p">,</span><span class="nx">v</span> <span class="k">of</span> <span class="nx">config</span>
+
+    <span class="k">catch</span> <span class="nx">err</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">opts</span><span class="p">.</span><span class="nx">help</span><span class="p">()</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span>
+      <span class="nx">Logger</span><span class="p">.</span><span class="nx">error</span> <span class="s2">&quot;Failed to load .lidoc.json: %s&quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">.</span><span class="nx">message</span>
+
+      <span class="k">return</span> <span class="nx">callback</span> <span class="nx">err</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Squirrel the docs away inside our git directory if we're building for github pages</p></div></div><div class="code"><div class="wrapper">  <span class="nv">argv.out = </span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span> <span class="s1">&#39;.git&#39;</span><span class="p">,</span> <span class="s1">&#39;lidoc-tmp&#39;</span> <span class="k">if</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">github</span>
+
+  <span class="nv">project = </span><span class="k">new</span> <span class="nx">Project</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">root</span><span class="p">,</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">out</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Set up our logging configuration if the user cares about verbosity</p></div></div><div class="code"><div class="wrapper">  <span class="nv">project.log.minLevel = </span><span class="nx">Logger</span><span class="o">::</span><span class="nx">LEVELS</span><span class="p">.</span><span class="nx">DEBUG</span> <span class="k">if</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">verbose</span>
+  <span class="nv">project.log.minLevel = </span><span class="nx">Logger</span><span class="o">::</span><span class="nx">LEVELS</span><span class="p">.</span><span class="nx">TRACE</span> <span class="k">if</span> <span class="nx">argv</span><span class="p">[</span><span class="s1">&#39;very-verbose&#39;</span><span class="p">]</span>
+  <span class="nx">project</span><span class="p">.</span><span class="nx">log</span><span class="p">.</span><span class="nx">trace</span> <span class="s2">&quot;argv: %j&quot;</span><span class="p">,</span> <span class="nx">argv</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Set up the project</p></div></div><div class="code"><div class="wrapper">  <span class="nv">project.index = </span><span class="nx">argv</span><span class="p">.</span><span class="nx">index</span>
+  <span class="nx">project</span><span class="p">.</span><span class="nx">add</span>         <span class="nx">p</span> <span class="k">for</span> <span class="nx">p</span> <span class="k">in</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">_</span>
+  <span class="nx">project</span><span class="p">.</span><span class="nx">stripPrefix</span> <span class="nx">p</span> <span class="k">for</span> <span class="nx">p</span> <span class="k">in</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">strip</span> <span class="k">when</span> <span class="nx">p</span> <span class="c1"># --no-strip will result in argv.strip == [false]</span>
+
+  <span class="nx">project</span><span class="p">.</span><span class="nx">generate</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span> <span class="k">if</span> <span class="nx">error</span> <span class="o">or</span> <span class="o">!</span><span class="nx">argv</span><span class="p">.</span><span class="nx">github</span>
+
+    <span class="nx">project</span><span class="p">.</span><span class="nx">log</span><span class="p">.</span><span class="nx">info</span> <span class="s1">&#39;&#39;</span>
+    <span class="nx">project</span><span class="p">.</span><span class="nx">log</span><span class="p">.</span><span class="nx">info</span> <span class="s1">&#39;Publishing documentation to github...&#39;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Dealing with generation for github pages is a bit more involved, so we farm that out to a
+shell script</p></div></div><div class="code"><div class="wrapper">    <span class="nv">script = </span><span class="nx">childProcess</span><span class="p">.</span><span class="nx">spawn</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;scripts&#39;</span><span class="p">,</span> <span class="s1">&#39;publish-git-pages&#39;</span><span class="p">)</span>
+
+    <span class="nx">script</span><span class="p">.</span><span class="nx">stdout</span><span class="p">.</span><span class="kc">on</span> <span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="nf">(data) -&gt;</span> <span class="nx">project</span><span class="p">.</span><span class="nx">log</span><span class="p">.</span><span class="nx">info</span>  <span class="nx">data</span><span class="p">.</span><span class="nx">toString</span><span class="p">().</span><span class="nx">trim</span><span class="p">()</span>
+    <span class="nx">script</span><span class="p">.</span><span class="nx">stderr</span><span class="p">.</span><span class="kc">on</span> <span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="nf">(data) -&gt;</span> <span class="nx">project</span><span class="p">.</span><span class="nx">log</span><span class="p">.</span><span class="nx">error</span> <span class="nx">data</span><span class="p">.</span><span class="nx">toString</span><span class="p">().</span><span class="nx">trim</span><span class="p">()</span>
+
+    <span class="nx">script</span><span class="p">.</span><span class="kc">on</span> <span class="s1">&#39;exit&#39;</span><span class="p">,</span> <span class="nf">(code) -&gt;</span>
+      <span class="k">return</span> <span class="nx">callback</span> <span class="k">new</span> <span class="nb">Error</span> <span class="s1">&#39;Git publish failed&#39;</span> <span class="k">if</span> <span class="nx">code</span> <span class="o">!=</span> <span class="mi">0</span>
+
+      <span class="nx">callback</span><span class="p">()</span></div></div></div></body></html>
