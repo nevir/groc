@@ -4,9 +4,7 @@ outline = <%= JSON.stringify(outline) %>
 MAX_FILTER_SIZE = 20
 
 
-#############
-# Searching #
-#############
+# ## Searching
 
 # A map of search string -> DOM node (the links in the table of contents)
 searchableNodes = []
@@ -65,9 +63,7 @@ highlightMatch = (node$, queryString) ->
   node$.html markedText + nodeText[furthestIndex...]
 
 
-####################
-# DOM Construction #
-####################
+# ## DOM Construction
 
 buildNav = (relativeRoot) ->
   nav$ = $("""
