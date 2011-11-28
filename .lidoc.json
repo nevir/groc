@@ -1,6 +1,4 @@
 {
-  "_":     ["lib", "README.md"],
-  "index": "README.md",
-  "strip": ["lib"],
+  "_": ["lib/**/*.coffee", "README.md", "lib/styles/*/assets/style.sass", "lib/styles/*/assets/*.jade"],
   "very-verbose": true
 }

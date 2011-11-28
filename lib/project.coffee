@@ -18,29 +18,6 @@ class Project
     #   to `doc/some/source.file` and not `doc/lib/some/source.file`.
     @stripPrefixes = ["#{@root}/"]
 
-  # Add source files that should have documentation generated for them to the project.
-  add: (fileOrDir) ->
-    @log.trace "Project#add(%s)", fileOrDir
-
-    absPath = path.resolve @root, fileOrDir
-    stats   = fs.statSync absPath
-
-    # You can add individual files, and we special case that.
-    if stats.isFile()
-      @files.push absPath
-
-    # Or directories to be recursively walked to find all files under them.
-    else if stats.isDirectory()
-      @add path.join fileOrDir, p for p in fs.readdirSync fileOrDir when path.basename(p)[0] != '.'
-
-  # Adds a path prefix that should be stripped from source file paths in order to generate relative
-  # paths for documentation.
-  stripPrefix: (pathPrefix) ->
-    @log.trace 'Project#strip(%s)', pathPrefix
-
-    # Prefix paths are either relative to the project root, or absolute
-    @stripPrefixes.push "#{path.resolve @root, pathPrefix}/"
-
   # This is both a performance (over-)optimization and debugging aid.  Instead of spamming the
   # system with file I/O and overhead all at once, we only process a certain number of source files
   # concurrently.  This is similar to what [graceful-fs](https://github.com/isaacs/node-graceful-fs)
@@ -56,7 +33,7 @@ class Project
     # that just yet.
     style = new styles.default.Style @
 
-    fileMap = Utils.mapFiles @files, @stripPrefixes
+    fileMap = Utils.mapFiles @root, @files, @stripPrefixes
     # If we were given an index file, map that
     if @index
       indexPath = path.resolve @root, @index

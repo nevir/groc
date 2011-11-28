@@ -19,7 +19,12 @@ Utils =
       return pair[1] if baseName.match pair[0]
 
   # Map a list of file paths to relative target paths by stripping prefixes off of them.
-  mapFiles: (files, stripPrefixes) ->
+  mapFiles: (resolveRoot, files, stripPrefixes) ->
+    # Ensure that we're dealing with absolute paths across the board
+    files = files.map (f) -> path.resolve resolveRoot, f
+    # And that the strip prefixes all end with a /, to avoid a target path being absolute.
+    stripPrefixes = stripPrefixes.map (p) -> "#{path.resolve resolveRoot, p}/"
+
     # Prefixes are stripped in order of most specific to least (# of directories deep)
     prefixes = stripPrefixes.sort (a,b) => @pathDepth(b) - @pathDepth(a)
 
@@ -37,6 +42,20 @@ Utils =
       result[absPath] = file[0...-path.extname(file).length]
 
     result
+
+  # Attempt to guess strip prefixes for a given set of arguments.
+  guessStripPrefixes: (arguments) ->
+    result = []
+    for arg in arguments
+      # Most globs look something like dir/**/*.ext, so strip up to the leading *
+      arg = arg.replace /\*.*$/, ''
+
+      result.push arg if arg.slice(-1) == '/'
+
+    # For now, we try to avoid ambiguous situations by guessing the FIRST directory given.  The
+    # assumption is that you don't want merged paths, but probably did specify the most important
+    # source directory first.
+    result = _(result).uniq()[...1]
 
   # How many directories deep is a given path?
   pathDepth: (path) ->

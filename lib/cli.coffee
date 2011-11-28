@@ -27,7 +27,10 @@ CLI = (inputArgs, callback) ->
 
   opts
     .usage("""
-    Usage: lidoc [options] dirs/ sou/rce.files
+    Usage: lidoc [options] "lib/**/*.coffee" doc/*.md
+
+    lidoc accepts lists of files and (quoted) glob expressions to match the files you would like to
+    generate documentation for.
 
     You can also specify arguments via a configuration file in the current directory named
     .lidoc.json.  It should contain a mapping between (full) option names and their values.  Search
@@ -58,9 +61,14 @@ CLI = (inputArgs, callback) ->
       default:  'doc'
     )
 
+    .options('except'
+      describe: "Glob expression of files to exclude.  Can be specified multiple times."
+    )
+
     .options('index',
       describe: "The file to use as the index of the generated documentation."
       alias:    'i'
+      default:  'README.md'
     )
 
     .options('root',
@@ -75,9 +83,9 @@ CLI = (inputArgs, callback) ->
       # * We want the default value of `--strip` to mirror the first directory given to us by the
       #   user. This ensures that the common case of `lidoc lib/` will map `lib/some/file.coffee` to
       #   `doc/some/file.html`, and not a redundant and ugly path such as `doc/lib/some/file.html`.
-      default: (p for p in opts.argv._ when fs.statSync(p).isDirectory())
+      default: Utils.guessStripPrefixes opts.argv._
     )
-
+ 
     .options('verbose',
       describe: "Output the inner workings of lidoc to help diagnose issues."
     )
@@ -86,10 +94,13 @@ CLI = (inputArgs, callback) ->
       describe: "Hey, you asked for it."
     )
 
+  # ## Argument processing
   argv = opts.argv
   # * There also does not be a way to enforce that a particular option is an array, so we do this
   #   coercion ourselves.
-  argv.strip = [argv.strip] unless util.isArray argv.strip
+  for opt in ['strip', 'except']
+    unless util.isArray argv[opt]
+      argv[opt] = if argv[opt]? then [ argv[opt] ] else []
 
   return console.log opts.help() if argv.help
 
@@ -101,6 +112,10 @@ CLI = (inputArgs, callback) ->
       config = require path.resolve process.cwd(), '.lidoc.json'
       argv[k] = v for k,v of config
 
+      # Special case, keep the strip prefix guessing if none was given
+      unless 'strip' in config
+        argv.strip = Utils.guessStripPrefixes argv._
+
     catch err
       console.log opts.help()
       console.log
@@ -111,6 +126,19 @@ CLI = (inputArgs, callback) ->
   # Squirrel the docs away inside our git directory if we're building for github pages
   argv.out = path.join '.git', 'lidoc-tmp' if argv.github
 
+  # Find our matching files and stuff them into a poor-man's set.
+  files = {}
+  for globExpression in argv._
+    files[file] = true for file in glob.globSync globExpression
+
+  # Exclude any additional files
+  for globExpression in argv.except
+    delete files[file] for file in glob.globSync globExpression
+
+  files = (f for f of files)
+
+
+  # ## Project Configuration
   project = new Project argv.root, argv.out
 
   # Set up our logging configuration if the user cares about verbosity
@@ -118,11 +146,13 @@ CLI = (inputArgs, callback) ->
   project.log.minLevel = Logger::LEVELS.TRACE if argv['very-verbose']
   project.log.trace "argv: %j", argv
 
-  # Set up the project
+  # Set up the configurable properties on the project.
   project.index = argv.index
-  project.add         p for p in argv._
-  project.stripPrefix p for p in argv.strip when p # --no-strip will result in argv.strip == [false]
+  project.files = project.files.concat files
+  project.stripPrefixes = project.stripPrefixes.concat argv.strip
 
+
+  # ## Project Generation
   project.generate (error) =>
     return callback error if error or !argv.github
 
