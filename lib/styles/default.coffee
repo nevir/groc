@@ -1,4 +1,4 @@
-class Default extends BaseStyle
+class Default extends Base
   STATIC_ASSETS: ['style.css']
 
   constructor: (args...) ->

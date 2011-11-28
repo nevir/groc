@@ -1,4 +1,4 @@
-class BaseStyle
+class Base
   constructor: (project) ->
     @project = project
     @log     = project.log
