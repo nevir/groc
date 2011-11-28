@@ -1,10 +1,13 @@
-class Style extends BaseStyle
+class Default extends BaseStyle
   STATIC_ASSETS: ['style.css']
 
   constructor: (args...) ->
     super(args...)
 
-    templateData  = fs.readFileSync path.join(__dirname, 'assets', 'docPage.jade'), 'utf-8'
+    @sourceAssets = path.join __dirname, 'default'
+    @targetAssets = path.resolve @project.outPath, 'assets'
+
+    templateData  = fs.readFileSync path.join(@sourceAssets, 'docPage.jade'), 'utf-8'
     @templateFunc = jade.compile templateData
 
   renderCompleted: (callback) ->
@@ -12,30 +15,29 @@ class Style extends BaseStyle
 
     # Even though fsTools.copy creates directories if they're missing - we want a bit more control
     # over it (permissions), as well as wanting to avoid contention.
-    assetPath = path.resolve @project.outPath, 'assets'
-    fsTools.mkdir assetPath, 0755, (error) =>
+    fsTools.mkdir @targetAssets, 0755, (error) =>
       if error
-        @log.error 'Unable to create directory %s: %s', assetPath, error.message
+        @log.error 'Unable to create directory %s: %s', @targetAssets, error.message
         return callback error
-      @log.trace 'mkdir: %s', assetPath
+      @log.trace 'mkdir: %s', @targetAssets
 
       numCopied = 0
       for asset in @STATIC_ASSETS
         do (asset) =>
-          assetTarget = path.resolve assetPath, asset
-          fsTools.copy path.resolve(__dirname, 'assets', asset), assetTarget, (error) =>
+          assetTarget = path.join @targetAssets, asset
+          fsTools.copy path.join(@sourceAssets, asset), assetTarget, (error) =>
             if error
               @log.error 'Unable to copy %s: %s', assetTarget, error.message
               return callback error
             @log.trace 'Copied %s', assetTarget
 
             numCopied += 1
-            @compileScript assetPath, callback unless numCopied < @STATIC_ASSETS.length
+            @compileScript callback unless numCopied < @STATIC_ASSETS.length
 
-  compileScript: (assetPath, callback) ->
-    @log.trace 'styles.default.Style#compileScript(%s, ...)', assetPath
+  compileScript: (callback) ->
+    @log.trace 'styles.default.Style#compileScript(...)'
 
-    scriptPath = path.resolve __dirname, 'assets', 'behavior.coffee'
+    scriptPath = path.join @sourceAssets, 'behavior.coffee'
     fs.readFile scriptPath, 'utf-8', (error, data) =>
       if error
         @log.error 'Failed to read %s: %s', scriptPath, error.message
@@ -76,13 +78,13 @@ class Style extends BaseStyle
   concatenateScripts: (scriptSource, callback) ->
     @log.trace 'styles.default.Style#concatenateScripts(..., ...)'
 
-    jqueryPath = path.resolve __dirname, 'assets', 'jquery.min.js'
+    jqueryPath = path.join @sourceAssets, 'jquery.min.js'
     fs.readFile jqueryPath, 'utf-8', (error, data) =>
       if error
         @log.error 'Failed to read %s: %s', jqueryPath, error.message
         return callback error
 
-      outputPath = path.resolve @project.outPath, 'assets', 'behavior.js'
+      outputPath = path.join @targetAssets, 'behavior.js'
       fs.writeFile outputPath, data + scriptSource, (error) =>
         if error
           @log.error 'Failed to write %s: %s', outputPath, error.message

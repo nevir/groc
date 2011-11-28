@@ -1,4 +1,4 @@
 {
-  "_": ["lib/**/*.coffee", "README.md", "lib/styles/*/assets/style.sass", "lib/styles/*/assets/*.jade"],
+  "_": ["lib/**/*.coffee", "README.md", "lib/styles/*/style.sass", "lib/styles/*/*.jade"],
   "very-verbose": true
 }

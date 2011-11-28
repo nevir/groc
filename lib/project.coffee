@@ -31,7 +31,7 @@ class Project
 
     # We want to support multiple documentation styles, but we don't expect to have a stable API for
     # that just yet.
-    style = new styles.default.Style @
+    style = new styles.Default @
 
     fileMap = Utils.mapFiles @root, @files, @stripPrefixes
     # If we were given an index file, map that
