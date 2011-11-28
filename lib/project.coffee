@@ -70,11 +70,16 @@ class Project
           @log.error "Failed to process %s: %s", currentFile, error.message
           return callback error
 
-        style.renderFile data, language, currentFile, fileMap[currentFile], (error) =>
-          return callback error if error
+        style.renderFile data,
+          language:   language
+          sourcePath: currentFile
+          targetPath: fileMap[currentFile]
 
-          inFlight -= 1
-          processFile()
+          (error) =>
+            return callback error if error
+
+            inFlight -= 1
+            processFile()
 
     # Kick off the initial batch of files to process.  They'll continue to keep the same number of
     # files in flight by chaining to processFile() once they finish.

@@ -2,28 +2,31 @@ class BaseStyle
   constructor: (project) ->
     @project = project
     @log     = project.log
-    @outline = {}
+    @files   = []
+    @outline = {} # Keyed on target path
 
-  renderFile: (data, language, sourcePath, targetPath, callback) ->
-    @log.trace 'BaseStyle#renderFile(..., %s, %s, %s, ...)', language.name, sourcePath, targetPath
+  renderFile: (data, fileInfo, callback) ->
+    @log.trace 'BaseStyle#renderFile(..., %j, ...)', fileInfo
 
-    segments = Utils.splitSource data, language
-    @log.debug 'Split %s into %d segments', sourcePath, segments.length
+    @files.push fileInfo
 
-    Utils.highlightCode segments, language, (error) =>
+    segments = Utils.splitSource data, fileInfo.language
+    @log.debug 'Split %s into %d segments', fileInfo.sourcePath, segments.length
+
+    Utils.highlightCode segments, fileInfo.language, (error) =>
       if error
         @log.debug error.pygmentsOutput if error.pygmentsOutput
-        @log.error 'Failed to highlight %s: %s', sourcePath, error.message
+        @log.error 'Failed to highlight %s: %s', fileInfo.sourcePath, error.message
         return callback error
 
       Utils.markdownComments segments, @project, (error) =>
         if error
-          @log.error 'Failed to markdown %s: %s', sourcePath, error.message
+          @log.error 'Failed to markdown %s: %s', fileInfo.sourcePath, error.message
           return callback error
 
-        @outline[targetPath] = Utils.outlineHeaders segments
+        @outline[fileInfo.targetPath] = Utils.outlineHeaders segments
 
-        @renderDocFile segments, sourcePath, targetPath, callback
+        @renderDocFile segments, fileInfo.sourcePath, fileInfo.targetPath, callback
 
   renderDocFile: (segments, sourcePath, targetPath, callback) ->
     @log.trace 'BaseStyle#renderDocFile(..., %s, %s, ...)', sourcePath, targetPath
