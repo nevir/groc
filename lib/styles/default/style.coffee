@@ -4,7 +4,7 @@ class Style extends BaseStyle
   constructor: (args...) ->
     super(args...)
 
-    templateData  = fs.readFileSync path.join(__dirname, 'assets', 'code.jade'), 'utf-8'
+    templateData  = fs.readFileSync path.join(__dirname, 'assets', 'docPage.jade'), 'utf-8'
     @templateFunc = jade.compile templateData
 
   renderCompleted: (callback) ->
