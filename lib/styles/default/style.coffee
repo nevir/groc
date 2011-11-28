@@ -55,27 +55,38 @@ class Style extends BaseStyle
         @log.error 'Failed to compile %s: %s', scriptPath, error.message
         return callback error
 
-      @compressScripts assetPath, scriptSource, callback
+      @compressScript scriptSource, callback
 
-  compressScripts: (assetPath, scriptSource, callback) ->
-    @log.trace 'styles.default.Style#compressScripts(%s, ..., ...)', assetPath
+  compressScript: (scriptSource, callback) ->
+    @log.trace 'styles.default.Style#compressScript(..., ...)'
 
-    jqueryPath = path.resolve __dirname, 'assets', 'jquery.js'
-    fs.readFile jqueryPath, 'utf-8', (error, data) =>
-      if error
-        @log.error 'Failed to read %s: %s', jqueryPath, error.message
-        return callback error
-
-      ast = uglifyJs.parser.parse data + scriptSource
+    try
+      ast = uglifyJs.parser.parse scriptSource
       ast = uglifyJs.uglify.ast_mangle  ast
       ast = uglifyJs.uglify.ast_squeeze ast
 
       compiledSource = uglifyJs.uglify.gen_code ast
 
-      fs.writeFile path.resolve(assetPath, 'behavior.js'), compiledSource, (error) =>
+    catch error
+      @log.error 'Failed to compress assets/behavior.js: %s', error.message
+      return callback error
+
+    @concatenateScripts compiledSource, callback
+
+  concatenateScripts: (scriptSource, callback) ->
+    @log.trace 'styles.default.Style#concatenateScripts(..., ...)'
+
+    jqueryPath = path.resolve __dirname, 'assets', 'jquery.min.js'
+    fs.readFile jqueryPath, 'utf-8', (error, data) =>
+      if error
+        @log.error 'Failed to read %s: %s', jqueryPath, error.message
+        return callback error
+
+      outputPath = path.resolve @project.outPath, 'assets', 'behavior.js'
+      fs.writeFile outputPath, data + scriptSource, (error) =>
         if error
-          @log.error 'Failed to write assets/behavior.js: %s', error.message
+          @log.error 'Failed to write %s: %s', outputPath, error.message
           return callback error
-        @log.trace 'Wrote %s', path.resolve(assetPath, 'behavior.js')
+        @log.trace 'Wrote %s', outputPath
 
         callback()
