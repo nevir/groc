@@ -155,7 +155,7 @@ Utils =
     converter = new showdown.Showdown.converter()
 
     try
-      for segment in segments
+      for segment, segmentIndex in segments
         markdown = converter.makeHtml segment.comments.join '\n'
         headers  = []
 
@@ -166,6 +166,8 @@ Utils =
             level: parseInt match[1]
             title: match[2]
             slug:  @slugifyTitle match[2]
+
+          header.isFileHeader = true if header.level == 1 && segmentIndex == 0 && match.index == 0
 
           headers.push header
 
@@ -180,32 +182,6 @@ Utils =
       return callback error
 
     callback()
-
-  # Given an array of markdowned segments, convert their list of headers into a hierarchical
-  # outline (table of contents!)
-  outlineHeaders: (segments) ->
-    headers = segments.reduce ( (a, s) -> a.concat s.headers ), []
-    return [] unless headers.length > 0
-
-    result = []
-    stack  = []
-
-    for header in headers
-      node = header: header, children: []
-
-      # Unwind the stack until we get to the first node that is at a lower level value - we want to
-      # append to that guy
-      stack.pop() while stack.slice(-1)[0]?.header.level >= header.level
-
-      # Are we starting a new top level node?
-      if stack.length == 0
-        result.push node
-      else
-        stack.slice(-1)[0].children.push node
-
-      stack.push node
-
-    result
 
   # Sometimes you just don't want any of them hanging around.
   trimBlankLines: (string) ->

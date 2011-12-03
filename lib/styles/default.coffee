@@ -11,7 +11,14 @@ class Default extends Base
     @templateFunc = jade.compile templateData
 
   renderCompleted: (callback) ->
-    @log.trace 'styles.default.Style#renderCompleted(...)'
+    @log.trace 'styles.Default#renderCompleted(...)'
+
+    super (error) =>
+      return error if error
+      @copyAssets callback
+
+  copyAssets: (callback) ->
+    @log.trace 'styles.Default#copyAssets(...)'
 
     # Even though fsTools.copy creates directories if they're missing - we want a bit more control
     # over it (permissions), as well as wanting to avoid contention.
@@ -35,7 +42,7 @@ class Default extends Base
             @compileScript callback unless numCopied < @STATIC_ASSETS.length
 
   compileScript: (callback) ->
-    @log.trace 'styles.default.Style#compileScript(...)'
+    @log.trace 'styles.Default#compileScript(...)'
 
     scriptPath = path.join @sourceAssets, 'behavior.coffee'
     fs.readFile scriptPath, 'utf-8', (error, data) =>
@@ -57,10 +64,11 @@ class Default extends Base
         @log.error 'Failed to compile %s: %s', scriptPath, error.message
         return callback error
 
-      @compressScript scriptSource, callback
+      #@compressScript scriptSource, callback
+      @concatenateScripts scriptSource, callback
 
   compressScript: (scriptSource, callback) ->
-    @log.trace 'styles.default.Style#compressScript(..., ...)'
+    @log.trace 'styles.Default#compressScript(..., ...)'
 
     try
       ast = uglifyJs.parser.parse scriptSource
@@ -76,7 +84,7 @@ class Default extends Base
     @concatenateScripts compiledSource, callback
 
   concatenateScripts: (scriptSource, callback) ->
-    @log.trace 'styles.default.Style#concatenateScripts(..., ...)'
+    @log.trace 'styles.Default#concatenateScripts(..., ...)'
 
     jqueryPath = path.join @sourceAssets, 'jquery.min.js'
     fs.readFile jqueryPath, 'utf-8', (error, data) =>

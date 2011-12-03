@@ -1,70 +1,11 @@
-outline = <%= JSON.stringify(outline) %>
+tableOfContents = <%= JSON.stringify(tableOfContents) %>
 
-# Only show a filter if it matches this many or fewer nodes
-MAX_FILTER_SIZE = 20
-
-
-# ## Searching
-
-# A map of search string -> DOM node (the links in the table of contents)
-searchableNodes = []
-appendSearchNode = (node$) ->
-  searchableNodes.push [node$.text().toLowerCase(), node$]
-
-currentQuery = ''
-searchNodes = (queryString) ->
-  queryString = queryString.toLowerCase().replace(/\s+/, '')
-  return if queryString == currentQuery
-  currentQuery = queryString
-
-  return clearFilter() if queryString == ''
-
-  matcher  = new RegExp (c.replace /[-[\]{}()*+?.,\\^$|#\s]/, "\\$&" for c in queryString).join '.*'
-  matched  = []
-  filtered = []
-
-  for nodeInfo in searchableNodes
-    if matcher.test nodeInfo[0] then matched.push nodeInfo[1] else filtered.push nodeInfo[1]
-
-  return clearFilter() if matched.length > MAX_FILTER_SIZE
-
-  # Update the DOM
-  for node$ in filtered
-    node$.removeClass 'matched-child'
-    node$.addClass 'filtered'
-
-  for node$ in matched
-    node$.removeClass 'filtered matched-child'
-
-    highlightMatch node$, queryString
-
-    # Filter out our immediate parent
-    $(p).find('> a').addClass 'matched-child' for p in node$.parent().parents 'li'
-
-clearFilter = ->
-  currentQuery = ''
-  for nodeInfo in searchableNodes
-    node$ = nodeInfo[1]
-    node$.removeClass 'filtered matched-child'
-    node$.text node$.text()
-
-highlightMatch = (node$, queryString) ->
-  nodeText  = node$.text()
-  lowerText = nodeText.toLowerCase()
-
-  markedText    = ''
-  furthestIndex = 0
-
-  for char in queryString
-    foundIndex    = lowerText.indexOf char, furthestIndex
-    markedText   += nodeText[furthestIndex...foundIndex] + "<em>#{nodeText[foundIndex]}</em>"
-    furthestIndex = foundIndex + 1
-
-  node$.html markedText + nodeText[furthestIndex...]
+# # Page Behavior
 
 
 # ## DOM Construction
-
+#
+# Navigation and the table of contents are entirely managed by us.
 buildNav = (relativeRoot) ->
   nav$ = $("""
     <nav>
@@ -76,60 +17,46 @@ buildNav = (relativeRoot) ->
       </div>
     </nav>
   """).appendTo $('body')
-  toc$ = nav$.find '.toc'
+  tocRoot$ = nav$.find '.toc'
 
-  files = (f for f of outline).sort()
+  for node in tableOfContents
+    tocRoot$.append buildTOCNode node, relativeRoot
 
-  for file in files
-    filePath = "#{relativeRoot}#{file}.html"
+buildTOCNode = (node, relativeRoot, parentFile) ->
+  node$ = $("""<li class="#{node.type}"/>""")
 
-    fileNode$ = $("""
-      <li class="file">
-        <a href="#{filePath}">#{file}</a>
-      </li>
-    """).appendTo toc$
+  switch node.type
+    when 'file'
+      node$.append """
+        <a class="label" href="#{relativeRoot}#{node.data.targetPath}.html">#{node.data.title}</a>
+        <span class="file-path">#{node.data.projectPath}</span>
+      """
 
-    appendSearchNode  fileNode$.find('a')
-    appendHeaderNodes fileNode$, filePath, outline[file]
+    when 'folder'
+      node$.append """<span class="label">#{node.data.title}</span>"""
 
-  nav$
+    when 'heading'
+      node$.append """
+        <a class="label" href="#{relativeRoot}#{parentFile.data.targetPath}.html##{node.data.slug}">#{node.data.title}</a>
+      """
 
-appendHeaderNodes = (target$, filePath, nodeList) ->
-  return unless nodeList.length > 0
+  if node.outline?.length > 0
+    outline$ = $('<ol class="outline"/>')
+    outline$.append buildTOCNode c, relativeRoot, node for c in node.outline
 
-  targetList$ = $('<ol/>').appendTo target$
+    node$.append outline$
 
-  for node in nodeList
-    node$ = $("""
-      <li class="header">
-        <a href="#{filePath}##{node.header.slug}">#{node.header.title}</a>
-      </li>
-    """).appendTo targetList$
-    appendSearchNode node$.find('a')
+  if node.children?.length > 0
+    children$ = $('<ol class="children"/>')
+    children$.append buildTOCNode c, relativeRoot, parentFile for c in node.children
 
-    appendHeaderNodes node$, filePath, node.children
+    node$.append children$
+
+  node$
+
+buildOutlineNode = (node, file, relativeRoot) ->
+  node$ = $("""<li class="#{node.type}"/>""")
 
 $ ->
   relativeRoot = $('meta[name="lidoc-relative-root"]').attr('content')
-  nav$ = buildNav relativeRoot
-
-  search$ = $('#search')
-  search$.bind 'keyup search', (evt) =>
-    searchNodes search$.val()
-
-  search$.keydown (evt) =>
-    if evt.keyCode == 27 # Esc
-      if search$.val().trim() == ''
-        search$.blur()
-      else
-        search$.val ''
-
-  search$.focus (evt) => nav$.addClass 'active'
-  search$.blur  (evt) => nav$.removeClass 'active'
-
-  nav$.click (evt) =>
-    search$.focus()
-
-  nav$.mousedown (evt) =>
-    if search$.is(':focus') and evt.target != search$[0]
-      evt.preventDefault()
+  buildNav relativeRoot

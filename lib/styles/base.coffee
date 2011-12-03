@@ -11,6 +11,7 @@ class Base
     @files.push fileInfo
 
     segments = Utils.splitSource data, fileInfo.language
+
     @log.debug 'Split %s into %d segments', fileInfo.sourcePath, segments.length
 
     Utils.highlightCode segments, fileInfo.language, (error) =>
@@ -24,7 +25,10 @@ class Base
           @log.error 'Failed to markdown %s: %s', fileInfo.sourcePath, error.message
           return callback error
 
-        @outline[fileInfo.targetPath] = Utils.outlineHeaders segments
+        @outline[fileInfo.targetPath] = utils.StyleHelpers.outlineHeaders segments
+
+        # We also prefer to split out solo headers
+        segments = utils.StyleHelpers.segmentizeSoloHeaders segments
 
         @renderDocFile segments, fileInfo.sourcePath, fileInfo.targetPath, callback
 
@@ -74,5 +78,7 @@ class Base
 
   renderCompleted: (callback) ->
     @log.trace 'BaseStyle#renderCompleted(...)'
+
+    @tableOfContents = utils.StyleHelpers.buildTableOfContents @files, @outline
 
     callback()

@@ -3,169 +3,158 @@
 
 @import "compass/reset"
 
-// NOTE!  You must be using a fork of sass until this pull request gets merged in:
-// https://github.com/nex3/sass/pull/217
 
+// ## Configuration
 
-// Sizing
+// ### Sizing
 
-// Margin between segments in two-column mode, padding for code/comments in single-column mode.
+// * Margin between segments in two-column mode, padding for code/comments in single-column mode.
 $common-margin: 1em
-// Additional padding to each column in two-column mode
-$column-padding: 1em
-// The line length of the commentary column in both modes.
+// * Additional padding to each column in two-column mode
+$column-padding: 3em
+// * The `line length` of the commentary column in both modes.
 $commentary-width: 29em
-// Width of the tools pulldown in two-column mode
+// * Width of the tools pulldown in two-column mode
 $tools-width: 20em
-// Height of the main toolbar
+// * Height of the main toolbar
 $tools-height: 2em
 
-// Smooth-scale the page in viewports that are between ideal widths for two-column and one-column
-// modes.  Scaling starts at the same width as $tools-width into the code column.
-$scale-steps: 100 // Crazy, frivolous, but silky-smooth (on Gecko)
-$scale-min:   0.85
+//     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam cursus lorem at mi hendrerit pretium. Maecenas ultrices dolor dictum orci lobortis fringilla. Integer ut sem at libero scelerisque commodo quis a dui. Nulla pellentesque, purus non ultricies porta, diam est fringilla orci, dignissim mattis leo erat a urna. Donec fermentum orci nec magna vehicula consectetur. Vivamus a dui eget orci malesuada elementum. Cras tempor mi sit amet ligula mollis porta. Nulla eu purus eget dui aliquet iaculis in quis massa. Phasellus sed lectus ac augue tincidunt blandit. Pellentesque et aliquam neque. Donec faucibus ultricies sem, ut mattis ante consectetur sed. In sollicitudin consectetur nisl, nec malesuada diam dictum ut. Duis feugiat, lorem in pulvinar interdum, nibh turpis lobortis erat, dictum hendrerit massa nibh molestie odio. Ut ultricies, dui a lobortis aliquam, massa diam tempus eros, eu ornare risus mi vitae elit. Integer pretium vulputate eros vitae luctus. Mauris in rhoncus nisi.
 
-// Typography
-
-$base-line-height: 1.35
-
-=commentary-font
-  font-family: "Helvetica Neue", Helvetica, "Droid Sans", sans-serif
-  font-weight: 300
-  font-size:   0.9375em
-
-=code-font
-  font-family: "Droid Sans Mono", Menlo, Monaco, monospace
-  font-size:   0.75em
-
-=header-font
-  font-family:    "HelveticaNeue-UltraLight", "Helvetica Neue", Helvetica, "Droid Sans", sans-serif
-  font-weight:    100
-  letter-spacing: 0.0625em
-
-=header-font-sizes
-  h1
-    font-size: 2em
-  h2
-    font-size: 1.75em
-  h3
-    font-size: 1.5em
-  h4
-    font-size: 1.3em
-  h5
-    font-size: 1.2em
-  h6
-    font-size: 1.1em
-
-=tools-font
-  +commentary-font
-
-=tools-file-font
-  +header-font
-  font-size: 1.2em
-
-// Visual Style
+// ### Color Scheme
 
 $commentary-background-color: #f5fbff
-$commentary-foreground-color: #4a525a
+$commentary-foreground-color: #4a525a // Thank you, Mr. Gruber
 $commentary-shadow-color:     #ffffff
 
 $code-background-color: #4a525a
 $code-foreground-color: #cbd1d8
 $code-shadow-color:     darken($code-background-color, 15%)
 
-$tools-background-color: $code-background-color
-$tools-foreground-color: $code-foreground-color
-$tools-shadow-color:     $code-shadow-color
-$tools-match-color:      lighten($code-foreground-color, 10%)
-
 $link-color: #a8614e
 $link-hover-foreground-color: #a8614e
 $link-hover-background-color: lighten(#a8614e, 43%)
 $link-hover-shadow-color:     lighten(#a8614e, 60%)
 
-$inline-code-background-color: #FBF8F3 // #FBF6EF
+$inline-code-background-color: #fbf8f3
+
+// ### Typography
+
+=commentary-font
+  font-family: "Helvetica Neue", Helvetica, "Droid Sans", sans-serif
+  font-weight: 300
+  font-size:   0.9375em
+  line-height: 1.35
+
+=code-font
+  font-family: "Droid Sans Mono", Menlo, Monaco, monospace
+  font-size:   0.75em
+  line-height: 1.4
+
+=header-font
+  font-family:    "HelveticaNeue-UltraLight", "Helvetica Neue", Helvetica, "Droid Sans", sans-serif
+  font-weight:    100
+  letter-spacing: 0.0625em
+  line-height:    1.75
+
+=header-font-sizes
+  h1
+    font-size: 2.5em
+  h2
+    font-size: 2em
+  h3
+    font-size: 1.6em
+  h4
+    font-size: 1.4em
+  h5
+    font-size: 1.3em
+  h6
+    font-size: 1.2em
 
 
-///////////////////////
-// Two-Column Layout //
-///////////////////////
+// ## Two-Column Layout
+
+// As a general tenet, we try to avoid using margins, as they get us into trouble.  Pparticularly,
+// when ensuring that our `html`/`body`/`#document` are full height and do not induce scrolling
+// unless their content grows past the page.
+
 $commentary-column-width: $commentary-width + ($common-margin + $column-padding) * 2
 
+html, body
+  height: 100%
+
+#document
+  min-height: 100%
+
+// Conceptually, the layout focuses the user on the commentary first, so we lay out that column.
 body
-  padding: $tools-height 0 $column-padding 0
+  max-width: $commentary-column-width
 
+// In two-column mode, the segment is actually shifted over a full column to favor code fragments.
+// We may or may not have either .comment or .code sections, so we need to handle all three cases.
 .segment
-  padding-left: $commentary-column-width
-  margin:       $common-margin 0
-  white-space:  nowrap // Ensure that code blocks don't wrap (they're inline-blocks)
+  padding:     ($common-margin / 2) 0 ($common-margin / 2) $commentary-column-width
+  white-space: nowrap
 
-.comments, .code
-  display:        inline-block
-  vertical-align: top
-  padding:        0 ($common-margin + $column-padding)
+  &:first-child
+    padding-top: $common-margin + $column-padding
 
-.comments
-  width:        $commentary-width
-  margin-left: -$commentary-column-width
-  white-space:  normal // Return comments back to normal flow
+  &:last-child
+    padding-bottom: $common-margin + $column-padding
 
-.code .wrapper
-  white-space: pre
+  .comments, .code
+    display:        inline-block
+    vertical-align: top
+    padding:        0 ($common-margin + $column-padding)
 
-// Scale the page down as we approach single column mode - (squeeze a bit more life out of
-// two-column mode)
-$scale-start-width: $commentary-column-width + $tools-width
+  .comments
+    margin-left: -$commentary-column-width
+    width:        $commentary-width
+    white-space:  normal
 
-@for $i from 0 through $scale-steps - 1
-  $scale: 1.0 - (1.0 - $scale-min) * ($i / ($scale-steps - 1))
-  @media (max-width: #{$scale-start-width * $scale})
-    html
-      font-size: 1em * $scale
+  .code
+    white-space: pre
 
+nav
+  display: none
 
-//////////////////////////
-// Single-Column Layout //
-//////////////////////////
-$single-column-toggle-width: $commentary-column-width * 1.125
+// ## Single-Column Layout
+
+$single-column-toggle-width: $commentary-column-width * 1.5
 
 // Switch modes at a little wider than a full (padded) column
 @media (max-width: #{$single-column-toggle-width})
+
   html
-    font-size: 1em // return our scale to normal
+    font-size: 1em
 
   body
-    // We're dropping $column-padding and the margin becomes padding for each code & comment block
-    padding: $tools-height + $common-margin 0 $common-margin 0
+    margin: 0 auto
 
   .segment
-    padding-left: 0
-    margin:       0 auto // Center the column
-    max-width:    $commentary-width + $common-margin * 2
+    padding:     0
+    white-space: normal
+    max-width:   $commentary-width
+    margin:      0 auto
 
-  .comments, .code
-    display: block
-    // It's ok to resize smaller for super small screens (phone in portrait)
-    width:   100%
-    padding: 0
-
-    .wrapper
+    .comments, .code
+      display: block
       padding: $common-margin
 
-  .comments
-    margin-left: 0
+    .comments
+      margin-left: 0
+      width:       auto
 
-  .code
-    overflow-x: auto
-    overflow-y: hidden
+    .code
+      display:    block
+      overflow-y: hidden
+      overflow-x: auto
+
+      .wrapper
+        display: inline-block
 
 
-////////////////
-// Typography //
-////////////////
-
-body
-  line-height: $base-line-height
+// ## Typography
 
 .comments .wrapper
   +commentary-font
@@ -184,9 +173,6 @@ body
     &:last-child
       margin-bottom: 0
 
-  code
-    +code-font
-
   ol, ul
     padding-left: 1.75em
 
@@ -196,77 +182,66 @@ body
   ul li
     list-style: disc
 
-.code .wrapper
-  +code-font
+  code
+    display: inline-block
+    padding: 0.25em 0.25em 0 0.25em
 
+  pre
+    display:    block
+    overflow-x: auto
+    overflow-y: hidden
 
-///////////////////////////
-// Navigation & Behavior //
-///////////////////////////
+    code
+      padding: $common-margin
 
-nav
-  position: fixed
-  right:    0
-  top:      0
-  width:    $tools-width
+// ## Visual Design
 
-  &.active
-    height:   100%
+// We want a bit of depth between the columns, so make the code appear inset
+$code-column-shadow-width: 1em
+$background-gradient: linear-gradient(left, darken($code-background-color, 15%), darken($code-background-color, 5%) 0.3 * $code-column-shadow-width, $code-background-color $code-column-shadow-width)
 
-  @media (max-width: #{$single-column-toggle-width})
-    width: 100%
+html
+  background: $code-background-color // Degrade gracefully
 
-  .tools, .toc
-    position: absolute
-
-  .tools
-    z-index: 100
-    top:     0
-    left:    0
-    width:   100%
-
-    li
-      display:     inline-block
-      line-height: 2em
-      padding:     0 0.5em
-
-      &.search
-        float: right
-
-  .toc
-    z-index:    10
-    top:        $tools-height
-    bottom:     $common-margin
-    left:       $tools-width + $common-margin
-    width:      $tools-width - 0.5em
-    overflow-y: auto
-
-    .file
-      margin: 0.5em 0
-
-  &.active .toc
-    left: $common-margin
-
-    @media (max-width: #{$single-column-toggle-width})
-      right: $common-margin
-      width: auto
-
-
-///////////////////
-// Visual Styles //
-///////////////////
-$background-gradient: linear-gradient(left, darken($code-background-color, 15%), darken($code-background-color, 5%) 0.3em, $code-background-color 1em)
-
-body
-  +background($background-gradient $commentary-column-width no-repeat, $commentary-background-color)
+// We cheat and use #document to display the shadow
+#document
+  +background($commentary-background-color $background-gradient $commentary-column-width no-repeat)
+  margin-right: -$code-column-shadow-width
+  padding-right: $code-column-shadow-width
 
   @media (max-width: #{$single-column-toggle-width})
-    +background($commentary-background-color)
+    margin-right:  0
+    padding-right: 0
 
+// We apply font changes to .wrapper elements so that we do not resize the 'standard' em unit that
+// we are relying on for layout.
 .comments .wrapper
+  +commentary-font
   +text-shadow($commentary-shadow-color 1px 1px 0)
   color: $commentary-foreground-color
 
+.code
+  .wrapper
+    +code-styles
+    +code-font
+    +text-shadow($code-shadow-color 1px 1px 0)
+    color: $code-foreground-color
+
+  @media (max-width: #{$single-column-toggle-width})
+    +border-radius(0.4em)
+    +box-shadow(darken($code-background-color, 15%) 0 0 0.5em 0.2em inset)
+    background: $code-background-color
+
+    .wrapper
+      +box-shadow($code-background-color 0 0 0.25em 0.75em)
+      background: $code-background-color
+
+  @media (max-width: #{$commentary-width})
+    +border-radius(0)
+
+// ### Commentary Elements
+
+.comments .wrapper
   a
     display:         inline-block
     color:           $link-color
@@ -276,118 +251,24 @@ body
       text-decoration: underline
 
   code
+    +code-font
+    border: 1px solid darken(desaturate($inline-code-background-color, 25%), 10%)
+
+  pre, code
     +border-radius(0.4em)
-    border:     1px solid darken(desaturate($inline-code-background-color, 25%), 10%)
-    display:    inline-block
     background: $inline-code-background-color
-    padding:    0.3em 0.3em 0 0.3em
 
-  pre code
-    +box-shadow(darken(desaturate($inline-code-background-color, 25%), 10%) 0 0 0.4em 0.2em)
-    border:     1px solid darken(desaturate($inline-code-background-color, 25%), 30%)
-    display:    block
-    padding:    $common-margin
-    overflow-x: auto
-    overflow-y: hidden
+  pre
+    +box-shadow(darken(desaturate($inline-code-background-color, 15%), 5%) 0 0 0.4em 0.2em)
+    border: 1px solid darken(desaturate($inline-code-background-color, 15%), 20%)
 
-.code
-  .wrapper
-    +code-styles
-    +text-shadow($code-shadow-color 1px 1px 0)
-    color: $code-foreground-color
-
-  @media (max-width: #{$single-column-toggle-width})
-    +border-radius(0.4em)
-    +box-shadow(darken($code-background-color, 15%) 0 0 0.5em 0.2em inset)
-    background: $code-background-color
-
-  @media (max-width: #{$commentary-width + $common-margin * 2})
-    +border-radius(0)
-
-nav
-  .tools, &.active
-    color:      $tools-foreground-color
-    background: $tools-background-color
-
-  .tools, .toc
-    +tools-font
-    +text-shadow($tools-shadow-color 1px 1px 0)
-
-  .tools
-    +box-shadow(darken($tools-background-color, 15%) 0 0 0.25em 0.1em)
-    +border-bottom-left-radius(0.4em)
-    cursor: pointer
-
-    @media (max-width: #{$single-column-toggle-width})
-      +border-bottom-left-radius(0)
-
-  &.active
-    +box-shadow(darken($tools-background-color, 15%) 0 0 0.75em 0)
-    border-left: 1px solid darken($tools-background-color, 10%)
-
-    .tools
-      +box-shadow(none)
-
-  .toc
-    // It'd be nice to do this with sass, but not worth the effort of extending it
-    li li a
-      padding-left: 0.5em
-
-    li li li a
-      padding-left: 1em
-
-    li li li li a
-      padding-left: 1.5em
-
-    li li li li li a
-      padding-left: 2em
-
-    li li li li li li a
-      padding-left: 2.5em
-
-    li li li li li li li a
-      padding-left: 3em
-
-    .file > a
-      +tools-file-font
-
-    a
-      display:         block
-      color:           $tools-foreground-color
-      text-decoration: none
-
-      &:hover, &.selected
-        background-color: darken($tools-background-color, 5%)
-
-      &.filtered
-        display: none
-
-        &.matched-child
-          color:   mix($tools-foreground-color, $tools-background-color)
-          display: block
-
-      em
-        font-weight: bold
-        color:       $tools-match-color
+    code
+      border-width: 0
+      background:   transparent
 
 
-///////////////////
-// Browser Hacks //
-///////////////////
-
-html, body
-  min-height: 100%
+// ## Browser-Specific Tweaks
 
 body
   // Don't allow mobile WebKit clients to mess with the font size
   -webkit-text-size-adjust: 100%
-
-// WebKit sticks a dark border around this
-a:visited code
-  border: 1px solid darken(desaturate($inline-code-background-color, 25%), 10%)
-
-// Give us native scrolling where it makes sense
-.code, pre code, nav .toc
-  // Note that this breaks scroll to top functionality!  We think this is ok because our nav takes
-  // care of the need for that, but it sucks.
-  -webkit-overflow-scrolling: touch

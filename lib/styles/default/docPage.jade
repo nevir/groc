@@ -9,12 +9,13 @@ html(lang="en")
   script(type="text/javascript", src=relativeRoot + "assets/behavior.js")
 
   body
-    - for (var i in segments)
-      .segment
-        - if (segments[i].markdownedComments != '')
-          .comments
-            .wrapper!= segments[i].markdownedComments
+    #document
+      - for (var i in segments)
+        .segment
+          - if (segments[i].markdownedComments != '')
+            .comments
+              .wrapper!= segments[i].markdownedComments
 
-        - if (segments[i].highlightedCode != '')
-          .code
-            .wrapper!= segments[i].highlightedCode
+          - if (segments[i].highlightedCode != '')
+            .code
+              .wrapper!= segments[i].highlightedCode

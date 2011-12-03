@@ -33,12 +33,8 @@ class Project
     # that just yet.
     style = new styles.Default @
 
-    fileMap = Utils.mapFiles @root, @files, @stripPrefixes
-    # If we were given an index file, map that
-    if @index
-      indexPath = path.resolve @root, @index
-      fileMap[indexPath] = 'index' if fileMap[indexPath]
-
+    fileMap   = Utils.mapFiles @root, @files, @stripPrefixes
+    indexPath = path.resolve @root, @index
     toProcess = (k for k of fileMap)
     inFlight  = 0
 
@@ -70,12 +66,13 @@ class Project
           @log.error "Failed to process %s: %s", currentFile, error.message
           return callback error
 
-        style.renderFile data,
-          language:   language
-          sourcePath: currentFile
-          targetPath: fileMap[currentFile]
+        fileInfo =
+          language:    language
+          sourcePath:  currentFile
+          projectPath: currentFile.replace ///^#{@root + '/'}///, ''
+          targetPath:  if currentFile == indexPath then 'index' else fileMap[currentFile]
 
-          (error) =>
+        style.renderFile data, fileInfo, (error) =>
             return callback error if error
 
             inFlight -= 1
