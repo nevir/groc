@@ -11,13 +11,18 @@
 // * Margin between segments in two-column mode, padding for code/comments in single-column mode.
 $common-margin: 1em
 // * Additional padding to each column in two-column mode
-$column-padding: 3em
+$column-padding: 1em
 // * The `line length` of the commentary column in both modes.
 $commentary-width: 29em
 // * Width of the tools pulldown in two-column mode.  NOT scaled by tools-font.
 $tools-width: 20em
 // * Height of the main toolbar, scaled by the size of tools-font
 $tools-height: 2em
+
+// Smooth-scale the page in viewports that are between ideal widths for two-column and one-column
+// modes.  Scaling starts at the same width as $tools-width into the code column.
+$scale-steps: 136 // Approx 1 per pixel on a desktop (8.5em distance & 16px per em)
+$scale-min:   0.85
 
 //     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam cursus lorem at mi hendrerit pretium. Maecenas ultrices dolor dictum orci lobortis fringilla. Integer ut sem at libero scelerisque commodo quis a dui. Nulla pellentesque, purus non ultricies porta, diam est fringilla orci, dignissim mattis leo erat a urna. Donec fermentum orci nec magna vehicula consectetur. Vivamus a dui eget orci malesuada elementum. Cras tempor mi sit amet ligula mollis porta. Nulla eu purus eget dui aliquet iaculis in quis massa. Phasellus sed lectus ac augue tincidunt blandit. Pellentesque et aliquam neque. Donec faucibus ultricies sem, ut mattis ante consectetur sed. In sollicitudin consectetur nisl, nec malesuada diam dictum ut. Duis feugiat, lorem in pulvinar interdum, nibh turpis lobortis erat, dictum hendrerit massa nibh molestie odio. Ut ultricies, dui a lobortis aliquam, massa diam tempus eros, eu ornare risus mi vitae elit. Integer pretium vulputate eros vitae luctus. Mauris in rhoncus nisi.
 
@@ -84,7 +89,6 @@ $inline-code-background-color: #fbf8f3
 // As a general tenet, we try to avoid using margins, as they get us into trouble.  Pparticularly,
 // when ensuring that our `html`/`body`/`#document` are full height and do not induce scrolling
 // unless their content grows past the page.
-
 $commentary-column-width: $commentary-width + ($common-margin + $column-padding) * 2
 
 html, body
@@ -104,7 +108,7 @@ body
   white-space: nowrap
 
   &:first-child
-    padding-top: $common-margin + $column-padding
+    padding-top: $common-margin + $column-padding + $tools-height
 
   &:last-child
     padding-bottom: $common-margin + $column-padding
@@ -123,9 +127,26 @@ body
     white-space: pre
 
 
+// ## Two-Column Scaling
+
+// Before we swap over to a single column layout, we scale the page down a little bit in an effort
+// to squeeze some extra life out of it.
+//
+// Scaling starts once the toolbar is flush with the main column
+$scale-start-width: $commentary-column-width + $tools-width
+$scale-stop-width:  $scale-start-width * $scale-min
+
+@for $i from 0 through $scale-steps - 2 // Skip the last step; it's exactly $scale-stop-width
+  $scale: 1.0 - (1.0 - $scale-min) * ($i / ($scale-steps - 1))
+  @media (max-width: #{$scale-start-width * $scale})
+    html
+      font-size: 1em * $scale
+
+
 // ## Single-Column Layout
 
-$single-column-toggle-width: $commentary-column-width * 1.25
+// We swap over to the single column layout once we hit the edge of the scaling
+$single-column-toggle-width: $scale-stop-width
 
 // Switch modes at a little wider than a full (padded) column
 @media (max-width: #{$single-column-toggle-width})
@@ -168,6 +189,11 @@ nav
   right:    0
   width:    $tools-width
 
+  // Nav should be full width in single colum nmode
+  @media (max-width: #{$single-column-toggle-width})
+    left:  0
+    width: 100%
+
   .tools
     li
       display:        table-cell
@@ -186,9 +212,10 @@ nav
 
     .search
       width: 100%
-      padding: 0 0.5em
 
       input
+        +box-sizing(border-box)
+        display: block
         width: 100%
 
   .toc
@@ -284,14 +311,24 @@ nav
   +text-shadow($tools-shadow-color 1px 1px 0)
   color: $tools-foreground-color
 
+  // Clip the shadow on the left side of the tools when they're flush with the docs column, but
+  // allow room for the bottom shadow
+  @media (max-width: #{$scale-start-width})
+    overflow:       hidden
+    padding-bottom: 0.6em
+
   .tools
-    +box-sizing(border-box)
     +box-shadow(rgba(0,0,0,0.3) 0 0 0.5em 0.1em)
     +background(linear-gradient(top, lighten($tools-background-color, 10%), darken($tools-background-color, 10%)))
     +border-bottom-left-radius(0.4em)
-    border:             1px solid darken($tools-background-color, 50%)
-    border-top-width:   0
-    border-right-width: 0
+    border-bottom: 1px solid $tools-foreground-color
+    border-left:   1px solid $tools-foreground-color
+
+    @media (max-width: #{$scale-start-width})
+      +border-bottom-left-radius(0)
+
+    @media (max-width: #{$single-column-toggle-width})
+      border-left-width: 0
 
     // We don't want to scale the overall toolbar, so we apply the font to each cell
     li
@@ -338,7 +375,3 @@ nav
 // Don't allow mobile WebKit clients to mess with the font size
 body
   -webkit-text-size-adjust: 100%
-
-// Ensure that our search box is properly padded (Firefox, ???)
-nav .tools .search input
-  +box-sizing(border-box)
