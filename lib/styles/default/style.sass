@@ -14,9 +14,9 @@ $common-margin: 1em
 $column-padding: 3em
 // * The `line length` of the commentary column in both modes.
 $commentary-width: 29em
-// * Width of the tools pulldown in two-column mode
+// * Width of the tools pulldown in two-column mode.  NOT scaled by tools-font.
 $tools-width: 20em
-// * Height of the main toolbar
+// * Height of the main toolbar, scaled by the size of tools-font
 $tools-height: 2em
 
 //     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam cursus lorem at mi hendrerit pretium. Maecenas ultrices dolor dictum orci lobortis fringilla. Integer ut sem at libero scelerisque commodo quis a dui. Nulla pellentesque, purus non ultricies porta, diam est fringilla orci, dignissim mattis leo erat a urna. Donec fermentum orci nec magna vehicula consectetur. Vivamus a dui eget orci malesuada elementum. Cras tempor mi sit amet ligula mollis porta. Nulla eu purus eget dui aliquet iaculis in quis massa. Phasellus sed lectus ac augue tincidunt blandit. Pellentesque et aliquam neque. Donec faucibus ultricies sem, ut mattis ante consectetur sed. In sollicitudin consectetur nisl, nec malesuada diam dictum ut. Duis feugiat, lorem in pulvinar interdum, nibh turpis lobortis erat, dictum hendrerit massa nibh molestie odio. Ut ultricies, dui a lobortis aliquam, massa diam tempus eros, eu ornare risus mi vitae elit. Integer pretium vulputate eros vitae luctus. Mauris in rhoncus nisi.
@@ -36,6 +36,10 @@ $link-hover-foreground-color: #a8614e
 $link-hover-background-color: lighten(#a8614e, 43%)
 $link-hover-shadow-color:     lighten(#a8614e, 60%)
 
+$tools-background-color: transparentize(#e6e6e6, 0.1)
+$tools-foreground-color: #4a525a
+$tools-shadow-color:     #f0f0f0
+
 $inline-code-background-color: #fbf8f3
 
 // ### Typography
@@ -50,6 +54,9 @@ $inline-code-background-color: #fbf8f3
   font-family: "Droid Sans Mono", Menlo, Monaco, monospace
   font-size:   0.75em
   line-height: 1.4
+
+=tools-font
+  +commentary-font
 
 =header-font
   font-family:    "HelveticaNeue-UltraLight", "Helvetica Neue", Helvetica, "Droid Sans", sans-serif
@@ -153,8 +160,7 @@ $single-column-toggle-width: $commentary-column-width * 1.25
 
 
 // ## Navigation
-$tools-toggle-width: 9em
-$tools-padding:      ($tools-height - 1em) / 2
+$tools-padding: ($tools-height - 1em) / 2
 
 nav
   position: fixed
@@ -163,32 +169,24 @@ nav
   width:    $tools-width
 
   .tools
-    position:    relative
-    line-height: $tools-height
-    height:      $tools-height
-
     li
-      position: absolute
-      top:      0
+      display:        table-cell
+      vertical-align: middle
+      text-align:     center
+      white-space:    nowrap
+      height:         2em
+      padding:        0 $tools-padding
 
     .github
-      left:    0
-      padding: 0
-
       a
         display:      block
-        width:        $tools-height
-        text-indent: -9001px
-
-    .toggle
-      left:       2em
-      width:      $tools-toggle-width
-      text-align: center
+        height:       2em
+        width:        2em
+        text-indent: -9001em
 
     .search
-      right:   0
+      width: 100%
       padding: 0 0.5em
-      width:   $tools-width - $tools-toggle-width - $tools-height - $tools-padding * 2
 
       input
         width: 100%
@@ -282,6 +280,31 @@ html
   @media (max-width: #{$commentary-width})
     +border-radius(0)
 
+nav
+  +text-shadow($tools-shadow-color 1px 1px 0)
+  color: $tools-foreground-color
+
+  .tools
+    +box-sizing(border-box)
+    +box-shadow(rgba(0,0,0,0.3) 0 0 0.5em 0.1em)
+    +background(linear-gradient(top, lighten($tools-background-color, 10%), darken($tools-background-color, 10%)))
+    +border-bottom-left-radius(0.4em)
+    border:             1px solid darken($tools-background-color, 50%)
+    border-top-width:   0
+    border-right-width: 0
+
+    // We don't want to scale the overall toolbar, so we apply the font to each cell
+    li
+      +tools-font
+
+    .github a
+      +transition(opacity 200ms)
+      +opacity(0.5)
+      background: inline-image('github-icon.png') center center no-repeat
+
+      &:hover
+        +opacity(0.9)
+
 // ### Commentary Elements
 
 .comments .wrapper
@@ -312,6 +335,10 @@ html
 
 // ## Browser-Specific Tweaks
 
+// Don't allow mobile WebKit clients to mess with the font size
 body
-  // Don't allow mobile WebKit clients to mess with the font size
   -webkit-text-size-adjust: 100%
+
+// Ensure that our search box is properly padded (Firefox, ???)
+nav .tools .search input
+  +box-sizing(border-box)
