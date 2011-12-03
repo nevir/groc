@@ -27,18 +27,18 @@ CLI = (inputArgs, callback) ->
 
   opts
     .usage("""
-    Usage: lidoc [options] "lib/**/*.coffee" doc/*.md
+    Usage: groc [options] "lib/**/*.coffee" doc/*.md
 
-    lidoc accepts lists of files and (quoted) glob expressions to match the files you would like to
+    groc accepts lists of files and (quoted) glob expressions to match the files you would like to
     generate documentation for.
 
     You can also specify arguments via a configuration file in the current directory named
-    .lidoc.json.  It should contain a mapping between (full) option names and their values.  Search
+    .groc.json.  It should contain a mapping between (full) option names and their values.  Search
     paths (the positional arguments) should be set via the key "_".  For example:
 
       { "_": ["lib", "vendor"], out: "documentation", strip: [] }
 
-    Run lidoc without arguments to use the configuration file.
+    Run groc without arguments to use the configuration file.
     """)
 
     # * Booleans don't jive very well with the `options` call, and they need to be declared prior to
@@ -81,13 +81,13 @@ CLI = (inputArgs, callback) ->
       describe: "A path prefix to strip when generating documentation paths (or --no-strip)."
       alias:    's'
       # * We want the default value of `--strip` to mirror the first directory given to us by the
-      #   user. This ensures that the common case of `lidoc lib/` will map `lib/some/file.coffee` to
+      #   user. This ensures that the common case of `groc lib/` will map `lib/some/file.coffee` to
       #   `doc/some/file.html`, and not a redundant and ugly path such as `doc/lib/some/file.html`.
       default: Utils.guessStripPrefixes opts.argv._
     )
  
     .options('verbose',
-      describe: "Output the inner workings of lidoc to help diagnose issues."
+      describe: "Output the inner workings of groc to help diagnose issues."
     )
 
     .options('very-verbose',
@@ -104,12 +104,12 @@ CLI = (inputArgs, callback) ->
 
   return console.log opts.help() if argv.help
 
-  # For the .lidoc.json configuration, we merge it into argv in order to pick up default values such
+  # For the .groc.json configuration, we merge it into argv in order to pick up default values such
   # as the root mapping to `process.cwd()`.  Please don't treat this as a contract; it has the
   # potential to change behavior in the future.
   if argv._.length == 0
     try
-      config = require path.resolve process.cwd(), '.lidoc.json'
+      config = require path.resolve process.cwd(), '.groc.json'
       argv[k] = v for k,v of config
 
       # Special case, keep the strip prefix guessing if none was given
@@ -119,12 +119,12 @@ CLI = (inputArgs, callback) ->
     catch err
       console.log opts.help()
       console.log
-      Logger.error "Failed to load .lidoc.json: %s", err.message
+      Logger.error "Failed to load .groc.json: %s", err.message
 
       return callback err
 
   # Squirrel the docs away inside our git directory if we're building for github pages
-  argv.out = path.join '.git', 'lidoc-tmp' if argv.github
+  argv.out = path.join '.git', 'groc-tmp' if argv.github
 
   # Find our matching files and stuff them into a poor-man's set.
   files = {}

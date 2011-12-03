@@ -1,19 +1,19 @@
 {
-  "name":        "lidoc",
+  "name":        "groc",
   "version":     "0.1.0",
   "description": "Documentation generation, the literate programming way.",
   "keywords":   ["documentation", "docs", "generator"],
-  "homepage":    "https://github.com/nevir/lidoc",
+  "homepage":    "https://github.com/nevir/groc",
   "author":      "Ian MacLeod <ian@nevir.net> (https://github.com/nevir)",
 
   "licenses": [{
     "type": "MIT",
-    "url":  "https://github.com/nevir/lidoc/MIT-LICENSE.txt"
+    "url":  "https://github.com/nevir/groc/MIT-LICENSE.txt"
   }],
 
   "repository": {
     "type": "git",
-    "url":  "https://github.com/nevir/lidoc"
+    "url":  "https://github.com/nevir/groc"
   },
 
   "main": "./index",
@@ -21,7 +21,7 @@
     "lib": "./lib"
   },
   "bin": {
-    "lidoc": "./bin/lidoc"
+    "groc": "./bin/groc"
   },
 
   "engines": {

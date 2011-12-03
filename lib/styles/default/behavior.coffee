@@ -10,7 +10,7 @@ buildNav = (relativeRoot) ->
   nav$ = $("""
     <nav>
       <ul class="tools">
-        <li class="github"><a href="https://github.com/nevir/lidoc" title="Project source on GitHub">Project source on GitHub</a></li>
+        <li class="github"><a href="https://github.com/nevir/groc" title="Project source on GitHub">Project source on GitHub</a></li>
         <li class="toggle">Table of Contents</li>
         <li class="search"><input id="search" type="search"/></li>
       </ul>
@@ -59,5 +59,5 @@ buildOutlineNode = (node, file, relativeRoot) ->
   node$ = $("""<li class="#{node.type}"/>""")
 
 $ ->
-  relativeRoot = $('meta[name="lidoc-relative-root"]').attr('content')
+  relativeRoot = $('meta[name="groc-relative-root"]').attr('content')
   buildNav relativeRoot

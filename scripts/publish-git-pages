@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -e # Stop on the first failure that occurs
 
-DOCS_PATH=.git/lidoc-tmp
+DOCS_PATH=.git/groc-tmp
 TARGET_BRANCH=gh-pages
 TARGET_REMOTE=origin
 

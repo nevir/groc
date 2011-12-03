@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-require('lidoc').CLI(process.argv.slice(2), function(error) {
+require('groc').CLI(process.argv.slice(2), function(error) {
   if (error) {
     process.exit(1)
   }
