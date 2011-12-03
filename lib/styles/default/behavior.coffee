@@ -10,6 +10,7 @@ buildNav = (relativeRoot) ->
   nav$ = $("""
     <nav>
       <ul class="tools">
+        <li class="github"><a href="https://github.com/nevir/lidoc" title="Project source on GitHub">Project source on GitHub</a></li>
         <li class="toggle">Table of Contents</li>
         <li class="search"><input id="search" type="search"/></li>
       </ul>

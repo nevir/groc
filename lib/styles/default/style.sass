@@ -115,12 +115,10 @@ body
   .code
     white-space: pre
 
-nav
-  display: none
 
 // ## Single-Column Layout
 
-$single-column-toggle-width: $commentary-column-width * 1.5
+$single-column-toggle-width: $commentary-column-width * 1.25
 
 // Switch modes at a little wider than a full (padded) column
 @media (max-width: #{$single-column-toggle-width})
@@ -152,6 +150,51 @@ $single-column-toggle-width: $commentary-column-width * 1.5
 
       .wrapper
         display: inline-block
+
+
+// ## Navigation
+$tools-toggle-width: 9em
+$tools-padding:      ($tools-height - 1em) / 2
+
+nav
+  position: fixed
+  top:      0
+  right:    0
+  width:    $tools-width
+
+  .tools
+    position:    relative
+    line-height: $tools-height
+    height:      $tools-height
+
+    li
+      position: absolute
+      top:      0
+
+    .github
+      left:    0
+      padding: 0
+
+      a
+        display:      block
+        width:        $tools-height
+        text-indent: -9001px
+
+    .toggle
+      left:       2em
+      width:      $tools-toggle-width
+      text-align: center
+
+    .search
+      right:   0
+      padding: 0 0.5em
+      width:   $tools-width - $tools-toggle-width - $tools-height - $tools-padding * 2
+
+      input
+        width: 100%
+
+  .toc
+    display: none
 
 
 // ## Typography
