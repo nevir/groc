@@ -17,7 +17,7 @@ $commentary-width: 29em
 // * Width of the tools pulldown in two-column mode.  NOT scaled by tools-font.
 $tools-width: 20em
 // * Height of the main toolbar, scaled by the size of tools-font
-$tools-height: 2em
+$tools-height: 2.1em
 
 // Smooth-scale the page in viewports that are between ideal widths for two-column and one-column
 // modes.  Scaling starts at the same width as $tools-width into the code column.
@@ -182,12 +182,18 @@ $single-column-toggle-width: $scale-stop-width
 
 // ## Navigation
 $tools-padding: ($tools-height - 1em) / 2
+$tool-transition-time: 200ms
 
 nav
+  +transition(height 0 $tool-transition-time)
   position: fixed
   top:      0
   right:    0
   width:    $tools-width
+
+  &.expanded
+    +transition(height 0 0)
+    height: 100%
 
   // Nav should be full width in single colum nmode
   @media (max-width: #{$single-column-toggle-width})
@@ -200,14 +206,14 @@ nav
       vertical-align: middle
       text-align:     center
       white-space:    nowrap
-      height:         2em
+      height:         $tools-height
       padding:        0 $tools-padding
 
     .github
       a
         display:      block
-        height:       2em
-        width:        2em
+        height:       $tools-height
+        width:        $tools-height
         text-indent: -9001em
 
     .search
@@ -218,8 +224,47 @@ nav
         display: block
         width: 100%
 
+  &.expanded .toc
+    right: 0
+
   .toc
-    display: none
+    +transition(right 100ms)
+    +box-sizing(border-box)
+    position:   absolute
+    top:        $tools-height
+    bottom:     0
+    right:     -100%
+    width:      100%
+    overflow-x: hidden
+    overflow-y: auto
+
+    li
+      position: relative
+
+    .label
+      display:     block
+      line-height: 2em
+      padding:     0 $tools-padding
+
+    li li .label
+      padding-left: $tools-padding * 2
+    li li li .label
+      padding-left: $tools-padding * 3
+    li li li li .label
+      padding-left: $tools-padding * 4
+    li li li li li .label
+      padding-left: $tools-padding * 5
+    li li li li li li .label
+      padding-left: $tools-padding * 6
+
+    .file-path
+      display:  none
+      position: absolute
+      top:      0
+      right:    0
+
+    li:hover > .file-path
+      display: block
 
 
 // ## Typography
@@ -311,11 +356,8 @@ nav
   +text-shadow($tools-shadow-color 1px 1px 0)
   color: $tools-foreground-color
 
-  // Clip the shadow on the left side of the tools when they're flush with the docs column, but
-  // allow room for the bottom shadow
-  @media (max-width: #{$scale-start-width})
-    overflow:       hidden
-    padding-bottom: 0.6em
+  .tools, .toc
+    +tools-font
 
   .tools
     +box-shadow(rgba(0,0,0,0.3) 0 0 0.5em 0.1em)
@@ -327,13 +369,6 @@ nav
     @media (max-width: #{$scale-start-width})
       +border-bottom-left-radius(0)
 
-    @media (max-width: #{$single-column-toggle-width})
-      border-left-width: 0
-
-    // We don't want to scale the overall toolbar, so we apply the font to each cell
-    li
-      +tools-font
-
     .github a
       +transition(opacity 200ms)
       +opacity(0.5)
@@ -341,6 +376,29 @@ nav
 
       &:hover
         +opacity(0.9)
+
+  &.expanded .tools
+    +border-bottom-left-radius(0)
+
+  .toc
+    +box-shadow(rgba(0,0,0,0.3) 0 0 0.5em 0.1em)
+    background:  $tools-background-color
+    border-left: 1px solid $tools-foreground-color
+
+    .label
+      color:           $tools-foreground-color
+      text-decoration: none
+
+      &:hover
+        background: darken($tools-background-color, 10%)
+
+    .file-path
+      +opacity(0.65)
+      font-size: 0.75em
+
+  @media (max-width: #{$single-column-toggle-width})
+    .tools, .toc
+      border-left-width: 0
 
 // ### Commentary Elements
 
@@ -375,3 +433,11 @@ nav
 // Don't allow mobile WebKit clients to mess with the font size
 body
   -webkit-text-size-adjust: 100%
+
+// Replicate the WebKit type="search" appearance in other browsers if they don't have their own
+// search field styling
+input[type="search"]
+  +border-radius(1em)
+  +box-shadow(#dddddd 0 1px 1px 0 inset)
+  border: 1px solid #959595
+  padding: 0.15em 0.8em

@@ -23,6 +23,8 @@ buildNav = (relativeRoot) ->
   for node in tableOfContents
     tocRoot$.append buildTOCNode node, relativeRoot
 
+  nav$
+
 buildTOCNode = (node, relativeRoot, parentFile) ->
   node$ = $("""<li class="#{node.type}"/>""")
 
@@ -60,4 +62,6 @@ buildOutlineNode = (node, file, relativeRoot) ->
 
 $ ->
   relativeRoot = $('meta[name="groc-relative-root"]').attr('content')
-  buildNav relativeRoot
+  nav$ = buildNav relativeRoot
+
+  nav$.click -> nav$.toggleClass 'expanded'
