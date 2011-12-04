@@ -60,14 +60,14 @@ $inline-code-background-color: #fbf8f3
   font-size:   0.75em
   line-height: 1.4
 
-=tools-font
-  +commentary-font
-
 =header-font
   font-family:    "HelveticaNeue-UltraLight", "Helvetica Neue", Helvetica, "Droid Sans", sans-serif
   font-weight:    100
   letter-spacing: 0.0625em
   line-height:    1.75
+
+=tools-font
+  +commentary-font
 
 =header-font-sizes
   h1
@@ -182,7 +182,6 @@ $single-column-toggle-width: $scale-stop-width
 
 // ## Navigation
 $tools-padding: ($tools-height - 1em) / 2
-$toc-left-indent: 1em
 
 nav
   position: fixed
@@ -239,24 +238,24 @@ nav
     .label
       display:     block
       line-height: 2em
-      padding:     0 $tools-padding 0 $toc-left-indent + $tools-padding
+      padding:     0 $tools-padding 0 $tools-padding
 
     li li .label
-      padding-left: $toc-left-indent + $tools-padding * 2
+      padding-left: $tools-padding * 2
     li li li .label
-      padding-left: $toc-left-indent + $tools-padding * 3
+      padding-left: $tools-padding * 3
     li li li li .label
-      padding-left: $toc-left-indent + $tools-padding * 4
+      padding-left: $tools-padding * 4
     li li li li li .label
-      padding-left: $toc-left-indent + $tools-padding * 5
+      padding-left: $tools-padding * 5
     li li li li li li .label
-      padding-left: $toc-left-indent + $tools-padding * 6
+      padding-left: $tools-padding * 6
 
     .file-path
       display:  none
       position: absolute
-      top:      0
-      right:    0
+      top:      0.25em
+      right:    0.25em
 
     li:hover > .file-path
       display: block
@@ -273,7 +272,7 @@ nav
   .tools .toggle
     +transition(background $navigation-shift-duration)
 
-  &.expanded
+  &.active
     +transition(height 0 0)
     height: 100%
 
@@ -282,7 +281,7 @@ nav .toc
   +transition(right $navigation-shift-duration)
   right: -100%
 
-nav.expanded .toc
+nav.active .toc
   right: 0
 
 // In single column mode, we slide in from the left (and also pop the body)
@@ -292,7 +291,7 @@ nav.expanded .toc
     right: auto
     left: -100%
 
-  nav.expanded .toc
+  nav.active .toc
     left: 0
 
 // When we switch to the navigation in single column mode, "pop" the body off by sliding it off
@@ -426,7 +425,7 @@ nav
       &:hover
         +opacity(0.9)
 
-  &.expanded .tools
+  &.active .tools
     +border-bottom-left-radius(0)
 
     .toggle
@@ -441,13 +440,47 @@ nav
     .label
       color:           $tools-foreground-color
       text-decoration: none
+      border-top:      1px solid darken($tools-background-color, 15%)
 
       &:hover
         background: darken($tools-background-color, 10%)
 
     .file-path
-      +opacity(0.65)
+      +opacity(0.75)
       font-size: 0.75em
+
+    .file, .folder
+      > .label
+        font-weight: bold
+
+    li
+      position: relative
+
+    .children, .outline
+      +transition(height 200ms)
+      overflow: hidden
+      height:   0
+
+    .expanded > .children, .expanded > .outline
+      height: auto
+
+    .discloser
+      +transition-property(-moz-transform -webkit-transform -o-transform transform) // bah.
+      +transition-duration(200ms)
+      +rotate(0deg)
+      display:        inline-block
+      height:         9px
+      width:          9px
+      padding:        0.2em
+      margin:         0.2em 0.2em -0.2em 0.2em
+      vertical-align: baseline
+      background:     inline-image('disclosure-indicator.png') center center no-repeat
+
+      &.placeholder
+        background: none
+
+    .expanded > .label .discloser
+      +rotate(90deg)
 
   @media (max-width: #{$single-column-toggle-width})
     .tools, .toc

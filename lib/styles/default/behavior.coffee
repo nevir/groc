@@ -55,6 +55,12 @@ buildTOCNode = (node, relativeRoot, parentFile) ->
 
     node$.append children$
 
+  discloser$ = $('<span class="discloser"/>').prependTo node$.find('> .label')
+  discloser$.addClass 'placeholder' unless node.outline?.length > 0 or node.children?.length > 0
+  discloser$.click (evt) ->
+    node$.toggleClass 'expanded'
+    evt.preventDefault()
+
   node$
 
 buildOutlineNode = (node, file, relativeRoot) ->
@@ -66,7 +72,7 @@ $ ->
 
   toggle$ = nav$.find '.toggle'
   toggle$.click (evt) ->
-    nav$.toggleClass 'expanded'
+    nav$.toggleClass 'active'
     $('html').toggleClass 'popped'
 
     evt.preventDefault()
