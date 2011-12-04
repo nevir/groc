@@ -64,9 +64,14 @@ $ ->
   relativeRoot = $('meta[name="groc-relative-root"]').attr('content')
   nav$ = buildNav relativeRoot
 
-  nav$.find('.toggle').click (evt) ->
+  toggle$ = nav$.find '.toggle'
+  toggle$.click (evt) ->
     nav$.toggleClass 'expanded'
     $('html').toggleClass 'popped'
 
     evt.preventDefault()
     evt.stopPropagation()
+
+  # Prevent text selection
+  toggle$.mousedown (evt) ->
+    evt.preventDefault()

@@ -182,6 +182,7 @@ $single-column-toggle-width: $scale-stop-width
 
 // ## Navigation
 $tools-padding: ($tools-height - 1em) / 2
+$toc-left-indent: 1em
 
 nav
   position: fixed
@@ -207,6 +208,8 @@ nav
       padding:        0 $tools-padding
 
     .github
+      padding: 0
+
       a
         display:      block
         height:       $tools-height
@@ -236,18 +239,18 @@ nav
     .label
       display:     block
       line-height: 2em
-      padding:     0 $tools-padding
+      padding:     0 $tools-padding 0 $toc-left-indent + $tools-padding
 
     li li .label
-      padding-left: $tools-padding * 2
+      padding-left: $toc-left-indent + $tools-padding * 2
     li li li .label
-      padding-left: $tools-padding * 3
+      padding-left: $toc-left-indent + $tools-padding * 3
     li li li li .label
-      padding-left: $tools-padding * 4
+      padding-left: $toc-left-indent + $tools-padding * 4
     li li li li li .label
-      padding-left: $tools-padding * 5
+      padding-left: $toc-left-indent + $tools-padding * 5
     li li li li li li .label
-      padding-left: $tools-padding * 6
+      padding-left: $toc-left-indent + $tools-padding * 6
 
     .file-path
       display:  none
@@ -266,6 +269,9 @@ $navigation-shift-duration: 150ms
 // want a blank div getting in the way of interaction)
 nav
   +transition(height 0 $navigation-shift-duration)
+
+  .tools .toggle
+    +transition(background $navigation-shift-duration)
 
   &.expanded
     +transition(height 0 0)
@@ -407,6 +413,11 @@ nav
     @media (max-width: #{$scale-start-width})
       +border-bottom-left-radius(0)
 
+    .toggle
+      border-left:  1px solid $tools-foreground-color
+      border-right: 1px solid $tools-foreground-color
+      cursor:       pointer
+
     .github a
       +transition(opacity 200ms)
       +opacity(0.5)
@@ -417,6 +428,10 @@ nav
 
   &.expanded .tools
     +border-bottom-left-radius(0)
+
+    .toggle
+      background:  darken($tools-background-color, 10%)
+      position:    relative
 
   .toc
     +box-shadow(rgba(0,0,0,0.3) 0 0 0.5em 0.1em)
