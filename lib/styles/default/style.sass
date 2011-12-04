@@ -251,15 +251,6 @@ nav
     li li li li li li .label
       padding-left: $tools-padding * 6
 
-    .file-path
-      display:  none
-      position: absolute
-      top:      0.25em
-      right:    0.25em
-
-    li:hover > .file-path
-      display: block
-
 
 // ## Behavior
 $navigation-shift-duration: 150ms
@@ -308,6 +299,46 @@ nav.active .toc
     body
       left: 100%
       overflow: hidden
+
+nav .toc
+  // Show the file path of the immediate node you are interacting with.
+  .file-path
+    display:  none
+    position: absolute
+    top:      0.25em
+    right:    0.25em
+
+  // As a side effect, this also highlights any files that have taken ownership of a folder
+  li:hover > .file-path
+    display: block
+
+  // By default, all file lists are collapsed.
+  .children, .outline
+    display: none
+
+  // We only expand direct descendants for files, but outlines are fully expanded from the outset.
+  .expanded > .children, .expanded > .outline, .expanded > .outline .children
+    display: block
+
+  .discloser
+    +transition-property(-moz-transform -webkit-transform -o-transform transform) // bah.
+    +transition-duration(200ms)
+    +rotate(0deg)
+    display:         inline-block
+    height:          9px
+    width:           9px
+    padding:         0.2em
+    margin:          0.2em 0.2em -0.2em 0.2em
+    vertical-align:  baseline
+    background:      inline-image('disclosure-indicator.png') center center no-repeat
+    background-size: 9px 9px
+
+  // Every label gets one, but not all need to display them.
+  .discloser.placeholder, .expanded > .outline .discloser
+    background: none
+
+  .expanded > .label .discloser
+    +rotate(90deg)
 
 
 // ## Typography
@@ -452,39 +483,14 @@ nav
       +opacity(0.75)
       font-size: 0.75em
 
-    .file, .folder
-      > .label
-        font-weight: bold
+    .file > .label
+      font-weight: bold
 
-    li
-      position: relative
+    .folder > .label
+      font-style: italic
 
-    .children, .outline
-      +transition(height 200ms)
-      overflow: hidden
-      height:   0
-
-    .expanded > .children, .expanded > .outline
-      height: auto
-
-    .discloser
-      +transition-property(-moz-transform -webkit-transform -o-transform transform) // bah.
-      +transition-duration(200ms)
-      +rotate(0deg)
-      display:         inline-block
-      height:          9px
-      width:           9px
-      padding:         0.2em
-      margin:          0.2em 0.2em -0.2em 0.2em
-      vertical-align:  baseline
-      background:      inline-image('disclosure-indicator.png') center center no-repeat
-      background-size: 9px 9px
-
-      &.placeholder
-        background: none
-
-    .expanded > .label .discloser
-      +rotate(90deg)
+    .selected > .label
+      background: $commentary-background-color
 
   @media (max-width: #{$single-column-toggle-width})
     .tools, .toc

@@ -189,7 +189,7 @@ Utils =
 
   # Given a title, convert it into a URL-friendly slug.
   slugifyTitle: (string) ->
-    string.split(/\s+/).map( (s) -> s.replace(/[^\w]/g, '').toLowerCase() ).join '-'
+    string.split(/[\s\-\_]+/).map( (s) -> s.replace(/[^\w]/g, '').toLowerCase() ).join '-'
 
   # replacer is a function that is given the match object, and returns the string to replace with.
   gsub: (string, matcher, replacer) ->
