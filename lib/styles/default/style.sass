@@ -182,25 +182,22 @@ $single-column-toggle-width: $scale-stop-width
 
 // ## Navigation
 $tools-padding: ($tools-height - 1em) / 2
-$tool-transition-time: 200ms
 
 nav
-  +transition(height 0 $tool-transition-time)
   position: fixed
   top:      0
   right:    0
   width:    $tools-width
 
-  &.expanded
-    +transition(height 0 0)
-    height: 100%
-
-  // Nav should be full width in single colum nmode
+  // Nav should be full width in single column mode
   @media (max-width: #{$single-column-toggle-width})
     left:  0
     width: 100%
 
   .tools
+    position: relative
+    z-index:  100
+
     li
       display:        table-cell
       vertical-align: middle
@@ -224,16 +221,11 @@ nav
         display: block
         width: 100%
 
-  &.expanded .toc
-    right: 0
-
   .toc
-    +transition(right 100ms)
     +box-sizing(border-box)
     position:   absolute
     top:        $tools-height
     bottom:     0
-    right:     -100%
     width:      100%
     overflow-x: hidden
     overflow-y: auto
@@ -265,6 +257,52 @@ nav
 
     li:hover > .file-path
       display: block
+
+
+// ## Behavior
+$navigation-shift-duration: 150ms
+
+// In either mode, we need to expand the nav's height when showing the table of contents (we don't
+// want a blank div getting in the way of interaction)
+nav
+  +transition(height 0 $navigation-shift-duration)
+
+  &.expanded
+    +transition(height 0 0)
+    height: 100%
+
+// In two-column mode, we slide the table of contents in from the right
+nav .toc
+  +transition(right $navigation-shift-duration)
+  right: -100%
+
+nav.expanded .toc
+  right: 0
+
+// In single column mode, we slide in from the left (and also pop the body)
+@media (max-width: #{$single-column-toggle-width})
+  nav .toc
+    +transition(left $navigation-shift-duration)
+    right: auto
+    left: -100%
+
+  nav.expanded .toc
+    left: 0
+
+// When we switch to the navigation in single column mode, "pop" the body off by sliding it off
+// screen to the right.
+@media (max-width: #{$single-column-toggle-width})
+  body
+    +transition(left $navigation-shift-duration)
+    position: relative
+    left:     0
+
+  html.popped
+    overflow: hidden
+
+    body
+      left: 100%
+      overflow: hidden
 
 
 // ## Typography
@@ -399,6 +437,16 @@ nav
   @media (max-width: #{$single-column-toggle-width})
     .tools, .toc
       border-left-width: 0
+
+    // Make sure that our tools are opaque in single column mode so that the transitions aren't
+    // distracting
+    $opaque-tools-background-color: opacify($tools-background-color, 1.0)
+
+    .tools
+      +background(linear-gradient(top, lighten($opaque-tools-background-color, 10%), darken($opaque-tools-background-color, 10%)))
+
+    .toc
+      background: $opaque-tools-background-color
 
 // ### Commentary Elements
 
