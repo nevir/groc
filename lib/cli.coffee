@@ -34,9 +34,9 @@ CLI = (inputArgs, callback) ->
 
     You can also specify arguments via a configuration file in the current directory named
     .groc.json.  It should contain a mapping between (full) option names and their values.  Search
-    paths (the positional arguments) should be set via the key "_".  For example:
+    paths (the positional arguments) should be set via the key "globs".  For example:
 
-      { "_": ["lib", "vendor"], out: "documentation", strip: [] }
+      { "globs": ["lib", "vendor"], out: "documentation", strip: [] }
 
     Run groc without arguments to use the configuration file.
     """)
@@ -102,6 +102,9 @@ CLI = (inputArgs, callback) ->
     unless util.isArray argv[opt]
       argv[opt] = if argv[opt]? then [ argv[opt] ] else []
 
+  # And just for our sanity
+  argv.globs = argv._
+
   return console.log opts.help() if argv.help
 
   # For the .groc.json configuration, we merge it into argv in order to pick up default values such
@@ -128,7 +131,7 @@ CLI = (inputArgs, callback) ->
 
   # Find our matching files and stuff them into a poor-man's set.
   files = {}
-  for globExpression in argv._
+  for globExpression in argv.globs
     files[file] = true for file in glob.globSync globExpression
 
   # Exclude any additional files
