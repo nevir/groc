@@ -3,6 +3,8 @@ tableOfContents = <%= JSON.stringify(tableOfContents) %>
 # # Page Behavior
 
 # ## Table of Contents
+
+# Global jQuery references to navigation components we care about.
 nav$ = null
 toc$ = null
 
@@ -23,16 +25,55 @@ toggleTableOfContents = ->
 currentNode$ = null
 
 focusCurrentNode = ->
-  # WebKit strangeness - calling scrollIntoView() causes the entire page to scroll!
-  currentScrollTop = $(window).scrollTop()
-  currentNode$[0].scrollIntoView()
-  $(window).scrollTop currentScrollTop
+  # We use the first child's offset top rather than toc$.offset().top because there may be borders
+  # or other stylistic tweaks that further offset the scrollTop.
+  currentNodeTop    = currentNode$.offset().top - toc$.children(':visible').first().offset().top
+  currentNodeBottom = currentNodeTop + currentNode$.children('.label').height()
+
+  # If the current node is partially or fully above the top of the viewport, scroll it into view.
+  if currentNodeTop < toc$.scrollTop()
+    toc$.scrollTop currentNodeTop
+
+  # Similarly, if we're below the bottom of the viewport, scroll up enough to make it visible.
+  if currentNodeBottom > toc$.scrollTop() + toc$.height()
+    toc$.scrollTop currentNodeBottom - toc$.height()
 
 setCurrentNodeExpanded = (expanded) ->
   if expanded
     currentNode$.addClass 'expanded'
   else
-    currentNode$.removeClass 'expanded'
+    if currentNode$.hasClass 'expanded'
+      currentNode$.removeClass 'expanded'
+
+    # We collapse up to the node's parent if the current node is already collapsed.  This allows
+    # a user to quickly spam left to move up the tree.
+    else
+      parents$ = currentNode$.parents('li')
+      selectNode parents$.first() if parents$.length > 0
+
+  focusCurrentNode()
+
+selectNode = (newNode$) ->
+  # Remove first, in case it's the same node
+  currentNode$.removeClass 'selected'
+  newNode$.addClass 'selected'
+
+  currentNode$ = newNode$
+  focusCurrentNode()
+
+selectNodeByDocumentPath = (documentPath, headerSlug=null) ->
+  currentNode$ = fileMap[documentPath]
+  if headerSlug
+    for link in currentNode$.find '.outline a'
+      urlChunks = $(link).attr('href').split '#'
+
+      if urlChunks[1] == headerSlug
+        currentNode$ = $(link).parents('li').first()
+        console.log urlChunks, "(#{headerSlug})"
+        break
+
+  currentNode$.addClass 'selected expanded'
+  currentNode$.parents('li').addClass 'expanded'
 
   focusCurrentNode()
 
@@ -48,14 +89,12 @@ moveCurrentNode = (up) ->
       newIndex = visibleNodes$.length - 1 if newIndex > visibleNodes$.length - 1
       break
 
-  newNode$ = $(visibleNodes$[newIndex])
+  selectNode $(visibleNodes$[newIndex])
 
-  # Remove first, in case it's the same node
-  currentNode$.removeClass 'selected'
-  newNode$.addClass 'selected'
+visitCurrentNode = ->
+  labelLink$ = currentNode$.children('a.label')
+  window.location = labelLink$.attr 'href' if labelLink$.length > 0
 
-  currentNode$ = newNode$
-  focusCurrentNode()
 
 # ## DOM Construction
 #
@@ -94,11 +133,13 @@ buildTOCNode = (node, relativeRoot, parentFile) ->
       """
 
     when 'folder'
-      node$.append """<span class="label">#{node.data.title}</span>"""
+      node$.append """<span class="label"><span class="text">#{node.data.title}</span></span>"""
 
     when 'heading'
       node$.append """
-        <a class="label" href="#{relativeRoot}#{parentFile.data.targetPath}.html##{node.data.slug}">#{node.data.title}</a>
+        <a class="label" href="#{relativeRoot}#{parentFile.data.targetPath}.html##{node.data.slug}">
+          <span class="text">#{node.data.title}</span>
+        </a>
       """
 
   if node.outline?.length > 0
@@ -113,7 +154,10 @@ buildTOCNode = (node, relativeRoot, parentFile) ->
 
     node$.append children$
 
-  discloser$ = $('<span class="discloser"/>').prependTo node$.find('> .label')
+  label$ = node$.find('> .label')
+  label$.click -> selectNode node$
+
+  discloser$ = $('<span class="discloser"/>').prependTo label$
   discloser$.addClass 'placeholder' unless node.outline?.length > 0 or node.children?.length > 0
   discloser$.click (evt) ->
     node$.toggleClass 'expanded'
@@ -131,8 +175,7 @@ $ ->
   toc$ = nav$.find '.toc'
 
   # Select the current file, and expand up to it
-  currentNode$ = fileMap[documentPath].addClass 'selected expanded'
-  currentNode$.parents('li').addClass 'expanded'
+  selectNodeByDocumentPath documentPath, window.location.hash.replace '#', ''
 
   # Set up the table of contents toggle
   toggle$ = nav$.find '.toggle'
@@ -150,6 +193,7 @@ $ ->
   $('body').keydown (evt) ->
     if nav$.hasClass 'active'
       switch evt.keyCode
+        when 13 then visitCurrentNode() # return
         when 37 then setCurrentNodeExpanded false # left
         when 38 then moveCurrentNode true # up
         when 39 then setCurrentNodeExpanded true # right

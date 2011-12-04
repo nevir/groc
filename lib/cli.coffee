@@ -117,7 +117,7 @@ CLI = (inputArgs, callback) ->
 
       # Special case, keep the strip prefix guessing if none was given
       unless 'strip' in config
-        argv.strip = Utils.guessStripPrefixes argv._
+        argv.strip = Utils.guessStripPrefixes argv.globs
 
     catch err
       console.log opts.help()

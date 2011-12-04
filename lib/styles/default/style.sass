@@ -309,8 +309,9 @@ nav .toc
     right:    0.25em
 
   // As a side effect, this also highlights any files that have taken ownership of a folder
-  li:hover > .file-path
-    display: block
+  li:hover, li.selected
+    > .file-path
+      display: block
 
   // By default, all file lists are collapsed.
   .children, .outline
