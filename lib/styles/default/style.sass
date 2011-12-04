@@ -420,7 +420,8 @@ nav
     .github a
       +transition(opacity 200ms)
       +opacity(0.5)
-      background: inline-image('github-icon.png') center center no-repeat
+      background:      inline-image('github-icon.png') center center no-repeat
+      background-size: 19.5px 24px
 
       &:hover
         +opacity(0.9)
@@ -441,6 +442,8 @@ nav
       color:           $tools-foreground-color
       text-decoration: none
       border-top:      1px solid darken($tools-background-color, 15%)
+      border-bottom:   1px solid darken($tools-background-color, 15%)
+      margin-top:     -1px
 
       &:hover
         background: darken($tools-background-color, 10%)
@@ -468,13 +471,14 @@ nav
       +transition-property(-moz-transform -webkit-transform -o-transform transform) // bah.
       +transition-duration(200ms)
       +rotate(0deg)
-      display:        inline-block
-      height:         9px
-      width:          9px
-      padding:        0.2em
-      margin:         0.2em 0.2em -0.2em 0.2em
-      vertical-align: baseline
-      background:     inline-image('disclosure-indicator.png') center center no-repeat
+      display:         inline-block
+      height:          9px
+      width:           9px
+      padding:         0.2em
+      margin:          0.2em 0.2em -0.2em 0.2em
+      vertical-align:  baseline
+      background:      inline-image('disclosure-indicator.png') center center no-repeat
+      background-size: 9px 9px
 
       &.placeholder
         background: none
