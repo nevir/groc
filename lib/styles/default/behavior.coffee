@@ -259,7 +259,8 @@ $ ->
   #
   # The blur event doesn't give us the previous event, sadly, so we first trap mousedown events
   lastMousedownTimestamp = null
-  nav$.mousedown (evt) -> lastMousedownTimestamp = evt.timeStamp
+  nav$.mousedown (evt) ->
+    lastMousedownTimestamp = evt.timeStamp unless evt.target == toggle$[0]
 
   # And we refocus search if we are within a very short duration between the last mousedown in nav$.
   search$.blur (evt) ->
