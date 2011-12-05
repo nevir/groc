@@ -98,7 +98,7 @@ visitCurrentNode = ->
 # ## Node Search
 
 # Only show a filter if it matches this many or fewer nodes
-MAX_FILTER_SIZE = 20
+MAX_FILTER_SIZE = 10
 
 # An array of of [search string, node, label text] triples
 searchableNodes = []
@@ -133,6 +133,7 @@ searchNodes = (queryString) ->
 
   for nodeInfo in matched
     nodeInfo[1].removeClass 'filtered matched-child'
+    nodeInfo[1].addClass 'matched'
 
     highlightMatch nodeInfo[2], queryString
 
@@ -279,15 +280,6 @@ $ ->
   toggle$.mousedown (evt) ->
     evt.preventDefault()
 
-  # Clicking inside the table of contents is ok - don't unfocus search in this case!
-  search$.blur (evt) ->
-    console.log 'blur', evt
-
-  nav$.mousedown (evt) ->
-    console.log 'mousedown', evt
-
-    evt.stopPropagation()
-
   # Arrow keys navigate the table of contents whenever it is visible
   $('body').keydown (evt) ->
     if nav$.hasClass 'active'
@@ -308,6 +300,6 @@ $ ->
   search$.keydown (evt) ->
     if evt.keyCode == 27 # Esc
       if search$.val().trim() == ''
-        setTableOfContentsActive false
+        search$.blur()
       else
         search$.val ''
