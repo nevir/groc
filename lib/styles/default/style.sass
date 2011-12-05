@@ -251,7 +251,6 @@ nav
     li li li li li li .label
       padding-left: $tools-padding * 6
 
-
 // ## Behavior
 $navigation-shift-duration: 150ms
 
@@ -340,6 +339,21 @@ nav .toc
 
   .expanded > .label .discloser
     +rotate(90deg)
+
+  // When searching, we only hide labels so that the hierarchy can still be shown to the user
+  .filtered > .label
+    display: none
+
+  .matched-child > .label
+    display: block
+
+  // Make sure that we expand to show any matched nodes
+  .matched-child > .children, .matched-child > .outline, .matched-child > .outline .children
+    display: block
+
+// Disclosure indicators are confusing when we're searching
+nav.searching .toc .discloser
+  display: none
 
 
 // ## Typography
@@ -492,6 +506,19 @@ nav
 
     .selected > .label
       background: $commentary-background-color
+
+    // Search styling
+    .label em
+      font-weight: bold
+
+    // This isn't the best of signals...
+    .file > .label em
+      color: darken($tools-foreground-color, 25%)
+
+    .matched-child > .label
+      +opacity(0.65)
+      +text-shadow(none)
+      background: darken($tools-background-color, 15%)
 
   @media (max-width: #{$single-column-toggle-width})
     .tools, .toc
