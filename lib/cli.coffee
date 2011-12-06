@@ -155,21 +155,35 @@ CLI = (inputArgs, callback) ->
   project.stripPrefixes = project.stripPrefixes.concat argv.strip
 
 
-  # ## Project Generation
-  project.generate (error) =>
-    return callback error if error or !argv.github
+  # We can generate w/o much fuss unless we're building for github
+  unless argv.github
+    project.generate (error) -> callback error
 
-    project.log.info ''
-    project.log.info 'Publishing documentation to github...'
+  # ## GitHub
+  else
+    # Annotate the project with our remote github URL
+    utils.CLIHelpers.guessPrimaryGitHubURL (error, url) ->
+      if error
+        project.log.error error.message
+        return callback error
 
-    # Dealing with generation for github pages is a bit more involved, so we farm that out to a
-    # shell script
-    script = childProcess.spawn path.resolve(__dirname, '..', 'scripts', 'publish-git-pages')
+      project.githubURL = url
 
-    script.stdout.on 'data', (data) -> project.log.info  data.toString().trim()
-    script.stderr.on 'data', (data) -> project.log.error data.toString().trim()
+      # Kick off project generation
+      project.generate (error) ->
+        return callback error if error
 
-    script.on 'exit', (code) ->
-      return callback new Error 'Git publish failed' if code != 0
+        project.log.info ''
+        project.log.info 'Publishing documentation to github...'
 
-      callback()
+        # Dealing with generation for github pages is a bit more involved, so we farm that out to a
+        # shell script
+        script = childProcess.spawn path.resolve(__dirname, '..', 'scripts', 'publish-git-pages')
+
+        script.stdout.on 'data', (data) -> project.log.info  data.toString().trim()
+        script.stderr.on 'data', (data) -> project.log.error data.toString().trim()
+
+        script.on 'exit', (code) ->
+          return callback new Error 'Git publish failed' if code != 0
+
+          callback()

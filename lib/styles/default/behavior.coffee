@@ -171,11 +171,10 @@ clearHighlight = (text$) ->
 # Navigation and the table of contents are entirely managed by us.
 fileMap = {} # A map of targetPath -> DOM node
 
-buildNav = (relativeRoot) ->
+buildNav = (metaInfo) ->
   nav$ = $("""
     <nav>
       <ul class="tools">
-        <li class="github"><a href="https://github.com/nevir/groc" title="Project source on GitHub">Project source on GitHub</a></li>
         <li class="toggle">Table of Contents</li>
         <li class="search">
           <input id="search" type="search" autocomplete="off"/>
@@ -187,8 +186,23 @@ buildNav = (relativeRoot) ->
   """).appendTo $('body')
   toc$ = nav$.find '.toc'
 
+  if metaInfo.githubURL
+    # Special case the index to go to the project root
+    if metaInfo.documentPath == 'index'
+      sourceURL = metaInfo.githubURL
+    else
+      sourceURL = "#{metaInfo.githubURL}/blob/master/#{metaInfo.projectPath}"
+
+    nav$.find('.tools').prepend """
+      <li class="github">
+        <a href="#{sourceURL}" title="View source on GitHub">
+          View source on GitHub
+        </a>
+      </li>
+    """
+
   for node in tableOfContents
-    toc$.append buildTOCNode node, relativeRoot
+    toc$.append buildTOCNode node, metaInfo.relativeRoot
 
   nav$
 
@@ -242,15 +256,18 @@ buildTOCNode = (node, relativeRoot, parentFile) ->
   node$
 
 $ ->
-  relativeRoot = $('meta[name="groc-relative-root"]').attr('content')
-  documentPath = $('meta[name="groc-document-path"]').attr('content')
+  metaInfo =
+    relativeRoot: $('meta[name="groc-relative-root"]').attr('content')
+    githubURL:    $('meta[name="groc-github-url"]').attr('content')
+    documentPath: $('meta[name="groc-document-path"]').attr('content')
+    projectPath:  $('meta[name="groc-project-path"]').attr('content')
 
-  nav$    = buildNav relativeRoot
+  nav$    = buildNav metaInfo
   toc$    = nav$.find '.toc'
   search$ = $('#search')
 
   # Select the current file, and expand up to it
-  selectNodeByDocumentPath documentPath, window.location.hash.replace '#', ''
+  selectNodeByDocumentPath metaInfo.documentPath, window.location.hash.replace '#', ''
 
   # We use the search box's focus state to toggle the table of contents.  This ensures that search
   # will always be focused while the toc is up, and that it goes away once the user clicks off.

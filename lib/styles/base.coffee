@@ -35,14 +35,14 @@ class Base
         # We also prefer to split out solo headers
         segments = utils.StyleHelpers.segmentizeSoloHeaders segments
 
-        @renderDocFile segments, fileInfo.sourcePath, fileInfo.targetPath, callback
+        @renderDocFile segments, fileInfo, callback
 
-  renderDocFile: (segments, sourcePath, targetPath, callback) ->
-    @log.trace 'BaseStyle#renderDocFile(..., %s, %s, ...)', sourcePath, targetPath
+  renderDocFile: (segments, fileInfo, callback) ->
+    @log.trace 'BaseStyle#renderDocFile(..., %j, ...)', fileInfo
 
     throw new Error "@templateFunc must be defined by subclasses!" unless @templateFunc
 
-    docPath = path.resolve @project.outPath, "#{targetPath}.html"
+    docPath = path.resolve @project.outPath, "#{fileInfo.targetPath}.html"
 
     fsTools.mkdir path.dirname(docPath), 0755, (error) =>
       if error
@@ -54,13 +54,14 @@ class Base
         segment.highlightedCode    = Utils.trimBlankLines segment.highlightedCode
 
       templateContext =
-        project:    @project
-        segments:   segments
-        sourcePath: sourcePath
-        targetPath: targetPath
+        project:     @project
+        segments:    segments
+        sourcePath:  fileInfo.sourcePath
+        targetPath:  fileInfo.targetPath
+        projectPath: fileInfo.projectPath
 
       # How many levels deep are we?
-      pathChunks = path.dirname(targetPath).split(/[\/\\]/)
+      pathChunks = path.dirname(fileInfo.targetPath).split(/[\/\\]/)
       if pathChunks.length == 1 && pathChunks[0] == '.'
         templateContext.relativeRoot = ''
       else

@@ -461,10 +461,14 @@ nav
     @media (max-width: #{$scale-start-width})
       +border-bottom-left-radius(0)
 
-    .toggle
-      border-left:  1px solid $tools-foreground-color
+    li
       border-right: 1px solid $tools-foreground-color
-      cursor:       pointer
+
+      &:last-child
+        border-right: none
+
+    .toggle
+      cursor: pointer
 
     .github a
       +transition(opacity 200ms)
