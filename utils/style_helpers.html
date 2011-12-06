@@ -1,0 +1,107 @@
+<!DOCTYPE html><html lang="en"><head><title>utils/style_helpers</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="utils/style_helpers"><meta name="groc-project-path" content="lib/utils/style_helpers.coffee"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="document"><div class="segment"><div class="comments"><div class="wrapper"><h1 id="style-helpers">Style Helpers</h1>
+
+<p>A collection of helpful functions to support styles and their behavior.</p></div></div><div class="code"><div class="wrapper"><span class="nv">StyleHelpers =</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Generate a table of contents as a tree of {node: {...}, children: []} objects.</p>
+
+<p>We want a pretty complex hierarchy in our table of contents:
+buildTableOfContents: (files) -></p></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Given an array of markdowned segments, convert their list of headers into a hierarchical
+outline (table of contents!)</p></div></div><div class="code"><div class="wrapper">  <span class="nv">outlineHeaders: </span><span class="nf">(segments) -&gt;</span>
+    <span class="nv">headers = </span><span class="nx">segments</span><span class="p">.</span><span class="nx">reduce</span> <span class="p">(</span> <span class="nf">(a, s) -&gt;</span> <span class="nx">a</span><span class="p">.</span><span class="nx">concat</span> <span class="nx">s</span><span class="p">.</span><span class="nx">headers</span> <span class="p">),</span> <span class="p">[]</span>
+    <span class="k">return</span> <span class="p">[]</span> <span class="nx">unless</span> <span class="nx">headers</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span>
+
+    <span class="nv">nodes = </span><span class="p">[]</span>
+    <span class="k">for</span> <span class="nx">header</span> <span class="k">in</span> <span class="nx">headers</span>
+      <span class="nx">nodes</span><span class="p">.</span><span class="nx">push</span>
+        <span class="nv">type: </span><span class="s1">&#39;heading&#39;</span>
+        <span class="nv">data: </span> <span class="nx">header</span>
+        <span class="nv">depth: </span><span class="nx">header</span><span class="p">.</span><span class="nx">level</span>
+
+    <span class="nx">@buildNodeTree</span> <span class="nx">nodes</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Generate a table of contents as a tree of {..., children: []} objects.</p>
+
+<p>We take a list of file info objects, and a map of outlines to fileInfo.targetPath.</p>
+
+<p>We want a pretty complex hierarchy in our table of contents:</p></div></div><div class="code"><div class="wrapper">  <span class="nv">buildTableOfContents: </span><span class="nf">(files, outlines) -&gt;</span>
+    <span class="nv">files = </span><span class="nx">files</span><span class="p">.</span><span class="nx">sort</span> <span class="nf">(a, b) -&gt;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+<li>The index is always first in the table of contents.</li>
+</ul></div></div><div class="code"><div class="wrapper">      <span class="k">return</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="nx">a</span><span class="p">.</span><span class="nx">targetPath</span> <span class="o">==</span> <span class="s1">&#39;index&#39;</span>
+      <span class="k">return</span>  <span class="mi">1</span> <span class="k">if</span> <span class="nx">b</span><span class="p">.</span><span class="nx">targetPath</span> <span class="o">==</span> <span class="s1">&#39;index&#39;</span>
+
+      <span class="k">return</span> <span class="mi">0</span> <span class="k">if</span> <span class="nx">a</span><span class="p">.</span><span class="nx">targetPath</span> <span class="o">==</span> <span class="nx">b</span><span class="p">.</span><span class="nx">targetPath</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+<li>files matching a directory name come directly before it.  E.g. "foo" &lt; "foo/bar" &lt; "foz"</li>
+</ul></div></div><div class="code"><div class="wrapper">      <span class="k">if</span> <span class="nx">a</span><span class="p">.</span><span class="nx">targetPath</span> <span class="o">&lt;</span> <span class="nx">b</span><span class="p">.</span><span class="nx">targetPath</span> <span class="k">then</span> <span class="o">-</span><span class="mi">1</span> <span class="k">else</span> <span class="mi">1</span>
+
+    <span class="nv">nodes    = </span><span class="p">[]</span>
+    <span class="nv">prevPath = </span><span class="p">[]</span>
+    <span class="k">for</span> <span class="nx">file</span> <span class="k">in</span> <span class="nx">files</span>
+      <span class="nv">targetChunks = </span><span class="nx">file</span><span class="p">.</span><span class="nx">targetPath</span><span class="p">.</span><span class="nx">split</span> <span class="s1">&#39;/&#39;</span>
+      <span class="nv">pathChunks   = </span><span class="nx">targetChunks</span><span class="p">[</span><span class="mi">0</span><span class="p">...</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+<li>If a file has the same name as a directory, it takes ownership of that directory's folder.</li>
+</ul></div></div><div class="code"><div class="wrapper">      <span class="k">for</span> <span class="nx">chunk</span><span class="p">,</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">pathChunks</span>
+        <span class="k">if</span> <span class="nx">prevPath</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">!=</span> <span class="nx">chunk</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+<li>Otherwise we have a generic folder node that takes its place in the table of contents.
+TODO: We probably want some way to rename folders!</li>
+</ul></div></div><div class="code"><div class="wrapper">          <span class="nx">nodes</span><span class="p">.</span><span class="nx">push</span>
+            <span class="nv">type: </span> <span class="s1">&#39;folder&#39;</span>
+            <span class="nv">data:</span>
+              <span class="nv">path: </span> <span class="nx">targetChunks</span><span class="p">[</span><span class="mi">0</span><span class="p">..</span><span class="nx">i</span><span class="p">].</span><span class="nx">join</span> <span class="s1">&#39;/&#39;</span>
+              <span class="nv">title: </span><span class="nx">targetChunks</span><span class="p">[</span><span class="mi">0</span><span class="p">..</span><span class="nx">i</span><span class="p">].</span><span class="nx">join</span> <span class="s1">&#39;/&#39;</span>
+            <span class="nv">depth: </span><span class="nx">i</span> <span class="o">+</span> <span class="mi">1</span>
+
+          <span class="nv">prevPath = </span><span class="p">[]</span> <span class="c1"># Make sure that we don&#39;t match directories several levels in, after a fail.</span>
+
+      <span class="nv">prevPath = </span><span class="nx">targetChunks</span>
+
+      <span class="nv">fileData = </span><span class="nx">_</span><span class="p">(</span><span class="nx">file</span><span class="p">).</span><span class="nx">clone</span><span class="p">()</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Annotate the file data with a title to represent it.</p>
+
+<p>If possible, we use the initial header in the file,</p></div></div><div class="code"><div class="wrapper">      <span class="k">if</span> <span class="nx">outlines</span><span class="p">[</span><span class="nx">file</span><span class="p">.</span><span class="nx">targetPath</span><span class="p">]</span><span class="o">?</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">?</span><span class="p">.</span><span class="nx">data</span><span class="o">?</span><span class="p">.</span><span class="nx">isFileHeader</span>
+        <span class="nv">fileData.firstHeader = </span><span class="nx">outlines</span><span class="p">[</span><span class="nx">file</span><span class="p">.</span><span class="nx">targetPath</span><span class="p">].</span><span class="nx">shift</span><span class="p">()</span>
+        <span class="nv">fileData.title       = </span><span class="nx">fileData</span><span class="p">.</span><span class="nx">firstHeader</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">title</span>
+
+        <span class="k">if</span> <span class="nx">fileData</span><span class="p">.</span><span class="nx">firstHeader</span><span class="p">.</span><span class="nx">children</span><span class="o">?</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span>
+          <span class="nx">outlines</span><span class="p">[</span><span class="nx">file</span><span class="p">.</span><span class="nx">targetPath</span><span class="p">]</span> <span class="o">=</span> <span class="nx">fileData</span><span class="p">.</span><span class="nx">firstHeader</span><span class="p">.</span><span class="nx">children</span><span class="p">.</span><span class="nx">concat</span> <span class="nx">outlines</span><span class="p">[</span><span class="nx">file</span><span class="p">.</span><span class="nx">targetPath</span><span class="p">]</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Otherwise we just fall back to the file's target path...</p></div></div><div class="code"><div class="wrapper">      <span class="k">else</span>
+        <span class="nv">fileData.title = </span><span class="nx">path</span><span class="p">.</span><span class="nx">basename</span> <span class="nx">file</span><span class="p">.</span><span class="nx">targetPath</span>
+
+      <span class="nx">nodes</span><span class="p">.</span><span class="nx">push</span>
+        <span class="nv">type: </span>  <span class="s1">&#39;file&#39;</span>
+        <span class="nv">data: </span>   <span class="nx">fileData</span>
+        <span class="nv">depth: </span>  <span class="nx">file</span><span class="p">.</span><span class="nx">targetPath</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">).</span><span class="nx">length</span>
+        <span class="nv">outline: </span><span class="nx">outlines</span><span class="p">[</span><span class="nx">file</span><span class="p">.</span><span class="nx">targetPath</span><span class="p">]</span>
+
+    <span class="nx">@buildNodeTree</span> <span class="nx">nodes</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Take a flat, though ordered, list of nodes and convert them into a tree.</p>
+
+<p>Nodes are expected to have a <code>depth</code> property.  Each node is annotated with an array of
+<code>children</code> if it does not exist.  Children are appended, otherwise.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">buildNodeTree: </span><span class="nf">(nodes) -&gt;</span>
+    <span class="nv">result = </span><span class="p">[]</span>
+    <span class="nv">stack  = </span><span class="p">[]</span>
+
+    <span class="k">for</span> <span class="nx">node</span> <span class="k">in</span> <span class="nx">nodes</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Unwind the stack until we get to the first node that is at a lower depth than us.  We are
+considered to be its child</p></div></div><div class="code"><div class="wrapper">      <span class="nx">stack</span><span class="p">.</span><span class="nx">pop</span><span class="p">()</span> <span class="k">while</span> <span class="nx">_</span><span class="p">(</span><span class="nx">stack</span><span class="p">).</span><span class="nx">last</span><span class="p">()</span><span class="o">?</span><span class="p">.</span><span class="nx">depth</span> <span class="o">&gt;=</span> <span class="nx">node</span><span class="p">.</span><span class="nx">depth</span>
+
+      <span class="k">if</span> <span class="nx">stack</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">0</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Top level nodes are directly returned in the result list.</p></div></div><div class="code"><div class="wrapper">        <span class="nx">result</span><span class="p">.</span><span class="nx">push</span> <span class="nx">node</span>
+      <span class="k">else</span>
+        <span class="nx">_</span><span class="p">(</span><span class="nx">stack</span><span class="p">).</span><span class="nx">last</span><span class="p">().</span><span class="nx">children</span> <span class="o">||=</span> <span class="p">[]</span>
+        <span class="nx">_</span><span class="p">(</span><span class="nx">stack</span><span class="p">).</span><span class="nx">last</span><span class="p">().</span><span class="nx">children</span><span class="p">.</span><span class="nx">push</span> <span class="nx">node</span>
+
+      <span class="nx">stack</span><span class="p">.</span><span class="nx">push</span> <span class="nx">node</span>
+
+    <span class="nx">result</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>It helps visually to separate headers that are not attached to other comments into their own
+segment.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">segmentizeSoloHeaders: </span><span class="nf">(segments) -&gt;</span>
+    <span class="nv">results = </span><span class="p">[]</span>
+    <span class="k">for</span> <span class="nx">segment</span> <span class="k">in</span> <span class="nx">segments</span>
+      <span class="nv">headerOnly = </span><span class="nx">segment</span><span class="p">.</span><span class="nx">markdownedComments</span><span class="p">.</span><span class="nx">match</span> <span class="sr">/^\s*&lt;h\d[^&gt;]*&gt;[^&lt;]*&lt;\/h\d&gt;\s*$/</span>
+      <span class="k">if</span> <span class="nx">headerOnly</span> <span class="o">and</span> <span class="o">not</span> <span class="nx">segment</span><span class="p">.</span><span class="nx">highlightedCode</span><span class="p">.</span><span class="nx">match</span> <span class="sr">/^\s*$/</span>
+        <span class="nx">results</span><span class="p">.</span><span class="nx">push</span>
+          <span class="nv">code: </span>              <span class="p">[]</span>
+          <span class="nv">comments: </span>          <span class="nx">segment</span><span class="p">.</span><span class="nx">comments</span>
+          <span class="nv">highlightedCode: </span>   <span class="s1">&#39;&#39;</span>
+          <span class="nv">markdownedComments: </span><span class="nx">segment</span><span class="p">.</span><span class="nx">markdownedComments</span>
+
+        <span class="nx">results</span><span class="p">.</span><span class="nx">push</span>
+          <span class="nv">code: </span>              <span class="nx">segment</span><span class="p">.</span><span class="nx">code</span>
+          <span class="nv">comments: </span>          <span class="p">[]</span>
+          <span class="nv">highlightedCode: </span>   <span class="nx">segment</span><span class="p">.</span><span class="nx">highlightedCode</span>
+          <span class="nv">markdownedComments: </span><span class="s1">&#39;&#39;</span>
+
+      <span class="k">else</span>
+        <span class="nx">results</span><span class="p">.</span><span class="nx">push</span> <span class="nx">segment</span>
+
+    <span class="nx">results</span></div></div></div></div></body></html>

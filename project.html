@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><title>project</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="lidoc-relative-root" content=""><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div class="segment"><div class="comments"><div class="wrapper"><p>A core concept of <code>lidoc</code> is that your code is grouped into a project, and that there is a certain
+<!DOCTYPE html><html lang="en"><head><title>project</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="project"><meta name="groc-project-path" content="lib/project.coffee"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="document"><div class="segment"><div class="comments"><div class="wrapper"><p>A core concept of <code>groc</code> is that your code is grouped into a project, and that there is a certain
 amount of context that it lends to your documentation.</p>
 
 <p>A project:</p></div></div><div class="code"><div class="wrapper"><span class="k">class</span> <span class="nx">Project</span>
@@ -14,53 +14,54 @@ to be relative to the project root, unless you pass an absolute path.</li>
 <li>Should strip specific prefixes of a file's path when generating relative paths for
 documentation.  For example, this could be used to ensure that <code>lib/some/source.file</code> maps
 to <code>doc/some/source.file</code> and not <code>doc/lib/some/source.file</code>.</li>
-</ul></div></div><div class="code"><div class="wrapper">    <span class="vi">@stripPrefixes = </span><span class="p">[</span><span class="s2">&quot;#{@root}/&quot;</span><span class="p">]</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Add source files that should have documentation generated for them to the project.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">add: </span><span class="nf">(fileOrDir) -&gt;</span>
-    <span class="nx">@log</span><span class="p">.</span><span class="nx">trace</span> <span class="s2">&quot;Project#add(%s)&quot;</span><span class="p">,</span> <span class="nx">fileOrDir</span>
-
-    <span class="nv">absPath = </span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span> <span class="nx">@root</span><span class="p">,</span> <span class="nx">fileOrDir</span>
-    <span class="nv">stats   = </span><span class="nx">fs</span><span class="p">.</span><span class="nx">statSync</span> <span class="nx">absPath</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>You can add individual files, and we special case that.</p></div></div><div class="code"><div class="wrapper">    <span class="k">if</span> <span class="nx">stats</span><span class="p">.</span><span class="nx">isFile</span><span class="p">()</span>
-      <span class="nx">@files</span><span class="p">.</span><span class="nx">push</span> <span class="nx">absPath</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Or directories to be recursively walked to find all files under them.</p></div></div><div class="code"><div class="wrapper">    <span class="k">else</span> <span class="k">if</span> <span class="nx">stats</span><span class="p">.</span><span class="nx">isDirectory</span><span class="p">()</span>
-      <span class="nx">@add</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span> <span class="nx">fileOrDir</span><span class="p">,</span> <span class="nx">p</span> <span class="k">for</span> <span class="nx">p</span> <span class="k">in</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readdirSync</span> <span class="nx">fileOrDir</span> <span class="k">when</span> <span class="nx">path</span><span class="p">.</span><span class="nx">basename</span><span class="p">(</span><span class="nx">p</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;.&#39;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Adds a path prefix that should be stripped from source file paths in order to generate relative
-paths for documentation.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">stripPrefix: </span><span class="nf">(pathPrefix) -&gt;</span>
-    <span class="nx">@log</span><span class="p">.</span><span class="nx">trace</span> <span class="s1">&#39;Project#strip(%s)&#39;</span><span class="p">,</span> <span class="nx">pathPrefix</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Prefix paths are either relative to the project root, or absolute</p></div></div><div class="code"><div class="wrapper">    <span class="nx">@stripPrefixes</span><span class="p">.</span><span class="nx">push</span> <span class="s2">&quot;#{path.resolve @root, pathPrefix}/&quot;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>This is both a performance (over) optimization and debugging aid.  Instead of spamming the
+</ul></div></div><div class="code"><div class="wrapper">    <span class="vi">@stripPrefixes = </span><span class="p">[</span><span class="s2">&quot;#{@root}/&quot;</span><span class="p">]</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>This is both a performance (over-)optimization and debugging aid.  Instead of spamming the
 system with file I/O and overhead all at once, we only process a certain number of source files
 concurrently.  This is similar to what <a href="https://github.com/isaacs/node-graceful-fs">graceful-fs</a>
 accomplishes.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">BATCH_SIZE: </span><span class="mi">10</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Where the magic happens.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">generate: </span><span class="nf">(callback) -&gt;</span>
     <span class="nx">@log</span><span class="p">.</span><span class="nx">trace</span> <span class="s1">&#39;Project#Generate(...)&#39;</span>
     <span class="nx">@log</span><span class="p">.</span><span class="nx">info</span> <span class="s1">&#39;Generating documentation...&#39;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We want to support multiple documentation styles, but we don't expect to have a stable API for
-that just yet.</p></div></div><div class="code"><div class="wrapper">    <span class="nv">style = </span><span class="k">new</span> <span class="nx">styles</span><span class="p">.</span><span class="nx">default</span><span class="p">.</span><span class="nx">Style</span> <span class="err">@</span>
+that just yet.</p></div></div><div class="code"><div class="wrapper">    <span class="nv">style = </span><span class="k">new</span> <span class="nx">styles</span><span class="p">.</span><span class="nx">Default</span> <span class="err">@</span>
 
-    <span class="nv">fileMap = </span><span class="nx">Utils</span><span class="p">.</span><span class="nx">mapFiles</span> <span class="nx">@files</span><span class="p">,</span> <span class="nx">@stripPrefixes</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>If we were given an index file, map that</p></div></div><div class="code"><div class="wrapper">    <span class="k">if</span> <span class="nx">@index</span>
-      <span class="nv">indexPath = </span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span> <span class="nx">@root</span><span class="p">,</span> <span class="nx">@index</span>
-      <span class="nx">fileMap</span><span class="p">[</span><span class="nx">indexPath</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;index&#39;</span> <span class="k">if</span> <span class="nx">fileMap</span><span class="p">[</span><span class="nx">indexPath</span><span class="p">]</span>
-
+    <span class="nv">fileMap   = </span><span class="nx">Utils</span><span class="p">.</span><span class="nx">mapFiles</span> <span class="nx">@root</span><span class="p">,</span> <span class="nx">@files</span><span class="p">,</span> <span class="nx">@stripPrefixes</span>
+    <span class="nv">indexPath = </span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span> <span class="nx">@root</span><span class="p">,</span> <span class="nx">@index</span>
     <span class="nv">toProcess = </span><span class="p">(</span><span class="nx">k</span> <span class="k">for</span> <span class="nx">k</span> <span class="k">of</span> <span class="nx">fileMap</span><span class="p">)</span>
     <span class="nv">inFlight  = </span><span class="mi">0</span>
 
     <span class="nv">processFile = </span><span class="o">=&gt;</span>
       <span class="nv">currentFile = </span><span class="nx">toProcess</span><span class="p">.</span><span class="nx">pop</span><span class="p">()</span>
-      <span class="nx">inFlight</span>   <span class="o">+=</span> <span class="mi">1</span>
-      <span class="nx">@log</span><span class="p">.</span><span class="nx">trace</span> <span class="s2">&quot;Processing %s (%d in flight)&quot;</span><span class="p">,</span> <span class="nx">currentFile</span><span class="p">,</span> <span class="nx">inFlight</span>
+      <span class="k">if</span> <span class="nx">currentFile</span><span class="o">?</span>
+        <span class="nv">language = </span><span class="nx">Utils</span><span class="p">.</span><span class="nx">getLanguage</span> <span class="nx">currentFile</span>
+        <span class="nx">unless</span> <span class="nx">language</span><span class="o">?</span>
+          <span class="nx">@log</span><span class="p">.</span><span class="nx">warn</span> <span class="s1">&#39;%s is not in a supported language, skipping.&#39;</span><span class="p">,</span> <span class="nx">currentFile</span>
+          <span class="k">return</span> <span class="nx">processFile</span><span class="p">()</span>
+
+        <span class="nx">inFlight</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="nx">@log</span><span class="p">.</span><span class="nx">debug</span> <span class="s2">&quot;Processing %s (%d in flight)&quot;</span><span class="p">,</span> <span class="nx">currentFile</span><span class="p">,</span> <span class="nx">inFlight</span>
+
+      <span class="k">else</span>
+        <span class="k">if</span> <span class="nx">inFlight</span> <span class="o">==</span> <span class="mi">0</span>
+          <span class="nx">style</span><span class="p">.</span><span class="nx">renderCompleted</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span>
+            <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span> <span class="k">if</span> <span class="nx">error</span>
+
+            <span class="nx">@log</span><span class="p">.</span><span class="nx">info</span> <span class="s1">&#39;&#39;</span>
+            <span class="nx">@log</span><span class="p">.</span><span class="nx">pass</span> <span class="s1">&#39;Documentation generated&#39;</span>
+            <span class="nx">callback</span><span class="p">()</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>End of the line; we're done chaining processFile()</p></div></div><div class="code"><div class="wrapper">        <span class="k">return</span>
 
       <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span> <span class="nx">currentFile</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>
         <span class="k">if</span> <span class="nx">error</span>
           <span class="nx">@log</span><span class="p">.</span><span class="nx">error</span> <span class="s2">&quot;Failed to process %s: %s&quot;</span><span class="p">,</span> <span class="nx">currentFile</span><span class="p">,</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
           <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
 
-        <span class="nx">style</span><span class="p">.</span><span class="nx">renderFile</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">currentFile</span><span class="p">,</span> <span class="nx">fileMap</span><span class="p">[</span><span class="nx">currentFile</span><span class="p">],</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span>
-          <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span> <span class="k">if</span> <span class="nx">error</span>
+        <span class="nv">fileInfo =</span>
+          <span class="nv">language: </span>   <span class="nx">language</span>
+          <span class="nv">sourcePath: </span> <span class="nx">currentFile</span>
+          <span class="nv">projectPath: </span><span class="nx">currentFile</span><span class="p">.</span><span class="nx">replace</span> <span class="err">///^#{@root + &#39;/&#39;}///, &#39;&#39;</span>
+          <span class="nv">targetPath: </span> <span class="k">if</span> <span class="nx">currentFile</span> <span class="o">==</span> <span class="nx">indexPath</span> <span class="k">then</span> <span class="s1">&#39;index&#39;</span> <span class="k">else</span> <span class="nx">fileMap</span><span class="p">[</span><span class="nx">currentFile</span><span class="p">]</span>
 
-          <span class="nx">inFlight</span> <span class="o">-=</span> <span class="mi">1</span>
-          <span class="k">if</span> <span class="nx">toProcess</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span>
-            <span class="nx">processFile</span><span class="p">()</span>
-          <span class="k">else</span>
-            <span class="k">if</span> <span class="nx">inFlight</span> <span class="o">==</span> <span class="mi">0</span>
-              <span class="nx">style</span><span class="p">.</span><span class="nx">renderCompleted</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span>
-                <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span> <span class="k">if</span> <span class="nx">error</span>
+        <span class="nx">style</span><span class="p">.</span><span class="nx">renderFile</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">fileInfo</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span>
+            <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span> <span class="k">if</span> <span class="nx">error</span>
 
-                <span class="nx">@log</span><span class="p">.</span><span class="nx">info</span> <span class="s1">&#39;&#39;</span>
-                <span class="nx">@log</span><span class="p">.</span><span class="nx">pass</span> <span class="s1">&#39;Documentation generated&#39;</span>
-                <span class="nx">callback</span><span class="p">()</span>
-
-    <span class="k">while</span> <span class="nx">toProcess</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">and</span> <span class="nx">inFlight</span> <span class="o">&lt;</span> <span class="nx">@BATCH_SIZE</span>
-      <span class="nx">processFile</span><span class="p">()</span></div></div></div></body></html>
+            <span class="nx">inFlight</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="nx">processFile</span><span class="p">()</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Kick off the initial batch of files to process.  They'll continue to keep the same number of
+files in flight by chaining to processFile() once they finish.</p></div></div><div class="code"><div class="wrapper">    <span class="k">while</span> <span class="nx">toProcess</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">and</span> <span class="nx">inFlight</span> <span class="o">&lt;</span> <span class="nx">@BATCH_SIZE</span>
+      <span class="nx">processFile</span><span class="p">()</span></div></div></div></div></body></html>

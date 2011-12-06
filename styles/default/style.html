@@ -1,78 +1,456 @@
-<!DOCTYPE html><html lang="en"><head><title>styles/default/style</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="lidoc-relative-root" content="../../"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div class="segment"><div class="code"><div class="wrapper"><span class="k">class</span> <span class="nx">Style</span> <span class="k">extends</span> <span class="nx">BaseStyle</span>
-  <span class="nv">STATIC_ASSETS: </span><span class="p">[</span><span class="s1">&#39;style.css&#39;</span><span class="p">]</span>
+<!DOCTYPE html><html lang="en"><head><title>styles/default/style</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="styles/default/style"><meta name="groc-project-path" content="lib/styles/default/style.sass"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="k">@import</span> <span class="s">&quot;compass&quot;</span>
+<span class="k">@import</span> <span class="s">&quot;code_styles&quot;</span>
 
-  <span class="nv">constructor: </span><span class="nf">(args...) -&gt;</span>
-    <span class="k">super</span><span class="p">(</span><span class="nx">args</span><span class="p">...)</span>
+<span class="k">@import</span> <span class="s">&quot;compass/reset&quot;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="configuration">Configuration</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="sizing">Sizing</h3></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+<li>Margin between segments in two-column mode, padding for code/comments in single-column mode.</li>
+</ul></div></div><div class="code"><div class="wrapper"><span class="na">$common-margin</span><span class="o">:</span> <span class="mi">1</span><span class="kt">em</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+<li>Additional padding to each column in two-column mode</li>
+</ul></div></div><div class="code"><div class="wrapper"><span class="na">$column-padding</span><span class="o">:</span> <span class="mi">1</span><span class="kt">em</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+<li>The <code>line length</code> of the commentary column in both modes.</li>
+</ul></div></div><div class="code"><div class="wrapper"><span class="na">$commentary-width</span><span class="o">:</span> <span class="mi">29</span><span class="kt">em</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+<li>Width of the tools pulldown in two-column mode.  NOT scaled by tools-font.</li>
+</ul></div></div><div class="code"><div class="wrapper"><span class="na">$tools-width</span><span class="o">:</span> <span class="mi">20</span><span class="kt">em</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+<li>Height of the main toolbar, scaled by the size of tools-font</li>
+</ul></div></div><div class="code"><div class="wrapper"><span class="na">$tools-height</span><span class="o">:</span> <span class="mi">2</span><span class="mf">.1</span><span class="kt">em</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Smooth-scale the page in viewports that are between ideal widths for two-column and one-column
+modes.  Scaling starts at the same width as $tools-width into the code column.</p></div></div><div class="code"><div class="wrapper"><span class="na">$scale-steps</span><span class="o">:</span> <span class="mi">136</span> <span class="c1">// Approx 1 per pixel on a desktop (8.5em distance &amp; 16px per em)</span>
+<span class="na">$scale-min</span><span class="o">:</span>   <span class="mi">0</span><span class="mf">.85</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><pre><code>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam cursus lorem at mi hendrerit pretium. Maecenas ultrices dolor dictum orci lobortis fringilla. Integer ut sem at libero scelerisque commodo quis a dui. Nulla pellentesque, purus non ultricies porta, diam est fringilla orci, dignissim mattis leo erat a urna. Donec fermentum orci nec magna vehicula consectetur. Vivamus a dui eget orci malesuada elementum. Cras tempor mi sit amet ligula mollis porta. Nulla eu purus eget dui aliquet iaculis in quis massa. Phasellus sed lectus ac augue tincidunt blandit. Pellentesque et aliquam neque. Donec faucibus ultricies sem, ut mattis ante consectetur sed. In sollicitudin consectetur nisl, nec malesuada diam dictum ut. Duis feugiat, lorem in pulvinar interdum, nibh turpis lobortis erat, dictum hendrerit massa nibh molestie odio. Ut ultricies, dui a lobortis aliquam, massa diam tempus eros, eu ornare risus mi vitae elit. Integer pretium vulputate eros vitae luctus. Mauris in rhoncus nisi.
+</code></pre></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="color-scheme">Color Scheme</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="na">$commentary-background-color</span><span class="o">:</span> <span class="mh">#f5fbff</span>
+<span class="na">$commentary-foreground-color</span><span class="o">:</span> <span class="mh">#4a525a</span> <span class="c1">// Thank you, Mr. Gruber</span>
+<span class="na">$commentary-shadow-color</span><span class="o">:</span>     <span class="mh">#ffffff</span>
 
-    <span class="nv">templateData  = </span><span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="s1">&#39;assets&#39;</span><span class="p">,</span> <span class="s1">&#39;code.jade&#39;</span><span class="p">),</span> <span class="s1">&#39;utf-8&#39;</span>
-    <span class="vi">@templateFunc = </span><span class="nx">jade</span><span class="p">.</span><span class="nx">compile</span> <span class="nx">templateData</span>
+<span class="na">$code-background-color</span><span class="o">:</span> <span class="mh">#4a525a</span>
+<span class="na">$code-foreground-color</span><span class="o">:</span> <span class="mh">#cbd1d8</span>
+<span class="na">$code-shadow-color</span><span class="o">:</span>     <span class="nf">darken</span><span class="p">(</span><span class="nv">$code-background-color</span><span class="o">,</span> <span class="mi">15</span><span class="kt">%</span><span class="p">)</span>
 
-  <span class="nv">renderCompleted: </span><span class="nf">(callback) -&gt;</span>
-    <span class="nx">@log</span><span class="p">.</span><span class="nx">trace</span> <span class="s1">&#39;styles.default.Style#renderCompleted(...)&#39;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Even though fsTools.copy creates directories if they're missing - we want a bit more control
-over it (permissions), as well as wanting to avoid contention.</p></div></div><div class="code"><div class="wrapper">    <span class="nv">assetPath = </span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span> <span class="nx">@project</span><span class="p">.</span><span class="nx">outPath</span><span class="p">,</span> <span class="s1">&#39;assets&#39;</span>
-    <span class="nx">fsTools</span><span class="p">.</span><span class="nx">mkdir</span> <span class="nx">assetPath</span><span class="p">,</span> <span class="mi">0755</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span>
-      <span class="k">if</span> <span class="nx">error</span>
-        <span class="nx">@log</span><span class="p">.</span><span class="nx">error</span> <span class="s1">&#39;Unable to create directory %s: %s&#39;</span><span class="p">,</span> <span class="nx">assetPath</span><span class="p">,</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
-        <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
-      <span class="nx">@log</span><span class="p">.</span><span class="nx">trace</span> <span class="s1">&#39;mkdir: %s&#39;</span><span class="p">,</span> <span class="nx">assetPath</span>
+<span class="na">$link-color</span><span class="o">:</span> <span class="mh">#a8614e</span>
+<span class="na">$link-hover-foreground-color</span><span class="o">:</span> <span class="mh">#a8614e</span>
+<span class="na">$link-hover-background-color</span><span class="o">:</span> <span class="nf">lighten</span><span class="p">(</span><span class="mh">#a8614e</span><span class="o">,</span> <span class="mi">43</span><span class="kt">%</span><span class="p">)</span>
+<span class="na">$link-hover-shadow-color</span><span class="o">:</span>     <span class="nf">lighten</span><span class="p">(</span><span class="mh">#a8614e</span><span class="o">,</span> <span class="mi">60</span><span class="kt">%</span><span class="p">)</span>
 
-      <span class="nv">numCopied = </span><span class="mi">0</span>
-      <span class="k">for</span> <span class="nx">asset</span> <span class="k">in</span> <span class="nx">@STATIC_ASSETS</span>
-        <span class="nx">do</span> <span class="p">(</span><span class="nx">asset</span><span class="p">)</span> <span class="o">=&gt;</span>
-          <span class="nv">assetTarget = </span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span> <span class="nx">assetPath</span><span class="p">,</span> <span class="nx">asset</span>
-          <span class="nx">fsTools</span><span class="p">.</span><span class="nx">copy</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="s1">&#39;assets&#39;</span><span class="p">,</span> <span class="nx">asset</span><span class="p">),</span> <span class="nx">assetTarget</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span>
-            <span class="k">if</span> <span class="nx">error</span>
-              <span class="nx">@log</span><span class="p">.</span><span class="nx">error</span> <span class="s1">&#39;Unable to copy %s: %s&#39;</span><span class="p">,</span> <span class="nx">assetTarget</span><span class="p">,</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
-              <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
-            <span class="nx">@log</span><span class="p">.</span><span class="nx">trace</span> <span class="s1">&#39;Copied %s&#39;</span><span class="p">,</span> <span class="nx">assetTarget</span>
+<span class="na">$tools-background-color</span><span class="o">:</span> <span class="nf">transparentize</span><span class="p">(</span><span class="mh">#e6e6e6</span><span class="o">,</span> <span class="mi">0</span><span class="mf">.1</span><span class="p">)</span>
+<span class="na">$tools-foreground-color</span><span class="o">:</span> <span class="mh">#4a525a</span>
+<span class="na">$tools-shadow-color</span><span class="o">:</span>     <span class="mh">#f0f0f0</span>
 
-            <span class="nx">numCopied</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="nx">@compileScript</span> <span class="nx">assetPath</span><span class="p">,</span> <span class="nx">callback</span> <span class="nx">unless</span> <span class="nx">numCopied</span> <span class="o">&lt;</span> <span class="nx">@STATIC_ASSETS</span><span class="p">.</span><span class="nx">length</span>
+<span class="na">$inline-code-background-color</span><span class="o">:</span> <span class="mh">#fbf8f3</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="typography">Typography</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="nf">=commentary-font</span>
+  <span class="na">font-family</span><span class="o">:</span> <span class="s2">&quot;Helvetica Neue&quot;</span><span class="o">,</span> <span class="n">Helvetica</span><span class="o">,</span> <span class="s2">&quot;Droid Sans&quot;</span><span class="o">,</span> <span class="no">sans-serif</span>
+  <span class="na">font-weight</span><span class="o">:</span> <span class="mi">300</span>
+  <span class="na">font-size</span><span class="o">:</span>   <span class="mi">0</span><span class="mf">.9375</span><span class="kt">em</span>
+  <span class="na">line-height</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.35</span>
 
-  <span class="nv">compileScript: </span><span class="nf">(assetPath, callback) -&gt;</span>
-    <span class="nx">@log</span><span class="p">.</span><span class="nx">trace</span> <span class="s1">&#39;styles.default.Style#compileScript(%s, ...)&#39;</span><span class="p">,</span> <span class="nx">assetPath</span>
+<span class="nf">=code-font</span>
+  <span class="na">font-family</span><span class="o">:</span> <span class="s2">&quot;Droid Sans Mono&quot;</span><span class="o">,</span> <span class="n">Menlo</span><span class="o">,</span> <span class="n">Monaco</span><span class="o">,</span> <span class="no">monospace</span>
+  <span class="na">font-size</span><span class="o">:</span>   <span class="mi">0</span><span class="mf">.75</span><span class="kt">em</span>
+  <span class="na">line-height</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.4</span>
 
-    <span class="nv">scriptPath = </span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span> <span class="nx">__dirname</span><span class="p">,</span> <span class="s1">&#39;assets&#39;</span><span class="p">,</span> <span class="s1">&#39;behavior.coffee&#39;</span>
-    <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span> <span class="nx">scriptPath</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>
-      <span class="k">if</span> <span class="nx">error</span>
-        <span class="nx">@log</span><span class="p">.</span><span class="nx">error</span> <span class="s1">&#39;Failed to read %s: %s&#39;</span><span class="p">,</span> <span class="nx">scriptPath</span><span class="p">,</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
-        <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
+<span class="nf">=header-font</span>
+  <span class="na">font-family</span><span class="o">:</span>    <span class="s2">&quot;HelveticaNeue-UltraLight&quot;</span><span class="o">,</span> <span class="s2">&quot;Helvetica Neue&quot;</span><span class="o">,</span> <span class="n">Helvetica</span><span class="o">,</span> <span class="s2">&quot;Droid Sans&quot;</span><span class="o">,</span> <span class="no">sans-serif</span>
+  <span class="na">font-weight</span><span class="o">:</span>    <span class="mi">100</span>
+  <span class="na">letter-spacing</span><span class="o">:</span> <span class="mi">0</span><span class="mf">.0625</span><span class="kt">em</span>
+  <span class="na">line-height</span><span class="o">:</span>    <span class="mi">1</span><span class="mf">.75</span>
 
-      <span class="k">try</span>
-        <span class="nv">scriptSource = </span><span class="nx">_</span><span class="p">.</span><span class="nx">template</span> <span class="nx">data</span><span class="p">,</span> <span class="err">@</span>
-      <span class="k">catch</span> <span class="nx">error</span>
-        <span class="nx">@log</span><span class="p">.</span><span class="nx">error</span> <span class="s1">&#39;Failed to interpolate %s: %s&#39;</span><span class="p">,</span> <span class="nx">scriptPath</span><span class="p">,</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
-        <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
+<span class="nf">=tools-font</span>
+  <span class="nd">+commentary-font</span>
 
-      <span class="k">try</span>
-        <span class="nv">scriptSource = </span><span class="nx">coffeeScript</span><span class="p">.</span><span class="nx">compile</span> <span class="nx">scriptSource</span>
-        <span class="nx">@log</span><span class="p">.</span><span class="nx">trace</span> <span class="s1">&#39;Compiled %s&#39;</span><span class="p">,</span> <span class="nx">scriptPath</span>
-      <span class="k">catch</span> <span class="nx">error</span>
-        <span class="nx">@log</span><span class="p">.</span><span class="nx">debug</span> <span class="nx">scriptSource</span>
-        <span class="nx">@log</span><span class="p">.</span><span class="nx">error</span> <span class="s1">&#39;Failed to compile %s: %s&#39;</span><span class="p">,</span> <span class="nx">scriptPath</span><span class="p">,</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
-        <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
+<span class="nf">=header-font-sizes</span>
+  <span class="nt">h1</span>
+    <span class="na">font-size</span><span class="o">:</span> <span class="mi">2</span><span class="mf">.5</span><span class="kt">em</span>
+  <span class="nt">h2</span>
+    <span class="na">font-size</span><span class="o">:</span> <span class="mi">2</span><span class="kt">em</span>
+  <span class="nt">h3</span>
+    <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.6</span><span class="kt">em</span>
+  <span class="nt">h4</span>
+    <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.4</span><span class="kt">em</span>
+  <span class="nt">h5</span>
+    <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.3</span><span class="kt">em</span>
+  <span class="nt">h6</span>
+    <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.2</span><span class="kt">em</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="two-column-layout">Two-Column Layout</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>As a general tenet, we try to avoid using margins, as they get us into trouble.  Pparticularly,
+when ensuring that our <code>html</code>/<code>body</code>/<code>#document</code> are full height and do not induce scrolling
+unless their content grows past the page.</p></div></div><div class="code"><div class="wrapper"><span class="na">$commentary-column-width</span><span class="o">:</span> <span class="nv">$commentary-width</span> <span class="o">+</span> <span class="p">(</span><span class="nv">$common-margin</span> <span class="o">+</span> <span class="nv">$column-padding</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
 
-      <span class="nx">@compressScripts</span> <span class="nx">assetPath</span><span class="p">,</span> <span class="nx">scriptSource</span><span class="p">,</span> <span class="nx">callback</span>
+<span class="nt">html</span><span class="o">,</span> <span class="nt">body</span>
+  <span class="na">height</span><span class="o">:</span> <span class="mi">100</span><span class="kt">%</span>
 
-  <span class="nv">compressScripts: </span><span class="nf">(assetPath, scriptSource, callback) -&gt;</span>
-    <span class="nx">@log</span><span class="p">.</span><span class="nx">trace</span> <span class="s1">&#39;styles.default.Style#compressScripts(%s, ..., ...)&#39;</span><span class="p">,</span> <span class="nx">assetPath</span>
+<span class="nn">#document</span>
+  <span class="na">min-height</span><span class="o">:</span> <span class="mi">100</span><span class="kt">%</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Conceptually, the layout focuses the user on the commentary first, so we lay out that column.</p></div></div><div class="code"><div class="wrapper"><span class="nt">body</span>
+  <span class="na">max-width</span><span class="o">:</span> <span class="nv">$commentary-column-width</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>In two-column mode, the segment is actually shifted over a full column to favor code fragments.
+We may or may not have either .comment or .code sections, so we need to handle all three cases.</p></div></div><div class="code"><div class="wrapper"><span class="nc">.segment</span>
+  <span class="na">padding</span><span class="o">:</span>     <span class="p">(</span><span class="nv">$common-margin</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">0</span> <span class="p">(</span><span class="nv">$common-margin</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="nv">$commentary-column-width</span>
+  <span class="na">white-space</span><span class="o">:</span> <span class="no">nowrap</span>
 
-    <span class="nv">jqueryPath = </span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span> <span class="nx">__dirname</span><span class="p">,</span> <span class="s1">&#39;assets&#39;</span><span class="p">,</span> <span class="s1">&#39;jquery.js&#39;</span>
-    <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span> <span class="nx">jqueryPath</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>
-      <span class="k">if</span> <span class="nx">error</span>
-        <span class="nx">@log</span><span class="p">.</span><span class="nx">error</span> <span class="s1">&#39;Failed to read %s: %s&#39;</span><span class="p">,</span> <span class="nx">jqueryPath</span><span class="p">,</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
-        <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
+  <span class="k">&amp;</span><span class="nd">:first-child</span>
+    <span class="na">padding-top</span><span class="o">:</span> <span class="nv">$common-margin</span> <span class="o">+</span> <span class="nv">$column-padding</span> <span class="o">+</span> <span class="nv">$tools-height</span>
 
-      <span class="nv">ast = </span><span class="nx">uglifyJs</span><span class="p">.</span><span class="nx">parser</span><span class="p">.</span><span class="nx">parse</span> <span class="nx">data</span> <span class="o">+</span> <span class="nx">scriptSource</span>
-      <span class="nv">ast = </span><span class="nx">uglifyJs</span><span class="p">.</span><span class="nx">uglify</span><span class="p">.</span><span class="nx">ast_mangle</span>  <span class="nx">ast</span>
-      <span class="nv">ast = </span><span class="nx">uglifyJs</span><span class="p">.</span><span class="nx">uglify</span><span class="p">.</span><span class="nx">ast_squeeze</span> <span class="nx">ast</span>
+  <span class="k">&amp;</span><span class="nd">:last-child</span>
+    <span class="na">padding-bottom</span><span class="o">:</span> <span class="nv">$common-margin</span> <span class="o">+</span> <span class="nv">$column-padding</span>
 
-      <span class="nv">compiledSource = </span><span class="nx">uglifyJs</span><span class="p">.</span><span class="nx">uglify</span><span class="p">.</span><span class="nx">gen_code</span> <span class="nx">ast</span>
+  <span class="nc">.comments</span><span class="o">,</span> <span class="nc">.code</span>
+    <span class="na">display</span><span class="o">:</span>        <span class="no">inline</span><span class="o">-</span><span class="no">block</span>
+    <span class="na">vertical-align</span><span class="o">:</span> <span class="no">top</span>
+    <span class="na">padding</span><span class="o">:</span>        <span class="mi">0</span> <span class="p">(</span><span class="nv">$common-margin</span> <span class="o">+</span> <span class="nv">$column-padding</span><span class="p">)</span>
 
-      <span class="nx">fs</span><span class="p">.</span><span class="nx">writeFile</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">assetPath</span><span class="p">,</span> <span class="s1">&#39;behavior.js&#39;</span><span class="p">),</span> <span class="nx">compiledSource</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span>
-        <span class="k">if</span> <span class="nx">error</span>
-          <span class="nx">@log</span><span class="p">.</span><span class="nx">error</span> <span class="s1">&#39;Failed to write assets/behavior.js: %s&#39;</span><span class="p">,</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
-          <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
-        <span class="nx">@log</span><span class="p">.</span><span class="nx">trace</span> <span class="s1">&#39;Wrote %s&#39;</span><span class="p">,</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">assetPath</span><span class="p">,</span> <span class="s1">&#39;behavior.js&#39;</span><span class="p">)</span>
+  <span class="nc">.comments</span>
+    <span class="na">margin-left</span><span class="o">:</span> <span class="o">-</span><span class="nv">$commentary-column-width</span>
+    <span class="na">width</span><span class="o">:</span>        <span class="nv">$commentary-width</span>
+    <span class="na">white-space</span><span class="o">:</span>  <span class="no">normal</span>
 
-        <span class="nx">callback</span><span class="p">()</span></div></div></div></body></html>
+  <span class="nc">.code</span>
+    <span class="na">white-space</span><span class="o">:</span> <span class="n">pre</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="two-column-scaling">Two-Column Scaling</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Before we swap over to a single column layout, we scale the page down a little bit in an effort
+to squeeze some extra life out of it.</p>
+
+<p>Scaling starts once the toolbar is flush with the main column</p></div></div><div class="code"><div class="wrapper"><span class="na">$scale-start-width</span><span class="o">:</span> <span class="nv">$commentary-column-width</span> <span class="o">+</span> <span class="nv">$tools-width</span>
+<span class="na">$scale-stop-width</span><span class="o">:</span>  <span class="nv">$scale-start-width</span> <span class="o">*</span> <span class="nv">$scale-min</span>
+
+<span class="k">@for</span> <span class="nv">$i</span> <span class="ow">from</span> <span class="mi">0</span> <span class="ow">through</span> <span class="nv">$scale-steps</span> <span class="o">-</span> <span class="mi">2</span> <span class="c1">// Skip the last step; it&#39;s exactly $scale-stop-width</span>
+  <span class="nv">$scale</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.0</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span><span class="mf">.0</span> <span class="o">-</span> <span class="nv">$scale-min</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nv">$i</span> <span class="o">/</span> <span class="p">(</span><span class="nv">$scale-steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+  <span class="k">@media</span> <span class="o">(</span><span class="nt">max-width</span><span class="nd">:</span> <span class="nn">#</span><span class="err">{$</span><span class="nt">scale-start-width</span> <span class="o">*</span> <span class="err">$</span><span class="nt">scale</span><span class="err">}</span><span class="o">)</span>
+    <span class="nt">html</span>
+      <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="kt">em</span> <span class="o">*</span> <span class="nv">$scale</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="single-column-layout">Single-Column Layout</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We swap over to the single column layout once we hit the edge of the scaling</p></div></div><div class="code"><div class="wrapper"><span class="na">$single-column-toggle-width</span><span class="o">:</span> <span class="nv">$scale-stop-width</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Switch modes at a little wider than a full (padded) column</p></div></div><div class="code"><div class="wrapper"><span class="k">@media</span> <span class="o">(</span><span class="nt">max-width</span><span class="nd">:</span> <span class="nn">#</span><span class="err">{$</span><span class="nt">single-column-toggle-width</span><span class="err">}</span><span class="o">)</span>
+
+  <span class="nt">html</span>
+    <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="kt">em</span>
+
+  <span class="nt">body</span>
+    <span class="na">margin</span><span class="o">:</span> <span class="mi">0</span> <span class="no">auto</span>
+
+  <span class="nc">.segment</span>
+    <span class="na">padding</span><span class="o">:</span>     <span class="mi">0</span>
+    <span class="na">white-space</span><span class="o">:</span> <span class="no">normal</span>
+    <span class="na">max-width</span><span class="o">:</span>   <span class="nv">$commentary-width</span>
+    <span class="na">margin</span><span class="o">:</span>      <span class="mi">0</span> <span class="no">auto</span>
+
+    <span class="nc">.comments</span><span class="o">,</span> <span class="nc">.code</span>
+      <span class="na">display</span><span class="o">:</span> <span class="no">block</span>
+      <span class="na">padding</span><span class="o">:</span> <span class="nv">$common-margin</span>
+
+    <span class="nc">.comments</span>
+      <span class="na">margin-left</span><span class="o">:</span> <span class="mi">0</span>
+      <span class="na">width</span><span class="o">:</span>       <span class="no">auto</span>
+
+    <span class="nc">.code</span>
+      <span class="na">display</span><span class="o">:</span>    <span class="no">block</span>
+      <span class="na">overflow-y</span><span class="o">:</span> <span class="no">hidden</span>
+      <span class="na">overflow-x</span><span class="o">:</span> <span class="no">auto</span>
+
+      <span class="nc">.wrapper</span>
+        <span class="na">display</span><span class="o">:</span> <span class="no">inline</span><span class="o">-</span><span class="no">block</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="navigation">Navigation</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="na">$tools-padding</span><span class="o">:</span> <span class="p">(</span><span class="nv">$tools-height</span> <span class="o">-</span> <span class="mi">1</span><span class="kt">em</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+<span class="nt">nav</span>
+  <span class="na">position</span><span class="o">:</span> <span class="no">fixed</span>
+  <span class="na">top</span><span class="o">:</span>      <span class="mi">0</span>
+  <span class="na">right</span><span class="o">:</span>    <span class="mi">0</span>
+  <span class="na">width</span><span class="o">:</span>    <span class="nv">$tools-width</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Nav should be full width in single column mode</p></div></div><div class="code"><div class="wrapper">  <span class="k">@media</span> <span class="o">(</span><span class="nt">max-width</span><span class="nd">:</span> <span class="nn">#</span><span class="err">{$</span><span class="nt">single-column-toggle-width</span><span class="err">}</span><span class="o">)</span>
+    <span class="na">left</span><span class="o">:</span>  <span class="mi">0</span>
+    <span class="na">width</span><span class="o">:</span> <span class="mi">100</span><span class="kt">%</span>
+
+  <span class="nc">.tools</span>
+    <span class="na">position</span><span class="o">:</span> <span class="no">relative</span>
+    <span class="na">z-index</span><span class="o">:</span>  <span class="mi">100</span>
+
+    <span class="nt">li</span>
+      <span class="na">display</span><span class="o">:</span>        <span class="no">table-cell</span>
+      <span class="na">vertical-align</span><span class="o">:</span> <span class="no">middle</span>
+      <span class="na">text-align</span><span class="o">:</span>     <span class="no">center</span>
+      <span class="na">white-space</span><span class="o">:</span>    <span class="no">nowrap</span>
+      <span class="na">height</span><span class="o">:</span>         <span class="nv">$tools-height</span>
+      <span class="na">padding</span><span class="o">:</span>        <span class="mi">0</span> <span class="nv">$tools-padding</span>
+
+    <span class="nc">.github</span>
+      <span class="na">padding</span><span class="o">:</span> <span class="mi">0</span>
+
+      <span class="nt">a</span>
+        <span class="na">display</span><span class="o">:</span>      <span class="no">block</span>
+        <span class="na">height</span><span class="o">:</span>       <span class="nv">$tools-height</span>
+        <span class="na">width</span><span class="o">:</span>        <span class="nv">$tools-height</span>
+        <span class="na">text-indent</span><span class="o">:</span> <span class="mi">-9001</span><span class="kt">em</span>
+
+    <span class="nc">.search</span>
+      <span class="na">width</span><span class="o">:</span> <span class="mi">100</span><span class="kt">%</span>
+
+      <span class="nt">input</span>
+        <span class="nd">+box-sizing</span><span class="p">(</span><span class="no">border</span><span class="o">-</span><span class="n">box</span><span class="p">)</span>
+        <span class="na">display</span><span class="o">:</span> <span class="no">block</span>
+        <span class="na">width</span><span class="o">:</span> <span class="mi">100</span><span class="kt">%</span>
+
+  <span class="nc">.toc</span>
+    <span class="nd">+box-sizing</span><span class="p">(</span><span class="no">border</span><span class="o">-</span><span class="n">box</span><span class="p">)</span>
+    <span class="na">position</span><span class="o">:</span>   <span class="no">absolute</span>
+    <span class="na">top</span><span class="o">:</span>        <span class="nv">$tools-height</span>
+    <span class="na">bottom</span><span class="o">:</span>     <span class="mi">0</span>
+    <span class="na">width</span><span class="o">:</span>      <span class="mi">100</span><span class="kt">%</span>
+    <span class="na">overflow-x</span><span class="o">:</span> <span class="no">hidden</span>
+    <span class="na">overflow-y</span><span class="o">:</span> <span class="no">auto</span>
+
+    <span class="nt">li</span>
+      <span class="na">position</span><span class="o">:</span> <span class="no">relative</span>
+
+    <span class="nc">.label</span>
+      <span class="na">display</span><span class="o">:</span>     <span class="no">block</span>
+      <span class="na">line-height</span><span class="o">:</span> <span class="mi">2</span><span class="kt">em</span>
+      <span class="na">padding</span><span class="o">:</span>     <span class="mi">0</span> <span class="nv">$tools-padding</span> <span class="mi">0</span> <span class="nv">$tools-padding</span>
+
+    <span class="nt">li</span> <span class="nt">li</span> <span class="nc">.label</span>
+      <span class="na">padding-left</span><span class="o">:</span> <span class="nv">$tools-padding</span> <span class="o">*</span> <span class="mi">2</span>
+    <span class="nt">li</span> <span class="nt">li</span> <span class="nt">li</span> <span class="nc">.label</span>
+      <span class="na">padding-left</span><span class="o">:</span> <span class="nv">$tools-padding</span> <span class="o">*</span> <span class="mi">3</span>
+    <span class="nt">li</span> <span class="nt">li</span> <span class="nt">li</span> <span class="nt">li</span> <span class="nc">.label</span>
+      <span class="na">padding-left</span><span class="o">:</span> <span class="nv">$tools-padding</span> <span class="o">*</span> <span class="mi">4</span>
+    <span class="nt">li</span> <span class="nt">li</span> <span class="nt">li</span> <span class="nt">li</span> <span class="nt">li</span> <span class="nc">.label</span>
+      <span class="na">padding-left</span><span class="o">:</span> <span class="nv">$tools-padding</span> <span class="o">*</span> <span class="mi">5</span>
+    <span class="nt">li</span> <span class="nt">li</span> <span class="nt">li</span> <span class="nt">li</span> <span class="nt">li</span> <span class="nt">li</span> <span class="nc">.label</span>
+      <span class="na">padding-left</span><span class="o">:</span> <span class="nv">$tools-padding</span> <span class="o">*</span> <span class="mi">6</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="behavior">Behavior</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="na">$navigation-shift-duration</span><span class="o">:</span> <span class="mi">150</span><span class="kt">ms</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>In either mode, we need to expand the nav's height when showing the table of contents (we don't
+want a blank div getting in the way of interaction)</p></div></div><div class="code"><div class="wrapper"><span class="nt">nav</span>
+  <span class="nd">+transition</span><span class="p">(</span><span class="no">height</span> <span class="mi">0</span> <span class="nv">$navigation-shift-duration</span><span class="p">)</span>
+
+  <span class="nc">.tools</span> <span class="nc">.toggle</span>
+    <span class="nd">+transition</span><span class="p">(</span><span class="no">background</span> <span class="nv">$navigation-shift-duration</span><span class="p">)</span>
+
+  <span class="k">&amp;</span><span class="nc">.active</span>
+    <span class="nd">+transition</span><span class="p">(</span><span class="no">height</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="na">height</span><span class="o">:</span> <span class="mi">100</span><span class="kt">%</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>In two-column mode, we slide the table of contents in from the right</p></div></div><div class="code"><div class="wrapper"><span class="nt">nav</span> <span class="nc">.toc</span>
+  <span class="nd">+transition</span><span class="p">(</span><span class="no">right</span> <span class="nv">$navigation-shift-duration</span><span class="p">)</span>
+  <span class="na">right</span><span class="o">:</span> <span class="mi">-100</span><span class="kt">%</span>
+
+<span class="nt">nav</span><span class="nc">.active</span> <span class="nc">.toc</span>
+  <span class="na">right</span><span class="o">:</span> <span class="mi">0</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>In single column mode, we slide in from the left (and also pop the body)</p></div></div><div class="code"><div class="wrapper"><span class="k">@media</span> <span class="o">(</span><span class="nt">max-width</span><span class="nd">:</span> <span class="nn">#</span><span class="err">{$</span><span class="nt">single-column-toggle-width</span><span class="err">}</span><span class="o">)</span>
+  <span class="nt">nav</span> <span class="nc">.toc</span>
+    <span class="nd">+transition</span><span class="p">(</span><span class="no">left</span> <span class="nv">$navigation-shift-duration</span><span class="p">)</span>
+    <span class="na">right</span><span class="o">:</span> <span class="no">auto</span>
+    <span class="na">left</span><span class="o">:</span> <span class="mi">-100</span><span class="kt">%</span>
+
+  <span class="nt">nav</span><span class="nc">.active</span> <span class="nc">.toc</span>
+    <span class="na">left</span><span class="o">:</span> <span class="mi">0</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>When we switch to the navigation in single column mode, "pop" the body off by sliding it off
+screen to the right.</p></div></div><div class="code"><div class="wrapper"><span class="k">@media</span> <span class="o">(</span><span class="nt">max-width</span><span class="nd">:</span> <span class="nn">#</span><span class="err">{$</span><span class="nt">single-column-toggle-width</span><span class="err">}</span><span class="o">)</span>
+  <span class="nt">body</span>
+    <span class="nd">+transition</span><span class="p">(</span><span class="no">left</span> <span class="nv">$navigation-shift-duration</span><span class="p">)</span>
+    <span class="na">position</span><span class="o">:</span> <span class="no">relative</span>
+    <span class="na">left</span><span class="o">:</span>     <span class="mi">0</span>
+
+  <span class="nt">html</span><span class="nc">.popped</span>
+    <span class="na">overflow</span><span class="o">:</span> <span class="no">hidden</span>
+
+    <span class="nt">body</span>
+      <span class="na">left</span><span class="o">:</span> <span class="mi">100</span><span class="kt">%</span>
+      <span class="na">overflow</span><span class="o">:</span> <span class="no">hidden</span>
+
+<span class="nt">nav</span> <span class="nc">.toc</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Show the file path of the immediate node you are interacting with.</p></div></div><div class="code"><div class="wrapper">  <span class="nc">.file-path</span>
+    <span class="na">display</span><span class="o">:</span>  <span class="no">none</span>
+    <span class="na">position</span><span class="o">:</span> <span class="no">absolute</span>
+    <span class="na">top</span><span class="o">:</span>      <span class="mi">0</span><span class="mf">.25</span><span class="kt">em</span>
+    <span class="na">right</span><span class="o">:</span>    <span class="mi">0</span><span class="mf">.25</span><span class="kt">em</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>As a side effect, this also highlights any files that have taken ownership of a folder</p></div></div><div class="code"><div class="wrapper">  <span class="nt">li</span><span class="nd">:hover</span><span class="o">,</span> <span class="nt">li</span><span class="nc">.selected</span>
+    <span class="o">&gt;</span> <span class="nc">.file-path</span>
+      <span class="na">display</span><span class="o">:</span> <span class="no">block</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>By default, all file lists are collapsed.</p></div></div><div class="code"><div class="wrapper">  <span class="nc">.children</span><span class="o">,</span> <span class="nc">.outline</span>
+    <span class="na">display</span><span class="o">:</span> <span class="no">none</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We only expand direct descendants for files, but outlines are fully expanded from the outset.</p></div></div><div class="code"><div class="wrapper">  <span class="nc">.expanded</span> <span class="o">&gt;</span> <span class="nc">.children</span><span class="o">,</span> <span class="nc">.expanded</span> <span class="o">&gt;</span> <span class="nc">.outline</span><span class="o">,</span> <span class="nc">.expanded</span> <span class="o">&gt;</span> <span class="nc">.outline</span> <span class="nc">.children</span>
+    <span class="na">display</span><span class="o">:</span> <span class="no">block</span>
+
+  <span class="nc">.discloser</span>
+    <span class="nd">+transition-property</span><span class="p">(</span><span class="o">-</span><span class="n">moz-transform</span> <span class="o">-</span><span class="n">webkit-transform</span> <span class="o">-</span><span class="n">o-transform</span> <span class="n">transform</span><span class="p">)</span> <span class="c1">// bah.</span>
+    <span class="nd">+transition-duration</span><span class="p">(</span><span class="mi">200</span><span class="kt">ms</span><span class="p">)</span>
+    <span class="nd">+rotate</span><span class="p">(</span><span class="mi">0</span><span class="kt">deg</span><span class="p">)</span>
+    <span class="na">display</span><span class="o">:</span>         <span class="no">inline</span><span class="o">-</span><span class="no">block</span>
+    <span class="na">height</span><span class="o">:</span>          <span class="mi">9</span><span class="kt">px</span>
+    <span class="na">width</span><span class="o">:</span>           <span class="mi">9</span><span class="kt">px</span>
+    <span class="na">padding</span><span class="o">:</span>         <span class="mi">0</span><span class="mf">.2</span><span class="kt">em</span>
+    <span class="na">margin</span><span class="o">:</span>          <span class="mi">0</span><span class="mf">.2</span><span class="kt">em</span> <span class="mi">0</span><span class="mf">.2</span><span class="kt">em</span> <span class="mi">-0</span><span class="mf">.2</span><span class="kt">em</span> <span class="mi">0</span><span class="mf">.2</span><span class="kt">em</span>
+    <span class="na">vertical-align</span><span class="o">:</span>  <span class="no">baseline</span>
+    <span class="na">background</span><span class="o">:</span>      <span class="nf">inline-image</span><span class="p">(</span><span class="s1">&#39;</span><span class="s2">disclosure-indicator.png&#39;</span><span class="p">)</span> <span class="no">center</span> <span class="no">center</span> <span class="no">no-repeat</span>
+    <span class="na">background-size</span><span class="o">:</span> <span class="mi">9</span><span class="kt">px</span> <span class="mi">9</span><span class="kt">px</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Every label gets one, but not all need to display them.</p></div></div><div class="code"><div class="wrapper">  <span class="nc">.discloser.placeholder</span><span class="o">,</span> <span class="nc">.expanded</span> <span class="o">&gt;</span> <span class="nc">.outline</span> <span class="nc">.discloser</span>
+    <span class="na">background</span><span class="o">:</span> <span class="no">none</span>
+
+  <span class="nc">.expanded</span> <span class="o">&gt;</span> <span class="nc">.label</span> <span class="nc">.discloser</span>
+    <span class="nd">+rotate</span><span class="p">(</span><span class="mi">90</span><span class="kt">deg</span><span class="p">)</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>When searching, we only hide labels so that the hierarchy can still be shown to the user</p></div></div><div class="code"><div class="wrapper">  <span class="nc">.filtered</span> <span class="o">&gt;</span> <span class="nc">.label</span>
+    <span class="na">display</span><span class="o">:</span> <span class="no">none</span>
+
+  <span class="nc">.matched-child</span> <span class="o">&gt;</span> <span class="nc">.label</span>
+    <span class="na">display</span><span class="o">:</span> <span class="no">block</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Make sure that we expand to show any matched nodes</p></div></div><div class="code"><div class="wrapper">  <span class="nc">.matched-child</span> <span class="o">&gt;</span> <span class="nc">.children</span><span class="o">,</span> <span class="nc">.matched-child</span> <span class="o">&gt;</span> <span class="nc">.outline</span><span class="o">,</span> <span class="nc">.matched-child</span> <span class="o">&gt;</span> <span class="nc">.outline</span> <span class="nc">.children</span>
+    <span class="na">display</span><span class="o">:</span> <span class="no">block</span>
+
+  <span class="nc">.matched</span> <span class="o">&gt;</span> <span class="nc">.children</span><span class="o">,</span> <span class="nc">.matched</span> <span class="o">&gt;</span> <span class="nc">.outline</span><span class="o">,</span> <span class="nc">.matched</span> <span class="o">&gt;</span> <span class="nc">.outline</span> <span class="nc">.children</span>
+    <span class="na">display</span><span class="o">:</span> <span class="no">block</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Disclosure indicators are confusing when we're searching</p></div></div><div class="code"><div class="wrapper"><span class="nt">nav</span><span class="nc">.searching</span> <span class="nc">.toc</span> <span class="nc">.discloser</span>
+  <span class="na">display</span><span class="o">:</span> <span class="no">none</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="typography">Typography</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="nc">.comments</span> <span class="nc">.wrapper</span>
+  <span class="nd">+commentary-font</span>
+
+  <span class="nt">h1</span><span class="o">,</span> <span class="nt">h2</span><span class="o">,</span> <span class="nt">h3</span><span class="o">,</span> <span class="nt">h4</span><span class="o">,</span> <span class="nt">h5</span><span class="o">,</span> <span class="nt">h6</span>
+    <span class="nd">+header-font</span>
+  <span class="nd">+header-font-sizes</span>
+
+  <span class="nt">p</span>
+    <span class="na">margin</span><span class="o">:</span> <span class="mi">1</span><span class="kt">em</span> <span class="mi">0</span>
+
+  <span class="o">&gt;</span> <span class="o">*</span>
+    <span class="k">&amp;</span><span class="nd">:first-child</span>
+      <span class="na">margin-top</span><span class="o">:</span> <span class="mi">0</span>
+
+    <span class="k">&amp;</span><span class="nd">:last-child</span>
+      <span class="na">margin-bottom</span><span class="o">:</span> <span class="mi">0</span>
+
+  <span class="nt">ol</span><span class="o">,</span> <span class="nt">ul</span>
+    <span class="na">padding-left</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.75</span><span class="kt">em</span>
+
+  <span class="nt">ol</span> <span class="nt">li</span>
+    <span class="na">list-style</span><span class="o">:</span> <span class="n">number</span>
+
+  <span class="nt">ul</span> <span class="nt">li</span>
+    <span class="na">list-style</span><span class="o">:</span> <span class="no">disc</span>
+
+  <span class="nt">code</span>
+    <span class="na">display</span><span class="o">:</span> <span class="no">inline</span><span class="o">-</span><span class="no">block</span>
+    <span class="na">padding</span><span class="o">:</span> <span class="mi">0</span><span class="mf">.25</span><span class="kt">em</span> <span class="mi">0</span><span class="mf">.25</span><span class="kt">em</span> <span class="mi">0</span> <span class="mi">0</span><span class="mf">.25</span><span class="kt">em</span>
+
+  <span class="nt">pre</span>
+    <span class="na">display</span><span class="o">:</span>    <span class="no">block</span>
+    <span class="na">overflow-x</span><span class="o">:</span> <span class="no">auto</span>
+    <span class="na">overflow-y</span><span class="o">:</span> <span class="no">hidden</span>
+
+    <span class="nt">code</span>
+      <span class="na">padding</span><span class="o">:</span> <span class="nv">$common-margin</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="visual-design">Visual Design</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We want a bit of depth between the columns, so make the code appear inset</p></div></div><div class="code"><div class="wrapper"><span class="na">$code-column-shadow-width</span><span class="o">:</span> <span class="mi">1</span><span class="kt">em</span>
+<span class="na">$background-gradient</span><span class="o">:</span> <span class="nf">linear-gradient</span><span class="p">(</span><span class="no">left</span><span class="o">,</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$code-background-color</span><span class="o">,</span> <span class="mi">15</span><span class="kt">%</span><span class="p">)</span><span class="o">,</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$code-background-color</span><span class="o">,</span> <span class="mi">5</span><span class="kt">%</span><span class="p">)</span> <span class="mi">0</span><span class="mf">.3</span> <span class="o">*</span> <span class="nv">$code-column-shadow-width</span><span class="o">,</span> <span class="nv">$code-background-color</span> <span class="nv">$code-column-shadow-width</span><span class="p">)</span>
+
+<span class="nt">html</span>
+  <span class="na">background</span><span class="o">:</span> <span class="nv">$code-background-color</span> <span class="c1">// Degrade gracefully</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We cheat and use #document to display the shadow</p></div></div><div class="code"><div class="wrapper"><span class="nn">#document</span>
+  <span class="nd">+background</span><span class="p">(</span><span class="nv">$commentary-background-color</span> <span class="nv">$background-gradient</span> <span class="nv">$commentary-column-width</span> <span class="no">no-repeat</span><span class="p">)</span>
+  <span class="na">margin-right</span><span class="o">:</span> <span class="o">-</span><span class="nv">$code-column-shadow-width</span>
+  <span class="na">padding-right</span><span class="o">:</span> <span class="nv">$code-column-shadow-width</span>
+
+  <span class="k">@media</span> <span class="o">(</span><span class="nt">max-width</span><span class="nd">:</span> <span class="nn">#</span><span class="err">{$</span><span class="nt">single-column-toggle-width</span><span class="err">}</span><span class="o">)</span>
+    <span class="na">margin-right</span><span class="o">:</span>  <span class="mi">0</span>
+    <span class="na">padding-right</span><span class="o">:</span> <span class="mi">0</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We apply font changes to .wrapper elements so that we do not resize the 'standard' em unit that
+we are relying on for layout.</p></div></div><div class="code"><div class="wrapper"><span class="nc">.comments</span> <span class="nc">.wrapper</span>
+  <span class="nd">+commentary-font</span>
+  <span class="nd">+text-shadow</span><span class="p">(</span><span class="nv">$commentary-shadow-color</span> <span class="mi">1</span><span class="kt">px</span> <span class="mi">1</span><span class="kt">px</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="na">color</span><span class="o">:</span> <span class="nv">$commentary-foreground-color</span>
+
+<span class="nc">.code</span>
+  <span class="nc">.wrapper</span>
+    <span class="nd">+code-styles</span>
+    <span class="nd">+code-font</span>
+    <span class="nd">+text-shadow</span><span class="p">(</span><span class="nv">$code-shadow-color</span> <span class="mi">1</span><span class="kt">px</span> <span class="mi">1</span><span class="kt">px</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="na">color</span><span class="o">:</span> <span class="nv">$code-foreground-color</span>
+
+  <span class="k">@media</span> <span class="o">(</span><span class="nt">max-width</span><span class="nd">:</span> <span class="nn">#</span><span class="err">{$</span><span class="nt">single-column-toggle-width</span><span class="err">}</span><span class="o">)</span>
+    <span class="nd">+border-radius</span><span class="p">(</span><span class="mi">0</span><span class="mf">.4</span><span class="kt">em</span><span class="p">)</span>
+    <span class="nd">+box-shadow</span><span class="p">(</span><span class="nf">darken</span><span class="p">(</span><span class="nv">$code-background-color</span><span class="o">,</span> <span class="mi">15</span><span class="kt">%</span><span class="p">)</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="mf">.5</span><span class="kt">em</span> <span class="mi">0</span><span class="mf">.2</span><span class="kt">em</span> <span class="no">inset</span><span class="p">)</span>
+    <span class="na">background</span><span class="o">:</span> <span class="nv">$code-background-color</span>
+
+    <span class="nc">.wrapper</span>
+      <span class="nd">+box-shadow</span><span class="p">(</span><span class="nv">$code-background-color</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="mf">.25</span><span class="kt">em</span> <span class="mi">0</span><span class="mf">.75</span><span class="kt">em</span><span class="p">)</span>
+      <span class="na">background</span><span class="o">:</span> <span class="nv">$code-background-color</span>
+
+  <span class="k">@media</span> <span class="o">(</span><span class="nt">max-width</span><span class="nd">:</span> <span class="nn">#</span><span class="err">{$</span><span class="nt">commentary-width</span><span class="err">}</span><span class="o">)</span>
+    <span class="nd">+border-radius</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="nt">nav</span>
+  <span class="nd">+text-shadow</span><span class="p">(</span><span class="nv">$tools-shadow-color</span> <span class="mi">1</span><span class="kt">px</span> <span class="mi">1</span><span class="kt">px</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="na">color</span><span class="o">:</span> <span class="nv">$tools-foreground-color</span>
+
+  <span class="nc">.tools</span><span class="o">,</span> <span class="nc">.toc</span>
+    <span class="nd">+tools-font</span>
+
+  <span class="nc">.tools</span>
+    <span class="nd">+box-shadow</span><span class="p">(</span><span class="nf">rgba</span><span class="p">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="mf">.3</span><span class="p">)</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="mf">.5</span><span class="kt">em</span> <span class="mi">0</span><span class="mf">.1</span><span class="kt">em</span><span class="p">)</span>
+    <span class="nd">+background</span><span class="p">(</span><span class="nf">linear-gradient</span><span class="p">(</span><span class="no">top</span><span class="o">,</span> <span class="nf">lighten</span><span class="p">(</span><span class="nv">$tools-background-color</span><span class="o">,</span> <span class="mi">10</span><span class="kt">%</span><span class="p">)</span><span class="o">,</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$tools-background-color</span><span class="o">,</span> <span class="mi">10</span><span class="kt">%</span><span class="p">)))</span>
+    <span class="nd">+border-bottom-left-radius</span><span class="p">(</span><span class="mi">0</span><span class="mf">.4</span><span class="kt">em</span><span class="p">)</span>
+    <span class="na">border-bottom</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nv">$tools-foreground-color</span>
+    <span class="na">border-left</span><span class="o">:</span>   <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nv">$tools-foreground-color</span>
+
+    <span class="k">@media</span> <span class="o">(</span><span class="nt">max-width</span><span class="nd">:</span> <span class="nn">#</span><span class="err">{$</span><span class="nt">scale-start-width</span><span class="err">}</span><span class="o">)</span>
+      <span class="nd">+border-bottom-left-radius</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="nt">li</span>
+      <span class="na">border-right</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nv">$tools-foreground-color</span>
+
+      <span class="k">&amp;</span><span class="nd">:last-child</span>
+        <span class="na">border-right</span><span class="o">:</span> <span class="no">none</span>
+
+    <span class="nc">.toggle</span>
+      <span class="na">cursor</span><span class="o">:</span> <span class="no">pointer</span>
+
+    <span class="nc">.github</span> <span class="nt">a</span>
+      <span class="nd">+transition</span><span class="p">(</span><span class="no">opacity</span> <span class="mi">200</span><span class="kt">ms</span><span class="p">)</span>
+      <span class="nd">+opacity</span><span class="p">(</span><span class="mi">0</span><span class="mf">.5</span><span class="p">)</span>
+      <span class="na">background</span><span class="o">:</span>      <span class="nf">inline-image</span><span class="p">(</span><span class="s1">&#39;</span><span class="s2">github-icon.png&#39;</span><span class="p">)</span> <span class="no">center</span> <span class="no">center</span> <span class="no">no-repeat</span>
+      <span class="na">background-size</span><span class="o">:</span> <span class="mi">19</span><span class="mf">.5</span><span class="kt">px</span> <span class="mi">24</span><span class="kt">px</span>
+
+      <span class="k">&amp;</span><span class="nd">:hover</span>
+        <span class="nd">+opacity</span><span class="p">(</span><span class="mi">0</span><span class="mf">.9</span><span class="p">)</span>
+
+  <span class="k">&amp;</span><span class="nc">.active</span> <span class="nc">.tools</span>
+    <span class="nd">+border-bottom-left-radius</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="nc">.toggle</span>
+      <span class="na">background</span><span class="o">:</span>  <span class="nf">darken</span><span class="p">(</span><span class="nv">$tools-background-color</span><span class="o">,</span> <span class="mi">10</span><span class="kt">%</span><span class="p">)</span>
+      <span class="na">position</span><span class="o">:</span>    <span class="no">relative</span>
+
+  <span class="nc">.toc</span>
+    <span class="nd">+box-shadow</span><span class="p">(</span><span class="nf">rgba</span><span class="p">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="mf">.3</span><span class="p">)</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="mf">.5</span><span class="kt">em</span> <span class="mi">0</span><span class="mf">.1</span><span class="kt">em</span><span class="p">)</span>
+    <span class="na">background</span><span class="o">:</span>  <span class="nv">$tools-background-color</span>
+    <span class="na">border-left</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nv">$tools-foreground-color</span>
+
+    <span class="nc">.label</span>
+      <span class="na">color</span><span class="o">:</span>           <span class="nv">$tools-foreground-color</span>
+      <span class="na">text-decoration</span><span class="o">:</span> <span class="no">none</span>
+      <span class="na">border-top</span><span class="o">:</span>      <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$tools-background-color</span><span class="o">,</span> <span class="mi">15</span><span class="kt">%</span><span class="p">)</span>
+      <span class="na">border-bottom</span><span class="o">:</span>   <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$tools-background-color</span><span class="o">,</span> <span class="mi">15</span><span class="kt">%</span><span class="p">)</span>
+      <span class="na">margin-top</span><span class="o">:</span>     <span class="mi">-1</span><span class="kt">px</span>
+
+      <span class="k">&amp;</span><span class="nd">:hover</span>
+        <span class="na">background</span><span class="o">:</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$tools-background-color</span><span class="o">,</span> <span class="mi">10</span><span class="kt">%</span><span class="p">)</span>
+
+    <span class="nc">.file-path</span>
+      <span class="nd">+opacity</span><span class="p">(</span><span class="mi">0</span><span class="mf">.75</span><span class="p">)</span>
+      <span class="na">font-size</span><span class="o">:</span> <span class="mi">0</span><span class="mf">.75</span><span class="kt">em</span>
+
+    <span class="nc">.file</span> <span class="o">&gt;</span> <span class="nc">.label</span>
+      <span class="na">font-weight</span><span class="o">:</span> <span class="no">bold</span>
+
+    <span class="nc">.folder</span> <span class="o">&gt;</span> <span class="nc">.label</span>
+      <span class="na">font-style</span><span class="o">:</span> <span class="no">italic</span>
+
+    <span class="nc">.selected</span> <span class="o">&gt;</span> <span class="nc">.label</span>
+      <span class="na">background</span><span class="o">:</span> <span class="nv">$commentary-background-color</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Search styling</p></div></div><div class="code"><div class="wrapper">    <span class="nc">.label</span> <span class="nt">em</span>
+      <span class="na">font-weight</span><span class="o">:</span> <span class="no">bold</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>This isn't the best of signals...</p></div></div><div class="code"><div class="wrapper">    <span class="nc">.file</span> <span class="o">&gt;</span> <span class="nc">.label</span> <span class="nt">em</span>
+      <span class="na">color</span><span class="o">:</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$tools-foreground-color</span><span class="o">,</span> <span class="mi">25</span><span class="kt">%</span><span class="p">)</span>
+
+    <span class="nc">.matched-child</span> <span class="o">&gt;</span> <span class="nc">.label</span>
+      <span class="nd">+opacity</span><span class="p">(</span><span class="mi">0</span><span class="mf">.65</span><span class="p">)</span>
+      <span class="nd">+text-shadow</span><span class="p">(</span><span class="no">none</span><span class="p">)</span>
+      <span class="na">background</span><span class="o">:</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$tools-background-color</span><span class="o">,</span> <span class="mi">15</span><span class="kt">%</span><span class="p">)</span>
+
+  <span class="k">@media</span> <span class="o">(</span><span class="nt">max-width</span><span class="nd">:</span> <span class="nn">#</span><span class="err">{$</span><span class="nt">single-column-toggle-width</span><span class="err">}</span><span class="o">)</span>
+    <span class="nc">.tools</span><span class="o">,</span> <span class="nc">.toc</span>
+      <span class="na">border-left-width</span><span class="o">:</span> <span class="mi">0</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Make sure that our tools are opaque in single column mode so that the transitions aren't
+distracting</p></div></div><div class="code"><div class="wrapper">    <span class="na">$opaque-tools-background-color</span><span class="o">:</span> <span class="nf">opacify</span><span class="p">(</span><span class="nv">$tools-background-color</span><span class="o">,</span> <span class="mi">1</span><span class="mf">.0</span><span class="p">)</span>
+
+    <span class="nc">.tools</span>
+      <span class="nd">+background</span><span class="p">(</span><span class="nf">linear-gradient</span><span class="p">(</span><span class="no">top</span><span class="o">,</span> <span class="nf">lighten</span><span class="p">(</span><span class="nv">$opaque-tools-background-color</span><span class="o">,</span> <span class="mi">10</span><span class="kt">%</span><span class="p">)</span><span class="o">,</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$opaque-tools-background-color</span><span class="o">,</span> <span class="mi">10</span><span class="kt">%</span><span class="p">)))</span>
+
+    <span class="nc">.toc</span>
+      <span class="na">background</span><span class="o">:</span> <span class="nv">$opaque-tools-background-color</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="commentary-elements">Commentary Elements</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="nc">.comments</span> <span class="nc">.wrapper</span>
+  <span class="nt">a</span>
+    <span class="na">display</span><span class="o">:</span>         <span class="no">inline</span><span class="o">-</span><span class="no">block</span>
+    <span class="na">color</span><span class="o">:</span>           <span class="nv">$link-color</span>
+    <span class="na">text-decoration</span><span class="o">:</span> <span class="no">none</span>
+
+    <span class="k">&amp;</span><span class="nd">:hover</span><span class="o">,</span> <span class="k">&amp;</span><span class="nd">:hover</span> <span class="o">*</span>
+      <span class="na">text-decoration</span><span class="o">:</span> <span class="no">underline</span>
+
+  <span class="nt">code</span>
+    <span class="nd">+code-font</span>
+    <span class="na">border</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nf">darken</span><span class="p">(</span><span class="nf">desaturate</span><span class="p">(</span><span class="nv">$inline-code-background-color</span><span class="o">,</span> <span class="mi">25</span><span class="kt">%</span><span class="p">)</span><span class="o">,</span> <span class="mi">10</span><span class="kt">%</span><span class="p">)</span>
+
+  <span class="nt">pre</span><span class="o">,</span> <span class="nt">code</span>
+    <span class="nd">+border-radius</span><span class="p">(</span><span class="mi">0</span><span class="mf">.4</span><span class="kt">em</span><span class="p">)</span>
+    <span class="na">background</span><span class="o">:</span> <span class="nv">$inline-code-background-color</span>
+
+  <span class="nt">pre</span>
+    <span class="nd">+box-shadow</span><span class="p">(</span><span class="nf">darken</span><span class="p">(</span><span class="nf">desaturate</span><span class="p">(</span><span class="nv">$inline-code-background-color</span><span class="o">,</span> <span class="mi">15</span><span class="kt">%</span><span class="p">)</span><span class="o">,</span> <span class="mi">5</span><span class="kt">%</span><span class="p">)</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="mf">.4</span><span class="kt">em</span> <span class="mi">0</span><span class="mf">.2</span><span class="kt">em</span><span class="p">)</span>
+    <span class="na">border</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nf">darken</span><span class="p">(</span><span class="nf">desaturate</span><span class="p">(</span><span class="nv">$inline-code-background-color</span><span class="o">,</span> <span class="mi">15</span><span class="kt">%</span><span class="p">)</span><span class="o">,</span> <span class="mi">20</span><span class="kt">%</span><span class="p">)</span>
+
+    <span class="nt">code</span>
+      <span class="na">border-width</span><span class="o">:</span> <span class="mi">0</span>
+      <span class="na">background</span><span class="o">:</span>   <span class="no">transparent</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="browser-specific-tweaks">Browser-Specific Tweaks</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Don't allow mobile WebKit clients to mess with the font size</p></div></div><div class="code"><div class="wrapper"><span class="nt">body</span>
+  <span class="na">-webkit-text-size-adjust</span><span class="o">:</span> <span class="mi">100</span><span class="kt">%</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Replicate the WebKit type="search" appearance in other browsers if they don't have their own
+search field styling</p></div></div><div class="code"><div class="wrapper"><span class="na">input</span><span class="err">[</span><span class="na">type</span><span class="o">=</span><span class="s2">&quot;search&quot;</span><span class="p">]</span>
+  <span class="nd">+border-radius</span><span class="p">(</span><span class="mi">1</span><span class="kt">em</span><span class="p">)</span>
+  <span class="nd">+box-shadow</span><span class="p">(</span><span class="mh">#dddddd</span> <span class="mi">0</span> <span class="mi">1</span><span class="kt">px</span> <span class="mi">1</span><span class="kt">px</span> <span class="mi">0</span> <span class="no">inset</span><span class="p">)</span>
+  <span class="na">border</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="mh">#959595</span>
+  <span class="na">padding</span><span class="o">:</span> <span class="mi">0</span><span class="mf">.15</span><span class="kt">em</span> <span class="mi">0</span><span class="mf">.8</span><span class="kt">em</span></div></div></div></div></body></html>
