@@ -121,22 +121,20 @@ Utils =
     pygmentize.stdout.addListener 'data', (data) =>
       result += data.toString()
 
-    # Rather than spawning pygments for each segment, we stream it all in, separated by 'magic'
-    # comments so that we can split the highlighted source back into segments.
-    segmentDivider = "\n#{language.singleLineComment[0]} SEGMENT DIVIDER\n"
-
     pygmentize.addListener 'exit', (args...) =>
       # pygments spits it out wrapped in <div class="highlight"><pre>...</pre></div>.  We want to
       # manage the styling ourselves, so remove that.
       result = result.replace('<div class="highlight"><pre>', '').replace('</pre></div>', '')
+
       # Extract our segments from the pygmentized source.
-      highlighted = "\n#{result}\n".split /\n[^\n]*SEGMENT DIVIDER[^\n]*\n/
+      highlighted = "\n#{result}\n".split /.*<span.*SEGMENT DIVIDER<\/span>.*/
 
       if highlighted.length != segments.length
         error = new Error util.format 'pygmentize rendered %d of %d segments; expected to be equal',
           highlighted.length, segments.length
 
-        error.pygmentsOutput = result
+        error.pygmentsOutput   = result
+        error.failedHighlights = highlighted
         return callback error
 
       # Attach highlighted source to the highlightedCode property of a Segment.
@@ -145,8 +143,25 @@ Utils =
 
       callback()
 
-    # pygmentize does not stream, so we need delimeters
-    pygmentize.stdin.write (s.code.join "\n" for s in segments).join segmentDivider
+    # Rather than spawning pygments for each segment, we stream it all in, separated by 'magic'
+    # comments so that we can split the highlighted source back into segments.
+    #
+    # To further complicate things, pygments doesn't let us cheat with indentation-aware languages:
+    # We have to match the indentation of the line following the divider comment.
+    mergedCode = ''
+    for segment, i in segments
+      segmentCode = segment.code.join '\n'
+
+      if i > 0
+        # Double negative: match characters that are spaces but not newlines
+        indentation = segmentCode.match(/^[^\S\n]+/)?[0] || ''
+        mergedCode += "\n#{indentation}#{language.singleLineComment[0]} SEGMENT DIVIDER\n"
+
+      mergedCode += segmentCode
+
+    Logger.warn
+
+    pygmentize.stdin.write mergedCode
     pygmentize.stdin.end()
 
   # Annotate an array of segments by running their comments through

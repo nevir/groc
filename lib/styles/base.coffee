@@ -16,7 +16,12 @@ class Base
 
     Utils.highlightCode segments, fileInfo.language, (error) =>
       if error
-        @log.debug error.pygmentsOutput if error.pygmentsOutput
+        if error.failedHighlights
+          for highlight, i in error.failedHighlights
+            @log.debug "highlight #{i}:"
+            @log.info   segments[i]?.code.join '\n'
+            @log.error  highlight
+
         @log.error 'Failed to highlight %s: %s', fileInfo.sourcePath, error.message
         return callback error
 
