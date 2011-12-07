@@ -28,7 +28,7 @@
     "node": ">= v0.4.0"
   },
   "dependencies": {
-    "autorequire":   "~> 0.2.8",
+    "autorequire":   "~> 0.2.9",
     "coffee-script": "~> 1.1.3",
     "colors":        "~> 0.5.1",
     "fs-tools":      "~> 0.1.0",
