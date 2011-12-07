@@ -130,7 +130,7 @@ Utils =
       highlighted = "\n#{result}\n".split /.*<span.*SEGMENT DIVIDER<\/span>.*/
 
       if highlighted.length != segments.length
-        error = new Error util.format 'pygmentize rendered %d of %d segments; expected to be equal',
+        error = new Error utils.CompatibilityHelpers.format 'pygmentize rendered %d of %d segments; expected to be equal',
           highlighted.length, segments.length
 
         error.pygmentsOutput   = result

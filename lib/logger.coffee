@@ -49,7 +49,8 @@ class Logger
 
   emit: (levelName, args...) ->
     if @LEVELS[levelName] >= @minLevel
-      output = util.format args...
+      output = utils.CompatibilityHelpers.format args...
+
       # * We like nicely indented output
       output = output.split(/\r?\n/).join('\n  ')
 

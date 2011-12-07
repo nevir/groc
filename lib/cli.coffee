@@ -99,7 +99,7 @@ CLI = (inputArgs, callback) ->
   # * There also does not be a way to enforce that a particular option is an array, so we do this
   #   coercion ourselves.
   for opt in ['strip', 'except']
-    unless util.isArray argv[opt]
+    unless Array.isArray argv[opt]
       argv[opt] = if argv[opt]? then [ argv[opt] ] else []
 
   # And just for our sanity
@@ -112,8 +112,9 @@ CLI = (inputArgs, callback) ->
   # potential to change behavior in the future.
   if argv._.length == 0
     try
-      config = require path.resolve process.cwd(), '.groc.json'
-      argv[k] = v for k,v of config
+      configPath = path.resolve process.cwd(), '.groc.json'
+      config     = JSON.parse fs.readFileSync configPath
+      argv[k]    = v for k,v of config
 
       # Special case, keep the strip prefix guessing if none was given
       unless 'strip' in config
@@ -139,7 +140,6 @@ CLI = (inputArgs, callback) ->
     delete files[file] for file in glob.globSync globExpression
 
   files = (f for f of files)
-
 
   # ## Project Configuration
   project = new Project argv.root, argv.out
