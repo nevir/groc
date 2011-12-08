@@ -35,8 +35,8 @@ groc via:
 
     npm install -g groc
 
-For those new to npm, `-g` indicates that you want groc installed as a global for your environment.
-You may need to prefix the command with sudo, depending on how you installed node.
+For those new to npm, `-g` indicates that you want groc installed as a global command for your
+environment.  You may need to prefix the command with sudo, depending on how you installed node.
 
 
 ### Using groc (CLI)
