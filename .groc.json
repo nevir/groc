@@ -1,5 +1,4 @@
 {
   "globs": ["lib/**/*.coffee", "README.md", "lib/styles/*/style.sass", "lib/styles/*/*.jade", "test/*"],
-  "very-verbose": true,
   "github": true
 }
