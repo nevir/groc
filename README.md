@@ -5,17 +5,20 @@ programming.  Take a look at the [self-generated documentation](http://nevir.git
 and see if it appeals to you!
 
 It is very heavily influenced by [Jeremy Ashkenas](https://github.com/jashkenas)'
-[docco](https://github.com/jashkenas/docco), and is an attempt to further enhance the idea with more
-features (thus, groc can't tout the same quick 'n dirty principles of docco).
+[docco](https://github.com/jashkenas/docco), and is an attempt to further enhance the idea (thus,
+groc can't tout the same quick 'n dirty principles of docco).
 
 
-## What does give you?
+## What does it give you?
 
 Groc will:
 
-* Generate documentation in a two-column style for each of your source files.
+* Generate documentation from your source code, by displaying your
+  [Markdown](http://daringfireball.net/projects/markdown/) formatted comments next to the code
+  fragments that they document.
 
-* Commit and submit your project's documentation to your github pages branch in one fell swoop.
+* Submit your project's documentation to the [github pages](http://pages.github.com/) for your
+  project.
 
 * Generate a searchable table of contents for all documented files and headers within your project.
 
@@ -29,9 +32,9 @@ Groc will:
 
 ### Installing groc
 
-Groc depends on [Node](http://nodejs.org/) and [Pygments](http://pygments.org/).  Once you have
-those installed, and assuming that your Node install came with [npm](http://npmjs.org/), install
-groc via:
+Groc depends on [Node.js](http://nodejs.org/) and [Pygments](http://pygments.org/).  Once you have
+those installed - and assuming that your node install came with [npm](http://npmjs.org/) - you can
+install groc via:
 
     npm install -g groc
 
@@ -59,6 +62,9 @@ Once you are pleased with the output, you can push your docs to your github page
 
 Groc will automagically create and push the `gh-pages` branch if it is missing.
 
+There are [additional options](http://nevir.github.com/groc/cli.html#cli-options) supported by
+groc, if you are interested.
+
 
 ### Configuring groc (.groc.json)
 
@@ -66,7 +72,7 @@ Groc supports a simple JSON configuration format once you know the config values
 
 Create a `.groc.json` file in your project root, where each key of the JSON object map to arguments
 you would pass to the `groc` command.  File names and globs are defined as an array with the key
-`globs`.  For example, the configuration for groc is:
+`globs`.  For example, groc's own configuration is:
 
     {
       "globs": ["lib/**/*.coffee", "README.md", "lib/styles/*/style.sass", "lib/styles/*/*.jade"],
@@ -80,7 +86,8 @@ From now on, if you call `groc` without any arguments, it will use your pre-defi
 
 Groc wants to:
 
-* Fully support hand-held viewing of documentation.  It can almost do this today, but the table of
-  contents is horribly broken in the mobile view.
+* [Fully support hand-held viewing of documentation](https://github.com/nevir/groc/issues/1).  It
+  can almost do this today, but the table of contents is horribly broken in the mobile view.
 
-* Provide support for all of your favorite programming/scripting/documentation languages.
+* [Provide support](https://github.com/nevir/groc/issues/7) for all of your favorite
+  programming/scripting/documentation languages.

@@ -1,3 +1,5 @@
+# # Command Line Interface
+#
 # Readable command line output is just as important as readable documentation!  It is the first
 # interaction that a developer will have with a tool like this, so we want to leave a good
 # impression with nicely formatted and readable output.
@@ -25,6 +27,8 @@ CLI = (inputArgs, callback) ->
   #   allows the enterprising scripter to call into our CLI handling, if they're crazy enough to.
   opts = optimist inputArgs
 
+
+  # ## CLI Overview
   opts
     .usage("""
     Usage: groc [options] "lib/**/*.coffee" doc/*.md
@@ -45,6 +49,7 @@ CLI = (inputArgs, callback) ->
     #   referencing `opts.argv`, or you risk associating positional options with a boolean flag.
     .boolean(['help', 'h', '?', 'github', 'gh', 'verbose', 'very-verbose'])
 
+    # ## CLI Options
     .options('help',
       describe: "You're looking at it."
       alias:    ['h', '?']
