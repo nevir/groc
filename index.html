@@ -80,6 +80,30 @@ you would pass to the <code>groc</code> command.  File names and globs are defin
 
 <p>From now on, if you call <code>groc</code> without any arguments, it will use your pre-defined configuration.</p>
 
+<h2 id="literate-programming">Literate programming?</h2>
+
+<p><a href="http://en.wikipedia.org/wiki/Literate_programming">Literate programming</a> is a programming
+methodology coined by <a href="http://en.wikipedia.org/wiki/Donald_Knuth">Donald Knuth</a>.  The primary tenet
+is that you write your program in such a way that it follows your conceptual structure of it, rather
+than a structure imposed upon you by the compiler or framework you are working within.</p>
+
+<p>Groc aims to provide a happy medium where you can freely write your source files as structured
+documents, while not going out of your way to restructure the code to fit the documentation.
+Here are some suggested guidelines to follow when writing your code:</p>
+
+<ul>
+<li><p>Try to keep the size of each source file down.  It is helpful if each file fulfills a specific
+feature of your application or library.</p></li>
+<li><p>Rather than commenting individual lines of code, write comments that explain the <em>behavior</em> of a
+given method or code block.  Take advantage of the fact that comments can span that method.</p></li>
+<li><p>Make gratuitous use of lists when explaining processes; step by step explanations are extremely
+easy to follow!</p></li>
+<li><p>Break each source file into sections via headers.  Don't be afraid to split source into even
+smaller files if it makes them more readable.</p></li>
+</ul>
+
+<p>Writing documentation is <em>hard</em>; hopefully groc helps to streamline the process for you!</p>
+
 <h2 id="whats-in-the-works">What's in the works?</h2>
 
 <p>Groc wants to:</p>

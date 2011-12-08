@@ -73,6 +73,14 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "type": "heading",
               "data": {
                 "level": 2,
+                "title": "Literate programming?",
+                "slug": "literate-programming"
+              },
+              "depth": 2
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
                 "title": "What's in the works?",
                 "slug": "whats-in-the-works"
               },
@@ -127,6 +135,14 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "depth": 3
             }
           ]
+        }, {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "Literate programming?",
+            "slug": "literate-programming"
+          },
+          "depth": 2
         }, {
           "type": "heading",
           "data": {
