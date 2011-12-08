@@ -86,8 +86,9 @@ From now on, if you call `groc` without any arguments, it will use your pre-defi
 
 [Literate programming](http://en.wikipedia.org/wiki/Literate_programming) is a programming
 methodology coined by [Donald Knuth](http://en.wikipedia.org/wiki/Donald_Knuth).  The primary tenet
-is that you write your program in such a way that it follows your conceptual structure of it, rather
-than a structure imposed upon you by the compiler or framework you are working within.
+is that you write your program in such a way that it follows the conceptual structure of your
+program - instead of following a structure imposed upon you by the compiler or framework you are
+working within.
 
 Groc aims to provide a happy medium where you can freely write your source files as structured
 documents, while not going out of your way to restructure the code to fit the documentation.
