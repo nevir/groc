@@ -82,6 +82,32 @@ you would pass to the `groc` command.  File names and globs are defined as an ar
 From now on, if you call `groc` without any arguments, it will use your pre-defined configuration.
 
 
+## Literate programming?
+
+[Literate programming](http://en.wikipedia.org/wiki/Literate_programming) is a programming
+methodology coined by [Donald Knuth](http://en.wikipedia.org/wiki/Donald_Knuth).  The primary tenet
+is that you write your program in such a way that it follows your conceptual structure of it, rather
+than a structure imposed upon you by the compiler or framework you are working within.
+
+Groc aims to provide a happy medium where you can freely write your source files as structured
+documents, while not going out of your way to restructure the code to fit the documentation.
+Here are some suggested guidelines to follow when writing your code:
+
+* Try to keep the size of each source file down.  It is helpful if each file fulfills a specific
+  feature of your application or library.
+
+* Rather than commenting individual lines of code, write comments that explain the _behavior_ of a
+  given method or code block.  Take advantage of the fact that comments can span that method.
+
+* Make gratuitous use of lists when explaining processes; step by step explanations are extremely
+  easy to follow!
+
+* Break each source file into sections via headers.  Don't be afraid to split source into even
+  smaller files if it makes them more readable.
+
+Writing documentation is _hard_; hopefully groc helps to streamline the process for you!
+
+
 ## What's in the works?
 
 Groc wants to:
