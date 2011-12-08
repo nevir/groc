@@ -30,8 +30,51 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "type": "heading",
               "data": {
                 "level": 2,
-                "title": "And another header",
-                "slug": "and-another-header"
+                "title": "What does give you?",
+                "slug": "what-does-give-you"
+              },
+              "depth": 2
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "How?",
+                "slug": "how"
+              },
+              "depth": 2,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 3,
+                    "title": "Installing groc",
+                    "slug": "installing-groc"
+                  },
+                  "depth": 3
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 3,
+                    "title": "Using groc (CLI)",
+                    "slug": "using-groc-cli"
+                  },
+                  "depth": 3
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 3,
+                    "title": "Configuring groc (.groc.json)",
+                    "slug": "configuring-groc-grocjson"
+                  },
+                  "depth": 3
+                }
+              ]
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "What's in the works?",
+                "slug": "whats-in-the-works"
               },
               "depth": 2
             }
@@ -45,8 +88,51 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "type": "heading",
           "data": {
             "level": 2,
-            "title": "And another header",
-            "slug": "and-another-header"
+            "title": "What does give you?",
+            "slug": "what-does-give-you"
+          },
+          "depth": 2
+        }, {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "How?",
+            "slug": "how"
+          },
+          "depth": 2,
+          "children": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 3,
+                "title": "Installing groc",
+                "slug": "installing-groc"
+              },
+              "depth": 3
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 3,
+                "title": "Using groc (CLI)",
+                "slug": "using-groc-cli"
+              },
+              "depth": 3
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 3,
+                "title": "Configuring groc (.groc.json)",
+                "slug": "configuring-groc-grocjson"
+              },
+              "depth": 3
+            }
+          ]
+        }, {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "What's in the works?",
+            "slug": "whats-in-the-works"
           },
           "depth": 2
         }
@@ -424,6 +510,22 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "projectPath": "lib/utils/cli_helpers.coffee",
             "targetPath": "utils/cli_helpers",
             "title": "cli_helpers"
+          },
+          "depth": 2,
+          "outline": []
+        }, {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".coffee"],
+              "pygmentsLexer": "coffee-script",
+              "singleLineComment": ["#"],
+              "name": "CoffeeScript"
+            },
+            "sourcePath": "/Users/ian/Coding/groc/lib/utils/compatibility_helpers.coffee",
+            "projectPath": "lib/utils/compatibility_helpers.coffee",
+            "targetPath": "utils/compatibility_helpers",
+            "title": "compatibility_helpers"
           },
           "depth": 2,
           "outline": []

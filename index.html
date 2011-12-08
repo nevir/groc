@@ -1,7 +1,85 @@
 <!DOCTYPE html><html lang="en"><head><title>index</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="index"><meta name="groc-project-path" content="README.md"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="document"><div class="segment"><div class="comments"><div class="wrapper"><h1 id="groc">groc</h1>
 
-<p>Stuff goes here.</p>
+<p>Groc takes your <em>documented</em> code, and generates documentation that follows the spirit of literate
+programming.  Take a look at the <a href="http://nevir.github.com/groc/">self-generated documentation</a>,
+and see if it appeals to you!</p>
 
-<h2 id="and-another-header">And another header</h2>
+<p>It is very heavily influenced by <a href="https://github.com/jashkenas">Jeremy Ashkenas</a>'
+<a href="https://github.com/jashkenas/docco">docco</a>, and is an attempt to further enhance the idea with more
+features (thus, groc can't tout the same quick 'n dirty principles of docco).</p>
 
-<p>And more stuff goes here.</p></div></div></div></div></body></html>
+<h2 id="what-does-give-you">What does give you?</h2>
+
+<p>Groc will:</p>
+
+<ul>
+<li><p>Generate documentation in a two-column style for each of your source files.</p></li>
+<li><p>Commit and submit your project's documentation to your github pages branch in one fell swoop.</p></li>
+<li><p>Generate a searchable table of contents for all documented files and headers within your project.</p></li>
+<li><p>Gracefully handle complex hierarchies of source code across multiple folders.</p></li>
+<li><p>Read a configuration file so that you don't have to think when you want your documentation built;
+you just type <code>groc</code>.</p></li>
+</ul>
+
+<h2 id="how">How?</h2>
+
+<h3 id="installing-groc">Installing groc</h3>
+
+<p>Groc depends on <a href="http://nodejs.org/">Node</a> and <a href="http://pygments.org/">Pygments</a>.  Once you have
+those installed, and assuming that your Node install came with <a href="http://npmjs.org/">npm</a>, install
+groc via:</p>
+
+<pre><code>npm install -g groc
+</code></pre>
+
+<p>For those new to npm, <code>-g</code> indicates that you want groc installed as a global for your environment.
+You may need to prefix the command with sudo, depending on how you installed node.</p>
+
+<h3 id="using-groc-cli">Using groc (CLI)</h3>
+
+<p>To generate documentation, just point groc to source files that you want docs for:</p>
+
+<pre><code>groc *.rb
+</code></pre>
+
+<p>Groc will also handle extended globbing syntax if you quote arguments:</p>
+
+<pre><code>groc "lib/**/*.coffee" README.md
+</code></pre>
+
+<p>By default, groc will drop the generated documentation in the <code>doc/</code> folder of your project, and it
+will treat <code>README.md</code> as the index.  Take a look at your generated docs, and see if everything is
+in order!</p>
+
+<p>Once you are pleased with the output, you can push your docs to your github pages branch:</p>
+
+<pre><code>groc --github "lib/**/*.coffee" README.md
+</code></pre>
+
+<p>Groc will automagically create and push the <code>gh-pages</code> branch if it is missing.</p>
+
+<h3 id="configuring-groc-grocjson">Configuring groc (.groc.json)</h3>
+
+<p>Groc supports a simple JSON configuration format once you know the config values that appeal to you.</p>
+
+<p>Create a <code>.groc.json</code> file in your project root, where each key of the JSON object map to arguments
+you would pass to the <code>groc</code> command.  File names and globs are defined as an array with the key
+<code>globs</code>.  For example, the configuration for groc is:</p>
+
+<pre><code>{
+  "globs": ["lib/**/*.coffee", "README.md", "lib/styles/*/style.sass", "lib/styles/*/*.jade"],
+  "github": true
+}
+</code></pre>
+
+<p>From now on, if you call <code>groc</code> without any arguments, it will use your pre-defined configuration.</p>
+
+<h2 id="whats-in-the-works">What's in the works?</h2>
+
+<p>Groc wants to:</p>
+
+<ul>
+<li><p>Fully support hand-held viewing of documentation.  It can almost do this today, but the table of
+contents is horribly broken in the mobile view.</p></li>
+<li><p>Provide support for all of your favorite programming/scripting/documentation languages.</p></li>
+</ul></div></div></div></div></body></html>

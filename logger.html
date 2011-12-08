@@ -45,7 +45,7 @@ events with some slight symbolism.</li>
 
   <span class="nv">emit: </span><span class="nf">(levelName, args...) -&gt;</span>
     <span class="k">if</span> <span class="nx">@LEVELS</span><span class="p">[</span><span class="nx">levelName</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="nx">@minLevel</span>
-      <span class="nv">output = </span><span class="nx">util</span><span class="p">.</span><span class="nx">format</span> <span class="nx">args</span><span class="p">...</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+      <span class="nv">output = </span><span class="nx">utils</span><span class="p">.</span><span class="nx">CompatibilityHelpers</span><span class="p">.</span><span class="nx">format</span> <span class="nx">args</span><span class="p">...</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
 <li>We like nicely indented output</li>
 </ul></div></div><div class="code"><div class="wrapper">      <span class="nv">output = </span><span class="nx">output</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="sr">/\r?\n/</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;\n  &#39;</span><span class="p">)</span>
 
