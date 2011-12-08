@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><title>cli</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="cli"><meta name="groc-project-path" content="lib/cli.coffee"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="document"><div class="segment"><div class="comments"><div class="wrapper"><p>Readable command line output is just as important as readable documentation!  It is the first
+<!DOCTYPE html><html lang="en"><head><title>cli</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="cli"><meta name="groc-project-path" content="lib/cli.coffee"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="document"><div class="segment"><div class="comments"><div class="wrapper"><h1 id="command-line-interface">Command Line Interface</h1>
+
+<p>Readable command line output is just as important as readable documentation!  It is the first
 interaction that a developer will have with a tool like this, so we want to leave a good
 impression with nicely formatted and readable output.</p></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>It's the caller's responsibility to give us a nice list of ARGV options.  It's only a minor
 annoyance in our binary, but a real win for the crazed developer who wants to be lazy and emulate
@@ -15,9 +17,7 @@ it does have a few rough edges for our uses:</p>
 <ul>
 <li>We don't want to goof up the global optimist instance; it costs us this line of code, and
 allows the enterprising scripter to call into our CLI handling, if they're crazy enough to.</li>
-</ul></div></div><div class="code"><div class="wrapper">  <span class="nv">opts = </span><span class="nx">optimist</span> <span class="nx">inputArgs</span>
-
-  <span class="nx">opts</span>
+</ul></div></div><div class="code"><div class="wrapper">  <span class="nv">opts = </span><span class="nx">optimist</span> <span class="nx">inputArgs</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="cli-overview">CLI Overview</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  <span class="nx">opts</span>
     <span class="p">.</span><span class="nx">usage</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">    Usage: groc [options] &quot;</span><span class="nx">lib</span><span class="sr">/**/</span><span class="o">*</span><span class="p">.</span><span class="nx">coffee</span><span class="s2">&quot; doc/*.md</span>
 
@@ -34,9 +34,7 @@ allows the enterprising scripter to call into our CLI handling, if they're crazy
 <span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
 <li>Booleans don't jive very well with the <code>options</code> call, and they need to be declared prior to
 referencing <code>opts.argv</code>, or you risk associating positional options with a boolean flag.</li>
-</ul></div></div><div class="code"><div class="wrapper">    <span class="p">.</span><span class="nx">boolean</span><span class="p">([</span><span class="s1">&#39;help&#39;</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="s1">&#39;github&#39;</span><span class="p">,</span> <span class="s1">&#39;gh&#39;</span><span class="p">,</span> <span class="s1">&#39;verbose&#39;</span><span class="p">,</span> <span class="s1">&#39;very-verbose&#39;</span><span class="p">])</span>
-
-    <span class="p">.</span><span class="nx">options</span><span class="p">(</span><span class="s1">&#39;help&#39;</span><span class="p">,</span>
+</ul></div></div><div class="code"><div class="wrapper">    <span class="p">.</span><span class="nx">boolean</span><span class="p">([</span><span class="s1">&#39;help&#39;</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="s1">&#39;github&#39;</span><span class="p">,</span> <span class="s1">&#39;gh&#39;</span><span class="p">,</span> <span class="s1">&#39;verbose&#39;</span><span class="p">,</span> <span class="s1">&#39;very-verbose&#39;</span><span class="p">])</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="cli-options">CLI Options</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">    <span class="p">.</span><span class="nx">options</span><span class="p">(</span><span class="s1">&#39;help&#39;</span><span class="p">,</span>
       <span class="nv">describe: </span><span class="s2">&quot;You&#39;re looking at it.&quot;</span>
       <span class="nv">alias: </span>   <span class="p">[</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;?&#39;</span><span class="p">]</span>
     <span class="p">)</span>

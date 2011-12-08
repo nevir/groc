@@ -30,8 +30,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "type": "heading",
               "data": {
                 "level": 2,
-                "title": "What does give you?",
-                "slug": "what-does-give-you"
+                "title": "What does it give you?",
+                "slug": "what-does-it-give-you"
               },
               "depth": 2
             }, {
@@ -88,8 +88,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "type": "heading",
           "data": {
             "level": 2,
-            "title": "What does give you?",
-            "slug": "what-does-give-you"
+            "title": "What does it give you?",
+            "slug": "what-does-it-give-you"
           },
           "depth": 2
         }, {
@@ -149,11 +149,80 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "sourcePath": "/Users/ian/Coding/groc/lib/cli.coffee",
         "projectPath": "lib/cli.coffee",
         "targetPath": "cli",
-        "title": "cli"
+        "firstHeader": {
+          "type": "heading",
+          "data": {
+            "level": 1,
+            "title": "Command Line Interface",
+            "slug": "command-line-interface",
+            "isFileHeader": true
+          },
+          "depth": 1,
+          "children": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "CLI Overview",
+                "slug": "cli-overview"
+              },
+              "depth": 2
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "CLI Options",
+                "slug": "cli-options"
+              },
+              "depth": 2
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Argument processing",
+                "slug": "argument-processing"
+              },
+              "depth": 2
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Project Configuration",
+                "slug": "project-configuration"
+              },
+              "depth": 2
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "GitHub",
+                "slug": "github"
+              },
+              "depth": 2
+            }
+          ]
+        },
+        "title": "Command Line Interface"
       },
       "depth": 1,
       "outline": [
         {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "CLI Overview",
+            "slug": "cli-overview"
+          },
+          "depth": 2
+        }, {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "CLI Options",
+            "slug": "cli-options"
+          },
+          "depth": 2
+        }, {
           "type": "heading",
           "data": {
             "level": 2,

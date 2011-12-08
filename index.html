@@ -5,16 +5,19 @@ programming.  Take a look at the <a href="http://nevir.github.com/groc/">self-ge
 and see if it appeals to you!</p>
 
 <p>It is very heavily influenced by <a href="https://github.com/jashkenas">Jeremy Ashkenas</a>'
-<a href="https://github.com/jashkenas/docco">docco</a>, and is an attempt to further enhance the idea with more
-features (thus, groc can't tout the same quick 'n dirty principles of docco).</p>
+<a href="https://github.com/jashkenas/docco">docco</a>, and is an attempt to further enhance the idea (thus,
+groc can't tout the same quick 'n dirty principles of docco).</p>
 
-<h2 id="what-does-give-you">What does give you?</h2>
+<h2 id="what-does-it-give-you">What does it give you?</h2>
 
 <p>Groc will:</p>
 
 <ul>
-<li><p>Generate documentation in a two-column style for each of your source files.</p></li>
-<li><p>Commit and submit your project's documentation to your github pages branch in one fell swoop.</p></li>
+<li><p>Generate documentation from your source code, by displaying your
+<a href="http://daringfireball.net/projects/markdown/">Markdown</a> formatted comments next to the code
+fragments that they document.</p></li>
+<li><p>Submit your project's documentation to the <a href="http://pages.github.com/">github pages</a> for your
+project.</p></li>
 <li><p>Generate a searchable table of contents for all documented files and headers within your project.</p></li>
 <li><p>Gracefully handle complex hierarchies of source code across multiple folders.</p></li>
 <li><p>Read a configuration file so that you don't have to think when you want your documentation built;
@@ -25,9 +28,9 @@ you just type <code>groc</code>.</p></li>
 
 <h3 id="installing-groc">Installing groc</h3>
 
-<p>Groc depends on <a href="http://nodejs.org/">Node</a> and <a href="http://pygments.org/">Pygments</a>.  Once you have
-those installed, and assuming that your Node install came with <a href="http://npmjs.org/">npm</a>, install
-groc via:</p>
+<p>Groc depends on <a href="http://nodejs.org/">Node.js</a> and <a href="http://pygments.org/">Pygments</a>.  Once you have
+those installed - and assuming that your node install came with <a href="http://npmjs.org/">npm</a> - you can
+install groc via:</p>
 
 <pre><code>npm install -g groc
 </code></pre>
@@ -58,13 +61,16 @@ in order!</p>
 
 <p>Groc will automagically create and push the <code>gh-pages</code> branch if it is missing.</p>
 
+<p>There are <a href="http://nevir.github.com/groc/cli.html#cli-options">additional options</a> supported by
+groc, if you are interested.</p>
+
 <h3 id="configuring-groc-grocjson">Configuring groc (.groc.json)</h3>
 
 <p>Groc supports a simple JSON configuration format once you know the config values that appeal to you.</p>
 
 <p>Create a <code>.groc.json</code> file in your project root, where each key of the JSON object map to arguments
 you would pass to the <code>groc</code> command.  File names and globs are defined as an array with the key
-<code>globs</code>.  For example, the configuration for groc is:</p>
+<code>globs</code>.  For example, groc's own configuration is:</p>
 
 <pre><code>{
   "globs": ["lib/**/*.coffee", "README.md", "lib/styles/*/style.sass", "lib/styles/*/*.jade"],
@@ -79,7 +85,8 @@ you would pass to the <code>groc</code> command.  File names and globs are defin
 <p>Groc wants to:</p>
 
 <ul>
-<li><p>Fully support hand-held viewing of documentation.  It can almost do this today, but the table of
-contents is horribly broken in the mobile view.</p></li>
-<li><p>Provide support for all of your favorite programming/scripting/documentation languages.</p></li>
+<li><p><a href="https://github.com/nevir/groc/issues/1">Fully support hand-held viewing of documentation</a>.  It
+can almost do this today, but the table of contents is horribly broken in the mobile view.</p></li>
+<li><p><a href="https://github.com/nevir/groc/issues/7">Provide support</a> for all of your favorite
+programming/scripting/documentation languages.</p></li>
 </ul></div></div></div></div></body></html>
