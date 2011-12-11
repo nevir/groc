@@ -302,7 +302,10 @@ screen to the right.</p></div></div><div class="code"><div class="wrapper"><span
     <span class="na">overflow-y</span><span class="o">:</span> <span class="no">hidden</span>
 
     <span class="nt">code</span>
-      <span class="na">padding</span><span class="o">:</span> <span class="nv">$common-margin</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="visual-design">Visual Design</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We want a bit of depth between the columns, so make the code appear inset</p></div></div><div class="code"><div class="wrapper"><span class="na">$code-column-shadow-width</span><span class="o">:</span> <span class="mi">1</span><span class="kt">em</span>
+      <span class="na">padding</span><span class="o">:</span> <span class="nv">$common-margin</span>
+
+  <span class="nt">blockquote</span>
+    <span class="na">padding</span><span class="o">:</span> <span class="mi">0</span> <span class="nv">$common-margin</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="visual-design">Visual Design</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We want a bit of depth between the columns, so make the code appear inset</p></div></div><div class="code"><div class="wrapper"><span class="na">$code-column-shadow-width</span><span class="o">:</span> <span class="mi">1</span><span class="kt">em</span>
 <span class="na">$background-gradient</span><span class="o">:</span> <span class="nf">linear-gradient</span><span class="p">(</span><span class="no">left</span><span class="o">,</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$code-background-color</span><span class="o">,</span> <span class="mi">15</span><span class="kt">%</span><span class="p">)</span><span class="o">,</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$code-background-color</span><span class="o">,</span> <span class="mi">5</span><span class="kt">%</span><span class="p">)</span> <span class="mi">0</span><span class="mf">.3</span> <span class="o">*</span> <span class="nv">$code-column-shadow-width</span><span class="o">,</span> <span class="nv">$code-background-color</span> <span class="nv">$code-column-shadow-width</span><span class="p">)</span>
 
 <span class="nt">html</span>
@@ -447,7 +450,12 @@ distracting</p></div></div><div class="code"><div class="wrapper">    <span clas
 
     <span class="nt">code</span>
       <span class="na">border-width</span><span class="o">:</span> <span class="mi">0</span>
-      <span class="na">background</span><span class="o">:</span>   <span class="no">transparent</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="browser-specific-tweaks">Browser-Specific Tweaks</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Don't allow mobile WebKit clients to mess with the font size</p></div></div><div class="code"><div class="wrapper"><span class="nt">body</span>
+      <span class="na">background</span><span class="o">:</span>   <span class="no">transparent</span>
+
+  <span class="nt">blockquote</span>
+    <span class="na">$blockquote-border-color</span><span class="o">:</span> <span class="nf">lighten</span><span class="p">(</span><span class="nv">$commentary-foreground-color</span><span class="o">,</span> <span class="mi">30</span><span class="kt">%</span><span class="p">)</span>
+    <span class="na">border-left</span><span class="o">:</span>  <span class="mi">0</span><span class="mf">.15</span><span class="kt">em</span> <span class="no">solid</span> <span class="nv">$blockquote-border-color</span>
+    <span class="na">margin-left</span><span class="o">:</span> <span class="mi">-0</span><span class="mf">.15</span><span class="kt">em</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="browser-specific-tweaks">Browser-Specific Tweaks</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Don't allow mobile WebKit clients to mess with the font size</p></div></div><div class="code"><div class="wrapper"><span class="nt">body</span>
   <span class="na">-webkit-text-size-adjust</span><span class="o">:</span> <span class="mi">100</span><span class="kt">%</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Replicate the WebKit type="search" appearance in other browsers if they don't have their own
 search field styling</p></div></div><div class="code"><div class="wrapper"><span class="na">input</span><span class="err">[</span><span class="na">type</span><span class="o">=</span><span class="s2">&quot;search&quot;</span><span class="p">]</span>
   <span class="nd">+border-radius</span><span class="p">(</span><span class="mi">1</span><span class="kt">em</span><span class="p">)</span>

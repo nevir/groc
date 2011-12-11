@@ -39,13 +39,18 @@ array to update indices.</p></div></div><div class="code"><div class="wrapper"> 
     <span class="nv">segments = </span><span class="p">[]</span>
     <span class="nv">currSegment = </span><span class="k">new</span> <span class="nx">@Segment</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We only support single line comments for the time being.</p></div></div><div class="code"><div class="wrapper">    <span class="nv">singleLineMatcher = </span><span class="err">///^\s*(#{language.singleLineComment.join(&#39;|&#39;)})\s?(.*)$///</span>
 
-    <span class="k">for</span> <span class="nx">line</span> <span class="k">in</span> <span class="nx">lines</span>
-      <span class="k">if</span> <span class="nv">match = </span><span class="nx">line</span><span class="p">.</span><span class="nx">match</span> <span class="nx">singleLineMatcher</span>
+    <span class="k">for</span> <span class="nx">line</span> <span class="k">in</span> <span class="nx">lines</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Match that line to the language's single line comment syntax.</p>
+
+<p>However, we treat all comments beginning with } as inline code commentary.</p></div></div><div class="code"><div class="wrapper">      <span class="nv">match = </span><span class="nx">line</span><span class="p">.</span><span class="nx">match</span> <span class="nx">singleLineMatcher</span>
+
+      <span class="c1">#} For example, this comment should be treated as part of our code.</span>
+      <span class="k">if</span> <span class="nx">match</span><span class="o">?</span> <span class="o">and</span> <span class="nx">match</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">?</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;}&#39;</span>
         <span class="k">if</span> <span class="nx">currSegment</span><span class="p">.</span><span class="nx">code</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span>
           <span class="nx">segments</span><span class="p">.</span><span class="nx">push</span> <span class="nx">currSegment</span>
           <span class="nv">currSegment = </span><span class="k">new</span> <span class="nx">@Segment</span>
 
         <span class="nx">currSegment</span><span class="p">.</span><span class="nx">comments</span><span class="p">.</span><span class="nx">push</span> <span class="nx">match</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
       <span class="k">else</span>
         <span class="nx">currSegment</span><span class="p">.</span><span class="nx">code</span><span class="p">.</span><span class="nx">push</span> <span class="nx">line</span>
 
@@ -71,7 +76,7 @@ source file is small enough that it shouldn't matter.</p></div></div><div class=
     <span class="nx">pygmentize</span><span class="p">.</span><span class="nx">stdout</span><span class="p">.</span><span class="nx">addListener</span> <span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>
       <span class="nx">result</span> <span class="o">+=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span>
 
-    <span class="nx">pygmentize</span><span class="p">.</span><span class="nx">addListener</span> <span class="s1">&#39;exit&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">args</span><span class="p">...)</span> <span class="o">=&gt;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>pygments spits it out wrapped in <div class="highlight"><pre>...</pre></div>.  We want to
+    <span class="nx">pygmentize</span><span class="p">.</span><span class="nx">addListener</span> <span class="s1">&#39;exit&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">args</span><span class="p">...)</span> <span class="o">=&gt;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>pygments spits it out wrapped in <code>&lt;div class="highlight"&gt;&lt;pre&gt;...&lt;/pre&gt;&lt;/div&gt;</code>.  We want to
 manage the styling ourselves, so remove that.</p></div></div><div class="code"><div class="wrapper">      <span class="nv">result = </span><span class="nx">result</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;&lt;/pre&gt;&lt;/div&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Extract our segments from the pygmentized source.</p></div></div><div class="code"><div class="wrapper">      <span class="nv">highlighted = </span><span class="s2">&quot;\n#{result}\n&quot;</span><span class="p">.</span><span class="nx">split</span> <span class="sr">/.*&lt;span.*SEGMENT DIVIDER&lt;\/span&gt;.*/</span>
 
       <span class="k">if</span> <span class="nx">highlighted</span><span class="p">.</span><span class="nx">length</span> <span class="o">!=</span> <span class="nx">segments</span><span class="p">.</span><span class="nx">length</span>
