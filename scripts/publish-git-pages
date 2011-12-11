@@ -8,8 +8,20 @@ TARGET_REMOTE=origin
 # Git spits out status information on $stderr, and we don't want to relay that as an error to the
 # user.  So we wrap git and do error handling ourselves...
 function exec_git() {
+  args=''
+  for (( i = 1; i <= $#; i++ )); do
+    eval arg=\$$i
+    if [[ $arg == *\ * ]]; then
+      #} We assume that double quotes will not be used as part of argument values.
+      args="$args \"$arg\""
+    else
+      args="$args $arg"
+    fi
+  done
+
   set +e
-  result=`git $@ 2>&1`
+  #} Even though we wrap the arguments in quotes, bash is splitting on whitespace within.  Why?
+  result=`eval git $args 2>&1`
   status=$?
   set -e
 
