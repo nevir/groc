@@ -79,12 +79,19 @@ Utils =
     singleLineMatcher = ///^\s*(#{language.singleLineComment.join('|')})\s?(.*)$///
 
     for line in lines
-      if match = line.match singleLineMatcher
+      # Match that line to the language's single line comment syntax.
+      #
+      # However, we treat all comments beginning with } as inline code commentary.
+      match = line.match singleLineMatcher
+
+      #} For example, this comment should be treated as part of our code.
+      if match? and match[2]?[0] != '}'
         if currSegment.code.length > 0
           segments.push currSegment
           currSegment = new @Segment
 
         currSegment.comments.push match[2]
+
       else
         currSegment.code.push line
 
@@ -122,7 +129,7 @@ Utils =
       result += data.toString()
 
     pygmentize.addListener 'exit', (args...) =>
-      # pygments spits it out wrapped in <div class="highlight"><pre>...</pre></div>.  We want to
+      # pygments spits it out wrapped in `<div class="highlight"><pre>...</pre></div>`.  We want to
       # manage the styling ourselves, so remove that.
       result = result.replace('<div class="highlight"><pre>', '').replace('</pre></div>', '')
 
