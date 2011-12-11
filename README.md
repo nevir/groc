@@ -5,7 +5,7 @@ programming.  Take a look at the [self-generated documentation](http://nevir.git
 and see if it appeals to you!
 
 It is very heavily influenced by [Jeremy Ashkenas](https://github.com/jashkenas)'
-[docco](https://github.com/jashkenas/docco), and is an attempt to further enhance the idea (thus,
+[docco](http://jashkenas.github.com/docco/), and is an attempt to further enhance the idea (thus,
 groc can't tout the same quick 'n dirty principles of docco).
 
 
