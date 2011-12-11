@@ -399,6 +399,9 @@ nav.searching .toc .discloser
     code
       padding: $common-margin
 
+  blockquote
+    padding: 0 $common-margin
+
 // ## Visual Design
 
 // We want a bit of depth between the columns, so make the code appear inset
@@ -567,6 +570,11 @@ nav
     code
       border-width: 0
       background:   transparent
+
+  blockquote
+    $blockquote-border-color: lighten($commentary-foreground-color, 30%)
+    border-left:  0.15em solid $blockquote-border-color
+    margin-left: -0.15em
 
 
 // ## Browser-Specific Tweaks
