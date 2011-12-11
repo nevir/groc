@@ -5,6 +5,23 @@ DOCS_PATH=.git/groc-tmp
 TARGET_BRANCH=gh-pages
 TARGET_REMOTE=origin
 
+# Git spits out status information on $stderr, and we don't want to relay that as an error to the
+# user.  So we wrap git and do error handling ourselves...
+function exec_git() {
+  set +e
+  result=`git $@ 2>&1`
+  status=$?
+  set -e
+
+  if [[ $status -ne 0 ]]; then
+    echo "$result" >&2
+    exit $status
+  fi
+
+  echo "$result"
+  return 0
+}
+
 if [[ `git status -s` != "" ]]; then
   echo "Please commit or stash your changes before publishing documentation to github!" >&2
   exit 1
@@ -20,32 +37,32 @@ fi
 
 if [[ `git branch --no-color | grep " $TARGET_BRANCH"` == "" ]]; then
   # Do a fetch from origin to see if it was created remotely
-  git fetch $TARGET_REMOTE
+  exec_git fetch $TARGET_REMOTE
 
   # Does it exist remotely?
   if [[ `git branch -a --no-color | grep " remotes/$TARGET_REMOTE/$TARGET_BRANCH"` == "" ]]; then
     echo "No '$TARGET_BRANCH' branch exists.  Creating one"
-    git symbolic-ref HEAD refs/heads/$TARGET_BRANCH
+    exec_git symbolic-ref HEAD refs/heads/$TARGET_BRANCH
     rm .git/index
 
     # Preserve ignored files, but make sure they're actually ignored!
     if [[ -e $DOCS_PATH/.gitignore ]]; then
       cp $DOCS_PATH/.gitignore .gitignore
-      git add .gitignore
+      exec_git add .gitignore
     fi
 
-    git clean -fdq
+    exec_git clean -fdq
   else
     echo "No local branch '$TARGET_BRANCH', checking out 'origin/$TARGET_BRANCH' and tracking that"
-    git checkout -b $TARGET_BRANCH $TARGET_REMOTE/$TARGET_BRANCH
+    exec_git checkout -b $TARGET_BRANCH $TARGET_REMOTE/$TARGET_BRANCH
   fi
 
 else
-  git checkout $TARGET_BRANCH
+  exec_git checkout $TARGET_BRANCH
 fi
 
 # We want to keep in complete sync (deleting old docs, or cruft from previous documentation output)
-git ls-files | xargs rm
+exec_git ls-files | xargs rm
 
 cp -Rf $DOCS_PATH/* .
 if [[ -e $DOCS_PATH/.gitignore ]]; then
@@ -54,12 +71,12 @@ fi
 
 # Do nothing unless we actually have changes
 if [[ `git status -s` != "" ]]; then
-  git add -A
-  git commit -m "Generated documentation for $CURRENT_COMMIT"
-  git push origin $TARGET_BRANCH
+  exec_git add -A
+  exec_git commit -m "Generated documentation for $CURRENT_COMMIT"
+  exec_git push origin $TARGET_BRANCH
 fi
 
 # Clean up after ourselves
 rm -rf $DOCS_PATH
 
-git checkout $CURRENT_BRANCH
+exec_git checkout $CURRENT_BRANCH
