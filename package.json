@@ -1,6 +1,6 @@
 {
   "name":        "groc",
-  "version":     "0.1.0",
+  "version":     "0.1.1",
   "description": "Documentation generation, the literate programming way.",
   "keywords":   ["documentation", "docs", "generator"],
   "homepage":    "https://github.com/nevir/groc",
