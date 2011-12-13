@@ -13,6 +13,11 @@ LANGUAGES =
     pygmentsLexer:     'javascript'
     singleLineComment: ['//']
 
+  Ruby:
+    nameMatchers:      ['.rb']
+    pygmentsLexer:     'ruby'
+    singleLineComment: ['#']
+
   Sass:
     nameMatchers:      ['.sass']
     pygmentsLexer:     'sass'
