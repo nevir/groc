@@ -1,7 +1,7 @@
 {
   "name":        "groc",
   "version":     "0.2.0",
-  "description": "Documentation generation, the literate programming way.",
+  "description": "Documentation generation, in the spirit of literate programming.",
   "keywords":   ["documentation", "docs", "generator"],
   "homepage":    "http://nevir.github.com/groc/",
   "author":      "Ian MacLeod <ian@nevir.net> (https://github.com/nevir)",
