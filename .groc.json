@@ -1,4 +1,4 @@
 {
-  "globs": ["lib/**/*.coffee", "README.md", "lib/styles/*/style.sass", "lib/styles/*/*.jade"],
+  "glob": ["lib/**/*.coffee", "README.md", "lib/styles/*/style.sass", "lib/styles/*/*.jade"],
   "github": true
 }

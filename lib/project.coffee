@@ -16,7 +16,7 @@ class Project
     # * Should strip specific prefixes of a file's path when generating relative paths for
     #   documentation.  For example, this could be used to ensure that `lib/some/source.file` maps
     #   to `doc/some/source.file` and not `doc/lib/some/source.file`.
-    @stripPrefixes = ["#{@root}/"]
+    @stripPrefixes = []
 
   # This is both a performance (over-)optimization and debugging aid.  Instead of spamming the
   # system with file I/O and overhead all at once, we only process a certain number of source files
@@ -28,6 +28,11 @@ class Project
   generate: (callback) ->
     @log.trace 'Project#Generate(...)'
     @log.info 'Generating documentation...'
+
+    # We need to ensure that the project root is a strip prefix so that we properly generate
+    # relative paths for our files.  Since strip prefixes are relative, it must be the first prefix,
+    # so that they can strip from the remainder.
+    @stripPrefixes = ["#{@root}/"].concat @stripPrefixes
 
     # We want to support multiple documentation styles, but we don't expect to have a stable API for
     # that just yet.
