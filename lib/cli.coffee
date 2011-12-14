@@ -166,7 +166,7 @@ CLI = (inputArgs, callback) ->
       # We hide the docs inside `.git/groc-tmp` so that we can switch branches without losing the
       # generated output.  It also keeps us out of the business of finding an OS-sanctioned
       # temporary path.
-      project.root = path.resolve path.join '.git', 'groc-tmp'
+      project.outPath = path.resolve path.join '.git', 'groc-tmp'
 
       # Dealing with generation for github pages is pretty involved, and requires a lot of back
       # and forth with git.  Rather than descend into callback hell in Node, we farm the logic
