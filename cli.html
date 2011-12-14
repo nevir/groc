@@ -1,128 +1,123 @@
-<!DOCTYPE html><html lang="en"><head><title>cli</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="cli"><meta name="groc-project-path" content="lib/cli.coffee"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="document"><div class="segment"><div class="comments"><div class="wrapper"><h1 id="command-line-interface">Command Line Interface</h1>
-
-<p>Readable command line output is just as important as readable documentation!  It is the first
+<!DOCTYPE html><html lang="en"><head><title>cli</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="cli"><meta name="groc-project-path" content="lib/cli.coffee"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="document"><div class="segment"><div class="comments"><div class="wrapper"><h1 id="command-line-interface">Command Line Interface</h1></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Readable command line output is just as important as readable documentation!  It is the first
 interaction that a developer will have with a tool like this, so we want to leave a good
-impression with nicely formatted and readable output.</p></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>It's the caller's responsibility to give us a nice list of ARGV options.  It's only a minor
-annoyance in our binary, but a real win for the crazed developer who wants to be lazy and emulate
-command line behavior.</p></div></div><div class="code"><div class="wrapper"><span class="nv">CLI = </span><span class="nf">(inputArgs, callback) -&gt;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>As such, we don't want our output bumping up against the shell execution lines and blurring
-together; use that whitespace with great gusto!</p></div></div><div class="code"><div class="wrapper">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s1">&#39;&#39;</span>
+impression with nicely formatted and readable command line output.</p></div></div><div class="code"><div class="wrapper"><span class="nv">CLI = </span><span class="nf">(inputArgs, callback) -&gt;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>As such, we don't want our output bumping up against the shell execution lines and blurring
+together; use that whitespace with great gusto!</p></div></div><div class="code"><div class="wrapper">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s1">&#39;&#39;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>In keeping with our console beautification project, make sure that our output isn't getting
+too comfortable with the user's next shell line.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">actualCallback = </span><span class="nx">callback</span>
+  <span class="nv">callback = </span><span class="nf">(args...) -&gt;</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s1">&#39;&#39;</span>
 
-  <span class="nv">actualCallback = </span><span class="nx">callback</span>
-  <span class="nv">callback = </span><span class="nf">(args...) -&gt;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>In keeping with our console beautification project, make sure that our output isn't getting
-too comfortable with the user's next shell line!</p></div></div><div class="code"><div class="wrapper">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s1">&#39;&#39;</span>
-
-    <span class="nx">actualCallback</span> <span class="nx">args</span><span class="p">...</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p><a href="https://github.com/substack/node-optimist">Optimist</a> is a fantastic options parsing tool, but
-it does have a few rough edges for our uses:</p>
-
-<ul>
-<li>We don't want to goof up the global optimist instance; it costs us this line of code, and
-allows the enterprising scripter to call into our CLI handling, if they're crazy enough to.</li>
-</ul></div></div><div class="code"><div class="wrapper">  <span class="nv">opts = </span><span class="nx">optimist</span> <span class="nx">inputArgs</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="cli-overview">CLI Overview</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  <span class="nx">opts</span>
+    <span class="nx">actualCallback</span> <span class="nx">args</span><span class="p">...</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We use <a href="https://github.com/substack/node-optimist">Optimist</a> to parse our command line arguments
+in a sane manner, and manage the myriad of options.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">opts = </span><span class="nx">optimist</span> <span class="nx">inputArgs</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="cli-overview">CLI Overview</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Readable command line output is just as important as readable documentation! It is the first
+interaction that a developer will have with a tool like this, so we want to leave a good
+impression with nicely formatted and readable output.</p></div></div><div class="code"><div class="wrapper">  <span class="nx">opts</span>
     <span class="p">.</span><span class="nx">usage</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">    Usage: groc [options] &quot;</span><span class="nx">lib</span><span class="sr">/**/</span><span class="o">*</span><span class="p">.</span><span class="nx">coffee</span><span class="s2">&quot; doc/*.md</span>
 
 <span class="s2">    groc accepts lists of files and (quoted) glob expressions to match the files you would like to</span>
-<span class="s2">    generate documentation for.</span>
+<span class="s2">    generate documentation for.  Any unnamed options are shorthand for --glob arg.</span>
 
 <span class="s2">    You can also specify arguments via a configuration file in the current directory named</span>
-<span class="s2">    .groc.json.  It should contain a mapping between (full) option names and their values.  Search</span>
-<span class="s2">    paths (the positional arguments) should be set via the key &quot;</span><span class="nx">globs</span><span class="s2">&quot;.  For example:</span>
+<span class="s2">    .groc.json.  It should contain a mapping between option names and their values.  For example:</span>
 
-<span class="s2">      { &quot;</span><span class="nx">globs</span><span class="s2">&quot;: [&quot;</span><span class="nx">lib</span><span class="s2">&quot;, &quot;</span><span class="nx">vendor</span><span class="s2">&quot;], out: &quot;</span><span class="nx">documentation</span><span class="s2">&quot;, strip: [] }</span>
+<span class="s2">      { &quot;</span><span class="nx">glob</span><span class="s2">&quot;: [&quot;</span><span class="nx">lib</span><span class="s2">&quot;, &quot;</span><span class="nx">vendor</span><span class="s2">&quot;], out: &quot;</span><span class="nx">documentation</span><span class="s2">&quot;, strip: [] }</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="cli-options">CLI Options</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  <span class="nv">optionsConfig =</span>
 
-<span class="s2">    Run groc without arguments to use the configuration file.</span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
-<li>Booleans don't jive very well with the <code>options</code> call, and they need to be declared prior to
-referencing <code>opts.argv</code>, or you risk associating positional options with a boolean flag.</li>
-</ul></div></div><div class="code"><div class="wrapper">    <span class="p">.</span><span class="nx">boolean</span><span class="p">([</span><span class="s1">&#39;help&#39;</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="s1">&#39;github&#39;</span><span class="p">,</span> <span class="s1">&#39;gh&#39;</span><span class="p">,</span> <span class="s1">&#39;verbose&#39;</span><span class="p">,</span> <span class="s1">&#39;very-verbose&#39;</span><span class="p">])</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="cli-options">CLI Options</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">    <span class="p">.</span><span class="nx">options</span><span class="p">(</span><span class="s1">&#39;help&#39;</span><span class="p">,</span>
-      <span class="nv">describe: </span><span class="s2">&quot;You&#39;re looking at it.&quot;</span>
-      <span class="nv">alias: </span>   <span class="p">[</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;?&#39;</span><span class="p">]</span>
-    <span class="p">)</span>
+    <span class="nv">help:</span>
+      <span class="nv">description: </span><span class="s2">&quot;You&#39;re looking at it.&quot;</span>
+      <span class="nv">aliases: </span>   <span class="p">[</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;?&#39;</span><span class="p">]</span>
+      <span class="nv">type: </span>       <span class="s1">&#39;boolean&#39;</span>
 
-    <span class="p">.</span><span class="nx">options</span><span class="p">(</span><span class="s1">&#39;github&#39;</span><span class="p">,</span>
-      <span class="nv">describe: </span><span class="s2">&quot;Generate your docs in the gh-pages branch of your git repository.  --out is ignored.&quot;</span>
-      <span class="nv">alias: </span>   <span class="s1">&#39;gh&#39;</span>
-    <span class="p">)</span>
+    <span class="nv">glob:</span>
+      <span class="nv">description: </span><span class="s2">&quot;A file path or globbing expression that matches files to generate documentation for.&quot;</span>
+      <span class="nv">default: </span>    <span class="nf">(opts) -&gt;</span> <span class="nx">opts</span><span class="p">.</span><span class="nx">_</span>
+      <span class="nv">type: </span>       <span class="s1">&#39;list&#39;</span>
 
-    <span class="p">.</span><span class="nx">options</span><span class="p">(</span><span class="s1">&#39;out&#39;</span><span class="p">,</span>
-      <span class="nv">describe: </span><span class="s2">&quot;The directory to place generated documentation, relative to the project root.&quot;</span>
-      <span class="nv">alias: </span>   <span class="s1">&#39;o&#39;</span>
-      <span class="nv">default: </span> <span class="s1">&#39;doc&#39;</span>
-    <span class="p">)</span>
+    <span class="nv">except:</span>
+      <span class="nv">description: </span><span class="s2">&quot;Glob expression of files to exclude.  Can be specified multiple times.&quot;</span>
+      <span class="nv">aliases: </span>    <span class="s1">&#39;e&#39;</span>
+      <span class="nv">type: </span>       <span class="s1">&#39;list&#39;</span>
 
-    <span class="p">.</span><span class="nx">options</span><span class="p">(</span><span class="s1">&#39;except&#39;</span>
-      <span class="nv">describe: </span><span class="s2">&quot;Glob expression of files to exclude.  Can be specified multiple times.&quot;</span>
-    <span class="p">)</span>
+    <span class="nv">github:</span>
+      <span class="nv">description: </span><span class="s2">&quot;Generate your docs in the gh-pages branch of your git repository.  --out is ignored.&quot;</span>
+      <span class="nv">aliases: </span>    <span class="s1">&#39;gh&#39;</span>
+      <span class="nv">type: </span>       <span class="s1">&#39;boolean&#39;</span>
 
-    <span class="p">.</span><span class="nx">options</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">,</span>
-      <span class="nv">describe: </span><span class="s2">&quot;The file to use as the index of the generated documentation.&quot;</span>
-      <span class="nv">alias: </span>   <span class="s1">&#39;i&#39;</span>
-      <span class="nv">default: </span> <span class="s1">&#39;README.md&#39;</span>
-    <span class="p">)</span>
+    <span class="nv">out:</span>
+      <span class="nv">description: </span><span class="s2">&quot;The directory to place generated documentation, relative to the project root.&quot;</span>
+      <span class="nv">aliases: </span>    <span class="s1">&#39;o&#39;</span>
+      <span class="nv">default: </span>    <span class="s1">&#39;./doc&#39;</span>
+      <span class="nv">type: </span>       <span class="s1">&#39;path&#39;</span>
 
-    <span class="p">.</span><span class="nx">options</span><span class="p">(</span><span class="s1">&#39;root&#39;</span><span class="p">,</span>
-      <span class="nv">describe: </span><span class="s2">&quot;The root directory of the project.&quot;</span>
-      <span class="nv">alias: </span>   <span class="s1">&#39;r&#39;</span>
-      <span class="nv">default: </span> <span class="nx">process</span><span class="p">.</span><span class="nx">cwd</span><span class="p">()</span>
-    <span class="p">)</span>
+    <span class="nv">index:</span>
+      <span class="nv">description: </span><span class="s2">&quot;The file to use as the index of the generated documentation.&quot;</span>
+      <span class="nv">aliases: </span>    <span class="s1">&#39;i&#39;</span>
+      <span class="nv">default: </span>    <span class="s1">&#39;README.md&#39;</span>
 
-    <span class="p">.</span><span class="nx">options</span><span class="p">(</span><span class="s1">&#39;strip&#39;</span><span class="p">,</span>
-      <span class="nv">describe: </span><span class="s2">&quot;A path prefix to strip when generating documentation paths (or --no-strip).&quot;</span>
-      <span class="nv">alias: </span>   <span class="s1">&#39;s&#39;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
-<li>We want the default value of <code>--strip</code> to mirror the first directory given to us by the
-user. This ensures that the common case of <code>groc lib/</code> will map <code>lib/some/file.coffee</code> to
-<code>doc/some/file.html</code>, and not a redundant and ugly path such as <code>doc/lib/some/file.html</code>.</li>
-</ul></div></div><div class="code"><div class="wrapper">      <span class="nv">default: </span><span class="nx">Utils</span><span class="p">.</span><span class="nx">guessStripPrefixes</span> <span class="nx">opts</span><span class="p">.</span><span class="nx">argv</span><span class="p">.</span><span class="nx">_</span>
-    <span class="p">)</span>
-<span class="err"> </span>
-    <span class="p">.</span><span class="nx">options</span><span class="p">(</span><span class="s1">&#39;verbose&#39;</span><span class="p">,</span>
-      <span class="nv">describe: </span><span class="s2">&quot;Output the inner workings of groc to help diagnose issues.&quot;</span>
-    <span class="p">)</span>
+    <span class="nv">root:</span>
+      <span class="nv">description: </span><span class="s2">&quot;The root directory of the project.&quot;</span>
+      <span class="nv">aliases: </span>    <span class="s1">&#39;r&#39;</span>
+      <span class="nv">default: </span>    <span class="s1">&#39;.&#39;</span>
+      <span class="nv">type: </span>       <span class="s1">&#39;path&#39;</span>
 
-    <span class="p">.</span><span class="nx">options</span><span class="p">(</span><span class="s1">&#39;very-verbose&#39;</span><span class="p">,</span>
-      <span class="nv">describe: </span><span class="s2">&quot;Hey, you asked for it.&quot;</span>
-    <span class="p">)</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="argument-processing">Argument processing</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  <span class="nv">argv = </span><span class="nx">opts</span><span class="p">.</span><span class="nx">argv</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
-<li>There also does not be a way to enforce that a particular option is an array, so we do this
-coercion ourselves.</li>
-</ul></div></div><div class="code"><div class="wrapper">  <span class="k">for</span> <span class="nx">opt</span> <span class="k">in</span> <span class="p">[</span><span class="s1">&#39;strip&#39;</span><span class="p">,</span> <span class="s1">&#39;except&#39;</span><span class="p">]</span>
-    <span class="nx">unless</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">isArray</span> <span class="nx">argv</span><span class="p">[</span><span class="nx">opt</span><span class="p">]</span>
-      <span class="nx">argv</span><span class="p">[</span><span class="nx">opt</span><span class="p">]</span> <span class="o">=</span> <span class="k">if</span> <span class="nx">argv</span><span class="p">[</span><span class="nx">opt</span><span class="p">]</span><span class="o">?</span> <span class="k">then</span> <span class="p">[</span> <span class="nx">argv</span><span class="p">[</span><span class="nx">opt</span><span class="p">]</span> <span class="p">]</span> <span class="k">else</span> <span class="p">[]</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>And just for our sanity</p></div></div><div class="code"><div class="wrapper">  <span class="nv">argv.globs = </span><span class="nx">argv</span><span class="p">.</span><span class="nx">_</span>
+    <span class="nv">strip:</span>
+      <span class="nv">description: </span><span class="s2">&quot;A path prefix to strip when generating documentation paths (or --no-strip).&quot;</span>
+      <span class="nv">aliases: </span>    <span class="s1">&#39;s&#39;</span>
 
-  <span class="k">return</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">opts</span><span class="p">.</span><span class="nx">help</span><span class="p">()</span> <span class="k">if</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">help</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>For the .groc.json configuration, we merge it into argv in order to pick up default values such
-as the root mapping to <code>process.cwd()</code>.  Please don't treat this as a contract; it has the
-potential to change behavior in the future.</p></div></div><div class="code"><div class="wrapper">  <span class="k">if</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">_</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">0</span>
-    <span class="k">try</span>
-      <span class="nv">configPath = </span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span> <span class="nx">process</span><span class="p">.</span><span class="nx">cwd</span><span class="p">(),</span> <span class="s1">&#39;.groc.json&#39;</span>
-      <span class="nv">config     = </span><span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span> <span class="nx">configPath</span>
-      <span class="nx">argv</span><span class="p">[</span><span class="nx">k</span><span class="p">]</span>    <span class="o">=</span> <span class="nx">v</span> <span class="k">for</span> <span class="nx">k</span><span class="p">,</span><span class="nx">v</span> <span class="k">of</span> <span class="nx">config</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Special case, keep the strip prefix guessing if none was given</p></div></div><div class="code"><div class="wrapper">      <span class="nx">unless</span> <span class="s1">&#39;strip&#39;</span> <span class="k">in</span> <span class="nx">config</span>
-        <span class="nv">argv.strip = </span><span class="nx">Utils</span><span class="p">.</span><span class="nx">guessStripPrefixes</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">globs</span>
+    <span class="nv">verbose:</span>
+      <span class="nv">description: </span><span class="s2">&quot;Output the inner workings of groc to help diagnose issues.&quot;</span>
 
-    <span class="k">catch</span> <span class="nx">err</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">opts</span><span class="p">.</span><span class="nx">help</span><span class="p">()</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span>
-      <span class="nx">Logger</span><span class="p">.</span><span class="nx">error</span> <span class="s2">&quot;Failed to load .groc.json: %s&quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">.</span><span class="nx">message</span>
+   <span class="s1">&#39;very-verbose&#39;</span><span class="o">:</span>
+      <span class="nv">description: </span><span class="s2">&quot;Hey, you asked for it.&quot;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="argument-processing">Argument processing</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We treat the values within the current project's <code>.groc.json</code> as defaults, so that you can
+easily override the persisted configuration when testing and tweaking.</p>
 
-      <span class="k">return</span> <span class="nx">callback</span> <span class="nx">err</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Squirrel the docs away inside our git directory if we're building for github pages</p></div></div><div class="code"><div class="wrapper">  <span class="nv">argv.out = </span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span> <span class="s1">&#39;.git&#39;</span><span class="p">,</span> <span class="s1">&#39;groc-tmp&#39;</span> <span class="k">if</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">github</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Find our matching files and stuff them into a poor-man's set.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">files = </span><span class="p">{}</span>
-  <span class="k">for</span> <span class="nx">globExpression</span> <span class="k">in</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">globs</span>
-    <span class="nx">files</span><span class="p">[</span><span class="nx">file</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span> <span class="k">for</span> <span class="nx">file</span> <span class="k">in</span> <span class="nx">glob</span><span class="p">.</span><span class="nx">globSync</span> <span class="nx">globExpression</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Exclude any additional files</p></div></div><div class="code"><div class="wrapper">  <span class="k">for</span> <span class="nx">globExpression</span> <span class="k">in</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">except</span>
-    <span class="k">delete</span> <span class="nx">files</span><span class="p">[</span><span class="nx">file</span><span class="p">]</span> <span class="k">for</span> <span class="nx">file</span> <span class="k">in</span> <span class="nx">glob</span><span class="p">.</span><span class="nx">globSync</span> <span class="nx">globExpression</span>
+<p>For example, it is extremely helpful to use <code>groc --no-github</code> until you are satisfied with the
+generated output.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">projectConfigPath = </span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span> <span class="s1">&#39;.groc.json&#39;</span>
+  <span class="k">try</span>
+    <span class="nv">projectConfig = </span><span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span> <span class="nx">projectConfigPath</span>
+  <span class="k">catch</span> <span class="nx">err</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">opts</span><span class="p">.</span><span class="nx">help</span><span class="p">()</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span>
+    <span class="nx">Logger</span><span class="p">.</span><span class="nx">error</span> <span class="s2">&quot;Failed to load .groc.json: %s&quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">.</span><span class="nx">message</span>
 
-  <span class="nv">files = </span><span class="p">(</span><span class="nx">f</span> <span class="k">for</span> <span class="nx">f</span> <span class="k">of</span> <span class="nx">files</span><span class="p">)</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="project-configuration">Project Configuration</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  <span class="nv">project = </span><span class="k">new</span> <span class="nx">Project</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">root</span><span class="p">,</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">out</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Set up our logging configuration if the user cares about verbosity</p></div></div><div class="code"><div class="wrapper">  <span class="nv">project.log.minLevel = </span><span class="nx">Logger</span><span class="o">::</span><span class="nx">LEVELS</span><span class="p">.</span><span class="nx">DEBUG</span> <span class="k">if</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">verbose</span>
-  <span class="nv">project.log.minLevel = </span><span class="nx">Logger</span><span class="o">::</span><span class="nx">LEVELS</span><span class="p">.</span><span class="nx">TRACE</span> <span class="k">if</span> <span class="nx">argv</span><span class="p">[</span><span class="s1">&#39;very-verbose&#39;</span><span class="p">]</span>
-  <span class="nx">project</span><span class="p">.</span><span class="nx">log</span><span class="p">.</span><span class="nx">trace</span> <span class="s2">&quot;argv: %j&quot;</span><span class="p">,</span> <span class="nx">argv</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Set up the configurable properties on the project.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">project.index = </span><span class="nx">argv</span><span class="p">.</span><span class="nx">index</span>
-  <span class="nv">project.files = </span><span class="nx">project</span><span class="p">.</span><span class="nx">files</span><span class="p">.</span><span class="nx">concat</span> <span class="nx">files</span>
-  <span class="nv">project.stripPrefixes = </span><span class="nx">project</span><span class="p">.</span><span class="nx">stripPrefixes</span><span class="p">.</span><span class="nx">concat</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">strip</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We can generate w/o much fuss unless we're building for github</p></div></div><div class="code"><div class="wrapper">  <span class="nx">unless</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">github</span>
-    <span class="nx">project</span><span class="p">.</span><span class="nx">generate</span> <span class="nf">(error) -&gt;</span> <span class="nx">callback</span> <span class="nx">error</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="github">GitHub</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  <span class="k">else</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Annotate the project with our remote github URL</p></div></div><div class="code"><div class="wrapper">    <span class="nx">utils</span><span class="p">.</span><span class="nx">CLIHelpers</span><span class="p">.</span><span class="nx">guessPrimaryGitHubURL</span> <span class="nf">(error, url) -&gt;</span>
+    <span class="k">return</span> <span class="nx">callback</span> <span class="nx">err</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We rely on <a href="utils/cli_helpers.html#configureoptimist">CLIHelpers.configureOptimist</a> to provide
+the extra options behavior that we require.</p></div></div><div class="code"><div class="wrapper">  <span class="nx">utils</span><span class="p">.</span><span class="nx">CLIHelpers</span><span class="p">.</span><span class="nx">configureOptimist</span> <span class="nx">opts</span><span class="p">,</span> <span class="nx">optionsConfig</span><span class="p">,</span> <span class="nx">projectConfig</span>
+  <span class="c1">#} We have one special case that depends on other defaults...</span>
+  <span class="nx">opts</span><span class="p">.</span><span class="nx">default</span> <span class="s1">&#39;strip&#39;</span><span class="p">,</span> <span class="nx">Utils</span><span class="p">.</span><span class="nx">guessStripPrefixes</span> <span class="nx">opts</span><span class="p">.</span><span class="nx">argv</span><span class="p">.</span><span class="nx">glob</span>
+
+  <span class="nv">argv = </span><span class="nx">utils</span><span class="p">.</span><span class="nx">CLIHelpers</span><span class="p">.</span><span class="nx">extractArgv</span> <span class="nx">opts</span><span class="p">,</span> <span class="nx">optionsConfig</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>If we're in tracing mode, the parsed options are extremely helpful.</p></div></div><div class="code"><div class="wrapper">  <span class="nx">Logger</span><span class="p">.</span><span class="nx">trace</span> <span class="s1">&#39;argv: %j&#39;</span><span class="p">,</span> <span class="nx">argv</span> <span class="k">if</span> <span class="nx">argv</span><span class="p">[</span><span class="s1">&#39;very-verbose&#39;</span><span class="p">]</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Help short circuits early on.</p></div></div><div class="code"><div class="wrapper">  <span class="k">return</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">opts</span><span class="p">.</span><span class="nx">help</span><span class="p">()</span> <span class="k">if</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">help</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="project-generation">Project Generation</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>A <a href="project.html">Project</a> is just a handy way to configure the generation process, and is in
+charge of kicking that off.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">project = </span><span class="k">new</span> <span class="nx">Project</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">root</span><span class="p">,</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">out</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p><code>--verbose</code> and <code>--very-verbose</code> just impact the logging level of the project.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">project.log.minLevel = </span><span class="nx">Logger</span><span class="o">::</span><span class="nx">LEVELS</span><span class="p">.</span><span class="nx">DEBUG</span> <span class="k">if</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">verbose</span>
+  <span class="nv">project.log.minLevel = </span><span class="nx">Logger</span><span class="o">::</span><span class="nx">LEVELS</span><span class="p">.</span><span class="nx">TRACE</span> <span class="k">if</span> <span class="nx">argv</span><span class="p">[</span><span class="s1">&#39;very-verbose&#39;</span><span class="p">]</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We expand the <code>--glob</code> expressions into a poor-man's set, so that we can easily remove
+exclusions defined by <code>--except</code> before we add the result to the project's file list.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">files = </span><span class="p">{}</span>
+  <span class="k">for</span> <span class="nx">globExpression</span> <span class="k">in</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">glob</span>
+    <span class="nx">files</span><span class="p">[</span><span class="nx">file</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span> <span class="k">for</span> <span class="nx">file</span> <span class="k">in</span> <span class="nx">glob</span><span class="p">.</span><span class="nx">globSync</span> <span class="nx">globExpression</span>
+
+  <span class="k">for</span> <span class="nx">globExpression</span> <span class="k">in</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">except</span>
+    <span class="k">delete</span> <span class="nx">files</span><span class="p">[</span><span class="nx">file</span><span class="p">]</span> <span class="k">for</span> <span class="nx">file</span> <span class="k">in</span> <span class="nx">glob</span><span class="p">.</span><span class="nx">globSync</span> <span class="nx">globExpression</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>There are several properties that we need to configure on a project before we can go ahead and
+generate its documentation.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">project.index = </span><span class="nx">argv</span><span class="p">.</span><span class="nx">index</span>
+  <span class="nv">project.files = </span><span class="p">(</span><span class="nx">f</span> <span class="k">for</span> <span class="nx">f</span> <span class="k">of</span> <span class="nx">files</span><span class="p">)</span>
+  <span class="nv">project.stripPrefixes = </span><span class="nx">argv</span><span class="p">.</span><span class="nx">strip</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Good to go!</p></div></div><div class="code"><div class="wrapper">  <span class="nx">unless</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">github</span>
+    <span class="nx">project</span><span class="p">.</span><span class="nx">generate</span> <span class="nf">(error) -&gt;</span> <span class="nx">callback</span> <span class="nx">error</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="github">GitHub</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  <span class="k">else</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We want to be able to annotate generated documentation with the project's GitHub URL.  This is
+handy for things like generating links directly to each file's source.</p></div></div><div class="code"><div class="wrapper">    <span class="nx">utils</span><span class="p">.</span><span class="nx">CLIHelpers</span><span class="p">.</span><span class="nx">guessPrimaryGitHubURL</span> <span class="nf">(error, url) -&gt;</span>
       <span class="k">if</span> <span class="nx">error</span>
         <span class="nx">project</span><span class="p">.</span><span class="nx">log</span><span class="p">.</span><span class="nx">error</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
         <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
 
-      <span class="nv">project.githubURL = </span><span class="nx">url</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Kick off project generation</p></div></div><div class="code"><div class="wrapper">      <span class="nx">project</span><span class="p">.</span><span class="nx">generate</span> <span class="nf">(error) -&gt;</span>
+      <span class="nv">project.githubURL = </span><span class="nx">url</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We hide the docs inside <code>.git/groc-tmp</code> so that we can switch branches without losing the
+generated output.  It also keeps us out of the business of finding an OS-sanctioned
+temporary path.</p></div></div><div class="code"><div class="wrapper">      <span class="nv">project.outPath = </span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span> <span class="s1">&#39;.git&#39;</span><span class="p">,</span> <span class="s1">&#39;groc-tmp&#39;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Dealing with generation for github pages is pretty involved, and requires a lot of back
+and forth with git.  Rather than descend into callback hell in Node, we farm the logic
+out to a shell script.</p></div></div><div class="code"><div class="wrapper">      <span class="nx">project</span><span class="p">.</span><span class="nx">generate</span> <span class="nf">(error) -&gt;</span>
         <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span> <span class="k">if</span> <span class="nx">error</span>
 
         <span class="nx">project</span><span class="p">.</span><span class="nx">log</span><span class="p">.</span><span class="nx">info</span> <span class="s1">&#39;&#39;</span>
-        <span class="nx">project</span><span class="p">.</span><span class="nx">log</span><span class="p">.</span><span class="nx">info</span> <span class="s1">&#39;Publishing documentation to github...&#39;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Dealing with generation for github pages is a bit more involved, so we farm that out to a
-shell script</p></div></div><div class="code"><div class="wrapper">        <span class="nv">script = </span><span class="nx">childProcess</span><span class="p">.</span><span class="nx">spawn</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;scripts&#39;</span><span class="p">,</span> <span class="s1">&#39;publish-git-pages&#39;</span><span class="p">)</span>
+        <span class="nx">project</span><span class="p">.</span><span class="nx">log</span><span class="p">.</span><span class="nx">info</span> <span class="s1">&#39;Publishing documentation to github...&#39;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Roughly, the publishing script:</p>
+
+<ol>
+<li>Switches to the <code>gh-pages</code> branch (creating it if necessary)</li>
+<li>Copies the generated docs from <code>.git/groc-tmp</code> over any existing files in the branch.</li>
+<li>Creates a commit with <em>just</em> the generated docs; any additional files are removed.</li>
+<li>Cleans up and switches back to the user's original branch.</li>
+</ol></div></div><div class="code"><div class="wrapper">        <span class="nv">script = </span><span class="nx">childProcess</span><span class="p">.</span><span class="nx">spawn</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;scripts&#39;</span><span class="p">,</span> <span class="s1">&#39;publish-git-pages&#39;</span><span class="p">)</span>
 
         <span class="nx">script</span><span class="p">.</span><span class="nx">stdout</span><span class="p">.</span><span class="kc">on</span> <span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="nf">(data) -&gt;</span> <span class="nx">project</span><span class="p">.</span><span class="nx">log</span><span class="p">.</span><span class="nx">info</span>  <span class="nx">data</span><span class="p">.</span><span class="nx">toString</span><span class="p">().</span><span class="nx">trim</span><span class="p">()</span>
         <span class="nx">script</span><span class="p">.</span><span class="nx">stderr</span><span class="p">.</span><span class="kc">on</span> <span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="nf">(data) -&gt;</span> <span class="nx">project</span><span class="p">.</span><span class="nx">log</span><span class="p">.</span><span class="nx">error</span> <span class="nx">data</span><span class="p">.</span><span class="nx">toString</span><span class="p">().</span><span class="nx">trim</span><span class="p">()</span>

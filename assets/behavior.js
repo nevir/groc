@@ -203,8 +203,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "type": "heading",
               "data": {
                 "level": 2,
-                "title": "Project Configuration",
-                "slug": "project-configuration"
+                "title": "Project Generation",
+                "slug": "project-generation"
               },
               "depth": 2
             }, {
@@ -250,8 +250,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "type": "heading",
           "data": {
             "level": 2,
-            "title": "Project Configuration",
-            "slug": "project-configuration"
+            "title": "Project Generation",
+            "slug": "project-generation"
           },
           "depth": 2
         }, {
@@ -594,10 +594,73 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "sourcePath": "/Users/ian/Coding/groc/lib/utils/cli_helpers.coffee",
             "projectPath": "lib/utils/cli_helpers.coffee",
             "targetPath": "utils/cli_helpers",
-            "title": "cli_helpers"
+            "firstHeader": {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "Command Line Helpers",
+                "slug": "command-line-helpers",
+                "isFileHeader": true
+              },
+              "depth": 1,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "configureOptimist()",
+                    "slug": "configureoptimist"
+                  },
+                  "depth": 2
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "extractArgv()",
+                    "slug": "extractargv"
+                  },
+                  "depth": 2
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "guessPrimaryGitHubURL()",
+                    "slug": "guessprimarygithuburl"
+                  },
+                  "depth": 2
+                }
+              ]
+            },
+            "title": "Command Line Helpers"
           },
           "depth": 2,
-          "outline": []
+          "outline": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "configureOptimist()",
+                "slug": "configureoptimist"
+              },
+              "depth": 2
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "extractArgv()",
+                "slug": "extractargv"
+              },
+              "depth": 2
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "guessPrimaryGitHubURL()",
+                "slug": "guessprimarygithuburl"
+              },
+              "depth": 2
+            }
+          ]
         }, {
           "type": "file",
           "data": {
