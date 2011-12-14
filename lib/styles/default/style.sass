@@ -382,10 +382,18 @@ nav.searching .toc .discloser
     padding-left: 1.75em
 
   ol li
-    list-style: number
+    list-style: decimal
 
   ul li
     list-style: disc
+
+  li
+    margin: 1em 0
+
+    &:first-child
+      margin-top: 0
+    &:last-child
+      margin-bottom: 0
 
   code
     display: inline-block
