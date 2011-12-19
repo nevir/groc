@@ -17,7 +17,7 @@ html(lang="en")
       .meta
         - if (project.githubURL)
           .file-path
-            a(href=project.githubURL + '/blob/master/' + project.projectPath) projectPath
+            a(href=project.githubURL + '/blob/master/' + projectPath)= projectPath
         - else
           .file-path= projectPath
 
