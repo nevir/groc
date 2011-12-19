@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><title>styles/default/style</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="styles/default/style"><meta name="groc-project-path" content="lib/styles/default/style.sass"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="k">@import</span> <span class="s">&quot;compass&quot;</span>
+<!DOCTYPE html><html lang="en"><head><title>styles/default/style</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="styles/default/style"><meta name="groc-project-path" content="lib/styles/default/style.sass"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="document"><div class="meta"><div class="file-path"><a href="https://github.com/nevir/groc/blob/master/undefined">projectPath</a></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="k">@import</span> <span class="s">&quot;compass&quot;</span>
 <span class="k">@import</span> <span class="s">&quot;code_styles&quot;</span>
 
 <span class="k">@import</span> <span class="s">&quot;compass/reset&quot;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="configuration">Configuration</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="sizing">Sizing</h3></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
@@ -94,7 +94,10 @@ We may or may not have either .comment or .code sections, so we need to handle a
     <span class="na">white-space</span><span class="o">:</span>  <span class="no">normal</span>
 
   <span class="nc">.code</span>
-    <span class="na">white-space</span><span class="o">:</span> <span class="n">pre</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="two-column-scaling">Two-Column Scaling</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Before we swap over to a single column layout, we scale the page down a little bit in an effort
+    <span class="na">white-space</span><span class="o">:</span> <span class="n">pre</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Fit the meta info into the code column</p></div></div><div class="code"><div class="wrapper"><span class="nn">#document</span> <span class="nc">.meta</span>
+  <span class="na">position</span><span class="o">:</span> <span class="no">absolute</span>
+  <span class="na">left</span><span class="o">:</span>     <span class="nv">$commentary-column-width</span>
+  <span class="na">padding</span><span class="o">:</span>  <span class="nv">$common-margin</span> <span class="o">/</span> <span class="mi">4</span> <span class="nv">$common-margin</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="two-column-scaling">Two-Column Scaling</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Before we swap over to a single column layout, we scale the page down a little bit in an effort
 to squeeze some extra life out of it.</p>
 
 <p>Scaling starts once the toolbar is flush with the main column</p></div></div><div class="code"><div class="wrapper"><span class="na">$scale-start-width</span><span class="o">:</span> <span class="nv">$commentary-column-width</span> <span class="o">+</span> <span class="nv">$tools-width</span>
@@ -232,13 +235,7 @@ screen to the right.</p></div></div><div class="code"><div class="wrapper"><span
       <span class="na">left</span><span class="o">:</span> <span class="mi">100</span><span class="kt">%</span>
       <span class="na">overflow</span><span class="o">:</span> <span class="no">hidden</span>
 
-<span class="nt">nav</span> <span class="nc">.toc</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Show the file path of the immediate node you are interacting with.</p></div></div><div class="code"><div class="wrapper">  <span class="nc">.file-path</span>
-    <span class="na">display</span><span class="o">:</span>  <span class="no">none</span>
-    <span class="na">position</span><span class="o">:</span> <span class="no">absolute</span>
-    <span class="na">top</span><span class="o">:</span>      <span class="mi">0</span><span class="mf">.25</span><span class="kt">em</span>
-    <span class="na">right</span><span class="o">:</span>    <span class="mi">0</span><span class="mf">.25</span><span class="kt">em</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>As a side effect, this also highlights any files that have taken ownership of a folder</p></div></div><div class="code"><div class="wrapper">  <span class="nt">li</span><span class="nd">:hover</span><span class="o">,</span> <span class="nt">li</span><span class="nc">.selected</span>
-    <span class="o">&gt;</span> <span class="nc">.file-path</span>
-      <span class="na">display</span><span class="o">:</span> <span class="no">block</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>By default, all file lists are collapsed.</p></div></div><div class="code"><div class="wrapper">  <span class="nc">.children</span><span class="o">,</span> <span class="nc">.outline</span>
+<span class="nt">nav</span> <span class="nc">.toc</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>By default, all file lists are collapsed.</p></div></div><div class="code"><div class="wrapper">  <span class="nc">.children</span><span class="o">,</span> <span class="nc">.outline</span>
     <span class="na">display</span><span class="o">:</span> <span class="no">none</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We only expand direct descendants for files, but outlines are fully expanded from the outset.</p></div></div><div class="code"><div class="wrapper">  <span class="nc">.expanded</span> <span class="o">&gt;</span> <span class="nc">.children</span><span class="o">,</span> <span class="nc">.expanded</span> <span class="o">&gt;</span> <span class="nc">.outline</span><span class="o">,</span> <span class="nc">.expanded</span> <span class="o">&gt;</span> <span class="nc">.outline</span> <span class="nc">.children</span>
     <span class="na">display</span><span class="o">:</span> <span class="no">block</span>
 
@@ -324,7 +321,14 @@ screen to the right.</p></div></div><div class="code"><div class="wrapper"><span
 
   <span class="k">@media</span> <span class="o">(</span><span class="nt">max-width</span><span class="nd">:</span> <span class="nn">#</span><span class="err">{$</span><span class="nt">single-column-toggle-width</span><span class="err">}</span><span class="o">)</span>
     <span class="na">margin-right</span><span class="o">:</span>  <span class="mi">0</span>
-    <span class="na">padding-right</span><span class="o">:</span> <span class="mi">0</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We apply font changes to .wrapper elements so that we do not resize the 'standard' em unit that
+    <span class="na">padding-right</span><span class="o">:</span> <span class="mi">0</span>
+
+  <span class="nc">.meta</span> <span class="o">&gt;</span> <span class="o">*</span>
+    <span class="nd">+code-font</span>
+    <span class="nd">+text-shadow</span><span class="p">(</span><span class="nv">$code-shadow-color</span> <span class="mi">1</span><span class="kt">px</span> <span class="mi">1</span><span class="kt">px</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">&amp;</span><span class="o">,</span> <span class="nt">a</span>
+      <span class="na">color</span><span class="o">:</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$code-foreground-color</span><span class="o">,</span> <span class="mi">10</span><span class="kt">%</span><span class="p">)</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We apply font changes to .wrapper elements so that we do not resize the 'standard' em unit that
 we are relying on for layout.</p></div></div><div class="code"><div class="wrapper"><span class="nc">.comments</span> <span class="nc">.wrapper</span>
   <span class="nd">+commentary-font</span>
   <span class="nd">+text-shadow</span><span class="p">(</span><span class="nv">$commentary-shadow-color</span> <span class="mi">1</span><span class="kt">px</span> <span class="mi">1</span><span class="kt">px</span> <span class="mi">0</span><span class="p">)</span>
@@ -405,10 +409,6 @@ we are relying on for layout.</p></div></div><div class="code"><div class="wrapp
 
       <span class="k">&amp;</span><span class="nd">:hover</span>
         <span class="na">background</span><span class="o">:</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$tools-background-color</span><span class="o">,</span> <span class="mi">10</span><span class="kt">%</span><span class="p">)</span>
-
-    <span class="nc">.file-path</span>
-      <span class="nd">+opacity</span><span class="p">(</span><span class="mi">0</span><span class="mf">.75</span><span class="p">)</span>
-      <span class="na">font-size</span><span class="o">:</span> <span class="mi">0</span><span class="mf">.75</span><span class="kt">em</span>
 
     <span class="nc">.file</span> <span class="o">&gt;</span> <span class="nc">.label</span>
       <span class="na">font-weight</span><span class="o">:</span> <span class="no">bold</span>

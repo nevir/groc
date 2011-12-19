@@ -276,23 +276,17 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "sourcePath": "/Users/ian/Coding/groc/lib/languages.coffee",
         "projectPath": "lib/languages.coffee",
         "targetPath": "languages",
-        "title": "languages"
-      },
-      "depth": 1,
-      "outline": []
-    }, {
-      "type": "file",
-      "data": {
-        "language": {
-          "nameMatchers": [".coffee"],
-          "pygmentsLexer": "coffee-script",
-          "singleLineComment": ["#"],
-          "name": "CoffeeScript"
+        "firstHeader": {
+          "type": "heading",
+          "data": {
+            "level": 1,
+            "title": "Supported Languages",
+            "slug": "supported-languages",
+            "isFileHeader": true
+          },
+          "depth": 1
         },
-        "sourcePath": "/Users/ian/Coding/groc/lib/logger.coffee",
-        "projectPath": "lib/logger.coffee",
-        "targetPath": "logger",
-        "title": "logger"
+        "title": "Supported Languages"
       },
       "depth": 1,
       "outline": []
@@ -308,7 +302,17 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "sourcePath": "/Users/ian/Coding/groc/lib/project.coffee",
         "projectPath": "lib/project.coffee",
         "targetPath": "project",
-        "title": "project"
+        "firstHeader": {
+          "type": "heading",
+          "data": {
+            "level": 1,
+            "title": "groc API",
+            "slug": "groc-api",
+            "isFileHeader": true
+          },
+          "depth": 1
+        },
+        "title": "groc API"
       },
       "depth": 1,
       "outline": []
@@ -608,7 +612,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "type": "heading",
                   "data": {
                     "level": 2,
-                    "title": "configureOptimist()",
+                    "title": "configureOptimist",
                     "slug": "configureoptimist"
                   },
                   "depth": 2
@@ -616,7 +620,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "type": "heading",
                   "data": {
                     "level": 2,
-                    "title": "extractArgv()",
+                    "title": "extractArgv",
                     "slug": "extractargv"
                   },
                   "depth": 2
@@ -624,7 +628,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "type": "heading",
                   "data": {
                     "level": 2,
-                    "title": "guessPrimaryGitHubURL()",
+                    "title": "guessPrimaryGitHubURL",
                     "slug": "guessprimarygithuburl"
                   },
                   "depth": 2
@@ -639,7 +643,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "type": "heading",
               "data": {
                 "level": 2,
-                "title": "configureOptimist()",
+                "title": "configureOptimist",
                 "slug": "configureoptimist"
               },
               "depth": 2
@@ -647,7 +651,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "type": "heading",
               "data": {
                 "level": 2,
-                "title": "extractArgv()",
+                "title": "extractArgv",
                 "slug": "extractargv"
               },
               "depth": 2
@@ -655,7 +659,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "type": "heading",
               "data": {
                 "level": 2,
-                "title": "guessPrimaryGitHubURL()",
+                "title": "guessPrimaryGitHubURL",
                 "slug": "guessprimarygithuburl"
               },
               "depth": 2
@@ -674,6 +678,32 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "projectPath": "lib/utils/compatibility_helpers.coffee",
             "targetPath": "utils/compatibility_helpers",
             "title": "compatibility_helpers"
+          },
+          "depth": 2,
+          "outline": []
+        }, {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".coffee"],
+              "pygmentsLexer": "coffee-script",
+              "singleLineComment": ["#"],
+              "name": "CoffeeScript"
+            },
+            "sourcePath": "/Users/ian/Coding/groc/lib/utils/logger.coffee",
+            "projectPath": "lib/utils/logger.coffee",
+            "targetPath": "utils/logger",
+            "firstHeader": {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "groc.Logger",
+                "slug": "groclogger",
+                "isFileHeader": true
+              },
+              "depth": 1
+            },
+            "title": "groc.Logger"
           },
           "depth": 2,
           "outline": []
@@ -929,7 +959,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
     node$ = $("<li class=\"" + node.type + "\"/>");
     switch (node.type) {
       case 'file':
-        node$.append("<a class=\"label\" href=\"" + relativeRoot + node.data.targetPath + ".html\">\n  <span class=\"text\">" + node.data.title + "</span>\n</a>\n<span class=\"file-path\">" + node.data.projectPath + "</span>");
+        node$.append("<a class=\"label\" href=\"" + relativeRoot + node.data.targetPath + ".html\" title=\"" + node.data.projectPath + "\">\n  <span class=\"text\">" + node.data.title + "</span>\n</a>");
         break;
       case 'folder':
         node$.append("<span class=\"label\"><span class=\"text\">" + node.data.title + "</span></span>");
