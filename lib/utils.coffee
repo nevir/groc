@@ -13,16 +13,12 @@ Utils =
     unless @_languageDetectionCache?
       @_languageDetectionCache = []
 
-      utils.Logger.error LANGUAGES
-
       for name, language of LANGUAGES
         language.name = name
-        utils.Logger.pass name, language
 
         for matcher in language.nameMatchers
           # If the matcher is a string, we assume that it's a file extension.  Stick it in a regex:
           matcher = ///#{@regexpEscape matcher}$/// if _.isString matcher
-          utils.Logger.warn matcher
 
           @_languageDetectionCache.push [matcher, language]
 
