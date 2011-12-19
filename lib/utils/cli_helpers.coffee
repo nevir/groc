@@ -1,7 +1,7 @@
 # # Command Line Helpers
 CLIHelpers =
 
-  # ## configureOptimist()
+  # ## configureOptimist
 
   # [Optimist](https://github.com/substack/node-optimist) fails to provide a few conveniences, so we
   # layer on a little bit of additional structure when defining our options.
@@ -36,7 +36,7 @@ CLIHelpers =
       opts.default optName, value
 
 
-  # ## extractArgv()
+  # ## extractArgv
 
   # In addition to the extended configuration that we desire, we also want special handling for
   # generated values:
@@ -56,7 +56,7 @@ CLIHelpers =
     argv
 
 
-  # ## guessPrimaryGitHubURL()
+  # ## guessPrimaryGitHubURL
 
   guessPrimaryGitHubURL: (callback) ->
     # `git config --list` provides information about branches and remotes - everything we need to
