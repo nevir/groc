@@ -51,7 +51,7 @@ CLI = (inputArgs, callback) ->
 
     glob:
       description: "A file path or globbing expression that matches files to generate documentation for."
-      default:     (opts) -> opts._
+      default:     (opts) -> opts.argv._
       type:        'list'
 
     except:
@@ -103,17 +103,18 @@ CLI = (inputArgs, callback) ->
   try
     projectConfig = JSON.parse fs.readFileSync projectConfigPath
   catch err
-    console.log opts.help()
-    console.log
-    utils.Logger.error "Failed to load .groc.json: %s", err.message
+    unless err.code == 'ENOENT'
+      console.log opts.help()
+      console.log
+      utils.Logger.error "Failed to load .groc.json: %s", err.message
 
-    return callback err
+      return callback err
 
   # We rely on [CLIHelpers.configureOptimist](utils/cli_helpers.html#configureoptimist) to provide
   # the extra options behavior that we require.
   utils.CLIHelpers.configureOptimist opts, optionsConfig, projectConfig
   #} We have one special case that depends on other defaults...
-  opts.default 'strip', Utils.guessStripPrefixes opts.argv.glob unless projectConfig.strip?
+  opts.default 'strip', Utils.guessStripPrefixes opts.argv.glob unless projectConfig?.strip? and opts.argv.glob?
 
   argv = utils.CLIHelpers.extractArgv opts, optionsConfig
   # If we're in tracing mode, the parsed options are extremely helpful.
