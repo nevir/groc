@@ -1,17 +1,62 @@
-<!DOCTYPE html><html lang="en"><head><title>languages</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="languages"><meta name="groc-project-path" content="lib/languages.coffee"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="document"><div class="meta"><div class="file-path"><a href="https://github.com/nevir/groc/blob/master/lib/languages.coffee">lib/languages.coffee</a></div></div><div class="segment"><div class="comments"><div class="wrapper"><h1 id="supported-languages">Supported Languages</h1></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="nv">LANGUAGES =</span>
+<!DOCTYPE html><html lang="en"><head><title>languages</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="languages"><meta name="groc-project-path" content="lib/languages.coffee"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/nevir/groc/blob/master/lib/languages.coffee">lib/languages.coffee</a></div></div><div id="document"><div class="segment"><div class="comments"><div class="wrapper"><h1 id="supported-languages">Supported Languages</h1></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="nv">LANGUAGES =</span>
   <span class="nv">Markdown:</span>
     <span class="nv">nameMatchers: </span><span class="p">[</span><span class="s1">&#39;.md&#39;</span><span class="p">]</span>
     <span class="nv">commentsOnly: </span><span class="kc">true</span>
+
+  <span class="nv">C:</span>
+    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s1">&#39;.c&#39;</span><span class="p">,</span> <span class="s1">&#39;.h&#39;</span><span class="p">]</span>
+    <span class="nv">pygmentsLexer: </span>    <span class="s1">&#39;c&#39;</span>
+    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s1">&#39;//&#39;</span><span class="p">]</span>
+
+  <span class="s1">&#39;C++&#39;</span><span class="o">:</span>
+    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s1">&#39;.cpp&#39;</span><span class="p">,</span> <span class="s1">&#39;.hpp&#39;</span><span class="p">,</span> <span class="s1">&#39;.c++&#39;</span><span class="p">,</span> <span class="s1">&#39;.h++&#39;</span><span class="p">,</span> <span class="s1">&#39;.cc&#39;</span><span class="p">,</span> <span class="s1">&#39;.hh&#39;</span><span class="p">,</span> <span class="s1">&#39;.cxx&#39;</span><span class="p">,</span> <span class="s1">&#39;.hxx&#39;</span><span class="p">]</span>
+    <span class="nv">pygmentsLexer: </span>    <span class="s1">&#39;cpp&#39;</span>
+    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s1">&#39;//&#39;</span><span class="p">]</span>
 
   <span class="nv">CoffeeScript:</span>
     <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s1">&#39;.coffee&#39;</span><span class="p">]</span>
     <span class="nv">pygmentsLexer: </span>    <span class="s1">&#39;coffee-script&#39;</span>
     <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s1">&#39;#&#39;</span><span class="p">]</span>
 
+  <span class="nv">Jade:</span>
+    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s1">&#39;.jade&#39;</span><span class="p">]</span>
+    <span class="nv">pygmentsLexer: </span>    <span class="s1">&#39;jade&#39;</span>
+    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s1">&#39;//&#39;</span><span class="p">]</span>
+
+  <span class="nv">Java:</span>
+    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s1">&#39;.java&#39;</span><span class="p">]</span>
+    <span class="nv">pygmentsLexer: </span>    <span class="s1">&#39;java&#39;</span>
+    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s1">&#39;//&#39;</span><span class="p">]</span>
+
   <span class="nv">JavaScript:</span>
     <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s1">&#39;.js&#39;</span><span class="p">]</span>
     <span class="nv">pygmentsLexer: </span>    <span class="s1">&#39;javascript&#39;</span>
     <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s1">&#39;//&#39;</span><span class="p">]</span>
+
+  <span class="nv">LaTeX:</span>
+    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s1">&#39;.tex&#39;</span><span class="p">,</span> <span class="s1">&#39;.latex&#39;</span><span class="p">,</span> <span class="s1">&#39;.sty&#39;</span><span class="p">]</span>
+    <span class="nv">pygmentsLexer: </span>    <span class="s1">&#39;latex&#39;</span>
+    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s1">&#39;%&#39;</span><span class="p">]</span>
+
+  <span class="s1">&#39;Objective-C&#39;</span><span class="o">:</span>
+    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s1">&#39;.m&#39;</span><span class="p">,</span> <span class="s1">&#39;.mm&#39;</span><span class="p">]</span>
+    <span class="nv">pygmentsLexer: </span>    <span class="s1">&#39;objc&#39;</span>
+    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s1">&#39;//&#39;</span><span class="p">]</span>
+
+  <span class="nv">Perl:</span>
+    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s1">&#39;.pl&#39;</span><span class="p">,</span> <span class="s1">&#39;.pm&#39;</span><span class="p">]</span>
+    <span class="nv">pygmentsLexer: </span>    <span class="s1">&#39;perl&#39;</span>
+    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s1">&#39;#&#39;</span><span class="p">]</span>
+
+  <span class="nv">PHP:</span>
+    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="sr">/\.php\d+?$/</span><span class="p">,</span> <span class="s1">&#39;.fbp&#39;</span><span class="p">]</span>
+    <span class="nv">pygmentsLexer: </span>    <span class="s1">&#39;php&#39;</span>
+    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s1">&#39;//&#39;</span><span class="p">]</span>
+
+  <span class="nv">Python:</span>
+    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s1">&#39;.py&#39;</span><span class="p">]</span>
+    <span class="nv">pygmentsLexer: </span>    <span class="s1">&#39;python&#39;</span>
+    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s1">&#39;#&#39;</span><span class="p">]</span>
 
   <span class="nv">Ruby:</span>
     <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s1">&#39;.rb&#39;</span><span class="p">]</span>
@@ -28,7 +73,7 @@
     <span class="nv">pygmentsLexer: </span>    <span class="s1">&#39;scss&#39;</span>
     <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s1">&#39;//&#39;</span><span class="p">]</span>
 
-  <span class="nv">Jade:</span>
-    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s1">&#39;.jade&#39;</span><span class="p">]</span>
-    <span class="nv">pygmentsLexer: </span>    <span class="s1">&#39;jade&#39;</span>
-    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s1">&#39;//&#39;</span><span class="p">]</span></div></div></div></div></body></html>
+  <span class="nv">Shell:</span>
+    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s1">&#39;.sh&#39;</span><span class="p">]</span>
+    <span class="nv">pygmentsLexer: </span>    <span class="s1">&#39;sh&#39;</span>
+    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s1">&#39;#&#39;</span><span class="p">]</span></div></div></div></div></body></html>

@@ -319,6 +319,32 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
     }, {
       "type": "folder",
       "data": {
+        "path": "scripts",
+        "title": "scripts"
+      },
+      "depth": 1,
+      "children": [
+        {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".sh"],
+              "pygmentsLexer": "sh",
+              "singleLineComment": ["#"],
+              "name": "Shell"
+            },
+            "sourcePath": "/Users/ian/Coding/groc/scripts/publish-git-pages.sh",
+            "projectPath": "scripts/publish-git-pages.sh",
+            "targetPath": "scripts/publish-git-pages",
+            "title": "publish-git-pages"
+          },
+          "depth": 2,
+          "outline": []
+        }
+      ]
+    }, {
+      "type": "folder",
+      "data": {
         "path": "styles",
         "title": "styles"
       },
