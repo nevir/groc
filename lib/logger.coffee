@@ -1,3 +1,5 @@
+# # groc.Logger
+
 # We have pretty simple needs for a logger, and so far have been unable to find a reasonable
 # off-the-shelf solution that fits them without being too overbearing:
 class Logger
