@@ -114,6 +114,3 @@ Groc wants to:
 
 * [Fully support hand-held viewing of documentation](https://github.com/nevir/groc/issues/1).  It
   can almost do this today, but the table of contents is horribly broken in the mobile view.
-
-* [Provide support](https://github.com/nevir/groc/issues/7) for all of your favorite
-  programming/scripting/documentation languages.
