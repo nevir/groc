@@ -13,14 +13,13 @@ html(lang="en")
   script(type="text/javascript", src=relativeRoot + "assets/behavior.js")
 
   body
+    #meta
+      - if (project.githubURL)
+        .file-path
+          a(href=project.githubURL + '/blob/master/' + projectPath)= projectPath
+      - else
+        .file-path= projectPath
     #document
-      .meta
-        - if (project.githubURL)
-          .file-path
-            a(href=project.githubURL + '/blob/master/' + projectPath)= projectPath
-        - else
-          .file-path= projectPath
-
       - for (var i in segments)
         .segment
           - if (segments[i].markdownedComments != '')

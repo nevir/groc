@@ -127,7 +127,7 @@ body
     white-space: pre
 
 // Fit the meta info into the code column
-#document .meta
+#meta
   position: absolute
   left:     $commentary-column-width
   padding:  $common-margin / 4 $common-margin
@@ -423,15 +423,15 @@ html
     margin-right:  0
     padding-right: 0
 
-  .meta > *
-    +commentary-font
-    +text-shadow($code-shadow-color 1px 1px 0)
+#meta > *
+  +commentary-font
+  +text-shadow($code-shadow-color 1px 1px 0)
 
-    &, a
-      color: darken($code-foreground-color, 15%)
+  &, a
+    color: darken($code-foreground-color, 15%)
 
-    a
-      text-decoration: none
+  a
+    text-decoration: none
 
 // We apply font changes to .wrapper elements so that we do not resize the 'standard' em unit that
 // we are relying on for layout.
