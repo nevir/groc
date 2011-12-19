@@ -113,7 +113,7 @@ CLI = (inputArgs, callback) ->
   # the extra options behavior that we require.
   utils.CLIHelpers.configureOptimist opts, optionsConfig, projectConfig
   #} We have one special case that depends on other defaults...
-  opts.default 'strip', Utils.guessStripPrefixes opts.argv.glob
+  opts.default 'strip', Utils.guessStripPrefixes opts.argv.glob unless projectConfig.strip?
 
   argv = utils.CLIHelpers.extractArgv opts, optionsConfig
   # If we're in tracing mode, the parsed options are extremely helpful.
