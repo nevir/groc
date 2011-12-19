@@ -105,7 +105,7 @@ CLI = (inputArgs, callback) ->
   catch err
     console.log opts.help()
     console.log
-    Logger.error "Failed to load .groc.json: %s", err.message
+    utils.Logger.error "Failed to load .groc.json: %s", err.message
 
     return callback err
 
@@ -117,7 +117,7 @@ CLI = (inputArgs, callback) ->
 
   argv = utils.CLIHelpers.extractArgv opts, optionsConfig
   # If we're in tracing mode, the parsed options are extremely helpful.
-  Logger.trace 'argv: %j', argv if argv['very-verbose']
+  utils.Logger.trace 'argv: %j', argv if argv['very-verbose']
 
   # Help short circuits early on.
   return console.log opts.help() if argv.help
@@ -130,8 +130,8 @@ CLI = (inputArgs, callback) ->
   project = new Project argv.root, argv.out
 
   # `--verbose` and `--very-verbose` just impact the logging level of the project.
-  project.log.minLevel = Logger::LEVELS.DEBUG if argv.verbose
-  project.log.minLevel = Logger::LEVELS.TRACE if argv['very-verbose']
+  project.log.minLevel = utils.Logger::LEVELS.DEBUG if argv.verbose
+  project.log.minLevel = utils.Logger::LEVELS.TRACE if argv['very-verbose']
 
   # We expand the `--glob` expressions into a poor-man's set, so that we can easily remove
   # exclusions defined by `--except` before we add the result to the project's file list.

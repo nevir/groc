@@ -166,8 +166,6 @@ Utils =
 
       mergedCode += segmentCode
 
-    Logger.warn
-
     pygmentize.stdin.write mergedCode
     pygmentize.stdin.end()
 

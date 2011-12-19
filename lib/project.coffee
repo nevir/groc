@@ -5,8 +5,8 @@
 #
 # A project:
 class Project
-  constructor: (root, outPath, minLogLevel=Logger::INFO) ->
-    @log = new Logger minLogLevel
+  constructor: (root, outPath, minLogLevel=utils.Logger::INFO) ->
+    @log = new utils.Logger minLogLevel
 
     # * Has a single root directory that contains (most of) it.
     @root = path.resolve root
