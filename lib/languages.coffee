@@ -84,3 +84,8 @@ LANGUAGES =
     nameMatchers:      ['.sh']
     pygmentsLexer:     'sh'
     singleLineComment: ['#']
+
+  YAML:
+    nameMatchers:      ['.yml', '.yaml']
+    pygmentsLexer:     'yaml'
+    singleLineComment: ['#']
