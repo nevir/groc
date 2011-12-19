@@ -126,6 +126,12 @@ body
   .code
     white-space: pre
 
+// Fit the meta info into the code column
+#document .meta
+  position: absolute
+  left:     $commentary-column-width
+  padding:  $common-margin / 4 $common-margin
+
 
 // ## Two-Column Scaling
 
@@ -300,18 +306,6 @@ nav.active .toc
       overflow: hidden
 
 nav .toc
-  // Show the file path of the immediate node you are interacting with.
-  .file-path
-    display:  none
-    position: absolute
-    top:      0.25em
-    right:    0.25em
-
-  // As a side effect, this also highlights any files that have taken ownership of a folder
-  li:hover, li.selected
-    > .file-path
-      display: block
-
   // By default, all file lists are collapsed.
   .children, .outline
     display: none
@@ -429,6 +423,13 @@ html
     margin-right:  0
     padding-right: 0
 
+  .meta > *
+    +code-font
+    +text-shadow($code-shadow-color 1px 1px 0)
+
+    &, a
+      color: darken($code-foreground-color, 10%)
+
 // We apply font changes to .wrapper elements so that we do not resize the 'standard' em unit that
 // we are relying on for layout.
 .comments .wrapper
@@ -511,10 +512,6 @@ nav
 
       &:hover
         background: darken($tools-background-color, 10%)
-
-    .file-path
-      +opacity(0.75)
-      font-size: 0.75em
 
     .file > .label
       font-weight: bold

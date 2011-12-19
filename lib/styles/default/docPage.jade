@@ -14,6 +14,13 @@ html(lang="en")
 
   body
     #document
+      .meta
+        - if (project.githubURL)
+          .file-path
+            a(href=project.githubURL + '/blob/master/' + project.projectPath) projectPath
+        - else
+          .file-path= projectPath
+
       - for (var i in segments)
         .segment
           - if (segments[i].markdownedComments != '')

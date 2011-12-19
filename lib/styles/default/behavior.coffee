@@ -212,10 +212,9 @@ buildTOCNode = (node, relativeRoot, parentFile) ->
   switch node.type
     when 'file'
       node$.append """
-        <a class="label" href="#{relativeRoot}#{node.data.targetPath}.html">
+        <a class="label" href="#{relativeRoot}#{node.data.targetPath}.html" title="#{node.data.projectPath}">
           <span class="text">#{node.data.title}</span>
         </a>
-        <span class="file-path">#{node.data.projectPath}</span>
       """
 
     when 'folder'
