@@ -202,40 +202,24 @@ buildNav = (metaInfo) ->
     """
 
   for node in tableOfContents
-    toc$.append buildTOCNode node, metaInfo.relativeRoot
+    toc$.append buildTOCNode node, metaInfo
 
   nav$
 
-buildTOCNode = (node, relativeRoot, parentFile) ->
+buildTOCNode = (node, metaInfo) ->
   node$ = $("""<li class="#{node.type}"/>""")
 
   switch node.type
     when 'file'
-      node$.append """
-        <a class="label" href="#{relativeRoot}#{node.data.targetPath}.html" title="#{node.data.projectPath}">
-          <span class="text">#{node.data.title}</span>
-        </a>
-      """
+      #} Single line to avoid extra whitespace
+      node$.append """<a class="label" href="#{metaInfo.relativeRoot}#{node.data.targetPath}.html" title="#{node.data.projectPath}"><span class="text">#{node.data.title}</span></a>"""
 
     when 'folder'
       node$.append """<span class="label"><span class="text">#{node.data.title}</span></span>"""
 
-    when 'heading'
-      node$.append """
-        <a class="label" href="#{relativeRoot}#{parentFile.data.targetPath}.html##{node.data.slug}">
-          <span class="text">#{node.data.title}</span>
-        </a>
-      """
-
-  if node.outline?.length > 0
-    outline$ = $('<ol class="outline"/>')
-    outline$.append buildTOCNode c, relativeRoot, node for c in node.outline
-
-    node$.append outline$
-
   if node.children?.length > 0
     children$ = $('<ol class="children"/>')
-    children$.append buildTOCNode c, relativeRoot, parentFile for c in node.children
+    children$.append buildTOCNode c, metaInfo for c in node.children
 
     node$.append children$
 
@@ -243,7 +227,7 @@ buildTOCNode = (node, relativeRoot, parentFile) ->
   label$.click -> selectNode node$
 
   discloser$ = $('<span class="discloser"/>').prependTo label$
-  discloser$.addClass 'placeholder' unless node.outline?.length > 0 or node.children?.length > 0
+  discloser$.addClass 'placeholder' unless node.children?.length > 0
   discloser$.click (evt) ->
     node$.toggleClass 'expanded'
     evt.preventDefault()

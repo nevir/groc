@@ -52,7 +52,7 @@ StyleHelpers =
             type:  'folder'
             data:
               path:  targetChunks[0..i].join '/'
-              title: targetChunks[0..i].join '/'
+              title: targetChunks[i]
             depth: i + 1
 
           prevPath = [] # Make sure that we don't match directories several levels in, after a fail.
