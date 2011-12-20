@@ -155,65 +155,49 @@ a user to quickly spam left to move up the tree.</p></div></div><div class="code
     <span class="s2">&quot;&quot;&quot;</span>
 
 <span class="s2">  for node in tableOfContents</span>
-<span class="s2">    toc$.append buildTOCNode node, metaInfo.relativeRoot</span>
+<span class="s2">    toc$.append buildTOCNode node, metaInfo</span>
 
 <span class="s2">  nav$</span>
 
-<span class="s2">buildTOCNode = (node, relativeRoot, parentFile) -&gt;</span>
+<span class="s2">buildTOCNode = (node, metaInfo) -&gt;</span>
 <span class="s2">  node$ = $(&quot;&quot;&quot;</span><span class="o">&lt;</span><span class="nx">li</span> <span class="k">class</span><span class="o">=</span><span class="s2">&quot;#{node.type}&quot;</span><span class="o">/&gt;</span><span class="s2">&quot;&quot;&quot;)</span>
 
 <span class="s2">  switch node.type</span>
 <span class="s2">    when &#39;file&#39;</span>
-<span class="s2">      node$.append &quot;&quot;&quot;</span>
-        <span class="o">&lt;</span><span class="nx">a</span> <span class="k">class</span><span class="o">=</span><span class="s2">&quot;label&quot;</span> <span class="nx">href</span><span class="o">=</span><span class="s2">&quot;#{relativeRoot}#{node.data.targetPath}.html&quot;</span> <span class="nx">title</span><span class="o">=</span><span class="s2">&quot;#{node.data.projectPath}&quot;</span><span class="o">&gt;</span>
-          <span class="o">&lt;</span><span class="nx">span</span> <span class="k">class</span><span class="o">=</span><span class="s2">&quot;text&quot;</span><span class="o">&gt;</span><span class="c1">#{node.data.title}&lt;/span&gt;</span>
-        <span class="o">&lt;</span><span class="err">/a&gt;</span>
-      <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">      #} Single line to avoid extra whitespace</span>
+<span class="s2">      node$.append &quot;&quot;&quot;</span><span class="o">&lt;</span><span class="nx">a</span> <span class="k">class</span><span class="o">=</span><span class="s2">&quot;label&quot;</span> <span class="nx">href</span><span class="o">=</span><span class="s2">&quot;#{metaInfo.relativeRoot}#{node.data.targetPath}.html&quot;</span> <span class="nx">title</span><span class="o">=</span><span class="s2">&quot;#{node.data.projectPath}&quot;</span><span class="o">&gt;&lt;</span><span class="nx">span</span> <span class="k">class</span><span class="o">=</span><span class="s2">&quot;text&quot;</span><span class="o">&gt;</span><span class="c1">#{node.data.title}&lt;/span&gt;&lt;/a&gt;&quot;&quot;&quot;</span>
 
-<span class="s2">    when &#39;folder&#39;</span>
-<span class="s2">      node$.append &quot;&quot;&quot;</span><span class="o">&lt;</span><span class="nx">span</span> <span class="k">class</span><span class="o">=</span><span class="s2">&quot;label&quot;</span><span class="o">&gt;&lt;</span><span class="nx">span</span> <span class="k">class</span><span class="o">=</span><span class="s2">&quot;text&quot;</span><span class="o">&gt;</span><span class="c1">#{node.data.title}&lt;/span&gt;&lt;/span&gt;&quot;&quot;&quot;</span>
+    <span class="k">when</span> <span class="s1">&#39;folder&#39;</span>
+      <span class="nx">node$</span><span class="p">.</span><span class="nx">append</span> <span class="s2">&quot;&quot;&quot;&lt;span class=&quot;</span><span class="nx">label</span><span class="s2">&quot;&gt;&lt;span class=&quot;</span><span class="nx">text</span><span class="s2">&quot;&gt;#{node.data.title}&lt;/span&gt;&lt;/span&gt;&quot;&quot;&quot;</span>
 
-    <span class="k">when</span> <span class="s1">&#39;heading&#39;</span>
-      <span class="nx">node$</span><span class="p">.</span><span class="nx">append</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        &lt;a class=&quot;</span><span class="nx">label</span><span class="s2">&quot; href=&quot;</span><span class="c1">#{relativeRoot}#{parentFile.data.targetPath}.html##{node.data.slug}&quot;&gt;</span>
-          <span class="o">&lt;</span><span class="nx">span</span> <span class="k">class</span><span class="o">=</span><span class="s2">&quot;text&quot;</span><span class="o">&gt;</span><span class="c1">#{node.data.title}&lt;/span&gt;</span>
-        <span class="o">&lt;</span><span class="err">/a&gt;</span>
-      <span class="s2">&quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="nx">node</span><span class="p">.</span><span class="nx">children</span><span class="o">?</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="nx">children</span><span class="nv">$ = </span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;&lt;ol class=&quot;children&quot;/&gt;&#39;</span><span class="p">)</span>
+    <span class="nx">children$</span><span class="p">.</span><span class="nx">append</span> <span class="nx">buildTOCNode</span> <span class="nx">c</span><span class="p">,</span> <span class="nx">metaInfo</span> <span class="k">for</span> <span class="nx">c</span> <span class="k">in</span> <span class="nx">node</span><span class="p">.</span><span class="nx">children</span>
 
-<span class="s2">  if node.outline?.length &gt; 0</span>
-<span class="s2">    outline$ = $(&#39;&lt;ol class=&quot;</span><span class="nx">outline</span><span class="s2">&quot;/&gt;&#39;)</span>
-<span class="s2">    outline$.append buildTOCNode c, relativeRoot, node for c in node.outline</span>
+    <span class="nx">node$</span><span class="p">.</span><span class="nx">append</span> <span class="nx">children$</span>
 
-<span class="s2">    node$.append outline$</span>
+  <span class="nx">label</span><span class="nv">$ = </span><span class="nx">node$</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;&gt; .label&#39;</span><span class="p">)</span>
+  <span class="nx">label$</span><span class="p">.</span><span class="nx">click</span> <span class="o">-&gt;</span> <span class="nx">selectNode</span> <span class="nx">node$</span>
 
-<span class="s2">  if node.children?.length &gt; 0</span>
-<span class="s2">    children$ = $(&#39;&lt;ol class=&quot;</span><span class="nx">children</span><span class="s2">&quot;/&gt;&#39;)</span>
-<span class="s2">    children$.append buildTOCNode c, relativeRoot, parentFile for c in node.children</span>
+  <span class="nx">discloser</span><span class="nv">$ = </span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;&lt;span class=&quot;discloser&quot;/&gt;&#39;</span><span class="p">).</span><span class="nx">prependTo</span> <span class="nx">label$</span>
+  <span class="nx">discloser$</span><span class="p">.</span><span class="nx">addClass</span> <span class="s1">&#39;placeholder&#39;</span> <span class="nx">unless</span> <span class="nx">node</span><span class="p">.</span><span class="nx">children</span><span class="o">?</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span>
+  <span class="nx">discloser$</span><span class="p">.</span><span class="nx">click</span> <span class="nf">(evt) -&gt;</span>
+    <span class="nx">node$</span><span class="p">.</span><span class="nx">toggleClass</span> <span class="s1">&#39;expanded&#39;</span>
+    <span class="nx">evt</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">()</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Persist our references to the node</p></div></div><div class="code"><div class="wrapper">  <span class="nx">fileMap</span><span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">targetPath</span><span class="p">]</span> <span class="o">=</span> <span class="nx">node$</span> <span class="k">if</span> <span class="nx">node</span><span class="p">.</span><span class="nx">type</span> <span class="o">==</span> <span class="s1">&#39;file&#39;</span>
+  <span class="nx">appendSearchNode</span> <span class="nx">node$</span>
 
-<span class="s2">    node$.append children$</span>
+  <span class="nx">node$</span>
 
-<span class="s2">  label$ = node$.find(&#39;&gt; .label&#39;)</span>
-<span class="s2">  label$.click -&gt; selectNode node$</span>
+<span class="nx">$</span> <span class="o">-&gt;</span>
+  <span class="nv">metaInfo =</span>
+    <span class="nv">relativeRoot: </span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;meta[name=&quot;groc-relative-root&quot;]&#39;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">)</span>
+    <span class="nv">githubURL: </span>   <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;meta[name=&quot;groc-github-url&quot;]&#39;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">)</span>
+    <span class="nv">documentPath: </span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;meta[name=&quot;groc-document-path&quot;]&#39;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">)</span>
+    <span class="nv">projectPath: </span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;meta[name=&quot;groc-project-path&quot;]&#39;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">)</span>
 
-<span class="s2">  discloser$ = $(&#39;&lt;span class=&quot;</span><span class="nx">discloser</span><span class="s2">&quot;/&gt;&#39;).prependTo label$</span>
-<span class="s2">  discloser$.addClass &#39;placeholder&#39; unless node.outline?.length &gt; 0 or node.children?.length &gt; 0</span>
-<span class="s2">  discloser$.click (evt) -&gt;</span>
-<span class="s2">    node$.toggleClass &#39;expanded&#39;</span>
-<span class="s2">    evt.preventDefault()</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Persist our references to the node</p></div></div><div class="code"><div class="wrapper"><span class="s2">  fileMap[node.data.targetPath] = node$ if node.type == &#39;file&#39;</span>
-<span class="s2">  appendSearchNode node$</span>
-
-<span class="s2">  node$</span>
-
-<span class="s2">$ -&gt;</span>
-<span class="s2">  metaInfo =</span>
-<span class="s2">    relativeRoot: $(&#39;meta[name=&quot;</span><span class="nx">groc</span><span class="o">-</span><span class="nx">relative</span><span class="o">-</span><span class="nx">root</span><span class="s2">&quot;]&#39;).attr(&#39;content&#39;)</span>
-<span class="s2">    githubURL:    $(&#39;meta[name=&quot;</span><span class="nx">groc</span><span class="o">-</span><span class="nx">github</span><span class="o">-</span><span class="nx">url</span><span class="s2">&quot;]&#39;).attr(&#39;content&#39;)</span>
-<span class="s2">    documentPath: $(&#39;meta[name=&quot;</span><span class="nx">groc</span><span class="o">-</span><span class="nb">document</span><span class="o">-</span><span class="nx">path</span><span class="s2">&quot;]&#39;).attr(&#39;content&#39;)</span>
-<span class="s2">    projectPath:  $(&#39;meta[name=&quot;</span><span class="nx">groc</span><span class="o">-</span><span class="nx">project</span><span class="o">-</span><span class="nx">path</span><span class="err">&quot;</span><span class="p">]</span><span class="s1">&#39;).attr(&#39;</span><span class="nx">content</span><span class="s1">&#39;)</span>
-
-<span class="s1">  nav$    = buildNav metaInfo</span>
-<span class="s1">  toc$    = nav$.find &#39;</span><span class="p">.</span><span class="nx">toc</span><span class="s1">&#39;</span>
-<span class="s1">  search$ = $(&#39;</span><span class="c1">#search&#39;)</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Select the current file, and expand up to it</p></div></div><div class="code"><div class="wrapper">  <span class="nx">selectNodeByDocumentPath</span> <span class="nx">metaInfo</span><span class="p">.</span><span class="nx">documentPath</span><span class="p">,</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">hash</span><span class="p">.</span><span class="nx">replace</span> <span class="s1">&#39;#&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We use the search box's focus state to toggle the table of contents.  This ensures that search
+  <span class="nx">nav</span><span class="nv">$    = </span><span class="nx">buildNav</span> <span class="nx">metaInfo</span>
+  <span class="nx">toc</span><span class="nv">$    = </span><span class="nx">nav$</span><span class="p">.</span><span class="nx">find</span> <span class="s1">&#39;.toc&#39;</span>
+  <span class="nx">search</span><span class="nv">$ = </span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#search&#39;</span><span class="p">)</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Select the current file, and expand up to it</p></div></div><div class="code"><div class="wrapper">  <span class="nx">selectNodeByDocumentPath</span> <span class="nx">metaInfo</span><span class="p">.</span><span class="nx">documentPath</span><span class="p">,</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">hash</span><span class="p">.</span><span class="nx">replace</span> <span class="s1">&#39;#&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We use the search box's focus state to toggle the table of contents.  This ensures that search
 will always be focused while the toc is up, and that it goes away once the user clicks off.</p></div></div><div class="code"><div class="wrapper">  <span class="nx">search$</span><span class="p">.</span><span class="nx">focus</span> <span class="o">-&gt;</span> <span class="nx">setTableOfContentsActive</span> <span class="kc">true</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>However, we don't want to hide the table of contents if you are clicking around in the nav.</p>
 
 <p>The blur event doesn't give us the previous event, sadly, so we first trap mousedown events</p></div></div><div class="code"><div class="wrapper">  <span class="nv">lastMousedownTimestamp = </span><span class="kc">null</span>

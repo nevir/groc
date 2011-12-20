@@ -975,39 +975,27 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
     }
     for (_i = 0, _len = tableOfContents.length; _i < _len; _i++) {
       node = tableOfContents[_i];
-      toc$.append(buildTOCNode(node, metaInfo.relativeRoot));
+      toc$.append(buildTOCNode(node, metaInfo));
     }
     return nav$;
   };
 
-  buildTOCNode = function(node, relativeRoot, parentFile) {
-    var c, children$, discloser$, label$, node$, outline$, _i, _j, _len, _len2, _ref, _ref2, _ref3, _ref4, _ref5, _ref6;
+  buildTOCNode = function(node, metaInfo) {
+    var c, children$, discloser$, label$, node$, _i, _len, _ref, _ref2, _ref3;
     node$ = $("<li class=\"" + node.type + "\"/>");
     switch (node.type) {
       case 'file':
-        node$.append("<a class=\"label\" href=\"" + relativeRoot + node.data.targetPath + ".html\" title=\"" + node.data.projectPath + "\">\n  <span class=\"text\">" + node.data.title + "</span>\n</a>");
+        node$.append("<a class=\"label\" href=\"" + metaInfo.relativeRoot + node.data.targetPath + ".html\" title=\"" + node.data.projectPath + "\"><span class=\"text\">" + node.data.title + "</span></a>");
         break;
       case 'folder':
         node$.append("<span class=\"label\"><span class=\"text\">" + node.data.title + "</span></span>");
-        break;
-      case 'heading':
-        node$.append("<a class=\"label\" href=\"" + relativeRoot + parentFile.data.targetPath + ".html#" + node.data.slug + "\">\n  <span class=\"text\">" + node.data.title + "</span>\n</a>");
     }
-    if (((_ref = node.outline) != null ? _ref.length : void 0) > 0) {
-      outline$ = $('<ol class="outline"/>');
-      _ref2 = node.outline;
+    if (((_ref = node.children) != null ? _ref.length : void 0) > 0) {
+      children$ = $('<ol class="children"/>');
+      _ref2 = node.children;
       for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
         c = _ref2[_i];
-        outline$.append(buildTOCNode(c, relativeRoot, node));
-      }
-      node$.append(outline$);
-    }
-    if (((_ref3 = node.children) != null ? _ref3.length : void 0) > 0) {
-      children$ = $('<ol class="children"/>');
-      _ref4 = node.children;
-      for (_j = 0, _len2 = _ref4.length; _j < _len2; _j++) {
-        c = _ref4[_j];
-        children$.append(buildTOCNode(c, relativeRoot, parentFile));
+        children$.append(buildTOCNode(c, metaInfo));
       }
       node$.append(children$);
     }
@@ -1016,7 +1004,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
       return selectNode(node$);
     });
     discloser$ = $('<span class="discloser"/>').prependTo(label$);
-    if (!(((_ref5 = node.outline) != null ? _ref5.length : void 0) > 0 || ((_ref6 = node.children) != null ? _ref6.length : void 0) > 0)) {
+    if (!(((_ref3 = node.children) != null ? _ref3.length : void 0) > 0)) {
       discloser$.addClass('placeholder');
     }
     discloser$.click(function(evt) {
