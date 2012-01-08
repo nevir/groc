@@ -129,7 +129,14 @@ Utils =
       '-O', 'encoding=utf-8,tabsize=2'
     ]
     pygmentize.stderr.addListener 'data', (data)  -> callback data.toString()
-    pygmentize.stdin.addListener 'error', (error) -> callback error
+    pygmentize.stdin.addListener 'error', (error) ->
+      # This appears to only occur when pygmentize is missing:
+      utils.Logger.error "Unable to find 'pygmentize' on your PATH.  Please install pygments."
+      utils.Logger.info ''
+
+      # Lack of pygments is a one time setup task, we don't feel bad about killing the process
+      # off until the user does so.  It's a hard requirement.
+      process.exit 1
 
     # We'll just split the output at the end.  pygmentize doesn't stream its output, and a given
     # source file is small enough that it shouldn't matter.

@@ -22,7 +22,7 @@ class Base
             @log.warn   segments[i]?.code.join '\n'
             @log.error  highlight
 
-        @log.error 'Failed to highlight %s as %s: %s', fileInfo.sourcePath, fileInfo.language.name, error.message
+        @log.error 'Failed to highlight %s as %s: %s', fileInfo.sourcePath, fileInfo.language.name, error.message or error
         return callback error
 
       Utils.markdownComments segments, @project, (error) =>
