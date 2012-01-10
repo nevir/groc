@@ -7,7 +7,7 @@ TARGET_REMOTE=origin
 
 # Git spits out status information on $stderr, and we don't want to relay that as an error to the
 # user.  So we wrap git and do error handling ourselves...
-function exec_git() {
+exec_git() {
   args=''
   for (( i = 1; i <= $#; i++ )); do
     eval arg=\$$i
