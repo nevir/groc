@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 set -e # Stop on the first failure that occurs
 
 DOCS_PATH=.git/groc-tmp
