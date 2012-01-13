@@ -81,9 +81,14 @@ CLI = (inputArgs, callback) ->
       default:     '.'
       type:        'path'
 
+    style:
+      description: "The style to use when generating documentation."
+      aliases:     's'
+      default:     'Default'
+
     strip:
       description: "A path prefix to strip when generating documentation paths (or --no-strip)."
-      aliases:     's'
+      aliases:     't'
 
     verbose:
       description: "Output the inner workings of groc to help diagnose issues."
@@ -149,9 +154,15 @@ CLI = (inputArgs, callback) ->
   project.files = (f for f of files)
   project.stripPrefixes = argv.strip
 
+  # `Project#generate` can take some options, such as which style to use.  Since we're generating
+  # differently depending on whether or not github is enabled, let's set those up now:
+  options =
+    style: styles[argv.style]
+
   # Good to go!
   unless argv.github
-    project.generate (error) -> callback error
+    project.generate options, (error) ->
+      callback error
 
   # ## GitHub
   else
@@ -173,7 +184,7 @@ CLI = (inputArgs, callback) ->
       # and forth with git.  Rather than descend into callback hell in Node, we farm the logic
       # out to a shell script.
 
-      project.generate (error) ->
+      project.generate options, (error) ->
         return callback error if error
 
         project.log.info ''

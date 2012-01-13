@@ -27,18 +27,19 @@ class Project
   BATCH_SIZE: 10
 
   # Where the magic happens.
-  generate: (callback) ->
-    @log.trace 'Project#Generate(...)'
+  #
+  # Currently, the only supported option is:
+  generate: (options, callback) ->
+    @log.trace 'Project#Generate(%j, ...)', options
     @log.info 'Generating documentation...'
+
+    # * style: The style prototype to use.  Defaults to `styles.Default`
+    style = new (options.style || styles.Default) @
 
     # We need to ensure that the project root is a strip prefix so that we properly generate
     # relative paths for our files.  Since strip prefixes are relative, it must be the first prefix,
     # so that they can strip from the remainder.
     @stripPrefixes = ["#{@root}/"].concat @stripPrefixes
-
-    # We want to support multiple documentation styles, but we don't expect to have a stable API for
-    # that just yet.
-    style = new styles.Default @
 
     fileMap   = Utils.mapFiles @root, @files, @stripPrefixes
     indexPath = path.resolve @root, @index
