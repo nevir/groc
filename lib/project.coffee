@@ -63,9 +63,7 @@ class Project
           projectPath: currentFile.replace ///^#{@root + '/'}///, ''
           targetPath:  if currentFile == indexPath then 'index' else fileMap[currentFile]
 
-        style.renderFile data, fileInfo, (error) =>
-          return callback error if error
-          done()
+        style.renderFile data, fileInfo, done
 
     pool.exec (error) =>
       return callback error if error
