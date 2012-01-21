@@ -143,10 +143,10 @@ CLI = (inputArgs, callback) ->
   # exclusions defined by `--except` before we add the result to the project's file list.
   files = {}
   for globExpression in argv.glob
-    files[file] = true for file in glob.globSync globExpression
+    files[file] = true for file in glob.sync globExpression
 
   for globExpression in argv.except
-    delete files[file] for file in glob.globSync globExpression
+    delete files[file] for file in glob.sync globExpression
 
   # There are several properties that we need to configure on a project before we can go ahead and
   # generate its documentation.
