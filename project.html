@@ -54,6 +54,9 @@ so that they can strip from the remainder.</p></div></div><div class="code"><div
     <span class="nx">pool</span><span class="p">.</span><span class="nx">exec</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span>
       <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span> <span class="k">if</span> <span class="nx">error</span>
 
-      <span class="nx">@log</span><span class="p">.</span><span class="nx">info</span> <span class="s1">&#39;&#39;</span>
-      <span class="nx">@log</span><span class="p">.</span><span class="nx">pass</span> <span class="s1">&#39;Documentation generated&#39;</span>
-      <span class="nx">callback</span><span class="p">()</span></div></div></div></div></body></html>
+      <span class="nx">style</span><span class="p">.</span><span class="nx">renderCompleted</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span>
+        <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span> <span class="k">if</span> <span class="nx">error</span>
+
+        <span class="nx">@log</span><span class="p">.</span><span class="nx">info</span> <span class="s1">&#39;&#39;</span>
+        <span class="nx">@log</span><span class="p">.</span><span class="nx">pass</span> <span class="s1">&#39;Documentation generated&#39;</span>
+        <span class="nx">callback</span><span class="p">()</span></div></div></div></div></body></html>
