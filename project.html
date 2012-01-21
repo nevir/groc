@@ -29,28 +29,14 @@ so that they can strip from the remainder.</p></div></div><div class="code"><div
 
     <span class="nv">fileMap   = </span><span class="nx">Utils</span><span class="p">.</span><span class="nx">mapFiles</span> <span class="nx">@root</span><span class="p">,</span> <span class="nx">@files</span><span class="p">,</span> <span class="nx">@stripPrefixes</span>
     <span class="nv">indexPath = </span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span> <span class="nx">@root</span><span class="p">,</span> <span class="nx">@index</span>
-    <span class="nv">toProcess = </span><span class="p">(</span><span class="nx">k</span> <span class="k">for</span> <span class="nx">k</span> <span class="k">of</span> <span class="nx">fileMap</span><span class="p">)</span>
-    <span class="nv">inFlight  = </span><span class="mi">0</span>
 
-    <span class="nv">processFile = </span><span class="o">=&gt;</span>
-      <span class="nv">currentFile = </span><span class="nx">toProcess</span><span class="p">.</span><span class="nx">pop</span><span class="p">()</span>
-      <span class="k">if</span> <span class="nx">currentFile</span><span class="o">?</span>
-        <span class="nv">language = </span><span class="nx">Utils</span><span class="p">.</span><span class="nx">getLanguage</span> <span class="nx">currentFile</span>
-        <span class="nx">unless</span> <span class="nx">language</span><span class="o">?</span>
-          <span class="nx">@log</span><span class="p">.</span><span class="nx">warn</span> <span class="s1">&#39;%s is not in a supported language, skipping.&#39;</span><span class="p">,</span> <span class="nx">currentFile</span>
-          <span class="k">return</span> <span class="nx">processFile</span><span class="p">()</span>
+    <span class="nv">pool = </span><span class="nx">spate</span><span class="p">.</span><span class="nx">pool</span> <span class="p">(</span><span class="nx">k</span> <span class="k">for</span> <span class="nx">k</span> <span class="k">of</span> <span class="nx">fileMap</span><span class="p">),</span> <span class="nv">maxConcurrency: </span><span class="nx">@BATCH_SIZE</span><span class="p">,</span> <span class="p">(</span><span class="nx">currentFile</span><span class="p">,</span> <span class="nx">done</span><span class="p">)</span> <span class="o">=&gt;</span>
+      <span class="nx">@log</span><span class="p">.</span><span class="nx">debug</span> <span class="s2">&quot;Processing %s&quot;</span><span class="p">,</span> <span class="nx">currentFile</span>
 
-        <span class="nx">inFlight</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="nx">@log</span><span class="p">.</span><span class="nx">debug</span> <span class="s2">&quot;Processing %s (%d in flight)&quot;</span><span class="p">,</span> <span class="nx">currentFile</span><span class="p">,</span> <span class="nx">inFlight</span>
-
-      <span class="k">else</span>
-        <span class="k">if</span> <span class="nx">inFlight</span> <span class="o">==</span> <span class="mi">0</span>
-          <span class="nx">style</span><span class="p">.</span><span class="nx">renderCompleted</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span>
-            <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span> <span class="k">if</span> <span class="nx">error</span>
-
-            <span class="nx">@log</span><span class="p">.</span><span class="nx">info</span> <span class="s1">&#39;&#39;</span>
-            <span class="nx">@log</span><span class="p">.</span><span class="nx">pass</span> <span class="s1">&#39;Documentation generated&#39;</span>
-            <span class="nx">callback</span><span class="p">()</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>End of the line; we're done chaining processFile()</p></div></div><div class="code"><div class="wrapper">        <span class="k">return</span>
+      <span class="nv">language = </span><span class="nx">Utils</span><span class="p">.</span><span class="nx">getLanguage</span> <span class="nx">currentFile</span>
+      <span class="nx">unless</span> <span class="nx">language</span><span class="o">?</span>
+        <span class="nx">@log</span><span class="p">.</span><span class="nx">warn</span> <span class="s1">&#39;%s is not in a supported language, skipping.&#39;</span><span class="p">,</span> <span class="nx">currentFile</span>
+        <span class="k">return</span> <span class="nx">done</span><span class="p">()</span>
 
       <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span> <span class="nx">currentFile</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>
         <span class="k">if</span> <span class="nx">error</span>
@@ -63,10 +49,11 @@ so that they can strip from the remainder.</p></div></div><div class="code"><div
           <span class="nv">projectPath: </span><span class="nx">currentFile</span><span class="p">.</span><span class="nx">replace</span> <span class="err">///^#{@root + &#39;/&#39;}///, &#39;&#39;</span>
           <span class="nv">targetPath: </span> <span class="k">if</span> <span class="nx">currentFile</span> <span class="o">==</span> <span class="nx">indexPath</span> <span class="k">then</span> <span class="s1">&#39;index&#39;</span> <span class="k">else</span> <span class="nx">fileMap</span><span class="p">[</span><span class="nx">currentFile</span><span class="p">]</span>
 
-        <span class="nx">style</span><span class="p">.</span><span class="nx">renderFile</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">fileInfo</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span>
-            <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span> <span class="k">if</span> <span class="nx">error</span>
+        <span class="nx">style</span><span class="p">.</span><span class="nx">renderFile</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">fileInfo</span><span class="p">,</span> <span class="nx">done</span>
 
-            <span class="nx">inFlight</span> <span class="o">-=</span> <span class="mi">1</span>
-            <span class="nx">processFile</span><span class="p">()</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Kick off the initial batch of files to process.  They'll continue to keep the same number of
-files in flight by chaining to processFile() once they finish.</p></div></div><div class="code"><div class="wrapper">    <span class="k">while</span> <span class="nx">toProcess</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">and</span> <span class="nx">inFlight</span> <span class="o">&lt;</span> <span class="nx">@BATCH_SIZE</span>
-      <span class="nx">processFile</span><span class="p">()</span></div></div></div></div></body></html>
+    <span class="nx">pool</span><span class="p">.</span><span class="nx">exec</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span>
+      <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span> <span class="k">if</span> <span class="nx">error</span>
+
+      <span class="nx">@log</span><span class="p">.</span><span class="nx">info</span> <span class="s1">&#39;&#39;</span>
+      <span class="nx">@log</span><span class="p">.</span><span class="nx">pass</span> <span class="s1">&#39;Documentation generated&#39;</span>
+      <span class="nx">callback</span><span class="p">()</span></div></div></div></div></body></html>
