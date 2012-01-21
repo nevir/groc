@@ -50,7 +50,7 @@ class Project
       language = Utils.getLanguage currentFile
       unless language?
         @log.warn '%s is not in a supported language, skipping.', currentFile
-        done()
+        return done()
 
       fs.readFile currentFile, 'utf-8', (error, data) =>
         if error
