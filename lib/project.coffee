@@ -68,6 +68,9 @@ class Project
     pool.exec (error) =>
       return callback error if error
 
-      @log.info ''
-      @log.pass 'Documentation generated'
-      callback()
+      style.renderCompleted (error) =>
+        return callback error if error
+
+        @log.info ''
+        @log.pass 'Documentation generated'
+        callback()
