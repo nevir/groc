@@ -43,31 +43,14 @@ class Project
 
     fileMap   = Utils.mapFiles @root, @files, @stripPrefixes
     indexPath = path.resolve @root, @index
-    toProcess = (k for k of fileMap)
-    inFlight  = 0
 
-    processFile = =>
-      currentFile = toProcess.pop()
-      if currentFile?
-        language = Utils.getLanguage currentFile
-        unless language?
-          @log.warn '%s is not in a supported language, skipping.', currentFile
-          return processFile()
+    pool = spate.pool (k for k of fileMap), maxConcurrency: @BATCH_SIZE, (currentFile, done) =>
+      @log.debug "Processing %s", currentFile
 
-        inFlight += 1
-        @log.debug "Processing %s (%d in flight)", currentFile, inFlight
-
-      else
-        if inFlight == 0
-          style.renderCompleted (error) =>
-            return callback error if error
-
-            @log.info ''
-            @log.pass 'Documentation generated'
-            callback()
-
-        # End of the line; we're done chaining processFile()
-        return
+      language = Utils.getLanguage currentFile
+      unless language?
+        @log.warn '%s is not in a supported language, skipping.', currentFile
+        done()
 
       fs.readFile currentFile, 'utf-8', (error, data) =>
         if error
@@ -81,12 +64,12 @@ class Project
           targetPath:  if currentFile == indexPath then 'index' else fileMap[currentFile]
 
         style.renderFile data, fileInfo, (error) =>
-            return callback error if error
+          return callback error if error
+          done()
 
-            inFlight -= 1
-            processFile()
+    pool.exec (error) =>
+      return callback error if error
 
-    # Kick off the initial batch of files to process.  They'll continue to keep the same number of
-    # files in flight by chaining to processFile() once they finish.
-    while toProcess.length > 0 and inFlight < @BATCH_SIZE
-      processFile()
+      @log.info ''
+      @log.pass 'Documentation generated'
+      callback()

@@ -8,6 +8,6 @@ module.exports = require('autorequire')('./lib', 'Classical', {
     underscore:  '_'
   },
   extraGlobalModules: [
-    'coffee-script', 'colors', 'fs-tools', 'glob', 'jade', 'optimist', 'showdown', 'uglify-js', 'underscore'
+    'coffee-script', 'colors', 'fs-tools', 'glob', 'jade', 'optimist', 'showdown', 'spate', 'uglify-js', 'underscore'
   ]
 })
