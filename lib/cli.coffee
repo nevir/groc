@@ -90,6 +90,9 @@ CLI = (inputArgs, callback) ->
       description: "A path prefix to strip when generating documentation paths (or --no-strip)."
       aliases:     't'
 
+    silent:
+      description: "Output errors only."
+
     verbose:
       description: "Output the inner workings of groc to help diagnose issues."
 
@@ -135,7 +138,8 @@ CLI = (inputArgs, callback) ->
   # charge of kicking that off.
   project = new Project argv.root, argv.out
 
-  # `--verbose` and `--very-verbose` just impact the logging level of the project.
+  # `--silent`, `--verbose` and `--very-verbose` just impact the logging level of the project.
+  project.log.minLevel = utils.Logger::LEVELS.ERROR if argv.silent
   project.log.minLevel = utils.Logger::LEVELS.DEBUG if argv.verbose
   project.log.minLevel = utils.Logger::LEVELS.TRACE if argv['very-verbose']
 
