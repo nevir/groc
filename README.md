@@ -1,8 +1,8 @@
 # groc
 
-Groc takes your _documented_ code, and generates documentation that follows the spirit of literate
-programming.  Take a look at the [self-generated documentation](http://nevir.github.com/groc/),
-and see if it appeals to you!
+Groc takes your _documented_ code, and in an admission that people aren't machines, generates
+documentation that follows the spirit of literate programming.  Take a look at the
+[self-generated documentation](http://nevir.github.com/groc/), and see if it appeals to you!
 
 It is very heavily influenced by [Jeremy Ashkenas](https://github.com/jashkenas)'
 [docco](http://jashkenas.github.com/docco/), and is an attempt to further enhance the idea (thus,
