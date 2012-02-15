@@ -56,7 +56,7 @@ LANGUAGES =
     singleLineComment: ['#']
 
   PHP:
-    nameMatchers:      [/\.php\d+?$/, '.fbp']
+    nameMatchers:      [/\.php\d?$/, '.fbp']
     pygmentsLexer:     'php'
     singleLineComment: ['//']
 
