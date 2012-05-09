@@ -40,6 +40,11 @@ LANGUAGES =
     pygmentsLexer:     'javascript'
     singleLineComment: ['//']
 
+  Jake:
+    nameMatchers:      ['.jake']
+    pygmentsLexer:     'javascript'
+    singleLineComment: ['//']
+
   LaTeX:
     nameMatchers:      ['.tex', '.latex', '.sty']
     pygmentsLexer:     'latex'
