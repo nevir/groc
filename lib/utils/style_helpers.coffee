@@ -40,7 +40,7 @@ StyleHelpers =
     nodes    = []
     prevPath = []
     for file in files
-      targetChunks = file.targetPath.split '/'
+      targetChunks = file.targetPath.split path.join('/')
       pathChunks   = targetChunks[0...-1]
 
       # * If a file has the same name as a directory, it takes ownership of that directory's folder.
@@ -78,7 +78,7 @@ StyleHelpers =
       nodes.push
         type:   'file'
         data:    fileData
-        depth:   file.targetPath.split('/').length
+        depth:   file.targetPath.split( path.join('/') ).length
         outline: outlines[file.targetPath]
 
     @buildNodeTree nodes
