@@ -108,6 +108,12 @@ Here are some suggested guidelines to follow when writing your code:
 Writing documentation is _hard_; hopefully groc helps to streamline the process for you!
 
 
+## Known Issues
+
+* Groc does not fare well with files that have very long line lengths (minimized
+  JavaScript being the prime offender).  Make sure that you exclude them!
+
+
 ## What's in the works?
 
 Groc wants to:
