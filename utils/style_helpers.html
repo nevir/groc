@@ -32,7 +32,7 @@ outline (table of contents!)</p></div></div><div class="code"><div class="wrappe
     <span class="nv">nodes    = </span><span class="p">[]</span>
     <span class="nv">prevPath = </span><span class="p">[]</span>
     <span class="k">for</span> <span class="nx">file</span> <span class="k">in</span> <span class="nx">files</span>
-      <span class="nv">targetChunks = </span><span class="nx">file</span><span class="p">.</span><span class="nx">targetPath</span><span class="p">.</span><span class="nx">split</span> <span class="s1">&#39;/&#39;</span>
+      <span class="nv">targetChunks = </span><span class="nx">file</span><span class="p">.</span><span class="nx">targetPath</span><span class="p">.</span><span class="nx">split</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
       <span class="nv">pathChunks   = </span><span class="nx">targetChunks</span><span class="p">[</span><span class="mi">0</span><span class="p">...</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
 <li>If a file has the same name as a directory, it takes ownership of that directory's folder.</li>
 </ul></div></div><div class="code"><div class="wrapper">      <span class="k">for</span> <span class="nx">chunk</span><span class="p">,</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">pathChunks</span>
@@ -63,7 +63,7 @@ TODO: We probably want some way to rename folders!</li>
       <span class="nx">nodes</span><span class="p">.</span><span class="nx">push</span>
         <span class="nv">type: </span>  <span class="s1">&#39;file&#39;</span>
         <span class="nv">data: </span>   <span class="nx">fileData</span>
-        <span class="nv">depth: </span>  <span class="nx">file</span><span class="p">.</span><span class="nx">targetPath</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">).</span><span class="nx">length</span>
+        <span class="nv">depth: </span>  <span class="nx">file</span><span class="p">.</span><span class="nx">targetPath</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span> <span class="p">).</span><span class="nx">length</span>
         <span class="nv">outline: </span><span class="nx">outlines</span><span class="p">[</span><span class="nx">file</span><span class="p">.</span><span class="nx">targetPath</span><span class="p">]</span>
 
     <span class="nx">@buildNodeTree</span> <span class="nx">nodes</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Take a flat, though ordered, list of nodes and convert them into a tree.</p>
