@@ -32,7 +32,7 @@ Utils =
     # Ensure that we're dealing with absolute paths across the board
     files = files.map (f) -> path.resolve resolveRoot, f
     # And that the strip prefixes all end with a /, to avoid a target path being absolute.
-    stripPrefixes = stripPrefixes.map (p) -> "#{path.resolve resolveRoot, p}/"
+    stripPrefixes = stripPrefixes.map (p) -> path.join( "#{path.resolve resolveRoot, p}/" )
 
     # Prefixes are stripped in order of most specific to least (# of directories deep)
     prefixes = stripPrefixes.sort (a,b) => @pathDepth(b) - @pathDepth(a)
