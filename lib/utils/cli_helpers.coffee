@@ -10,7 +10,7 @@ CLIHelpers =
     for optName, optConfig of config
       opts.options optName,
         describe: optConfig.description
-        alias:    optConfig.alias
+        alias:    optConfig.aliases
 
     # * Optimist's `options()` method doesn't honor aliased values when specifying boolean values,
     #   so we are forced to set those up separately.
