@@ -8,6 +8,8 @@ module.exports = require('autorequire')('./lib', 'Classical', {
     underscore:  '_'
   },
   extraGlobalModules: [
-    'coffee-script', 'colors', 'fs-tools', 'glob', 'jade', 'optimist', 'showdown', 'spate', 'uglify-js', 'underscore'
+    'coffee-script', 'colors', 'fs-tools', 'glob', 'groc', 'jade', 'optimist', 'showdown', 'spate', 'uglify-js', 'underscore'
   ]
 })
+
+module.exports.PACKAGE_INFO = require('./package.json')

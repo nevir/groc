@@ -4,10 +4,6 @@
 # interaction that a developer will have with a tool like this, so we want to leave a good
 # impression with nicely formatted and readable command line output.
 CLI = (inputArgs, callback) ->
-  # As such, we don't want our output bumping up against the shell execution lines and blurring
-  # together; use that whitespace with great gusto!
-  console.log ''
-
   # In keeping with our console beautification project, make sure that our output isn't getting
   # too comfortable with the user's next shell line.
   actualCallback = callback
@@ -93,6 +89,10 @@ CLI = (inputArgs, callback) ->
     silent:
       description: "Output errors only."
 
+    version:
+      description: "Shows you the current version of groc (#{groc.PACKAGE_INFO.version})"
+      aliases:     'v'
+
     verbose:
       description: "Output the inner workings of groc to help diagnose issues."
 
@@ -128,9 +128,16 @@ CLI = (inputArgs, callback) ->
   # If we're in tracing mode, the parsed options are extremely helpful.
   utils.Logger.trace 'argv: %j', argv if argv['very-verbose']
 
-  # Help short circuits early on.
-  return console.log opts.help() if argv.help
+  # Version checks short circuit before our pretty printing begins, since it is
+  # one of those things that you might want to reference from other scripts.
+  return console.log groc.PACKAGE_INFO.version if argv.version
 
+  # In keeping with our stance on readable output, we don't want it bumping up
+  # against the shell execution lines and blurring together; use that whitespace
+  # with great gusto!
+  console.log ''
+
+  return console.log opts.help() if argv.help
 
   # ## Project Generation
 
