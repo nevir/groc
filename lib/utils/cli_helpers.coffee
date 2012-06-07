@@ -93,7 +93,7 @@ CLIHelpers =
 
   # A quick helper that extracts a GitHub project URL from its repository URL.
   extractGitHubURL: (url) ->
-    match = url?.match /github\.com:([^\/]+)\/([^\/]+)\.git/
+    match = url?.match /github\.com[:\/]([^\/]+)\/([^\/]+)\.git/
     return null unless match
 
     "https://github.com/#{match[1]}/#{match[2]}"
