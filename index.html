@@ -69,11 +69,11 @@ groc, if you are interested.</p>
 <p>Groc supports a simple JSON configuration format once you know the config values that appeal to you.</p>
 
 <p>Create a <code>.groc.json</code> file in your project root, where each key maps to an option you would pass to
-the <code>groc</code> command.  File names and globs are defined as an array with the key <code>globs</code>.  For
+the <code>groc</code> command.  File names and globs are defined as an array with the key <code>glob</code>.  For
 example, groc's own configuration is:</p>
 
 <pre><code>{
-  "globs": ["lib/**/*.coffee", "README.md", "lib/styles/*/style.sass", "lib/styles/*/*.jade"],
+  "glob": ["lib/**/*.coffee", "README.md", "lib/styles/*/style.sass", "lib/styles/*/*.jade"],
   "github": true
 }
 </code></pre>
