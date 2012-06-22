@@ -50,6 +50,11 @@ LANGUAGES =
     pygmentsLexer:     'latex'
     singleLineComment: ['%']
 
+  Make:
+    nameMatchers:      ['Makefile']
+    pygmentsLexer:     'make'
+    singleLineComment: ['#']
+
   'Objective-C':
     nameMatchers:      ['.m', '.mm']
     pygmentsLexer:     'objc'
