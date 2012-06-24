@@ -11,7 +11,7 @@ CLIHelpers =
       #   as part of `config`.
       # 
       # Also, `default` is a reserved name, hence `defaultVal`.
-      defaultVal = extraDefaults[optName] or optConfig.default
+      defaultVal = extraDefaults?[optName] or optConfig.default
 
       # * We also want the ability to specify reactionary default values, so that the user can
       #   inspect the current state of things by tacking on a `--help`.
