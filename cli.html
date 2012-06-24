@@ -22,67 +22,67 @@ impression with nicely formatted and readable output.</p></div></div><div class=
 <span class="s">    &quot;&quot;&quot;</span><span class="p">)</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="cli-options">CLI Options</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  <span class="nv">optionsConfig =</span>
 
     <span class="nv">help:</span>
-      <span class="nv">description: </span><span class="s">&quot;You&#39;re looking at it.&quot;</span>
-      <span class="nv">aliases: </span>   <span class="p">[</span><span class="s">&#39;h&#39;</span><span class="p">,</span> <span class="s">&#39;?&#39;</span><span class="p">]</span>
-      <span class="nv">type: </span>       <span class="s">&#39;boolean&#39;</span>
+      <span class="nv">describe: </span><span class="s">&quot;You&#39;re looking at it.&quot;</span>
+      <span class="nv">alias: </span>  <span class="p">[</span><span class="s">&#39;h&#39;</span><span class="p">,</span> <span class="s">&#39;?&#39;</span><span class="p">]</span>
+      <span class="nv">type: </span>    <span class="s">&#39;boolean&#39;</span>
 
     <span class="nv">glob:</span>
-      <span class="nv">description: </span><span class="s">&quot;A file path or globbing expression that matches files to generate documentation for.&quot;</span>
-      <span class="nv">default: </span>    <span class="nf">(opts) -&gt;</span> <span class="nx">opts</span><span class="p">.</span><span class="nx">argv</span><span class="p">.</span><span class="nx">_</span>
-      <span class="nv">type: </span>       <span class="s">&#39;list&#39;</span>
+      <span class="nv">describe: </span><span class="s">&quot;A file path or globbing expression that matches files to generate documentation for.&quot;</span>
+      <span class="nv">default: </span> <span class="nf">(opts) -&gt;</span> <span class="nx">opts</span><span class="p">.</span><span class="nx">argv</span><span class="p">.</span><span class="nx">_</span>
+      <span class="nv">type: </span>    <span class="s">&#39;list&#39;</span>
 
     <span class="nv">except:</span>
-      <span class="nv">description: </span><span class="s">&quot;Glob expression of files to exclude.  Can be specified multiple times.&quot;</span>
-      <span class="nv">aliases: </span>    <span class="s">&#39;e&#39;</span>
-      <span class="nv">type: </span>       <span class="s">&#39;list&#39;</span>
+      <span class="nv">describe: </span><span class="s">&quot;Glob expression of files to exclude.  Can be specified multiple times.&quot;</span>
+      <span class="nv">alias: </span>   <span class="s">&#39;e&#39;</span>
+      <span class="nv">type: </span>    <span class="s">&#39;list&#39;</span>
 
     <span class="nv">github:</span>
-      <span class="nv">description: </span><span class="s">&quot;Generate your docs in the gh-pages branch of your git repository.  --out is ignored.&quot;</span>
-      <span class="nv">aliases: </span>    <span class="s">&#39;gh&#39;</span>
-      <span class="nv">type: </span>       <span class="s">&#39;boolean&#39;</span>
+      <span class="nv">describe: </span><span class="s">&quot;Generate your docs in the gh-pages branch of your git repository.  --out is ignored.&quot;</span>
+      <span class="nv">alias: </span>   <span class="s">&#39;gh&#39;</span>
+      <span class="nv">type: </span>    <span class="s">&#39;boolean&#39;</span>
 
     <span class="nv">out:</span>
-      <span class="nv">description: </span><span class="s">&quot;The directory to place generated documentation, relative to the project root.&quot;</span>
-      <span class="nv">aliases: </span>    <span class="s">&#39;o&#39;</span>
-      <span class="nv">default: </span>    <span class="s">&#39;./doc&#39;</span>
-      <span class="nv">type: </span>       <span class="s">&#39;path&#39;</span>
+      <span class="nv">describe: </span><span class="s">&quot;The directory to place generated documentation, relative to the project root.&quot;</span>
+      <span class="nv">alias: </span>   <span class="s">&#39;o&#39;</span>
+      <span class="nv">default: </span> <span class="s">&#39;./doc&#39;</span>
+      <span class="nv">type: </span>    <span class="s">&#39;path&#39;</span>
 
     <span class="nv">index:</span>
-      <span class="nv">description: </span><span class="s">&quot;The file to use as the index of the generated documentation.&quot;</span>
-      <span class="nv">aliases: </span>    <span class="s">&#39;i&#39;</span>
-      <span class="nv">default: </span>    <span class="s">&#39;README.md&#39;</span>
+      <span class="nv">describe: </span><span class="s">&quot;The file to use as the index of the generated documentation.&quot;</span>
+      <span class="nv">alias: </span>   <span class="s">&#39;i&#39;</span>
+      <span class="nv">default: </span> <span class="s">&#39;README.md&#39;</span>
 
     <span class="nv">root:</span>
-      <span class="nv">description: </span><span class="s">&quot;The root directory of the project.&quot;</span>
-      <span class="nv">aliases: </span>    <span class="s">&#39;r&#39;</span>
-      <span class="nv">default: </span>    <span class="s">&#39;.&#39;</span>
-      <span class="nv">type: </span>       <span class="s">&#39;path&#39;</span>
+      <span class="nv">describe: </span><span class="s">&quot;The root directory of the project.&quot;</span>
+      <span class="nv">alias: </span>   <span class="s">&#39;r&#39;</span>
+      <span class="nv">default: </span> <span class="s">&#39;.&#39;</span>
+      <span class="nv">type: </span>    <span class="s">&#39;path&#39;</span>
 
     <span class="nv">style:</span>
-      <span class="nv">description: </span><span class="s">&quot;The style to use when generating documentation.&quot;</span>
-      <span class="nv">aliases: </span>    <span class="s">&#39;s&#39;</span>
-      <span class="nv">default: </span>    <span class="s">&#39;Default&#39;</span>
+      <span class="nv">describe: </span><span class="s">&quot;The style to use when generating documentation.&quot;</span>
+      <span class="nv">alias: </span>   <span class="s">&#39;s&#39;</span>
+      <span class="nv">default: </span> <span class="s">&#39;Default&#39;</span>
 
     <span class="nv">strip:</span>
-      <span class="nv">description: </span><span class="s">&quot;A path prefix to strip when generating documentation paths (or --no-strip).&quot;</span>
-      <span class="nv">aliases: </span>    <span class="s">&#39;t&#39;</span>
+      <span class="nv">describe: </span><span class="s">&quot;A path prefix to strip when generating documentation paths (or --no-strip).&quot;</span>
+      <span class="nv">alias: </span>   <span class="s">&#39;t&#39;</span>
 
     <span class="nv">silent:</span>
-      <span class="nv">description: </span><span class="s">&quot;Output errors only.&quot;</span>
+      <span class="nv">describe: </span><span class="s">&quot;Output errors only.&quot;</span>
 
     <span class="nv">version:</span>
-      <span class="nv">description: </span><span class="s">&quot;Shows you the current version of groc (</span><span class="si">#{</span><span class="nx">groc</span><span class="p">.</span><span class="nx">PACKAGE_INFO</span><span class="p">.</span><span class="nx">version</span><span class="si">}</span><span class="s">)&quot;</span>
-      <span class="nv">aliases: </span>    <span class="s">&#39;v&#39;</span>
+      <span class="nv">describe: </span><span class="s">&quot;Shows you the current version of groc (</span><span class="si">#{</span><span class="nx">groc</span><span class="p">.</span><span class="nx">PACKAGE_INFO</span><span class="p">.</span><span class="nx">version</span><span class="si">}</span><span class="s">)&quot;</span>
+      <span class="nv">alias: </span>   <span class="s">&#39;v&#39;</span>
 
     <span class="nv">verbose:</span>
-      <span class="nv">description: </span><span class="s">&quot;Output the inner workings of groc to help diagnose issues.&quot;</span>
+      <span class="nv">describe: </span><span class="s">&quot;Output the inner workings of groc to help diagnose issues.&quot;</span>
 
    <span class="s">&#39;very-verbose&#39;</span><span class="o">:</span>
-      <span class="nv">description: </span><span class="s">&quot;Hey, you asked for it.&quot;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="argument-processing">Argument processing</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We treat the values within the current project's <code>.groc.json</code> as defaults, so that you can
+      <span class="nv">describe: </span><span class="s">&quot;Hey, you asked for it.&quot;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="argument-processing">Argument processing</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We treat the values within the current project's <code>.groc.json</code> as defaults, so that you can
 easily override the persisted configuration when testing and tweaking.</p>
 
-<p>For example, it is extremely helpful to use <code>groc --no-github</code> until you are satisfied with the
-generated output.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">projectConfigPath = </span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span> <span class="s">&#39;.groc.json&#39;</span>
+<p>For example, if you have configured your <code>.groc.json</code> to include <code>"github": true</code>, it is
+extremely helpful to use <code>groc --no-github</code> until you are satisfied with the generated output.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">projectConfigPath = </span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span> <span class="s">&#39;.groc.json&#39;</span>
   <span class="k">try</span>
     <span class="nv">projectConfig = </span><span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span> <span class="nx">projectConfigPath</span>
   <span class="k">catch</span> <span class="nx">err</span>
