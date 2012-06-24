@@ -13,7 +13,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "commentsOnly": true,
           "name": "Markdown"
         },
-        "sourcePath": "/Users/ian/Coding/groc/README.md",
+        "sourcePath": "/Users/ian/coding/groc/README.md",
         "projectPath": "README.md",
         "targetPath": "index",
         "firstHeader": {
@@ -178,7 +178,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "singleLineComment": ["#"],
           "name": "CoffeeScript"
         },
-        "sourcePath": "/Users/ian/Coding/groc/lib/cli.coffee",
+        "sourcePath": "/Users/ian/coding/groc/lib/cli.coffee",
         "projectPath": "lib/cli.coffee",
         "targetPath": "cli",
         "firstHeader": {
@@ -289,7 +289,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "singleLineComment": ["#"],
           "name": "CoffeeScript"
         },
-        "sourcePath": "/Users/ian/Coding/groc/lib/languages.coffee",
+        "sourcePath": "/Users/ian/coding/groc/lib/languages.coffee",
         "projectPath": "lib/languages.coffee",
         "targetPath": "languages",
         "firstHeader": {
@@ -315,7 +315,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "singleLineComment": ["#"],
           "name": "CoffeeScript"
         },
-        "sourcePath": "/Users/ian/Coding/groc/lib/project.coffee",
+        "sourcePath": "/Users/ian/coding/groc/lib/project.coffee",
         "projectPath": "lib/project.coffee",
         "targetPath": "project",
         "firstHeader": {
@@ -349,7 +349,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "singleLineComment": ["#"],
               "name": "Shell"
             },
-            "sourcePath": "/Users/ian/Coding/groc/scripts/publish-git-pages.sh",
+            "sourcePath": "/Users/ian/coding/groc/scripts/publish-git-pages.sh",
             "projectPath": "scripts/publish-git-pages.sh",
             "targetPath": "scripts/publish-git-pages",
             "title": "publish-git-pages"
@@ -375,7 +375,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "singleLineComment": ["#"],
               "name": "CoffeeScript"
             },
-            "sourcePath": "/Users/ian/Coding/groc/lib/styles/base.coffee",
+            "sourcePath": "/Users/ian/coding/groc/lib/styles/base.coffee",
             "projectPath": "lib/styles/base.coffee",
             "targetPath": "styles/base",
             "title": "base"
@@ -391,7 +391,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "singleLineComment": ["#"],
               "name": "CoffeeScript"
             },
-            "sourcePath": "/Users/ian/Coding/groc/lib/styles/default.coffee",
+            "sourcePath": "/Users/ian/coding/groc/lib/styles/default.coffee",
             "projectPath": "lib/styles/default.coffee",
             "targetPath": "styles/default",
             "title": "default"
@@ -408,7 +408,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "singleLineComment": ["#"],
                   "name": "CoffeeScript"
                 },
-                "sourcePath": "/Users/ian/Coding/groc/lib/styles/default/behavior.coffee",
+                "sourcePath": "/Users/ian/coding/groc/lib/styles/default/behavior.coffee",
                 "projectPath": "lib/styles/default/behavior.coffee",
                 "targetPath": "styles/default/behavior",
                 "title": "behavior"
@@ -472,7 +472,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "singleLineComment": ["//"],
                   "name": "Jade"
                 },
-                "sourcePath": "/Users/ian/Coding/groc/lib/styles/default/docPage.jade",
+                "sourcePath": "/Users/ian/coding/groc/lib/styles/default/docPage.jade",
                 "projectPath": "lib/styles/default/docPage.jade",
                 "targetPath": "styles/default/docPage",
                 "title": "docPage"
@@ -488,7 +488,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "singleLineComment": ["//"],
                   "name": "Sass"
                 },
-                "sourcePath": "/Users/ian/Coding/groc/lib/styles/default/style.sass",
+                "sourcePath": "/Users/ian/coding/groc/lib/styles/default/style.sass",
                 "projectPath": "lib/styles/default/style.sass",
                 "targetPath": "styles/default/style",
                 "title": "style"
@@ -620,7 +620,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "singleLineComment": ["#"],
           "name": "CoffeeScript"
         },
-        "sourcePath": "/Users/ian/Coding/groc/lib/utils.coffee",
+        "sourcePath": "/Users/ian/coding/groc/lib/utils.coffee",
         "projectPath": "lib/utils.coffee",
         "targetPath": "utils",
         "title": "utils"
@@ -637,7 +637,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "singleLineComment": ["#"],
               "name": "CoffeeScript"
             },
-            "sourcePath": "/Users/ian/Coding/groc/lib/utils/cli_helpers.coffee",
+            "sourcePath": "/Users/ian/coding/groc/lib/utils/cli_helpers.coffee",
             "projectPath": "lib/utils/cli_helpers.coffee",
             "targetPath": "utils/cli_helpers",
             "firstHeader": {
@@ -716,7 +716,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "singleLineComment": ["#"],
               "name": "CoffeeScript"
             },
-            "sourcePath": "/Users/ian/Coding/groc/lib/utils/compatibility_helpers.coffee",
+            "sourcePath": "/Users/ian/coding/groc/lib/utils/compatibility_helpers.coffee",
             "projectPath": "lib/utils/compatibility_helpers.coffee",
             "targetPath": "utils/compatibility_helpers",
             "title": "compatibility_helpers"
@@ -732,7 +732,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "singleLineComment": ["#"],
               "name": "CoffeeScript"
             },
-            "sourcePath": "/Users/ian/Coding/groc/lib/utils/logger.coffee",
+            "sourcePath": "/Users/ian/coding/groc/lib/utils/logger.coffee",
             "projectPath": "lib/utils/logger.coffee",
             "targetPath": "utils/logger",
             "firstHeader": {
@@ -758,7 +758,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "singleLineComment": ["#"],
               "name": "CoffeeScript"
             },
-            "sourcePath": "/Users/ian/Coding/groc/lib/utils/style_helpers.coffee",
+            "sourcePath": "/Users/ian/coding/groc/lib/utils/style_helpers.coffee",
             "projectPath": "lib/utils/style_helpers.coffee",
             "targetPath": "utils/style_helpers",
             "firstHeader": {
