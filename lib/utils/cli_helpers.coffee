@@ -6,35 +6,19 @@ CLIHelpers =
   # [Optimist](https://github.com/substack/node-optimist) fails to provide a few conveniences, so we
   # layer on a little bit of additional structure when defining our options.
   configureOptimist: (opts, config, extraDefaults) ->
-    # * We want the notion of a canonical option name; which we specify via the keys of `config`.
     for optName, optConfig of config
-      opts.options optName,
-        describe: optConfig.description
-        alias:    optConfig.aliases
+      # * We support two tiers of default values.  First, we set up the hard-coded defaults specified
+      #   as part of `config`.
+      # 
+      # Also, `default` is a reserved name, hence `defaultVal`.
+      defaultVal = extraDefaults[optName] or optConfig.default
 
-    # * Optimist's `options()` method doesn't honor aliased values when specifying boolean values,
-    #   so we are forced to set those up separately.
-    for optName, optConfig of config
-      if optConfig.type == 'boolean'
-        opts.boolean _.compact _.flatten [optName, optConfig.aliases]
+      # * We also want the ability to specify reactionary default values, so that the user can
+      #   inspect the current state of things by tacking on a `--help`.
+      defaultVal = defaultVal opts if _.isFunction defaultVal
 
-    # * We support two tiers of default values.  First, we set up the hard-coded defaults specified
-    #   as part of `config`.
-    defaults = {}
-    for optName, optConfig of config
-      defaults[optName] = optConfig.default if optConfig.default?
-
-    # * We follow up with the higher precedence defaults passed via `extraDefaults` (such as
-    #   persisted options)
-    defaults = _(defaults).extend extraDefaults
-
-    for optName, value of defaults
-      # * We want the ability to specify reactionary default values, so that the user can inspect
-      #   the current state of things by tacking on a `--help`.
-      value = value opts if _.isFunction value
-
-      opts.default optName, value
-
+      # And set it all up with our key as the canonical option name.
+      opts.options optName, _(optConfig).extend(default: defaultVal)
 
   # ## extractArgv
 

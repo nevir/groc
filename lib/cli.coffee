@@ -41,63 +41,63 @@ CLI = (inputArgs, callback) ->
   optionsConfig =
 
     help:
-      description: "You're looking at it."
-      aliases:    ['h', '?']
-      type:        'boolean'
+      describe: "You're looking at it."
+      alias:   ['h', '?']
+      type:     'boolean'
 
     glob:
-      description: "A file path or globbing expression that matches files to generate documentation for."
-      default:     (opts) -> opts.argv._
-      type:        'list'
+      describe: "A file path or globbing expression that matches files to generate documentation for."
+      default:  (opts) -> opts.argv._
+      type:     'list'
 
     except:
-      description: "Glob expression of files to exclude.  Can be specified multiple times."
-      aliases:     'e'
-      type:        'list'
+      describe: "Glob expression of files to exclude.  Can be specified multiple times."
+      alias:    'e'
+      type:     'list'
 
     github:
-      description: "Generate your docs in the gh-pages branch of your git repository.  --out is ignored."
-      aliases:     'gh'
-      type:        'boolean'
+      describe: "Generate your docs in the gh-pages branch of your git repository.  --out is ignored."
+      alias:    'gh'
+      type:     'boolean'
 
     out:
-      description: "The directory to place generated documentation, relative to the project root."
-      aliases:     'o'
-      default:     './doc'
-      type:        'path'
+      describe: "The directory to place generated documentation, relative to the project root."
+      alias:    'o'
+      default:  './doc'
+      type:     'path'
 
     index:
-      description: "The file to use as the index of the generated documentation."
-      aliases:     'i'
-      default:     'README.md'
+      describe: "The file to use as the index of the generated documentation."
+      alias:    'i'
+      default:  'README.md'
 
     root:
-      description: "The root directory of the project."
-      aliases:     'r'
-      default:     '.'
-      type:        'path'
+      describe: "The root directory of the project."
+      alias:    'r'
+      default:  '.'
+      type:     'path'
 
     style:
-      description: "The style to use when generating documentation."
-      aliases:     's'
-      default:     'Default'
+      describe: "The style to use when generating documentation."
+      alias:    's'
+      default:  'Default'
 
     strip:
-      description: "A path prefix to strip when generating documentation paths (or --no-strip)."
-      aliases:     't'
+      describe: "A path prefix to strip when generating documentation paths (or --no-strip)."
+      alias:    't'
 
     silent:
-      description: "Output errors only."
+      describe: "Output errors only."
 
     version:
-      description: "Shows you the current version of groc (#{groc.PACKAGE_INFO.version})"
-      aliases:     'v'
+      describe: "Shows you the current version of groc (#{groc.PACKAGE_INFO.version})"
+      alias:    'v'
 
     verbose:
-      description: "Output the inner workings of groc to help diagnose issues."
+      describe: "Output the inner workings of groc to help diagnose issues."
 
    'very-verbose':
-      description: "Hey, you asked for it."
+      describe: "Hey, you asked for it."
 
 
   # ## Argument processing
@@ -105,8 +105,8 @@ CLI = (inputArgs, callback) ->
   # We treat the values within the current project's `.groc.json` as defaults, so that you can
   # easily override the persisted configuration when testing and tweaking.
   #
-  # For example, it is extremely helpful to use `groc --no-github` until you are satisfied with the
-  # generated output.
+  # For example, if you have configured your `.groc.json` to include `"github": true`, it is
+  # extremely helpful to use `groc --no-github` until you are satisfied with the generated output.
   projectConfigPath = path.resolve '.groc.json'
   try
     projectConfig = JSON.parse fs.readFileSync projectConfigPath
