@@ -53,9 +53,9 @@ Utils =
     result
 
   # Attempt to guess strip prefixes for a given set of arguments.
-  guessStripPrefixes: (arguments) ->
+  guessStripPrefixes: (args) ->
     result = []
-    for arg in arguments
+    for arg in args
       # Most globs look something like dir/**/*.ext, so strip up to the leading *
       arg = arg.replace /\*.*$/, ''
 

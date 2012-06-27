@@ -22,7 +22,7 @@ class Default extends Base
 
     # Even though fsTools.copy creates directories if they're missing - we want a bit more control
     # over it (permissions), as well as wanting to avoid contention.
-    fsTools.mkdir @targetAssets, 0755, (error) =>
+    fsTools.mkdir @targetAssets, '0755', (error) =>
       if error
         @log.error 'Unable to create directory %s: %s', @targetAssets, error.message
         return callback error

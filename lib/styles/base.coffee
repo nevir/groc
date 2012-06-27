@@ -44,7 +44,7 @@ class Base
 
     docPath = path.resolve @project.outPath, "#{fileInfo.targetPath}.html"
 
-    fsTools.mkdir path.dirname(docPath), 0755, (error) =>
+    fsTools.mkdir path.dirname(docPath), '0755', (error) =>
       if error
         @log.error 'Unable to create directory %s: %s', path.dirname(docPath), error.message
         return callback error
