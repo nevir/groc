@@ -100,6 +100,11 @@ LANGUAGES =
     pygmentsLexer:     'sh'
     singleLineComment: ['#']
 
+  SQL:
+    nameMatchers:      ['.sql']
+    pygmentsLexer:     'sql'
+    singleLineComment: ['--']
+
   YAML:
     nameMatchers:      ['.yml', '.yaml']
     pygmentsLexer:     'yaml'
