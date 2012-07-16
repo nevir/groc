@@ -144,7 +144,7 @@ Utils =
     pygmentize.stdout.addListener 'data', (data) =>
       result += data.toString()
 
-    pygmentize.addListener 'exit', (args...) =>
+    pygmentize.addListener 'close', (args...) =>
       # pygments spits it out wrapped in `<div class="highlight"><pre>...</pre></div>`.  We want to
       # manage the styling ourselves, so remove that.
       result = result.replace('<div class="highlight"><pre>', '').replace('</pre></div>', '')
