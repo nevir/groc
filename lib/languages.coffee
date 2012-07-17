@@ -81,7 +81,7 @@ LANGUAGES =
     singleLineComment: ['#']
 
   Ruby:
-    nameMatchers:      ['.rb']
+    nameMatchers:      ['.rb', '.ru', '.gemspec']
     pygmentsLexer:     'ruby'
     singleLineComment: ['#']
 
