@@ -19,7 +19,7 @@
 
   <span class="nv">copyAssets: </span><span class="nf">(callback) -&gt;</span>
     <span class="nx">@log</span><span class="p">.</span><span class="nx">trace</span> <span class="s">&#39;styles.Default#copyAssets(...)&#39;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Even though fsTools.copy creates directories if they're missing - we want a bit more control
-over it (permissions), as well as wanting to avoid contention.</p></div></div><div class="code"><div class="wrapper">    <span class="nx">fsTools</span><span class="p">.</span><span class="nx">mkdir</span> <span class="nx">@targetAssets</span><span class="p">,</span> <span class="mi">0755</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span>
+over it (permissions), as well as wanting to avoid contention.</p></div></div><div class="code"><div class="wrapper">    <span class="nx">fsTools</span><span class="p">.</span><span class="nx">mkdir</span> <span class="nx">@targetAssets</span><span class="p">,</span> <span class="s">&#39;0755&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span>
       <span class="k">if</span> <span class="nx">error</span>
         <span class="nx">@log</span><span class="p">.</span><span class="nx">error</span> <span class="s">&#39;Unable to create directory %s: %s&#39;</span><span class="p">,</span> <span class="nx">@targetAssets</span><span class="p">,</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
         <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
