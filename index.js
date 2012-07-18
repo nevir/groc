@@ -1,4 +1,5 @@
 require('coffee-script')
+var fs = require('fs')
 
 module.exports = require('autorequire')('./lib', 'Classical', {
   specialCaseModuleNames: {
@@ -12,4 +13,4 @@ module.exports = require('autorequire')('./lib', 'Classical', {
   ]
 })
 
-module.exports.PACKAGE_INFO = require('./package.json')
+module.exports.PACKAGE_INFO = JSON.parse(fs.readFileSync('./package.json'))
