@@ -81,6 +81,6 @@ CLIHelpers =
     return null unless match
 
     owner = match[1]
-    repo  = if match[1][-4..] == '.git' then match[1][0...-4] else match[1]
+    repo  = if match[2][-4..] == '.git' then match[2][0...-4] else match[2]
 
     "https://github.com/#{owner}/#{repo}"
