@@ -32,7 +32,7 @@ Utils =
     # Ensure that we're dealing with absolute paths across the board
     files = files.map (f) -> path.resolve resolveRoot, f
     # And that the strip prefixes all end with a /, to avoid a target path being absolute.
-    stripPrefixes = stripPrefixes.map (p) -> path.join( "#{path.resolve resolveRoot, p}/" )
+    stripPrefixes = stripPrefixes.map (p) -> path.join( "#{path.resolve resolveRoot, p}#{path.sep}" )
 
     # Prefixes are stripped in order of most specific to least (# of directories deep)
     prefixes = stripPrefixes.sort (a,b) => @pathDepth(b) - @pathDepth(a)
@@ -59,7 +59,7 @@ Utils =
       # Most globs look something like dir/**/*.ext, so strip up to the leading *
       arg = arg.replace /\*.*$/, ''
 
-      result.push arg if arg.slice(-1) == '/'
+      result.push arg if arg.slice(-1) == path.sep
 
     # For now, we try to avoid ambiguous situations by guessing the FIRST directory given.  The
     # assumption is that you don't want merged paths, but probably did specify the most important
