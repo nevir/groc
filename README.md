@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/nevir/groc.png)](http://travis-ci.org/nevir/groc)
 # groc
 
 Groc takes your _documented_ code, and in an admission that people aren't machines, generates
