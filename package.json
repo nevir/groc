@@ -1,6 +1,6 @@
 {
   "name":        "groc",
-  "version":     "0.2.15",
+  "version":     "0.2.16",
   "description": "Documentation generation, in the spirit of literate programming.",
   "keywords":   ["documentation", "docs", "generator"],
   "homepage":    "http://nevir.github.com/groc/",
@@ -25,7 +25,7 @@
   },
 
   "engines": {
-    "node": ">= v0.5.0"
+    "node": ">= v0.4.12"
   },
   "dependencies": {
     "autorequire":   ">= 0.3.0",

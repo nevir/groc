@@ -144,7 +144,11 @@ Utils =
     pygmentize.stdout.addListener 'data', (data) =>
       result += data.toString()
 
-    pygmentize.addListener 'close', (args...) =>
+    # v0.8 changed exit/close event semantics.
+    match = process.version.match /v(\d+\.\d+)/
+    closeEvent = if parseFloat(match[1]) < 0.8 then 'exit' else 'close'
+
+    pygmentize.addListener closeEvent, (args...) =>
       # pygments spits it out wrapped in `<div class="highlight"><pre>...</pre></div>`.  We want to
       # manage the styling ourselves, so remove that.
       result = result.replace('<div class="highlight"><pre>', '').replace('</pre></div>', '')

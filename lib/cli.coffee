@@ -111,7 +111,7 @@ CLI = (inputArgs, callback) ->
   try
     projectConfig = JSON.parse fs.readFileSync projectConfigPath
   catch err
-    unless err.code == 'ENOENT'
+    unless err.code == 'ENOENT' || err.code == 'EBADF'
       console.log opts.help()
       console.log
       utils.Logger.error "Failed to load .groc.json: %s", err.message
