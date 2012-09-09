@@ -20,6 +20,11 @@ LANGUAGES =
     pygmentsLexer:     'coffee-script'
     singleLineComment: ['#']
 
+  Conf:
+    nameMatchers:      ['.conf']
+    pygmentsLexer:     'ini'
+    singleLineComment: ['#']
+
   Haskell:
     nameMatchers:      ['.hs']
     pygmentsLexer:     'haskell'
