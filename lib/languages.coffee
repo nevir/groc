@@ -50,6 +50,11 @@ LANGUAGES =
     pygmentsLexer:     'latex'
     singleLineComment: ['%']
 
+  Lua:
+    nameMatchers:      ['.lua']
+    pygmentsLexer:     'lua'
+    singleLineComment: ['--']
+
   Make:
     nameMatchers:      ['Makefile']
     pygmentsLexer:     'make'
