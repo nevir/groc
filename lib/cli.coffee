@@ -77,6 +77,12 @@ CLI = (inputArgs, callback) ->
       default:  '.'
       type:     'path'
 
+    pathsep:
+      describe: 'Path seperator, if not set defaults to path.sep (or / if path.sep is undefined)'
+      alias:    'ps'
+      default:  path.sep
+      type:     'string'
+
     style:
       describe: "The style to use when generating documentation."
       alias:    's'
@@ -127,6 +133,8 @@ CLI = (inputArgs, callback) ->
   argv = utils.CLIHelpers.extractArgv opts, optionsConfig
   # If we're in tracing mode, the parsed options are extremely helpful.
   utils.Logger.trace 'argv: %j', argv if argv['very-verbose']
+
+  path.sep = argv.pathsep ?= path.sep ?= '/'
 
   # Version checks short circuit before our pretty printing begins, since it is
   # one of those things that you might want to reference from other scripts.
