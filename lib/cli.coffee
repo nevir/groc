@@ -60,6 +60,10 @@ CLI = (inputArgs, callback) ->
       alias:    'gh'
       type:     'boolean'
 
+    'github-url':
+      describe: 'Supply a Github URL for generating gh-pages (useful for Github:enterprise installations).'
+      type:     'string'
+
     out:
       describe: "The directory to place generated documentation, relative to the project root."
       alias:    'o'
@@ -177,9 +181,7 @@ CLI = (inputArgs, callback) ->
 
   # ## GitHub
   else
-    # We want to be able to annotate generated documentation with the project's GitHub URL.  This is
-    # handy for things like generating links directly to each file's source.
-    utils.CLIHelpers.guessPrimaryGitHubURL (error, url) ->
+    github = (error, url) ->
       if error
         project.log.error error.message
         return callback error
@@ -216,3 +218,10 @@ CLI = (inputArgs, callback) ->
           return callback new Error 'Git publish failed' if code != 0
 
           callback()
+
+    # We want to be able to annotate generated documentation with the project's GitHub URL.  This is
+    # handy for things like generating links directly to each file's source.
+    if argv['github-url']?
+      github null, argv['github-url']
+    else
+      utils.CLIHelpers.guessPrimaryGitHubURL github
