@@ -61,7 +61,7 @@ CLI = (inputArgs, callback) ->
       type:     'boolean'
 
     'repository-url':
-      describe: "Supply your Github repository URL (normally guessed; useful for Github:enterprise installations)."
+      describe: "Supply your GitHub repository URL (if groc fails to guess it)."
       type:     'string'
 
     out:
@@ -182,6 +182,8 @@ CLI = (inputArgs, callback) ->
   # ## GitHub
   else
     publish_to_github = (error, url) ->
+      console.log "publish_to_github", error, url
+
       if error
         project.log.error error.message
         return callback error
