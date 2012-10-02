@@ -221,7 +221,6 @@ CLI = (inputArgs, callback) ->
 
     # We want to be able to annotate generated documentation with the project's GitHub URL.  This is
     # handy for things like generating links directly to each file's source.
-
     if argv['repository-url']?
       publish_to_github null, argv['repository-url']
     else
