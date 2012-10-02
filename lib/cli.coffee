@@ -60,8 +60,8 @@ CLI = (inputArgs, callback) ->
       alias:    'gh'
       type:     'boolean'
 
-    'github-url':
-      describe: 'Supply a Github URL for generating gh-pages (useful for Github:enterprise installations).'
+    'repository-url':
+      describe: "Supply your Github repository URL (normally guessed; useful for Github:enterprise installations)."
       type:     'string'
 
     out:
@@ -181,7 +181,7 @@ CLI = (inputArgs, callback) ->
 
   # ## GitHub
   else
-    github = (error, url) ->
+    publish_to_github = (error, url) ->
       if error
         project.log.error error.message
         return callback error
@@ -221,7 +221,8 @@ CLI = (inputArgs, callback) ->
 
     # We want to be able to annotate generated documentation with the project's GitHub URL.  This is
     # handy for things like generating links directly to each file's source.
-    if argv['github-url']?
-      github null, argv['github-url']
+
+    if argv['repository-url']?
+      publish_to_github null, argv['repository-url']
     else
-      utils.CLIHelpers.guessPrimaryGitHubURL github
+      utils.CLIHelpers.guessPrimaryGitHubURL publish_to_github
