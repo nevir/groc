@@ -39,7 +39,7 @@ class Project
     # We need to ensure that the project root is a strip prefix so that we properly generate
     # relative paths for our files.  Since strip prefixes are relative, it must be the first prefix,
     # so that they can strip from the remainder.
-    @stripPrefixes = [@root + path.sep].concat @stripPrefixes
+    @stripPrefixes = [@root + utils.CompatibilityHelpers.pathSep].concat @stripPrefixes
 
     fileMap   = Utils.mapFiles @root, @files, @stripPrefixes
     indexPath = path.resolve @root, @index
@@ -60,7 +60,7 @@ class Project
         fileInfo =
           language:    language
           sourcePath:  currentFile
-          projectPath: currentFile.replace ///^#{Utils.regexpEscape @root + path.sep}///, ''
+          projectPath: currentFile.replace ///^#{Utils.regexpEscape @root + utils.CompatibilityHelpers.pathSep}///, ''
           targetPath:  if currentFile == indexPath then 'index' else fileMap[currentFile]
 
         style.renderFile data, fileInfo, done

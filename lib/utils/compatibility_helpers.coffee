@@ -1,6 +1,9 @@
 FORMAT_REGEXP = /%[sdj%]/g
 
 CompatibilityHelpers =
+  # `path.sep` was introduced with Node 0.8, so make sure we have it in 0.6.
+  pathSep: path.sep || (if process.platform == 'win32' then '\\' else '/')
+
   # A backport of Node 0.6's util.format
   format: (args...) ->
     return util.format args... if util.format?
