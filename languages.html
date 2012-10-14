@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><title>languages</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="languages"><meta name="groc-project-path" content="lib/languages.coffee"><meta name="groc-github-url" content="https://github.com/nevir/nevir"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/nevir/nevir/blob/master/lib/languages.coffee">lib/languages.coffee</a></div></div><div id="document"><div class="segment"><div class="comments"><div class="wrapper"><h1 id="supported-languages">Supported Languages</h1></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="nv">LANGUAGES =</span>
+<!DOCTYPE html><html lang="en"><head><title>languages</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="languages"><meta name="groc-project-path" content="lib/languages.coffee"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/nevir/groc/blob/master/lib/languages.coffee">lib/languages.coffee</a></div></div><div id="document"><div class="segment"><div class="comments"><div class="wrapper"><h1 id="supported-languages">Supported Languages</h1></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="nv">LANGUAGES =</span>
   <span class="nv">Markdown:</span>
     <span class="nv">nameMatchers: </span><span class="p">[</span><span class="s">&#39;.md&#39;</span><span class="p">]</span>
     <span class="nv">commentsOnly: </span><span class="kc">true</span>
@@ -17,6 +17,11 @@
     <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.coffee&#39;</span><span class="p">]</span>
     <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;coffee-script&#39;</span>
     <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;#&#39;</span><span class="p">]</span>
+    
+  <span class="nv">Go:</span>
+    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.go&#39;</span><span class="p">]</span>
+    <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;go&#39;</span>
+    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;//&#39;</span><span class="p">]</span>
 
   <span class="nv">Haskell:</span>
     <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.hs&#39;</span><span class="p">]</span>
@@ -47,6 +52,11 @@
     <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.tex&#39;</span><span class="p">,</span> <span class="s">&#39;.latex&#39;</span><span class="p">,</span> <span class="s">&#39;.sty&#39;</span><span class="p">]</span>
     <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;latex&#39;</span>
     <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;%&#39;</span><span class="p">]</span>
+
+  <span class="nv">Lua:</span>
+    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.lua&#39;</span><span class="p">]</span>
+    <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;lua&#39;</span>
+    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;--&#39;</span><span class="p">]</span>
 
   <span class="nv">Make:</span>
     <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;Makefile&#39;</span><span class="p">]</span>
