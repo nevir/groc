@@ -71,7 +71,7 @@ Utils =
     path.split(/[\/\\]/).length
 
   # Split source code into segments (comment + code pairs)
-  splitSource: (data, language) ->
+  splitSource: (data, language, options={}) ->
     lines = data.split /\r?\n/
 
     # Always strip shebangs - but don't shift it off the array to avoid the perf hit of walking the
@@ -84,8 +84,11 @@ Utils =
     segments = []
     currSegment = new @Segment
 
+    # Enforced whitespace after the comment token
+    whitespaceMatch = if options.requireWhitespaceAfterToken then '\\s' else '\\s?'
+
     # We only support single line comments for the time being.
-    singleLineMatcher = ///^\s*(#{language.singleLineComment.join('|')})\s?(.*)$///
+    singleLineMatcher = ///^\s*(#{language.singleLineComment.join('|')})#{whitespaceMatch}(.*)$///
 
     for line in lines
       # Match that line to the language's single line comment syntax.

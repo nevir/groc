@@ -19,7 +19,7 @@ LANGUAGES =
     nameMatchers:      ['.coffee']
     pygmentsLexer:     'coffee-script'
     singleLineComment: ['#']
-    
+
   Go:
     nameMatchers:      ['.go']
     pygmentsLexer:     'go'

@@ -10,7 +10,8 @@ class Base
 
     @files.push fileInfo
 
-    segments = Utils.splitSource data, fileInfo.language
+    segments = Utils.splitSource data, fileInfo.language,
+      requireWhitespaceAfterToken: !!@project.options.requireWhitespaceAfterToken
 
     @log.debug 'Split %s into %d segments', fileInfo.sourcePath, segments.length
 

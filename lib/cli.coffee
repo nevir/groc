@@ -90,6 +90,10 @@ CLI = (inputArgs, callback) ->
       describe: "A path prefix to strip when generating documentation paths (or --no-strip)."
       alias:    't'
 
+    'whitespace-after-token':
+      describe: "Require whitespace after a comment token for a line to be considered a comment."
+      default:  true
+
     silent:
       describe: "Output errors only."
 
@@ -153,6 +157,9 @@ CLI = (inputArgs, callback) ->
   project.log.minLevel = utils.Logger::LEVELS.ERROR if argv.silent
   project.log.minLevel = utils.Logger::LEVELS.DEBUG if argv.verbose
   project.log.minLevel = utils.Logger::LEVELS.TRACE if argv['very-verbose']
+
+  # Set up project-specific options as we get them.
+  project.options.requireWhitespaceAfterToken = !!argv['whitespace-after-token']
 
   # We expand the `--glob` expressions into a poor-man's set, so that we can easily remove
   # exclusions defined by `--except` before we add the result to the project's file list.
