@@ -16,7 +16,7 @@ LANGUAGES =
     singleLineComment: ['//']
 
   CoffeeScript:
-    nameMatchers:      ['.coffee']
+    nameMatchers:      ['.coffee', 'Cakefile']
     pygmentsLexer:     'coffee-script'
     singleLineComment: ['#']
 
