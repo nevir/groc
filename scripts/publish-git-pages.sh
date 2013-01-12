@@ -3,7 +3,7 @@ set -e # Stop on the first failure that occurs
 
 DOCS_PATH=.git/groc-tmp
 TARGET_BRANCH=gh-pages
-TARGET_REMOTE=origin
+[[ $1 ]] && TARGET_REMOTE=$1 || TARGET_REMOTE=origin
 
 # Git spits out status information on $stderr, and we don't want to relay that as an error to the
 # user.  So we wrap git and do error handling ourselves...
@@ -48,7 +48,7 @@ if [[ -e .gitignore ]]; then
 fi
 
 if [[ `git branch --no-color | grep " $TARGET_BRANCH"` == "" ]]; then
-  # Do a fetch from origin to see if it was created remotely
+  # Do a fetch from the target remote to see if it was created remotely
   exec_git fetch $TARGET_REMOTE
 
   # Does it exist remotely?
@@ -65,7 +65,8 @@ if [[ `git branch --no-color | grep " $TARGET_BRANCH"` == "" ]]; then
 
     exec_git clean -fdq
   else
-    echo "No local branch '$TARGET_BRANCH', checking out 'origin/$TARGET_BRANCH' and tracking that"
+    TARGET_REMOTE=origin
+    echo "No local branch '$TARGET_BRANCH', checking out '$TARGET_REMOTE/$TARGET_BRANCH' and tracking that"
     exec_git checkout -b $TARGET_BRANCH $TARGET_REMOTE/$TARGET_BRANCH
   fi
 
@@ -85,7 +86,7 @@ fi
 if [[ `git status -s` != "" ]]; then
   exec_git add -A
   exec_git commit -m "Generated documentation for $CURRENT_COMMIT"
-  exec_git push origin $TARGET_BRANCH
+  exec_git push $TARGET_REMOTE $TARGET_BRANCH
 fi
 
 # Clean up after ourselves

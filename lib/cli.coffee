@@ -188,8 +188,10 @@ CLI = (inputArgs, callback) ->
 
   # ## GitHub
   else
-    publish_to_github = (error, url) ->
-      console.log "publish_to_github", error, url
+    # We want to be able to annotate generated documentation with the project's GitHub URL.  This is
+    # handy for things like generating links directly to each file's source.
+    utils.CLIHelpers.guessPrimaryGitHubURL argv['repository-url'], (error, url, remote) ->
+      console.log "publish_to_github", error, url, remote
 
       if error
         project.log.error error.message
@@ -218,7 +220,7 @@ CLI = (inputArgs, callback) ->
         # 2. Copies the generated docs from `.git/groc-tmp` over any existing files in the branch.
         # 3. Creates a commit with _just_ the generated docs; any additional files are removed.
         # 4. Cleans up and switches back to the user's original branch.
-        script = childProcess.spawn path.resolve(__dirname, '..', 'scripts', 'publish-git-pages.sh')
+        script = childProcess.spawn path.resolve(__dirname, '..', 'scripts', 'publish-git-pages.sh'), [remote]
 
         script.stdout.on 'data', (data) -> project.log.info  data.toString().trim()
         script.stderr.on 'data', (data) -> project.log.error data.toString().trim()
@@ -227,10 +229,3 @@ CLI = (inputArgs, callback) ->
           return callback new Error 'Git publish failed' if code != 0
 
           callback()
-
-    # We want to be able to annotate generated documentation with the project's GitHub URL.  This is
-    # handy for things like generating links directly to each file's source.
-    if argv['repository-url']?
-      publish_to_github null, argv['repository-url']
-    else
-      utils.CLIHelpers.guessPrimaryGitHubURL publish_to_github
