@@ -10,6 +10,11 @@ LANGUAGES =
     pygmentsLexer:     'c'
     singleLineComment: ['//']
 
+  CSharp:
+    nameMatchers:      ['.cs']
+    pygmentsLexer:     'csharp'
+    singleLineComment: ['//']
+
   'C++':
     nameMatchers:      ['.cpp', '.hpp', '.c++', '.h++', '.cc', '.hh', '.cxx', '.hxx']
     pygmentsLexer:     'cpp'
