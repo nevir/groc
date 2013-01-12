@@ -15,6 +15,11 @@ LANGUAGES =
     pygmentsLexer:     'cpp'
     singleLineComment: ['//']
 
+  Clojure:
+    nameMatchers:      ['.clj']
+    pygmentsLexer:     'clojure'
+    singleLineComment: [';;']
+
   CoffeeScript:
     nameMatchers:      ['.coffee']
     pygmentsLexer:     'coffee-script'
