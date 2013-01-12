@@ -98,9 +98,7 @@ We may or may not have either .comment or .code sections, so we need to handle a
   <span class="na">position</span><span class="o">:</span> <span class="no">absolute</span>
   <span class="na">left</span><span class="o">:</span>     <span class="nv">$commentary-column-width</span>
   <span class="na">padding</span><span class="o">:</span>  <span class="nv">$common-margin</span> <span class="o">/</span> <span class="mi">4</span> <span class="nv">$common-margin</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="two-column-scaling">Two-Column Scaling</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Before we swap over to a single column layout, we scale the page down a little bit in an effort
-to squeeze some extra life out of it.</p>
-
-<p>Scaling starts once the toolbar is flush with the main column</p></div></div><div class="code"><div class="wrapper"><span class="na">$scale-start-width</span><span class="o">:</span> <span class="nv">$commentary-column-width</span> <span class="o">+</span> <span class="nv">$tools-width</span>
+to squeeze some extra life out of it.</p></div></div><div class="code"><div class="wrapper"><span class="c1">//</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Scaling starts once the toolbar is flush with the main column</p></div></div><div class="code"><div class="wrapper"><span class="na">$scale-start-width</span><span class="o">:</span> <span class="nv">$commentary-column-width</span> <span class="o">+</span> <span class="nv">$tools-width</span>
 <span class="na">$scale-stop-width</span><span class="o">:</span>  <span class="nv">$scale-start-width</span> <span class="o">*</span> <span class="nv">$scale-min</span>
 
 <span class="k">@for</span> <span class="nv">$i</span> <span class="ow">from</span> <span class="mi">0</span> <span class="ow">through</span> <span class="nv">$scale-steps</span> <span class="o">-</span> <span class="mi">2</span> <span class="c1">// Skip the last step; it&#39;s exactly $scale-stop-width</span>

@@ -10,7 +10,8 @@
 
     <span class="nx">@files</span><span class="p">.</span><span class="nx">push</span> <span class="nx">fileInfo</span>
 
-    <span class="nv">segments = </span><span class="nx">Utils</span><span class="p">.</span><span class="nx">splitSource</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">fileInfo</span><span class="p">.</span><span class="nx">language</span>
+    <span class="nv">segments = </span><span class="nx">Utils</span><span class="p">.</span><span class="nx">splitSource</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">fileInfo</span><span class="p">.</span><span class="nx">language</span><span class="p">,</span>
+      <span class="nv">requireWhitespaceAfterToken: </span><span class="o">!!</span><span class="nx">@project</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">requireWhitespaceAfterToken</span>
 
     <span class="nx">@log</span><span class="p">.</span><span class="nx">debug</span> <span class="s">&#39;Split %s into %d segments&#39;</span><span class="p">,</span> <span class="nx">fileInfo</span><span class="p">.</span><span class="nx">sourcePath</span><span class="p">,</span> <span class="nx">segments</span><span class="p">.</span><span class="nx">length</span>
 

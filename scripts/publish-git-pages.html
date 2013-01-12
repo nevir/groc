@@ -2,7 +2,7 @@
 
 <span class="nv">DOCS_PATH</span><span class="o">=</span>.git/groc-tmp
 <span class="nv">TARGET_BRANCH</span><span class="o">=</span>gh-pages
-<span class="nv">TARGET_REMOTE</span><span class="o">=</span>origin</div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Git spits out status information on $stderr, and we don't want to relay that as an error to the
+<span class="o">[[</span> <span class="nv">$1</span> <span class="o">]]</span> <span class="o">&amp;&amp;</span> <span class="nv">TARGET_REMOTE</span><span class="o">=</span><span class="nv">$1</span> <span class="o">||</span> <span class="nv">TARGET_REMOTE</span><span class="o">=</span>origin</div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Git spits out status information on $stderr, and we don't want to relay that as an error to the
 user.  So we wrap git and do error handling ourselves...</p></div></div><div class="code"><div class="wrapper">exec_git<span class="o">()</span> <span class="o">{</span>
   <span class="nv">args</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
   <span class="k">for</span> <span class="o">((</span> <span class="nv">i</span> <span class="o">=</span> 1; i &lt;<span class="o">=</span> <span class="nv">$#;</span> i++ <span class="o">))</span>; <span class="k">do</span>
@@ -40,7 +40,7 @@ user.  So we wrap git and do error handling ourselves...</p></div></div><div cla
 <span class="k">  </span>cp .gitignore <span class="nv">$DOCS_PATH</span>/
 <span class="k">fi</span>
 
-<span class="k">if</span> <span class="o">[[</span> <span class="sb">`</span>git branch --no-color | grep <span class="s2">&quot; $TARGET_BRANCH&quot;</span><span class="sb">`</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="o">]]</span>; <span class="k">then</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Do a fetch from origin to see if it was created remotely</p></div></div><div class="code"><div class="wrapper">  exec_git fetch <span class="nv">$TARGET_REMOTE</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Does it exist remotely?</p></div></div><div class="code"><div class="wrapper">  <span class="k">if</span> <span class="o">[[</span> <span class="sb">`</span>git branch -a --no-color | grep <span class="s2">&quot; remotes/$TARGET_REMOTE/$TARGET_BRANCH&quot;</span><span class="sb">`</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="o">]]</span>; <span class="k">then</span>
+<span class="k">if</span> <span class="o">[[</span> <span class="sb">`</span>git branch --no-color | grep <span class="s2">&quot; $TARGET_BRANCH&quot;</span><span class="sb">`</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="o">]]</span>; <span class="k">then</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Do a fetch from the target remote to see if it was created remotely</p></div></div><div class="code"><div class="wrapper">  exec_git fetch <span class="nv">$TARGET_REMOTE</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Does it exist remotely?</p></div></div><div class="code"><div class="wrapper">  <span class="k">if</span> <span class="o">[[</span> <span class="sb">`</span>git branch -a --no-color | grep <span class="s2">&quot; remotes/$TARGET_REMOTE/$TARGET_BRANCH&quot;</span><span class="sb">`</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="o">]]</span>; <span class="k">then</span>
 <span class="k">    </span><span class="nb">echo</span> <span class="s2">&quot;No &#39;$TARGET_BRANCH&#39; branch exists.  Creating one&quot;</span>
     exec_git symbolic-ref HEAD refs/heads/<span class="nv">$TARGET_BRANCH</span>
     rm .git/index</div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Preserve ignored files, but make sure they're actually ignored!</p></div></div><div class="code"><div class="wrapper">    <span class="k">if</span> <span class="o">[[</span> -e <span class="nv">$DOCS_PATH</span>/.gitignore <span class="o">]]</span>; <span class="k">then</span>
@@ -50,7 +50,8 @@ user.  So we wrap git and do error handling ourselves...</p></div></div><div cla
 
 <span class="k">    </span>exec_git clean -fdq
   <span class="k">else</span>
-<span class="k">    </span><span class="nb">echo</span> <span class="s2">&quot;No local branch &#39;$TARGET_BRANCH&#39;, checking out &#39;origin/$TARGET_BRANCH&#39; and tracking that&quot;</span>
+<span class="k">    </span><span class="nv">TARGET_REMOTE</span><span class="o">=</span>origin
+    <span class="nb">echo</span> <span class="s2">&quot;No local branch &#39;$TARGET_BRANCH&#39;, checking out &#39;$TARGET_REMOTE/$TARGET_BRANCH&#39; and tracking that&quot;</span>
     exec_git checkout -b <span class="nv">$TARGET_BRANCH</span> <span class="nv">$TARGET_REMOTE</span>/<span class="nv">$TARGET_BRANCH</span>
   <span class="k">fi</span>
 
@@ -64,7 +65,7 @@ cp -Rf <span class="nv">$DOCS_PATH</span>/* .
 <span class="k">fi</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Do nothing unless we actually have changes</p></div></div><div class="code"><div class="wrapper"><span class="k">if</span> <span class="o">[[</span> <span class="sb">`</span>git status -s<span class="sb">`</span> !<span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="o">]]</span>; <span class="k">then</span>
 <span class="k">  </span>exec_git add -A
   exec_git commit -m <span class="s2">&quot;Generated documentation for $CURRENT_COMMIT&quot;</span>
-  exec_git push origin <span class="nv">$TARGET_BRANCH</span>
+  exec_git push <span class="nv">$TARGET_REMOTE</span> <span class="nv">$TARGET_BRANCH</span>
 <span class="k">fi</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Clean up after ourselves</p></div></div><div class="code"><div class="wrapper">rm -rf <span class="nv">$DOCS_PATH</span>
 
 exec_git checkout <span class="nv">$CURRENT_BRANCH</span></div></div></div></div></body></html>

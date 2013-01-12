@@ -59,7 +59,10 @@ over it (permissions), as well as wanting to avoid contention.</p></div></div><d
       <span class="k">catch</span> <span class="nx">error</span>
         <span class="nx">@log</span><span class="p">.</span><span class="nx">debug</span> <span class="nx">scriptSource</span>
         <span class="nx">@log</span><span class="p">.</span><span class="nx">error</span> <span class="s">&#39;Failed to compile %s: %s&#39;</span><span class="p">,</span> <span class="nx">scriptPath</span><span class="p">,</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
-        <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>@compressScript scriptSource, callback</p></div></div><div class="code"><div class="wrapper">      <span class="nx">@concatenateScripts</span> <span class="nx">scriptSource</span><span class="p">,</span> <span class="nx">callback</span>
+        <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
+
+      <span class="c1">#@compressScript scriptSource, callback</span>
+      <span class="nx">@concatenateScripts</span> <span class="nx">scriptSource</span><span class="p">,</span> <span class="nx">callback</span>
 
   <span class="nv">compressScript: </span><span class="nf">(scriptSource, callback) -&gt;</span>
     <span class="nx">@log</span><span class="p">.</span><span class="nx">trace</span> <span class="s">&#39;styles.Default#compressScript(..., ...)&#39;</span>
