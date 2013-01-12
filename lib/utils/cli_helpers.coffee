@@ -9,7 +9,7 @@ CLIHelpers =
     for optName, optConfig of config
       # * We support two tiers of default values.  First, we set up the hard-coded defaults specified
       #   as part of `config`.
-      # 
+      #
       # Also, `default` is a reserved name, hence `defaultVal`.
       defaultVal = extraDefaults?[optName] or optConfig.default
 
@@ -42,7 +42,7 @@ CLIHelpers =
 
   # ## guessPrimaryGitHubURL
 
-  guessPrimaryGitHubURL: (callback) ->
+  guessPrimaryGitHubURL: (repository_url, callback) ->
     # `git config --list` provides information about branches and remotes - everything we need to
     # attempt to guess the project's GitHub repository.
     #
@@ -58,22 +58,25 @@ CLIHelpers =
 
       # * If the user has a tracked `gh-pages` branch, chances are extremely high that its tracked
       #   remote is the correct github project.
-      pagesRemote = config['branch.gh-pages.remote']
-      if pagesRemote and config["remote.#{pagesRemote}.url"]
-        url = @extractGitHubURL config["remote.#{pagesRemote}.url"]
-        return callback null, url if url
+      pagesRemote = config['branch.gh-pages.remote'] ? "origin"
+      if repository_url?
+        return callback null, repository_url, pagesRemote
+      else
+        if config["remote.#{pagesRemote}.url"]
+          url = @extractGitHubURL config["remote.#{pagesRemote}.url"]
+          return callback null, url, pagesRemote if url
 
-      # * If that fails, we fall back to the origin remote if it is a GitHub repository.
-      url = @extractGitHubURL config['remote.origin.url']
-      return callback null, url if url
+        # * If that fails, we fall back to the origin remote if it is a GitHub repository.
+        url = @extractGitHubURL config['remote.origin.url']
+        return callback null, url, pagesRemote if url
 
-      # * We fall back to searching all remotes for a GitHub repository, and choose the first one
-      #   we encounter.
-      for key, value of config
-        url = @extractGitHubURL value
-        return callback null, url if url
+        # * We fall back to searching all remotes for a GitHub repository, and choose the first one
+        #   we encounter.
+        for key, value of config
+          url = @extractGitHubURL value
+          return callback null, url, pagesRemote if url
 
-      callback new Error "Could not guess a GitHub URL for the current repository :("
+        callback new Error "Could not guess a GitHub URL for the current repository :("
 
   # A quick helper that extracts a GitHub project URL from its repository URL.
   extractGitHubURL: (url) ->
