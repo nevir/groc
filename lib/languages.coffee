@@ -43,7 +43,7 @@ LANGUAGES =
   Jade:
     nameMatchers:      ['.jade']
     pygmentsLexer:     'jade'
-    singleLineComment: ['//']
+    singleLineComment: ['//', '//-']
 
   Java:
     nameMatchers:      ['.java']
