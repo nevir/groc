@@ -93,6 +93,7 @@ CLI = (inputArgs, callback) ->
     'whitespace-after-token':
       describe: "Require whitespace after a comment token for a line to be considered a comment."
       default:  true
+      type:     'boolean'
 
     silent:
       describe: "Output errors only."
