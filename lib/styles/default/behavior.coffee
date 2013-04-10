@@ -228,6 +228,13 @@ buildTOCNode = (node, metaInfo) ->
 
   discloser$ = $('<span class="discloser"/>').prependTo label$
   discloser$.addClass 'placeholder' unless node.children?.length > 0
+
+  # CONVERSATION STARTER:
+  # Should the arrow icon on click be what makes the nav tree expand?
+  # I feel like the entire li should make the nav tree expand. The style
+  # changes when you click the li... but when the list doesn't expand
+  # when the style changes... that just feels broken.
+  # What do you think?
   discloser$.click (evt) ->
     node$.toggleClass 'expanded'
     evt.preventDefault()
