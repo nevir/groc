@@ -1,5 +1,8 @@
 # # groc.Logger
 
+CompatibilityHelpers = require './compatibility_helpers'
+colors = require 'colors'
+
 # We have pretty simple needs for a logger, and so far have been unable to find a reasonable
 # off-the-shelf solution that fits them without being too overbearing:
 class Logger
@@ -51,7 +54,7 @@ class Logger
 
   emit: (levelName, args...) ->
     if @LEVELS[levelName] >= @minLevel
-      output = utils.CompatibilityHelpers.format args...
+      output = CompatibilityHelpers.format args...
 
       # * We like nicely indented output
       output = output.split(/\r?\n/).join('\n  ')
@@ -66,3 +69,5 @@ globalLogger = new Logger Logger::LEVELS.TRACE
 for level of globalLogger.LEVELS
   do (level) ->
     Logger[level.toLowerCase()] = (args...) -> globalLogger[level.toLowerCase()] args...
+
+module.exports = Logger

@@ -1,3 +1,12 @@
+coffeeScript = require 'coffee-script'
+Base = require './base'
+path = require 'path'
+fs = require 'fs'
+jade = require 'jade'
+fsTools = require 'fs-tools'
+uglifyJs = require 'uglify-js'
+_ = require 'underscore'
+
 class Default extends Base
   STATIC_ASSETS: ['style.css']
 
@@ -100,3 +109,5 @@ class Default extends Base
         @log.trace 'Wrote %s', outputPath
 
         callback()
+
+module.exports = Default

@@ -129,3 +129,5 @@ LANGUAGES =
     nameMatchers:      ['.yml', '.yaml']
     pygmentsLexer:     'yaml'
     singleLineComment: ['#']
+
+module.exports = LANGUAGES

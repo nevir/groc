@@ -1,5 +1,20 @@
 # # Command Line Interface
 
+optimist = require 'optimist'
+groc = require '../'
+path = require 'path'
+Logger = require './utils/logger'
+fs = require 'fs'
+CLIHelpers = require "./utils/cli_helpers"
+Utils = require './utils'
+Project = require './project'
+glob = require 'glob'
+
+DefaultStyle = require './styles/default'
+
+styles = 
+  'Default': DefaultStyle
+
 # Readable command line output is just as important as readable documentation!  It is the first
 # interaction that a developer will have with a tool like this, so we want to leave a good
 # impression with nicely formatted and readable command line output.
@@ -122,19 +137,19 @@ CLI = (inputArgs, callback) ->
     unless err.code == 'ENOENT' || err.code == 'EBADF'
       console.log opts.help()
       console.log
-      utils.Logger.error "Failed to load .groc.json: %s", err.message
+      Logger.error "Failed to load .groc.json: %s", err.message
 
       return callback err
 
   # We rely on [CLIHelpers.configureOptimist](utils/cli_helpers.html#configureoptimist) to provide
   # the extra options behavior that we require.
-  utils.CLIHelpers.configureOptimist opts, optionsConfig, projectConfig
+  CLIHelpers.configureOptimist opts, optionsConfig, projectConfig
   #} We have one special case that depends on other defaults...
   opts.default 'strip', Utils.guessStripPrefixes opts.argv.glob unless projectConfig?.strip? and opts.argv.glob?
 
-  argv = utils.CLIHelpers.extractArgv opts, optionsConfig
+  argv = CLIHelpers.extractArgv opts, optionsConfig
   # If we're in tracing mode, the parsed options are extremely helpful.
-  utils.Logger.trace 'argv: %j', argv if argv['very-verbose']
+  Logger.trace 'argv: %j', argv if argv['very-verbose']
 
   # Version checks short circuit before our pretty printing begins, since it is
   # one of those things that you might want to reference from other scripts.
@@ -154,9 +169,9 @@ CLI = (inputArgs, callback) ->
   project = new Project argv.root, argv.out
 
   # `--silent`, `--verbose` and `--very-verbose` just impact the logging level of the project.
-  project.log.minLevel = utils.Logger::LEVELS.ERROR if argv.silent
-  project.log.minLevel = utils.Logger::LEVELS.DEBUG if argv.verbose
-  project.log.minLevel = utils.Logger::LEVELS.TRACE if argv['very-verbose']
+  project.log.minLevel = Logger::LEVELS.ERROR if argv.silent
+  project.log.minLevel = Logger::LEVELS.DEBUG if argv.verbose
+  project.log.minLevel = Logger::LEVELS.TRACE if argv['very-verbose']
 
   # Set up project-specific options as we get them.
   project.options.requireWhitespaceAfterToken = !!argv['whitespace-after-token']
@@ -190,7 +205,7 @@ CLI = (inputArgs, callback) ->
   else
     # We want to be able to annotate generated documentation with the project's GitHub URL.  This is
     # handy for things like generating links directly to each file's source.
-    utils.CLIHelpers.guessPrimaryGitHubURL argv['repository-url'], (error, url, remote) ->
+    CLIHelpers.guessPrimaryGitHubURL argv['repository-url'], (error, url, remote) ->
       console.log "publish_to_github", error, url, remote
 
       if error
@@ -229,3 +244,5 @@ CLI = (inputArgs, callback) ->
           return callback new Error 'Git publish failed' if code != 0
 
           callback()
+
+module.exports = CLI

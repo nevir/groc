@@ -1,4 +1,13 @@
 # Miscellaneous code fragments reside here.
+
+CompatibilityHelpers = require './utils/compatibility_helpers'
+Logger = require './utils/logger'
+_ = require 'underscore'
+path = require 'path'
+LANGUAGES = require './languages'
+childProcess = require 'child_process'
+showdown = require 'showdown'
+
 Utils =
   # Escape regular expression characters in a string
   #
@@ -32,7 +41,7 @@ Utils =
     # Ensure that we're dealing with absolute paths across the board
     files = files.map (f) -> path.resolve resolveRoot, f
     # And that the strip prefixes all end with a /, to avoid a target path being absolute.
-    stripPrefixes = stripPrefixes.map (p) -> path.join( "#{path.resolve resolveRoot, p}#{utils.CompatibilityHelpers.pathSep}" )
+    stripPrefixes = stripPrefixes.map (p) -> path.join( "#{path.resolve resolveRoot, p}#{CompatibilityHelpers.pathSep}" )
 
     # Prefixes are stripped in order of most specific to least (# of directories deep)
     prefixes = stripPrefixes.sort (a,b) => @pathDepth(b) - @pathDepth(a)
@@ -59,7 +68,7 @@ Utils =
       # Most globs look something like dir/**/*.ext, so strip up to the leading *
       arg = arg.replace /\*.*$/, ''
 
-      result.push arg if arg.slice(-1) == utils.CompatibilityHelpers.pathSep
+      result.push arg if arg.slice(-1) == CompatibilityHelpers.pathSep
 
     # For now, we try to avoid ambiguous situations by guessing the FIRST directory given.  The
     # assumption is that you don't want merged paths, but probably did specify the most important
@@ -126,20 +135,24 @@ Utils =
 
       return callback()
 
+    errListener = (error) ->
+      # This appears to only occur when pygmentize is missing:
+      Logger.error "Unable to find 'pygmentize' on your PATH.  Please install pygments."
+      Logger.info ''
+
+      # Lack of pygments is a one time setup task, we don't feel bad about killing the process
+      # off until the user does so.  It's a hard requirement.
+      process.exit 1
+
     pygmentize = childProcess.spawn 'pygmentize', [
       '-l', language.pygmentsLexer
       '-f', 'html'
       '-O', 'encoding=utf-8,tabsize=2'
     ]
     pygmentize.stderr.addListener 'data', (data)  -> callback data.toString()
-    pygmentize.stdin.addListener 'error', (error) ->
-      # This appears to only occur when pygmentize is missing:
-      utils.Logger.error "Unable to find 'pygmentize' on your PATH.  Please install pygments."
-      utils.Logger.info ''
-
-      # Lack of pygments is a one time setup task, we don't feel bad about killing the process
-      # off until the user does so.  It's a hard requirement.
-      process.exit 1
+    pygmentize.stdin.addListener 'error', errListener 
+    pygmentize.on 'error', errListener
+    
 
     # We'll just split the output at the end.  pygmentize doesn't stream its output, and a given
     # source file is small enough that it shouldn't matter.
@@ -160,7 +173,7 @@ Utils =
       highlighted = "\n#{result}\n".split /.*<span.*SEGMENT DIVIDER<\/span>.*/
 
       if highlighted.length != segments.length
-        error = new Error utils.CompatibilityHelpers.format 'pygmentize rendered %d of %d segments; expected to be equal',
+        error = new Error CompatibilityHelpers.format 'pygmentize rendered %d of %d segments; expected to be equal',
           highlighted.length, segments.length
 
         error.pygmentsOutput   = result
@@ -228,7 +241,8 @@ Utils =
 
   # Sometimes you just don't want any of them hanging around.
   trimBlankLines: (string) ->
-    string.replace(/^[\r\n]+/, '').replace(/[\r\n]+$/, '')
+    if typeof string == 'string'
+      string.replace(/^[\r\n]+/, '').replace(/[\r\n]+$/, '')
 
   # Given a title, convert it into a URL-friendly slug.
   slugifyTitle: (string) ->
@@ -248,3 +262,5 @@ Utils =
       furthestIndex = matcher.lastIndex
 
     result + string[furthestIndex...]
+
+module.exports = Utils
