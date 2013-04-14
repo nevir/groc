@@ -1,7 +1,8 @@
 # # Command Line Interface
 
-fs   = require 'fs'
-path = require 'path'
+childProcess = require 'child_process'
+fs           = require 'fs'
+path         = require 'path'
 
 glob     = require 'glob'
 optimist = require 'optimist'
