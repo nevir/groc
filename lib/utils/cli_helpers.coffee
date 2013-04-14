@@ -1,3 +1,7 @@
+_ = require 'underscore'
+path = require 'path'
+childProcess = require 'child_process'
+
 # # Command Line Helpers
 CLIHelpers =
 
@@ -87,3 +91,5 @@ CLIHelpers =
     repo  = if match[2][-4..] == '.git' then match[2][0...-4] else match[2]
 
     "https://github.com/#{owner}/#{repo}"
+
+module.exports = CLIHelpers

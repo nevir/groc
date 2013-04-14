@@ -1,3 +1,6 @@
+path = require 'path'
+util = require 'util'
+
 FORMAT_REGEXP = /%[sdj%]/g
 
 CompatibilityHelpers =
@@ -31,3 +34,5 @@ CompatibilityHelpers =
         str += ' ' + util.inspect x
 
     str
+
+module.exports = CompatibilityHelpers

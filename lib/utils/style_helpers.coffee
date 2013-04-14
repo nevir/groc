@@ -1,3 +1,6 @@
+_ = require 'underscore'
+path = require 'path'
+
 # # Style Helpers
 #
 # A collection of helpful functions to support styles and their behavior.
@@ -130,3 +133,5 @@ StyleHelpers =
         results.push segment
 
     results
+
+module.exports = StyleHelpers

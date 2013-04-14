@@ -1,3 +1,9 @@
+Utils = require '../utils'
+StyleHelpers = require '../utils/style_helpers'
+fsTools = require 'fs-tools'
+path = require 'path'
+fs = require 'fs'
+
 class Base
   constructor: (project) ->
     @project = project
@@ -31,10 +37,10 @@ class Base
           @log.error 'Failed to markdown %s: %s', fileInfo.sourcePath, error.message
           return callback error
 
-        @outline[fileInfo.targetPath] = utils.StyleHelpers.outlineHeaders segments
+        @outline[fileInfo.targetPath] = StyleHelpers.outlineHeaders segments
 
         # We also prefer to split out solo headers
-        segments = utils.StyleHelpers.segmentizeSoloHeaders segments
+        segments = StyleHelpers.segmentizeSoloHeaders segments
 
         @renderDocFile segments, fileInfo, callback
 
@@ -86,6 +92,8 @@ class Base
   renderCompleted: (callback) ->
     @log.trace 'BaseStyle#renderCompleted(...)'
 
-    @tableOfContents = utils.StyleHelpers.buildTableOfContents @files, @outline
+    @tableOfContents = StyleHelpers.buildTableOfContents @files, @outline
 
     callback()
+
+module.exports = Base

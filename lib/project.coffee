@@ -1,13 +1,20 @@
 # # groc API
 
+Utils = require './utils'
+Logger = require './utils/logger'
+CompatibilityHelpers = require './utils/compatibility_helpers'
+path = require 'path'
+spate = require 'spate'
+fs = require 'fs'
+
 # A core concept of `groc` is that your code is grouped into a project, and that there is a certain
 # amount of context that it lends to your documentation.
 #
 # A project:
 class Project
-  constructor: (root, outPath, minLogLevel=utils.Logger::INFO) ->
+  constructor: (root, outPath, minLogLevel=Logger::INFO) ->
     @options = {}
-    @log     = new utils.Logger minLogLevel
+    @log     = new Logger minLogLevel
 
     # * Has a single root directory that contains (most of) it.
     @root = path.resolve root
@@ -40,7 +47,7 @@ class Project
     # We need to ensure that the project root is a strip prefix so that we properly generate
     # relative paths for our files.  Since strip prefixes are relative, it must be the first prefix,
     # so that they can strip from the remainder.
-    @stripPrefixes = [@root + utils.CompatibilityHelpers.pathSep].concat @stripPrefixes
+    @stripPrefixes = [@root + CompatibilityHelpers.pathSep].concat @stripPrefixes
 
     fileMap   = Utils.mapFiles @root, @files, @stripPrefixes
     indexPath = path.resolve @root, @index
@@ -61,7 +68,7 @@ class Project
         fileInfo =
           language:    language
           sourcePath:  currentFile
-          projectPath: currentFile.replace ///^#{Utils.regexpEscape @root + utils.CompatibilityHelpers.pathSep}///, ''
+          projectPath: currentFile.replace ///^#{Utils.regexpEscape @root + CompatibilityHelpers.pathSep}///, ''
           targetPath:  if currentFile == indexPath then 'index' else fileMap[currentFile]
 
         style.renderFile data, fileInfo, done
@@ -75,3 +82,5 @@ class Project
         @log.info ''
         @log.pass 'Documentation generated'
         callback()
+
+module.exports = Project
