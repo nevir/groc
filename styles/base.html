@@ -1,4 +1,13 @@
-<!DOCTYPE html><html lang="en"><head><title>styles/base</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="styles/base"><meta name="groc-project-path" content="lib/styles/base.coffee"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/nevir/groc/blob/master/lib/styles/base.coffee">lib/styles/base.coffee</a></div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="k">class</span> <span class="nx">Base</span>
+<!DOCTYPE html><html lang="en"><head><title>styles/base</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="styles/base"><meta name="groc-project-path" content="lib/styles/base.coffee"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/nevir/groc/blob/master/lib/styles/base.coffee">lib/styles/base.coffee</a></div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="nv">fs   = </span><span class="nx">require</span> <span class="s">&#39;fs&#39;</span>
+<span class="nv">path = </span><span class="nx">require</span> <span class="s">&#39;path&#39;</span>
+
+<span class="nv">fsTools = </span><span class="nx">require</span> <span class="s">&#39;fs-tools&#39;</span>
+
+<span class="nv">StyleHelpers = </span><span class="nx">require</span> <span class="s">&#39;../utils/style_helpers&#39;</span>
+<span class="nv">Utils        = </span><span class="nx">require</span> <span class="s">&#39;../utils&#39;</span>
+
+
+<span class="nv">module.exports = </span><span class="k">class</span> <span class="nx">Base</span>
   <span class="nv">constructor: </span><span class="nf">(project) -&gt;</span>
     <span class="vi">@project = </span><span class="nx">project</span>
     <span class="vi">@log     = </span><span class="nx">project</span><span class="p">.</span><span class="nx">log</span>
@@ -15,7 +24,7 @@
 
     <span class="nx">@log</span><span class="p">.</span><span class="nx">debug</span> <span class="s">&#39;Split %s into %d segments&#39;</span><span class="p">,</span> <span class="nx">fileInfo</span><span class="p">.</span><span class="nx">sourcePath</span><span class="p">,</span> <span class="nx">segments</span><span class="p">.</span><span class="nx">length</span>
 
-    <span class="nx">Utils</span><span class="p">.</span><span class="nx">highlightCode</span> <span class="nx">segments</span><span class="p">,</span> <span class="nx">fileInfo</span><span class="p">.</span><span class="nx">language</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="nx">Utils</span><span class="p">.</span><span class="nx">highlightCode</span> <span class="nx">segments</span><span class="p">,</span> <span class="nx">fileInfo</span><span class="p">.</span><span class="nx">language</span><span class="p">,</span> <span class="nf">(error) =&gt;</span>
       <span class="k">if</span> <span class="nx">error</span>
         <span class="k">if</span> <span class="nx">error</span><span class="p">.</span><span class="nx">failedHighlights</span>
           <span class="k">for</span> <span class="nx">highlight</span><span class="p">,</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">error</span><span class="p">.</span><span class="nx">failedHighlights</span>
@@ -26,23 +35,23 @@
         <span class="nx">@log</span><span class="p">.</span><span class="nx">error</span> <span class="s">&#39;Failed to highlight %s as %s: %s&#39;</span><span class="p">,</span> <span class="nx">fileInfo</span><span class="p">.</span><span class="nx">sourcePath</span><span class="p">,</span> <span class="nx">fileInfo</span><span class="p">.</span><span class="nx">language</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span> <span class="o">or</span> <span class="nx">error</span>
         <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
 
-      <span class="nx">Utils</span><span class="p">.</span><span class="nx">markdownComments</span> <span class="nx">segments</span><span class="p">,</span> <span class="nx">@project</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span>
+      <span class="nx">Utils</span><span class="p">.</span><span class="nx">markdownComments</span> <span class="nx">segments</span><span class="p">,</span> <span class="nx">@project</span><span class="p">,</span> <span class="nf">(error) =&gt;</span>
         <span class="k">if</span> <span class="nx">error</span>
           <span class="nx">@log</span><span class="p">.</span><span class="nx">error</span> <span class="s">&#39;Failed to markdown %s: %s&#39;</span><span class="p">,</span> <span class="nx">fileInfo</span><span class="p">.</span><span class="nx">sourcePath</span><span class="p">,</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
           <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
 
-        <span class="nx">@outline</span><span class="p">[</span><span class="nx">fileInfo</span><span class="p">.</span><span class="nx">targetPath</span><span class="p">]</span> <span class="o">=</span> <span class="nx">utils</span><span class="p">.</span><span class="nx">StyleHelpers</span><span class="p">.</span><span class="nx">outlineHeaders</span> <span class="nx">segments</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We also prefer to split out solo headers</p></div></div><div class="code"><div class="wrapper">        <span class="nv">segments = </span><span class="nx">utils</span><span class="p">.</span><span class="nx">StyleHelpers</span><span class="p">.</span><span class="nx">segmentizeSoloHeaders</span> <span class="nx">segments</span>
+        <span class="nx">@outline</span><span class="p">[</span><span class="nx">fileInfo</span><span class="p">.</span><span class="nx">targetPath</span><span class="p">]</span> <span class="o">=</span> <span class="nx">StyleHelpers</span><span class="p">.</span><span class="nx">outlineHeaders</span> <span class="nx">segments</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We also prefer to split out solo headers</p></div></div><div class="code"><div class="wrapper">        <span class="nv">segments = </span><span class="nx">StyleHelpers</span><span class="p">.</span><span class="nx">segmentizeSoloHeaders</span> <span class="nx">segments</span>
 
         <span class="nx">@renderDocFile</span> <span class="nx">segments</span><span class="p">,</span> <span class="nx">fileInfo</span><span class="p">,</span> <span class="nx">callback</span>
 
   <span class="nv">renderDocFile: </span><span class="nf">(segments, fileInfo, callback) -&gt;</span>
     <span class="nx">@log</span><span class="p">.</span><span class="nx">trace</span> <span class="s">&#39;BaseStyle#renderDocFile(..., %j, ...)&#39;</span><span class="p">,</span> <span class="nx">fileInfo</span>
 
-    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span> <span class="s">&quot;@templateFunc must be defined by subclasses!&quot;</span> <span class="nx">unless</span> <span class="nx">@templateFunc</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span> <span class="s">&quot;@templateFunc must be defined by subclasses!&quot;</span> <span class="k">unless</span> <span class="nx">@templateFunc</span>
 
     <span class="nv">docPath = </span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span> <span class="nx">@project</span><span class="p">.</span><span class="nx">outPath</span><span class="p">,</span> <span class="s">&quot;</span><span class="si">#{</span><span class="nx">fileInfo</span><span class="p">.</span><span class="nx">targetPath</span><span class="si">}</span><span class="s">.html&quot;</span>
 
-    <span class="nx">fsTools</span><span class="p">.</span><span class="nx">mkdir</span> <span class="nx">path</span><span class="p">.</span><span class="nx">dirname</span><span class="p">(</span><span class="nx">docPath</span><span class="p">),</span> <span class="s">&#39;0755&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="nx">fsTools</span><span class="p">.</span><span class="nx">mkdir</span> <span class="nx">path</span><span class="p">.</span><span class="nx">dirname</span><span class="p">(</span><span class="nx">docPath</span><span class="p">),</span> <span class="s">&#39;0755&#39;</span><span class="p">,</span> <span class="nf">(error) =&gt;</span>
       <span class="k">if</span> <span class="nx">error</span>
         <span class="nx">@log</span><span class="p">.</span><span class="nx">error</span> <span class="s">&#39;Unable to create directory %s: %s&#39;</span><span class="p">,</span> <span class="nx">path</span><span class="p">.</span><span class="nx">dirname</span><span class="p">(</span><span class="nx">docPath</span><span class="p">),</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
         <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
@@ -60,7 +69,7 @@
       <span class="k">if</span> <span class="nx">pathChunks</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nx">pathChunks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;.&#39;</span>
         <span class="nv">templateContext.relativeRoot = </span><span class="s">&#39;&#39;</span>
       <span class="k">else</span>
-        <span class="nv">templateContext.relativeRoot = </span><span class="s">&quot;</span><span class="si">#{</span><span class="nx">pathChunks</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="o">-&gt;</span> <span class="s">&#39;..&#39;</span><span class="p">).</span><span class="nx">join</span> <span class="s">&#39;/&#39;</span><span class="si">}</span><span class="s">/&quot;</span>
+        <span class="nv">templateContext.relativeRoot = </span><span class="s">&quot;</span><span class="si">#{</span><span class="nx">pathChunks</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nf">-&gt;</span> <span class="s">&#39;..&#39;</span><span class="p">).</span><span class="nx">join</span> <span class="s">&#39;/&#39;</span><span class="si">}</span><span class="s">/&quot;</span>
 
       <span class="k">try</span>
         <span class="nv">data = </span><span class="nx">@templateFunc</span> <span class="nx">templateContext</span>
@@ -69,7 +78,7 @@
         <span class="nx">@log</span><span class="p">.</span><span class="nx">error</span> <span class="s">&#39;Rendering documentation template for %s failed: %s&#39;</span><span class="p">,</span> <span class="nx">docPath</span><span class="p">,</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
         <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
 
-      <span class="nx">fs</span><span class="p">.</span><span class="nx">writeFile</span> <span class="nx">docPath</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="s">&#39;utf-8&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span>
+      <span class="nx">fs</span><span class="p">.</span><span class="nx">writeFile</span> <span class="nx">docPath</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="s">&#39;utf-8&#39;</span><span class="p">,</span> <span class="nf">(error) =&gt;</span>
         <span class="k">if</span> <span class="nx">error</span>
           <span class="nx">@log</span><span class="p">.</span><span class="nx">error</span> <span class="s">&#39;Failed to write documentation file %s: %s&#39;</span><span class="p">,</span> <span class="nx">docPath</span><span class="p">,</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
           <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
@@ -80,6 +89,6 @@
   <span class="nv">renderCompleted: </span><span class="nf">(callback) -&gt;</span>
     <span class="nx">@log</span><span class="p">.</span><span class="nx">trace</span> <span class="s">&#39;BaseStyle#renderCompleted(...)&#39;</span>
 
-    <span class="vi">@tableOfContents = </span><span class="nx">utils</span><span class="p">.</span><span class="nx">StyleHelpers</span><span class="p">.</span><span class="nx">buildTableOfContents</span> <span class="nx">@files</span><span class="p">,</span> <span class="nx">@outline</span>
+    <span class="vi">@tableOfContents = </span><span class="nx">StyleHelpers</span><span class="p">.</span><span class="nx">buildTableOfContents</span> <span class="nx">@files</span><span class="p">,</span> <span class="nx">@outline</span>
 
     <span class="nx">callback</span><span class="p">()</span></div></div></div></div></body></html>

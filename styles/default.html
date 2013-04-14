@@ -1,4 +1,16 @@
-<!DOCTYPE html><html lang="en"><head><title>styles/default</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="styles/default"><meta name="groc-project-path" content="lib/styles/default.coffee"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/nevir/groc/blob/master/lib/styles/default.coffee">lib/styles/default.coffee</a></div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="k">class</span> <span class="nx">Default</span> <span class="k">extends</span> <span class="nx">Base</span>
+<!DOCTYPE html><html lang="en"><head><title>styles/default</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="styles/default"><meta name="groc-project-path" content="lib/styles/default.coffee"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/nevir/groc/blob/master/lib/styles/default.coffee">lib/styles/default.coffee</a></div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="nv">fs   = </span><span class="nx">require</span> <span class="s">&#39;fs&#39;</span>
+<span class="nv">path = </span><span class="nx">require</span> <span class="s">&#39;path&#39;</span>
+
+<span class="nv">_            = </span><span class="nx">require</span> <span class="s">&#39;underscore&#39;</span>
+<span class="nv">coffeeScript = </span><span class="nx">require</span> <span class="s">&#39;coffee-script&#39;</span>
+<span class="nv">fsTools      = </span><span class="nx">require</span> <span class="s">&#39;fs-tools&#39;</span>
+<span class="nv">jade         = </span><span class="nx">require</span> <span class="s">&#39;jade&#39;</span>
+<span class="nv">uglifyJs     = </span><span class="nx">require</span> <span class="s">&#39;uglify-js&#39;</span>
+
+<span class="nv">Base = </span><span class="nx">require</span> <span class="s">&#39;./base&#39;</span>
+
+
+<span class="nv">module.exports = </span><span class="k">class</span> <span class="nx">Default</span> <span class="k">extends</span> <span class="nx">Base</span>
   <span class="nv">STATIC_ASSETS: </span><span class="p">[</span><span class="s">&#39;style.css&#39;</span><span class="p">]</span>
 
   <span class="nv">constructor: </span><span class="nf">(args...) -&gt;</span>
@@ -13,13 +25,13 @@
   <span class="nv">renderCompleted: </span><span class="nf">(callback) -&gt;</span>
     <span class="nx">@log</span><span class="p">.</span><span class="nx">trace</span> <span class="s">&#39;styles.Default#renderCompleted(...)&#39;</span>
 
-    <span class="k">super</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="k">super</span> <span class="nf">(error) =&gt;</span>
       <span class="k">return</span> <span class="nx">error</span> <span class="k">if</span> <span class="nx">error</span>
       <span class="nx">@copyAssets</span> <span class="nx">callback</span>
 
   <span class="nv">copyAssets: </span><span class="nf">(callback) -&gt;</span>
     <span class="nx">@log</span><span class="p">.</span><span class="nx">trace</span> <span class="s">&#39;styles.Default#copyAssets(...)&#39;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Even though fsTools.copy creates directories if they're missing - we want a bit more control
-over it (permissions), as well as wanting to avoid contention.</p></div></div><div class="code"><div class="wrapper">    <span class="nx">fsTools</span><span class="p">.</span><span class="nx">mkdir</span> <span class="nx">@targetAssets</span><span class="p">,</span> <span class="s">&#39;0755&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span>
+over it (permissions), as well as wanting to avoid contention.</p></div></div><div class="code"><div class="wrapper">    <span class="nx">fsTools</span><span class="p">.</span><span class="nx">mkdir</span> <span class="nx">@targetAssets</span><span class="p">,</span> <span class="s">&#39;0755&#39;</span><span class="p">,</span> <span class="nf">(error) =&gt;</span>
       <span class="k">if</span> <span class="nx">error</span>
         <span class="nx">@log</span><span class="p">.</span><span class="nx">error</span> <span class="s">&#39;Unable to create directory %s: %s&#39;</span><span class="p">,</span> <span class="nx">@targetAssets</span><span class="p">,</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
         <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
@@ -27,22 +39,22 @@ over it (permissions), as well as wanting to avoid contention.</p></div></div><d
 
       <span class="nv">numCopied = </span><span class="mi">0</span>
       <span class="k">for</span> <span class="nx">asset</span> <span class="k">in</span> <span class="nx">@STATIC_ASSETS</span>
-        <span class="nx">do</span> <span class="p">(</span><span class="nx">asset</span><span class="p">)</span> <span class="o">=&gt;</span>
+        <span class="nx">do</span> <span class="nf">(asset) =&gt;</span>
           <span class="nv">assetTarget = </span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span> <span class="nx">@targetAssets</span><span class="p">,</span> <span class="nx">asset</span>
-          <span class="nx">fsTools</span><span class="p">.</span><span class="nx">copy</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">@sourceAssets</span><span class="p">,</span> <span class="nx">asset</span><span class="p">),</span> <span class="nx">assetTarget</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span>
+          <span class="nx">fsTools</span><span class="p">.</span><span class="nx">copy</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">@sourceAssets</span><span class="p">,</span> <span class="nx">asset</span><span class="p">),</span> <span class="nx">assetTarget</span><span class="p">,</span> <span class="nf">(error) =&gt;</span>
             <span class="k">if</span> <span class="nx">error</span>
               <span class="nx">@log</span><span class="p">.</span><span class="nx">error</span> <span class="s">&#39;Unable to copy %s: %s&#39;</span><span class="p">,</span> <span class="nx">assetTarget</span><span class="p">,</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
               <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
             <span class="nx">@log</span><span class="p">.</span><span class="nx">trace</span> <span class="s">&#39;Copied %s&#39;</span><span class="p">,</span> <span class="nx">assetTarget</span>
 
             <span class="nx">numCopied</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="nx">@compileScript</span> <span class="nx">callback</span> <span class="nx">unless</span> <span class="nx">numCopied</span> <span class="o">&lt;</span> <span class="nx">@STATIC_ASSETS</span><span class="p">.</span><span class="nx">length</span>
+            <span class="nx">@compileScript</span> <span class="nx">callback</span> <span class="k">unless</span> <span class="nx">numCopied</span> <span class="o">&lt;</span> <span class="nx">@STATIC_ASSETS</span><span class="p">.</span><span class="nx">length</span>
 
   <span class="nv">compileScript: </span><span class="nf">(callback) -&gt;</span>
     <span class="nx">@log</span><span class="p">.</span><span class="nx">trace</span> <span class="s">&#39;styles.Default#compileScript(...)&#39;</span>
 
     <span class="nv">scriptPath = </span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span> <span class="nx">@sourceAssets</span><span class="p">,</span> <span class="s">&#39;behavior.coffee&#39;</span>
-    <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span> <span class="nx">scriptPath</span><span class="p">,</span> <span class="s">&#39;utf-8&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span> <span class="nx">scriptPath</span><span class="p">,</span> <span class="s">&#39;utf-8&#39;</span><span class="p">,</span> <span class="nf">(error, data) =&gt;</span>
       <span class="k">if</span> <span class="nx">error</span>
         <span class="nx">@log</span><span class="p">.</span><span class="nx">error</span> <span class="s">&#39;Failed to read %s: %s&#39;</span><span class="p">,</span> <span class="nx">scriptPath</span><span class="p">,</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
         <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
@@ -84,13 +96,13 @@ over it (permissions), as well as wanting to avoid contention.</p></div></div><d
     <span class="nx">@log</span><span class="p">.</span><span class="nx">trace</span> <span class="s">&#39;styles.Default#concatenateScripts(..., ...)&#39;</span>
 
     <span class="nv">jqueryPath = </span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span> <span class="nx">@sourceAssets</span><span class="p">,</span> <span class="s">&#39;jquery.min.js&#39;</span>
-    <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span> <span class="nx">jqueryPath</span><span class="p">,</span> <span class="s">&#39;utf-8&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span> <span class="nx">jqueryPath</span><span class="p">,</span> <span class="s">&#39;utf-8&#39;</span><span class="p">,</span> <span class="nf">(error, data) =&gt;</span>
       <span class="k">if</span> <span class="nx">error</span>
         <span class="nx">@log</span><span class="p">.</span><span class="nx">error</span> <span class="s">&#39;Failed to read %s: %s&#39;</span><span class="p">,</span> <span class="nx">jqueryPath</span><span class="p">,</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
         <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
 
       <span class="nv">outputPath = </span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span> <span class="nx">@targetAssets</span><span class="p">,</span> <span class="s">&#39;behavior.js&#39;</span>
-      <span class="nx">fs</span><span class="p">.</span><span class="nx">writeFile</span> <span class="nx">outputPath</span><span class="p">,</span> <span class="nx">data</span> <span class="o">+</span> <span class="nx">scriptSource</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span>
+      <span class="nx">fs</span><span class="p">.</span><span class="nx">writeFile</span> <span class="nx">outputPath</span><span class="p">,</span> <span class="nx">data</span> <span class="o">+</span> <span class="nx">scriptSource</span><span class="p">,</span> <span class="nf">(error) =&gt;</span>
         <span class="k">if</span> <span class="nx">error</span>
           <span class="nx">@log</span><span class="p">.</span><span class="nx">error</span> <span class="s">&#39;Failed to write %s: %s&#39;</span><span class="p">,</span> <span class="nx">outputPath</span><span class="p">,</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
           <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
