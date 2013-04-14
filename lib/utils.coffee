@@ -246,8 +246,7 @@ module.exports = Utils =
 
   # Sometimes you just don't want any of them hanging around.
   trimBlankLines: (string) ->
-    if typeof string == 'string'
-      string.replace(/^[\r\n]+/, '').replace(/[\r\n]+$/, '')
+    string.replace(/^[\r\n]+/, '').replace(/[\r\n]+$/, '')
 
   # Given a title, convert it into a URL-friendly slug.
   slugifyTitle: (string) ->
