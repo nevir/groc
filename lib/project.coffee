@@ -31,11 +31,15 @@ module.exports = class Project
     #   to `doc/some/source.file` and not `doc/lib/some/source.file`.
     @stripPrefixes = []
 
+  # Annoyingly, we seem to be hitting a race condition within Node 0.10's
+  # emulation for old-style streams.  For now, we're dropping concurrent doc
+  # generation to play it safe.  People are still using groc with 0.6.
+  oldNode = process.version.match /v0\.[0-8]\./
   # This is both a performance (over-)optimization and debugging aid.  Instead of spamming the
   # system with file I/O and overhead all at once, we only process a certain number of source files
   # concurrently.  This is similar to what [graceful-fs](https://github.com/isaacs/node-graceful-fs)
   # accomplishes.
-  BATCH_SIZE: 10
+  BATCH_SIZE: if oldNode then 10 else 1
 
   # Where the magic happens.
   #
