@@ -1,24 +1,23 @@
 # # Command Line Interface
 
-optimist = require 'optimist'
-groc = require '../'
+fs   = require 'fs'
 path = require 'path'
-Logger = require './utils/logger'
-fs = require 'fs'
-CLIHelpers = require "./utils/cli_helpers"
-Utils = require './utils'
-Project = require './project'
-glob = require 'glob'
 
-DefaultStyle = require './styles/default'
+glob     = require 'glob'
+optimist = require 'optimist'
 
-styles = 
-  'Default': DefaultStyle
+CLIHelpers   = require './utils/cli_helpers'
+Logger       = require './utils/logger'
+PACKAGE_INFO = require './package_info'
+Project      = require './project'
+styles       = require './styles'
+Utils        = require './utils'
+
 
 # Readable command line output is just as important as readable documentation!  It is the first
 # interaction that a developer will have with a tool like this, so we want to leave a good
 # impression with nicely formatted and readable command line output.
-CLI = (inputArgs, callback) ->
+module.exports = CLI = (inputArgs, callback) ->
   # In keeping with our console beautification project, make sure that our output isn't getting
   # too comfortable with the user's next shell line.
   actualCallback = callback
@@ -113,7 +112,7 @@ CLI = (inputArgs, callback) ->
       describe: "Output errors only."
 
     version:
-      describe: "Shows you the current version of groc (#{groc.PACKAGE_INFO.version})"
+      describe: "Shows you the current version of groc (#{PACKAGE_INFO.version})"
       alias:    'v'
 
     verbose:
@@ -153,7 +152,7 @@ CLI = (inputArgs, callback) ->
 
   # Version checks short circuit before our pretty printing begins, since it is
   # one of those things that you might want to reference from other scripts.
-  return console.log groc.PACKAGE_INFO.version if argv.version
+  return console.log PACKAGE_INFO.version if argv.version
 
   # In keeping with our stance on readable output, we don't want it bumping up
   # against the shell execution lines and blurring together; use that whitespace
@@ -244,5 +243,3 @@ CLI = (inputArgs, callback) ->
           return callback new Error 'Git publish failed' if code != 0
 
           callback()
-
-module.exports = CLI

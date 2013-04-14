@@ -1,17 +1,20 @@
 # # groc API
 
-Utils = require './utils'
-Logger = require './utils/logger'
-CompatibilityHelpers = require './utils/compatibility_helpers'
+fs   = require 'fs'
 path = require 'path'
+
 spate = require 'spate'
-fs = require 'fs'
+
+CompatibilityHelpers = require './utils/compatibility_helpers'
+Logger               = require './utils/logger'
+Utils                = require './utils'
+
 
 # A core concept of `groc` is that your code is grouped into a project, and that there is a certain
 # amount of context that it lends to your documentation.
 #
 # A project:
-class Project
+module.exports = class Project
   constructor: (root, outPath, minLogLevel=Logger::INFO) ->
     @options = {}
     @log     = new Logger minLogLevel
@@ -82,5 +85,3 @@ class Project
         @log.info ''
         @log.pass 'Documentation generated'
         callback()
-
-module.exports = Project

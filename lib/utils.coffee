@@ -1,14 +1,19 @@
 # Miscellaneous code fragments reside here.
+#
+# TODO: These should be migrated into `lib/utils`.
 
-CompatibilityHelpers = require './utils/compatibility_helpers'
-Logger = require './utils/logger'
-_ = require 'underscore'
-path = require 'path'
-LANGUAGES = require './languages'
 childProcess = require 'child_process'
+path         = require 'path'
+
+_        = require 'underscore'
 showdown = require 'showdown'
 
-Utils =
+CompatibilityHelpers = require './utils/compatibility_helpers'
+LANGUAGES            = require './languages'
+Logger               = require './utils/logger'
+
+
+module.exports = Utils =
   # Escape regular expression characters in a string
   #
   # Code from http://zetafleet.com/ via http://simonwillison.net/2006/Jan/20/escape/
@@ -150,9 +155,9 @@ Utils =
       '-O', 'encoding=utf-8,tabsize=2'
     ]
     pygmentize.stderr.addListener 'data', (data)  -> callback data.toString()
-    pygmentize.stdin.addListener 'error', errListener 
+    pygmentize.stdin.addListener 'error', errListener
     pygmentize.on 'error', errListener
-    
+
 
     # We'll just split the output at the end.  pygmentize doesn't stream its output, and a given
     # source file is small enough that it shouldn't matter.
@@ -262,5 +267,3 @@ Utils =
       furthestIndex = matcher.lastIndex
 
     result + string[furthestIndex...]
-
-module.exports = Utils

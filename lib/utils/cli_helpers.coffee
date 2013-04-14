@@ -1,9 +1,11 @@
-_ = require 'underscore'
-path = require 'path'
 childProcess = require 'child_process'
+path         = require 'path'
+
+_ = require 'underscore'
+
 
 # # Command Line Helpers
-CLIHelpers =
+module.exports = CLIHelpers =
 
   # ## configureOptimist
 

@@ -1,6 +1,6 @@
 # # Supported Languages
 
-LANGUAGES =
+module.exports = LANGUAGES =
   Markdown:
     nameMatchers: ['.md']
     commentsOnly: true
@@ -129,5 +129,3 @@ LANGUAGES =
     nameMatchers:      ['.yml', '.yaml']
     pygmentsLexer:     'yaml'
     singleLineComment: ['#']
-
-module.exports = LANGUAGES

@@ -1,10 +1,12 @@
-_ = require 'underscore'
 path = require 'path'
+
+_ = require 'underscore'
+
 
 # # Style Helpers
 #
 # A collection of helpful functions to support styles and their behavior.
-StyleHelpers =
+module.exports = StyleHelpers =
   # Generate a table of contents as a tree of {node: {...}, children: []} objects.
   #
   # We want a pretty complex hierarchy in our table of contents:
@@ -133,5 +135,3 @@ StyleHelpers =
         results.push segment
 
     results
-
-module.exports = StyleHelpers

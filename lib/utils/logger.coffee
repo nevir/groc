@@ -1,11 +1,13 @@
 # # groc.Logger
 
-CompatibilityHelpers = require './compatibility_helpers'
 colors = require 'colors'
+
+CompatibilityHelpers = require './compatibility_helpers'
+
 
 # We have pretty simple needs for a logger, and so far have been unable to find a reasonable
 # off-the-shelf solution that fits them without being too overbearing:
-class Logger
+module.exports = class Logger
   # * We want the standard levels of output, plus a few more.
   LEVELS:
     TRACE: 0
@@ -69,5 +71,3 @@ globalLogger = new Logger Logger::LEVELS.TRACE
 for level of globalLogger.LEVELS
   do (level) ->
     Logger[level.toLowerCase()] = (args...) -> globalLogger[level.toLowerCase()] args...
-
-module.exports = Logger

@@ -3,7 +3,7 @@ util = require 'util'
 
 FORMAT_REGEXP = /%[sdj%]/g
 
-CompatibilityHelpers =
+module.exports = CompatibilityHelpers =
   # `path.sep` was introduced with Node 0.8, so make sure we have it in 0.6.
   pathSep: path.sep || (if process.platform == 'win32' then '\\' else '/')
 
@@ -34,5 +34,3 @@ CompatibilityHelpers =
         str += ' ' + util.inspect x
 
     str
-
-module.exports = CompatibilityHelpers

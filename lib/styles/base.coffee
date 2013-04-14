@@ -1,10 +1,13 @@
-Utils = require '../utils'
-StyleHelpers = require '../utils/style_helpers'
-fsTools = require 'fs-tools'
+fs   = require 'fs'
 path = require 'path'
-fs = require 'fs'
 
-class Base
+fsTools = require 'fs-tools'
+
+StyleHelpers = require '../utils/style_helpers'
+Utils        = require '../utils'
+
+
+module.exports = class Base
   constructor: (project) ->
     @project = project
     @log     = project.log
@@ -95,5 +98,3 @@ class Base
     @tableOfContents = StyleHelpers.buildTableOfContents @files, @outline
 
     callback()
-
-module.exports = Base
