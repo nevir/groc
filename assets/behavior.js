@@ -494,7 +494,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                 "language": {
                   "nameMatchers": [".jade"],
                   "pygmentsLexer": "jade",
-                  "singleLineComment": ["//"],
+                  "singleLineComment": ["//", "//-"],
                   "name": "Jade"
                 },
                 "sourcePath": "/Users/ian/coding/groc/lib/styles/default/docPage.jade",
