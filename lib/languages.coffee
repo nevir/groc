@@ -41,6 +41,12 @@ module.exports = LANGUAGES =
     singleLineComment: ['//']
     ignorePrefix:      '}'
 
+  Handlebars:
+    nameMatchers:      ['.handlebars', '.hbs']
+    pygmentsLexer:     'html' # TODO: is there a handlebars/mustache lexer? Nope. Lame.
+    multiLineComment:  ['{{!', '', '}}']
+    ignorePrefix:      '#'
+
   Haskell:
     nameMatchers:      ['.hs']
     pygmentsLexer:     'haskell'
@@ -78,6 +84,12 @@ module.exports = LANGUAGES =
     singleLineComment: ['%']
     ignorePrefix:      '}'
 
+  LESS:
+    nameMatchers:      ['.less']
+    pygmentsLexer:     'sass' # TODO: is there a less lexer? No. Maybe in the future.
+    singleLineComment: ['//']
+    ignorePrefix:      '}'
+
   Lua:
     nameMatchers:      ['.lua']
     pygmentsLexer:     'lua'
@@ -89,6 +101,12 @@ module.exports = LANGUAGES =
     pygmentsLexer:     'make'
     singleLineComment: ['#']
     ignorePrefix:      '}'
+
+  Mustache:
+    nameMatchers:      ['.mustache']
+    pygmentsLexer:     'html' # TODO: is there a handlebars/mustache lexer? Nope. Lame.
+    multiLineComment:  ['{{!', '', '}}']
+    ignorePrefix:      '#'
 
   'Objective-C':
     nameMatchers:      ['.m', '.mm']
