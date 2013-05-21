@@ -39,11 +39,19 @@ module.exports = class Gilt extends Default
       # examples:
       #   ssh://gerrit.gilt.com:29418/ui-commons.git
       #   ssh://gerrit_host/ui-commons
-      repo_name = repo.url.match(/\/([^\/]+)(?:\.git)?$/)?[1]
+      repo_name = repo.url.match(/\/([^\.\/]+)(?:\.git)?$/)?[1]
 
       path_to_module = repo.path || ''
 
-      @project.gitwebURL = "#{GITWEB_URL}p=#{repo_name}.git;hb=HEAD;f=#{path_to_module}"
+      module_name = packageJson.name
+      version = packageJson.version
+
+      if module_name? and version?
+        revision = "#{module_name}-#{version}"
+      else
+        revision = 'HEAD'
+
+      @project.gitwebURL = "#{GITWEB_URL}p=#{repo_name}.git;hb=#{revision};f=#{path_to_module}"
 
     @sourceAssets = path.join __dirname, 'gilt'
 

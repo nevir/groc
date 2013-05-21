@@ -194,9 +194,9 @@ buildNav = (metaInfo) ->
       sourceURL = "#{metaInfo.gitwebURL}/#{metaInfo.projectPath};a=blob"
 
     nav$.find('.tools').prepend """
-      <li class="github">
-        <a href="#{sourceURL}" title="View source on GitHub">
-          View source on GitHub
+      <li class="gitweb">
+        <a href="#{sourceURL}" title="View source on Gerrit Gitweb">
+          View source on Gerrit Gitweb
         </a>
       </li>
     """

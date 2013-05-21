@@ -213,7 +213,8 @@ nav
       height:         $tools-height
       padding:        0 $tools-padding
 
-    .github
+    .github,
+    .gitweb
       padding: 0
 
       a
@@ -492,14 +493,23 @@ nav
     .toggle
       cursor: pointer
 
-    .github a
-      +transition(opacity 200ms)
-      +opacity(0.5)
-      background:      inline-image('github-icon.png') center center no-repeat
-      background-size: 19.5px 24px
+    .github,
+    .gitweb
+      a
+        +transition(opacity 200ms)
+        +opacity(0.5)
+        background-position: center center
+        background-repeat: no-repeat
+        background-size: 19.5px 24px
 
-      &:hover
-        +opacity(0.9)
+        &:hover
+          +opacity(0.9)
+
+    .github a
+      background-image: inline-image('github-icon.png')
+
+    .gitweb a
+      background-image: inline-image('gitweb-icon.png')
 
   &.active .tools
     +border-bottom-left-radius(0)

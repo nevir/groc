@@ -83,11 +83,13 @@ module.exports = DOC_TAGS =
 
   example:
     section:     'example'
+    markdown:    '{value}'
   examples:      'example'
   usage:         'example'
 
   howto:
     section:     'howto'
+    markdown:    '{value}'
 
   # A comment that does not have doc tags in it
   note:

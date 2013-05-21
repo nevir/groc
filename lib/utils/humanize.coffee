@@ -30,5 +30,5 @@ module.exports = humanize =
   gutterify: (text, gutterWidth) ->
     extantMinimumGutterWidth = text.match(/^ +/gm).sort()[0].length
     gutter = '            '[0..gutterWidth].slice(1)
-    regex = ///^ {#{extantMinimumGutterWidth}}///gm
+    regex = ///^\s{#{extantMinimumGutterWidth}}///gm
     text.replace regex, gutter

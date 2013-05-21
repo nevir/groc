@@ -151,9 +151,9 @@ module.exports = class Default extends Base
         output += (humanize.capitalize(tag.markdown) for tag in sections.returns if sections.returns?).join('<br/>**and** ')
 
       if sections.howto?
-        output += "\n\n#{humanize.gutterify tag.markdown, 0}" for tag in sections.howto
+        output += "\n\nHow-To:\n\n#{humanize.gutterify tag.markdown, 0}" for tag in sections.howto
 
       if sections.example?
-        output += "\n\n#{humanize.gutterify tag.markdown, 4}" for tag in sections.example
+        output += "\n\nExample:\n\n#{humanize.gutterify tag.markdown, 4}" for tag in sections.example
 
       segment.comments = output.split '\n'
