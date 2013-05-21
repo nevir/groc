@@ -156,7 +156,4 @@ module.exports = class Default extends Base
       if sections.example?
         output += "\n\n#{humanize.gutterify tag.markdown, 4}" for tag in sections.example
 
-      # TODO: make this generic:
-      #output = output.replace(/([A-Z]+-\d+)/g, '<a href="https://jira.gilt.com/browse/$1">$1</a>')
-
       segment.comments = output.split '\n'

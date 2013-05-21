@@ -89,6 +89,7 @@ module.exports = DOC_TAGS =
   howto:
     section:     'howto'
 
+  # A comment that does not have doc tags in it
   note:
     section:     'discard'
   notes:         'note'
@@ -114,7 +115,7 @@ module.exports = DOC_TAGS =
 
     # converts parsed values to markdown text
     #
-    # @public
+    # @private
     # @method markdown
     #
     # @param  {Object}   value
