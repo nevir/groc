@@ -601,3 +601,25 @@ input[type="search"]
   +box-shadow(#dddddd 0 1px 1px 0 inset)
   border: 1px solid #959595
   padding: 0.15em 0.8em
+
+// ### Doc Tags
+.comments.doc-section
+  //&.doc-section-public,
+  //&.doc-section-static
+  //  .wrapper
+  //    color: #252519
+
+  .wrapper
+    color: #252519
+
+  &.doc-section-private,
+  &.doc-section-protected,
+  &.doc-section-internal
+    .wrapper
+      color: #7f7f7f
+
+  .doc-section-header
+    font: bold 18px 'helvetica neue', helvetica, sans-serif
+
+  .docs .doc-section-header code
+    font-size: 18px
