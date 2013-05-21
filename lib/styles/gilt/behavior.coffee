@@ -186,7 +186,22 @@ buildNav = (metaInfo) ->
   """).appendTo $('body')
   toc$ = nav$.find '.toc'
 
-  if metaInfo.githubURL
+  if metaInfo.gitwebURL
+    # Special case the index to go to the project root
+    if metaInfo.documentPath == 'index'
+      sourceURL = metaInfo.gitwebURL
+    else
+      sourceURL = "#{metaInfo.gitwebURL}/#{metaInfo.projectPath};a=blob"
+
+    nav$.find('.tools').prepend """
+      <li class="github">
+        <a href="#{sourceURL}" title="View source on GitHub">
+          View source on GitHub
+        </a>
+      </li>
+    """
+
+  else if metaInfo.githubURL
     # Special case the index to go to the project root
     if metaInfo.documentPath == 'index'
       sourceURL = metaInfo.githubURL
@@ -242,6 +257,7 @@ $ ->
   metaInfo =
     relativeRoot: $('meta[name="groc-relative-root"]').attr('content')
     githubURL:    $('meta[name="groc-github-url"]').attr('content')
+    gitwebURL:    $('meta[name="groc-gitweb-url"]').attr('content')
     documentPath: $('meta[name="groc-document-path"]').attr('content')
     projectPath:  $('meta[name="groc-project-path"]').attr('content')
 

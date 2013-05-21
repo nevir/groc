@@ -432,7 +432,7 @@ html
 
 #meta > *
   +commentary-font
-  +text-shadow($code-shadow-color 1px 1px 0)
+  //+text-shadow($code-shadow-color 1px 1px 0)
 
   &, a
     color: darken($code-foreground-color, 15%)
@@ -444,14 +444,14 @@ html
 // we are relying on for layout.
 .comments .wrapper
   +commentary-font
-  +text-shadow($commentary-shadow-color 1px 1px 0)
+  //+text-shadow($commentary-shadow-color 1px 1px 0)
   color: $commentary-foreground-color
 
 .code
   .wrapper
     +code-styles
     +code-font
-    +text-shadow($code-shadow-color 1px 1px 0)
+    //+text-shadow($code-shadow-color 1px 1px 0)
     color: $code-foreground-color
 
   @media (max-width: #{$single-column-toggle-width})
