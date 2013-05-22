@@ -31,7 +31,7 @@ module.exports = class Gilt extends Default
   constructor: (args...) ->
     super args...
 
-    packageJson = getPackageJson(path.resolve '.')
+    packageJson = getPackageJson(path.resolve @project.root)
 
     if packageJson?
       repo = packageJson.repository || packageJson.repositories[0]
