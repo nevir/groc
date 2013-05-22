@@ -17,6 +17,9 @@ html(lang="en")
 
   body
     #meta
+      .file-path
+        a(href='/') ui-docs
+      .file-path-separator /
       - if (project.gitwebURL)
         .file-path
           a(href=project.gitwebURL + '/' + projectPath + ';a=blob')= projectPath
