@@ -40,3 +40,7 @@ html(lang="en")
           - if (segments[i].highlightedCode != '')
             .code
               .wrapper!= segments[i].highlightedCode
+
+          - if (segments[i].markdownedCode != '')
+            .code-as-comments
+              .wrapper!= segments[i].markdownedCode

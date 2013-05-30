@@ -65,7 +65,7 @@ $inline-code-background-color: $solarized-base2
   font-family:    "HelveticaNeue-UltraLight", "Helvetica Neue", Helvetica, "Droid Sans", sans-serif
   font-weight:    100
   letter-spacing: 0.0625em
-  line-height:    1.75
+  line-height:    1.15
 
 =tools-font
   +commentary-font
@@ -114,7 +114,7 @@ body
   &:last-child
     padding-bottom: $common-margin + $column-padding
 
-  .comments, .code
+  .comments, .code, .code-as-comments
     display:        inline-block
     vertical-align: top
     padding:        0 ($common-margin + $column-padding)
@@ -126,6 +126,11 @@ body
 
   .code
     white-space: pre
+
+  .code-as-comments
+    margin-left: -4em
+    width:       $commentary-width
+    white-space: normal
 
 // Fit the meta info into the code column
 #meta
@@ -177,7 +182,7 @@ $single-column-toggle-width: $scale-stop-width
     max-width:   $commentary-width
     margin:      0 auto
 
-    .comments, .code
+    .comments, .code, .code-as-comments
       display: block
       padding: $common-margin
 
@@ -185,7 +190,7 @@ $single-column-toggle-width: $scale-stop-width
       margin-left: 0
       width:       auto
 
-    .code
+    .code, .code-as-comments
       display:    block
       overflow-y: hidden
       overflow-x: auto
@@ -364,7 +369,7 @@ nav.searching .toc .discloser
 
 // ## Typography
 
-.comments .wrapper
+.comments .wrapper, .code-as-comments .wrapper
   +commentary-font
 
   h1, h2, h3, h4, h5, h6
@@ -386,6 +391,12 @@ nav.searching .toc .discloser
 
   ol li
     list-style: decimal
+    
+    ol li
+      list-style: lower-alpha
+    
+      ol li
+        list-style: upper-roman
 
   ul li
     list-style: disc
@@ -418,6 +429,10 @@ nav.searching .toc .discloser
 
   em
     font-style: italic
+
+.code-as-comments .wrapper pre
+  overflow-x: visible
+  overflow-y: visible
 
 // ## Visual Design
 
@@ -455,7 +470,7 @@ html
   //+text-shadow($commentary-shadow-color 1px 1px 0)
   color: $commentary-foreground-color
 
-.code
+.code, .code-as-comments
   .wrapper
     +code-styles
     +code-font
@@ -605,6 +620,18 @@ nav
     border-left:  0.15em solid $blockquote-border-color
     margin-left: -0.15em
 
+.code-as-comments .wrapper
+  code
+    +code-font
+    +border-radius(0.4em)
+    background: $inline-code-background-color
+    border: 1px solid darken(desaturate($inline-code-background-color, 25%), 10%)
+    color: $commentary-foreground-color
+
+  blockquote
+    $blockquote-border-color: lighten($commentary-foreground-color, 30%)
+    border-left:  0.15em solid $blockquote-border-color
+    margin-left: -0.15em
 
 // ## Browser-Specific Tweaks
 
