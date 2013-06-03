@@ -102,20 +102,27 @@ module.exports = Utils =
     # Enforced whitespace after the comment token
     whitespaceMatch = if options.requireWhitespaceAfterToken then '\\s' else '\\s?'
 
-    # TODO: DRY this if/else block
+    if language.singleLineComment?
+      singleLineMatcher = ///^\s*(#{language.singleLineComment.join('|')})(?:#{whitespaceMatch}(.*))?$///
+
     if language.multiLineComment?
-      blockStartMatcher = ///^\s*(#{language.multiLineComment[0].replace(/([\\\*\{\}])/g, '\\\$1')})(?:#{language.multiLineComment[1].replace(/([\\\*\{\}])/g, '\\\$1')})?(?:#{whitespaceMatch}(.*))?$///
-      blockLineMatcher =  ///^\s*(#{language.multiLineComment[1].replace(/([\\\*\{\}])/g, '\\\$1')})#{whitespaceMatch}(.*)$///
-      blockEndMatcher =   ///^\s*(?:#{language.multiLineComment[1].replace(/([\\\*\{\}])/g, '\\\$1')})?(.*)(#{language.multiLineComment[2].replace(/([\\\*\{\}])/g, '\\\$1')})$///
+      mlc = language.multiLineComment
+
+      blockStarts = _.invoke _.select(mlc, (v, i) -> i % 3 == 0), 'replace', /([\\\*\{\}])/g, '\\\$1'
+      blockLines  = _.invoke _.select(mlc, (v, i) -> i % 3 == 1), 'replace', /([\\\*\{\}])/g, '\\\$1'
+      blockEnds   = _.invoke _.select(mlc, (v, i) -> i % 3 == 2), 'replace', /([\\\*\{\}])/g, '\\\$1'
+
+
+      blockStartMatcher = ///^\s*(#{blockStarts.join '|'})(?:#{blockLines.join '|'})?(?:#{whitespaceMatch}(.*))?$///
+      blockLineMatcher =  ///^\s*(#{blockLines.join '|'})#{whitespaceMatch}(.*)$///
+      blockEndMatcher =   ///^\s*(?:#{blockLines.join '|'})?(.*)(#{blockEnds.join '|'})$///
+
+      blockSingleLineMatcher = ///^\s*(#{blockStarts.join '|'})#{whitespaceMatch}(.*)#{whitespaceMatch}(#{blockEnds.join '|'})///
 
       if language.singleLineComment?
-        singleLineMatcher = ///^\s*(#{language.singleLineComment.join('|')})#{whitespaceMatch}(.*)$|^\s*(#{language.multiLineComment[0].replace(/([\\\*\{\}])/g, '\\\$1')})#{whitespaceMatch}(.*)#{whitespaceMatch}(#{language.multiLineComment[2].replace(/([\\\*\{\}])/g, '\\\$1')})///
+        singleLineMatcher = ///#{singleLineMatcher.source}|#{blockSingleLineMatcher.source}///
       else
-        singleLineMatcher = ///^\s*(#{language.multiLineComment[0].replace(/([\\\*\{\}])/g, '\\\$1')})#{whitespaceMatch}(.*)#{whitespaceMatch}(#{language.multiLineComment[2].replace(/([\\\*\{\}])/g, '\\\$1')})///
-
-    else if language.singleLineComment?
-
-      singleLineMatcher = ///^\s*(#{language.singleLineComment.join('|')})(?:#{whitespaceMatch}(.*))?$///
+        singleLineMatcher = blockSingleLineMatcher
 
     inBlock = false
 
@@ -218,7 +225,7 @@ module.exports = Utils =
       result = result.replace('<div class="highlight"><pre>', '').replace('</pre></div>', '')
 
       # Extract our segments from the pygmentized source.
-      highlighted = "\n#{result}\n".split /.*<span.*SEGMENT DIVIDER<\/span>.*/
+      highlighted = "\n#{result}\n".split /.*<span.*SEGMENT DIVIDER.*<\/span>.*/
 
       if highlighted.length != segments.length
         error = new Error CompatibilityHelpers.format 'pygmentize rendered %d of %d segments; expected to be equal',
@@ -246,7 +253,11 @@ module.exports = Utils =
       if i > 0
         # Double negative: match characters that are spaces but not newlines
         indentation = segmentCode.match(/^[^\S\n]+/)?[0] || ''
-        mergedCode += "\n#{indentation}#{language.singleLineComment[0]} SEGMENT DIVIDER\n"
+        if language.singleLineComment?
+          mergedCode += "\n#{indentation}#{language.singleLineComment[0]} SEGMENT DIVIDER\n"
+        else
+          mlc = language.multiLineComment
+          mergedCode += "\n#{indentation}#{mlc[0]} SEGMENT DIVIDER #{mlc[2]}\n"
 
       mergedCode += segmentCode
 
