@@ -255,7 +255,7 @@ module.exports = Utils =
 
   parseDocTags: (segments, project, callback) ->
     TAG_REGEX = /@(\w+)(?:\s+(.*))?/
-    TAG_VALUE_REGEX = /^"(.*)"|'(.*)'|\{(.*)\}|(.*)$/
+    TAG_VALUE_REGEX = /^(?:"(.*)"|'(.*)'|\{(.*)\}|(.*))$/
 
     try
       for segment, segmentIndex in segments when TAG_REGEX.test segment.comments.join('\n')
@@ -299,7 +299,7 @@ module.exports = Utils =
 
           if tagDefinition.parseValue?
             tag.value = tagDefinition.parseValue tag.value
-          else
+          else if not /\n/.test tag.value
             tag.value = tag.value.match(TAG_VALUE_REGEX)[1..].join('')
 
           tagSections[tag.section] = [] unless tagSections[tag.section]?
