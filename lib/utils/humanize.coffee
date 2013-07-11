@@ -28,7 +28,11 @@ module.exports = humanize =
     return word.replace(rule.regex, rule.replacement) for rule in humanize.pluralizationRules when rule.regex.test word
 
   gutterify: (text, gutterWidth) ->
-    extantMinimumGutterWidth = text.match(/^ */gm).sort()[0].length
+    extantMimimumGutterWidth = 0
+
+    if text.match(/^ +/gm)
+      extantMinimumGutterWidth = text.match(/^ +/gm).sort()[0].length
+
     gutter = '            '[0..gutterWidth].slice(1)
     regex = ///^\s{#{extantMinimumGutterWidth}}///gm
     text.replace regex, gutter
