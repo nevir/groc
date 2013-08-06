@@ -132,7 +132,9 @@ module.exports = DOC_TAGS =
     markdown:    (value) ->
       types = (
         for type in value.types
-          if type.match /\[\]$/
+          if type.match /^\.\.\.|\.\.\.$/
+            "any number of #{humanize.pluralize type.replace(/^\.\.\.|\.\.\.$/, "")}"
+          else if type.match /\[\]$/
             "an Array of #{humanize.pluralize type.replace(/\[\]$/, "")}"
           else
             "#{humanize.article type} #{type}"
@@ -151,6 +153,9 @@ module.exports = DOC_TAGS =
       else if types[0] == 'an Array of Mixeds'
         verb = 'can'
         types[0] = 'an Array of any type'
+      else if types[0] == 'any number of Mixeds'
+        verb = 'can'
+        types[0] = 'any number of arguments of any type'
 
       fragments.push "#{verb} be #{humanize.joinSentence types, 'or'}"
       fragments.push "has a default value of #{value.defaultValue}" if value.defaultValue?
