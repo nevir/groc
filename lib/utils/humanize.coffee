@@ -7,7 +7,7 @@ module.exports = humanize =
 
   capitalize: (sentence) ->
     if sentence.length
-      parts = sentence.match /^(\s*)([_\*`]*)(\s*)(\w)(.*)$/
+      parts = sentence.match /^(\s*)([_\*`]*)(\s*)(\w)(.*)$/m
       "#{parts[1]}#{parts[2]}#{parts[3]}#{parts[4].toUpperCase()}#{parts[5]}"
     else
       ''
@@ -28,7 +28,11 @@ module.exports = humanize =
     return word.replace(rule.regex, rule.replacement) for rule in humanize.pluralizationRules when rule.regex.test word
 
   gutterify: (text, gutterWidth) ->
-    extantMinimumGutterWidth = text.match(/^ +/gm).sort()[0].length
+    extantMimimumGutterWidth = 0
+
+    if text.match(/^ +/gm)
+      extantMinimumGutterWidth = text.match(/^ +/gm).sort()[0].length
+
     gutter = '            '[0..gutterWidth].slice(1)
     regex = ///^\s{#{extantMinimumGutterWidth}}///gm
     text.replace regex, gutter

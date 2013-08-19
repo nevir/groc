@@ -15,6 +15,7 @@ module.exports = LANGUAGES =
     nameMatchers:      ['.cs']
     pygmentsLexer:     'csharp'
     singleLineComment: ['//']
+    multiLineComment:  ['/*', '*', '*/']
     ignorePrefix:      '}'
 
   'C++':
@@ -44,7 +45,10 @@ module.exports = LANGUAGES =
   Handlebars:
     nameMatchers:      ['.handlebars', '.hbs']
     pygmentsLexer:     'html' # TODO: is there a handlebars/mustache lexer? Nope. Lame.
-    multiLineComment:  ['{{!', '', '}}']
+    multiLineComment:  [
+      '<!--', '', '-->', # HTML block comments go first, for code highlighting / segment splitting purposes
+      '{{!',  '', '}}'   # Actual handlebars block comments
+    ]
     ignorePrefix:      '#'
 
   Haskell:
