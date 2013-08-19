@@ -101,27 +101,65 @@ module.exports = Utils =
     # Enforced whitespace after the comment token
     whitespaceMatch = if options.requireWhitespaceAfterToken then '\\s' else '\\s?'
 
-    # We only support single line comments for the time being.
-    singleLineMatcher = ///^\s*(#{language.singleLineComment.join('|')})#{whitespaceMatch}(.*)$///
+    # TODO: DRY this if/else block
+    if language.multiLineComment?
+      blockStartMatcher = ///^\s*(#{language.multiLineComment[0].replace(/([\\\*\{\}])/g, '\\\$1')})(?:#{language.multiLineComment[1].replace(/([\\\*\{\}])/g, '\\\$1')})?(?:#{whitespaceMatch}(.*))?$///
+      blockLineMatcher =  ///^\s*(#{language.multiLineComment[1].replace(/([\\\*\{\}])/g, '\\\$1')})#{whitespaceMatch}(.*)$///
+      blockEndMatcher =   ///^\s*(?:#{language.multiLineComment[1].replace(/([\\\*\{\}])/g, '\\\$1')})?(.*)(#{language.multiLineComment[2].replace(/([\\\*\{\}])/g, '\\\$1')})$///
+
+      if language.singleLineComment?
+        singleLineMatcher = ///^\s*(#{language.singleLineComment.join('|')})#{whitespaceMatch}(.*)$|^\s*(#{language.multiLineComment[0].replace(/([\\\*\{\}])/g, '\\\$1')})#{whitespaceMatch}(.*)#{whitespaceMatch}(#{language.multiLineComment[2].replace(/([\\\*\{\}])/g, '\\\$1')})///
+      else
+        singleLineMatcher = ///^\s*(#{language.multiLineComment[0].replace(/([\\\*\{\}])/g, '\\\$1')})#{whitespaceMatch}(.*)#{whitespaceMatch}(#{language.multiLineComment[2].replace(/([\\\*\{\}])/g, '\\\$1')})///
+
+    else if language.singleLineComment?
+
+      singleLineMatcher = ///^\s*(#{language.singleLineComment.join('|')})#{whitespaceMatch}(.*)$///
+
+    inBlock = false
 
     for line in lines
+
+      if inBlock
+        if (match = line.match blockEndMatcher)?
+          currSegment.comments.push match[1]
+          inBlock = false
+
+        else if (match = line.match blockLineMatcher)?
+          currSegment.comments.push match[2]
+
       # Match that line to the language's single line comment syntax.
       #
       # However, we treat all comments beginning with } as inline code commentary.
-      match = line.match singleLineMatcher
+      else if (match = line.match singleLineMatcher)?
 
-      #} For example, this comment should be treated as part of our code.
-      if match? and match[2]?[0] != '}'
+        #} For example, this comment should be treated as part of our code.
+        if (match[2]?[0] || match[4]?[0]) != language.ignorePrefix
+
+          if currSegment.code.length > 0
+            segments.push currSegment
+            currSegment = new @Segment
+
+          currSegment.comments.push match[2] || match[4]
+
+        else
+          currSegment.code.push line
+
+      # Match that line to the language's multi line comment syntax, if it exists
+      else if language.multiLineComment? and (match = line.match blockStartMatcher)?
+
         if currSegment.code.length > 0
           segments.push currSegment
           currSegment = new @Segment
 
         currSegment.comments.push match[2]
+        inBlock = true
 
       else
         currSegment.code.push line
 
     segments.push currSegment
+
     segments
 
   # Just a convenient prototype for building segments
