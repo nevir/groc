@@ -13,7 +13,7 @@
 
   "repository": {
     "type": "git",
-    "url":  "https://github.com/gilt/groc"
+    "url":  "https://github.com/nevir/groc"
   },
 
   "main": "./index",
