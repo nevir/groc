@@ -7,7 +7,6 @@ module.exports = humanize =
 
   capitalize: (sentence) ->
     if sentence.length
-      console.log(sentence)
       parts = sentence.match /^(\s*)([_\*`]*)(\s*)(\w)(.*)$/
       "#{parts[1]}#{parts[2]}#{parts[3]}#{parts[4].toUpperCase()}#{parts[5]}"
     else
