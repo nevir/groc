@@ -23,7 +23,7 @@ html(lang="en")
       - for (var i in segments)
         .segment
           - if (segments[i].markdownedComments != '')
-            .comments
+            div(class="comments " + (segments[i].accessClasses || ''))
               .wrapper!= segments[i].markdownedComments
 
           - if (segments[i].highlightedCode != '')
