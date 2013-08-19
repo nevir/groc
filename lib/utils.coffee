@@ -225,6 +225,7 @@ module.exports = Utils =
       result = result.replace('<div class="highlight"><pre>', '').replace('</pre></div>', '')
 
       # Extract our segments from the pygmentized source.
+      # TODO: pygments doesn't like this line... figure out why, and fix it
       highlighted = "\n#{result}\n".split /.*<span.*SEGMENT DIVIDER.*<\/span>.*/
 
       if highlighted.length != segments.length
@@ -348,7 +349,7 @@ module.exports = Utils =
   # Annotate an array of segments by running their comments through
   # [showdown](https://github.com/coreyti/showdown).
   markdownComments: (segments, project, callback) ->
-    converter = new showdown.converter()
+    converter = new showdown.converter(extensions: ['github', 'table'])
 
     try
       for segment, segmentIndex in segments
