@@ -138,24 +138,31 @@ module.exports = Utils =
 
       # Match that line to the language's single line comment syntax.
       #
-      # However, we treat all comments beginning with } as inline code commentary.
+      # However, we treat all comments beginning with } as inline code commentary
+      # and comments starting with ! cause that comment and the following code
+      # block to start folded.
       else if (match = line.match singleLineMatcher)?
 
         value = (match[2] || match[4])
 
         if !value? or value == ''
 
-        #} For example, this comment should be treated as part of our code.
-        else if value[0] != language.ignorePrefix
-
-          if currSegment.code.length > 0
-            segments.push currSegment
-            currSegment = new @Segment
-
-          currSegment.comments.push value
-
         else
-          currSegment.code.push line
+          segments.push currSegment
+
+          currSegment = new @Segment
+
+          #} For example, this comment should be treated as part of our code.
+          if value[0] == language.ignorePrefix
+            #} But let's not show the } character in our documentation
+            currSegment.code.push line.replace language.singleLineComment + language.ignorePrefix, language.singleLineComment
+
+          #} ..and if we'd started this comment with ! instead of } it and all the code to the next comment would start folded
+          else if value[0] == language.foldPrefix
+            currSegment.foldMarker = line.replace language.singleLineComment + language.foldPrefix, language.singleLineComment
+
+          else
+            currSegment.comments.push value
 
       # Match that line to the language's multi line comment syntax, if it exists
       else if language.multiLineComment? and (match = line.match blockStartMatcher)?
@@ -163,6 +170,9 @@ module.exports = Utils =
         if currSegment.code.length > 0
           segments.push currSegment
           currSegment = new @Segment
+
+        if line[line.length - 1] == language.foldPrefix
+          currSegment.hide = yes
 
         currSegment.comments.push match[2]
         inBlock = true
@@ -176,9 +186,10 @@ module.exports = Utils =
 
   # Just a convenient prototype for building segments
   Segment: class Segment
-    constructor: (code=[], comments=[]) ->
+    constructor: (code=[], comments=[], foldMarker="") ->
       @code     = code
       @comments = comments
+      @foldMarker = foldMarker
 
   # Annotate an array of segments by running their code through [Pygments](http://pygments.org/).
   highlightCode: (segments, language, callback) ->
