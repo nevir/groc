@@ -148,9 +148,9 @@ module.exports = Utils =
         if !value? or value == ''
 
         else
-          segments.push currSegment
-
-          currSegment = new @Segment
+          if currSegment.code.length > 0
+            segments.push currSegment
+            currSegment = new @Segment
 
           #} For example, this comment should be treated as part of our code.
           if value[0] == language.ignorePrefix
