@@ -303,3 +303,9 @@ $ ->
         search$.blur()
       else
         search$.val ''
+
+  # Make folded code blocks toggleable
+  $('.code.folded .marker').each (index, marker) ->
+    marker$ = $(marker)
+    marker$.click (evt) ->
+      marker$.parent().toggleClass 'folded'
