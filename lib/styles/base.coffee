@@ -80,6 +80,7 @@ module.exports = class Base
       templateContext =
         project:     @project
         segments:    segments
+        pageTitle:   fileInfo.pageTitle
         sourcePath:  fileInfo.sourcePath
         targetPath:  fileInfo.targetPath
         projectPath: fileInfo.projectPath

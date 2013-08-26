@@ -77,6 +77,7 @@ module.exports = class Project
           sourcePath:  currentFile
           projectPath: currentFile.replace ///^#{Utils.regexpEscape @root + CompatibilityHelpers.pathSep}///, ''
           targetPath:  if currentFile == indexPath then 'index' else fileMap[currentFile]
+          pageTitle:   if currentFile == indexPath then (options.title || 'index') else fileMap[currentFile]
 
         style.renderFile data, fileInfo, done
 
