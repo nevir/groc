@@ -9,7 +9,7 @@ _        = require 'underscore'
 showdown = require 'showdown'
 
 CompatibilityHelpers = require './utils/compatibility_helpers'
-LANGUAGES            = require './languages'
+LANGUAGES            = null
 DOC_TAGS             = require './doc_tags'
 Logger               = require './utils/logger'
 
@@ -27,6 +27,8 @@ module.exports = Utils =
   getLanguage: (filePath) ->
     unless @_languageDetectionCache?
       @_languageDetectionCache = []
+
+      LANGUAGES = require './languages' if not LANGUAGES?
 
       for name, language of LANGUAGES
         language.name = name
