@@ -2,6 +2,19 @@
 
 humanize = require './utils/humanize'
 
+# This function collapses... spaces
+#
+# @private
+# @method  collapse_space
+#
+# @param  {String} value This is the value which will be collapsed. The primary
+#                        purpose of this method is to allow multiline parameter
+#                        descriptions, just like this one.
+#
+# @return {String}
+collapse_space = (value) ->
+  value.replace /\s+/g, ' '
+
 # This is a sample doc tagged block comment
 #
 # @public
