@@ -26,11 +26,12 @@ html(lang="en")
             div(class="comments " + (segments[i].accessClasses || ''))
               .wrapper!= segments[i].markdownedComments
 
-          - if (segments[i].foldMarker != '')
-            .code.folded
-              .marker.wrapper
-                span.c1!= segments[i].foldMarker
-              .wrapper!= segments[i].highlightedCode
-          - else if (segments[i].highlightedCode != '')
-            .code
-              .wrapper!= segments[i].highlightedCode
+          - if (segments[i].highlightedCode != '')
+            - if (segments[i].foldMarker != '')
+              .code.folded
+                .marker.wrapper
+                  span.c1!= segments[i].foldMarker
+                .wrapper!= segments[i].highlightedCode
+            - else
+              .code
+                .wrapper!= segments[i].highlightedCode

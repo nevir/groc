@@ -152,12 +152,12 @@ module.exports = Utils =
             segments.push currSegment
             currSegment = new @Segment
 
-          #} For example, this comment should be treated as part of our code.
+          # } For example, this comment should be treated as part of our code.
           if value[0] == language.ignorePrefix
-            #} But let's not show the } character in our documentation
+            # } But let's not show the } character in our documentation
             currSegment.code.push line.replace language.singleLineComment + language.ignorePrefix, language.singleLineComment
 
-          #} ..and if we'd started this comment with ! instead of } it and all the code to the next comment would start folded
+          # - ..and if we'd started this comment with ! instead of } it and all the code to the next comment would start folded
           else if value[0] == language.foldPrefix
             currSegment.foldMarker = line.replace language.singleLineComment + language.foldPrefix, language.singleLineComment
 
@@ -186,7 +186,7 @@ module.exports = Utils =
 
   # Just a convenient prototype for building segments
   Segment: class Segment
-    constructor: (code=[], comments=[], foldMarker="") ->
+    constructor: (code=[], comments=[], foldMarker='') ->
       @code     = code
       @comments = comments
       @foldMarker = foldMarker
