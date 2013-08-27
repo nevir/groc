@@ -136,6 +136,16 @@ module.exports = Utils =
         else if (match = line.match blockLineMatcher)?
           currSegment.comments.push match[2]
 
+      # Match that line to the language's multi line comment syntax, if it exists
+      else if language.multiLineComment? and (match = line.match blockStartMatcher)?
+
+        if currSegment.code.length > 0
+          segments.push currSegment
+          currSegment = new @Segment
+
+        currSegment.comments.push match[2]
+        inBlock = true
+
       # Match that line to the language's single line comment syntax.
       #
       # However, we treat all comments beginning with } as inline code commentary.
@@ -156,16 +166,6 @@ module.exports = Utils =
 
         else
           currSegment.code.push line
-
-      # Match that line to the language's multi line comment syntax, if it exists
-      else if language.multiLineComment? and (match = line.match blockStartMatcher)?
-
-        if currSegment.code.length > 0
-          segments.push currSegment
-          currSegment = new @Segment
-
-        currSegment.comments.push match[2]
-        inBlock = true
 
       else
         currSegment.code.push line
