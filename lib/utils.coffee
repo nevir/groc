@@ -24,11 +24,11 @@ module.exports = Utils =
   # Detect and return the language that a given file is written in.
   #
   # The language is also annotated with a name property, matching the laguages key in LANGUAGES.
-  getLanguage: (filePath) ->
+  getLanguage: (filePath, languageDefinitions = './languages') ->
     unless @_languageDetectionCache?
       @_languageDetectionCache = []
 
-      LANGUAGES = require './languages' if not LANGUAGES?
+      LANGUAGES = require(languageDefinitions) if not LANGUAGES?
 
       for name, language of LANGUAGES
         language.name = name

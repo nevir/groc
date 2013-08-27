@@ -180,6 +180,7 @@ module.exports = CLI = (inputArgs, callback) ->
 
   # Set up project-specific options as we get them.
   project.options.requireWhitespaceAfterToken = !!argv['whitespace-after-token']
+  project.options.languages = argv.languages
 
   # We expand the `--glob` expressions into a poor-man's set, so that we can easily remove
   # exclusions defined by `--except` before we add the result to the project's file list.
