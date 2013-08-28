@@ -138,27 +138,6 @@ module.exports = Utils =
         else if (match = line.match blockLineMatcher)?
           currSegment.comments.push match[2]
 
-      # Match that line to the language's single line comment syntax.
-      #
-      # However, we treat all comments beginning with } as inline code commentary.
-      else if (match = line.match singleLineMatcher)?
-
-        value = (match[2] || match[4])
-
-        if !value? or value == ''
-
-        #} For example, this comment should be treated as part of our code.
-        else if value[0] != language.ignorePrefix
-
-          if currSegment.code.length > 0
-            segments.push currSegment
-            currSegment = new @Segment
-
-          currSegment.comments.push value
-
-        else
-          currSegment.code.push line
-
       # Match that line to the language's multi line comment syntax, if it exists
       else if language.multiLineComment? and (match = line.match blockStartMatcher)?
 
@@ -166,8 +145,39 @@ module.exports = Utils =
           segments.push currSegment
           currSegment = new @Segment
 
+        if line[line.length - 1] == language.foldPrefix
+          currSegment.hide = yes
+
         currSegment.comments.push match[2]
         inBlock = true
+
+      # Match that line to the language's single line comment syntax.
+      #
+      # However, we treat all comments beginning with } as inline code commentary
+      # and comments starting with ! cause that comment and the following code
+      # block to start folded.
+      else if (match = line.match singleLineMatcher)?
+
+        value = (match[2] || match[4])
+
+        if !value? or value == ''
+
+        else
+          if currSegment.code.length > 0
+            segments.push currSegment
+            currSegment = new @Segment
+
+          # } For example, this comment should be treated as part of our code.
+          if value[0] == language.ignorePrefix
+            # } But let's not show the } character in our documentation
+            currSegment.code.push line.replace language.singleLineComment + language.ignorePrefix, language.singleLineComment
+
+          # - ..and if we'd started this comment with ! instead of } it and all the code to the next comment would start folded
+          else if value[0] == language.foldPrefix
+            currSegment.foldMarker = line.replace language.singleLineComment + language.foldPrefix, language.singleLineComment
+
+          else
+            currSegment.comments.push value
 
       else
         currSegment.code.push line
@@ -178,9 +188,10 @@ module.exports = Utils =
 
   # Just a convenient prototype for building segments
   Segment: class Segment
-    constructor: (code=[], comments=[]) ->
+    constructor: (code=[], comments=[], foldMarker='') ->
       @code     = code
       @comments = comments
+      @foldMarker = foldMarker
 
   # Annotate an array of segments by running their code through [Pygments](http://pygments.org/).
   highlightCode: (segments, language, callback) ->
@@ -221,15 +232,23 @@ module.exports = Utils =
     match = process.version.match /v(\d+\.\d+)/
     closeEvent = if parseFloat(match[1]) < 0.8 then 'exit' else 'close'
 
+    # We can't include either of the following words ANYWHERE directly adjacent to each other
+    # Otherwise, our regex (~10 lines below) will split on them, and the number of code blocks
+    # and comment blocks will not be equal.
+    seg = 'SEGMENT'
+    div = 'DIVIDER'
+
     pygmentize.addListener closeEvent, (args...) =>
       # pygments spits it out wrapped in `<div class="highlight"><pre>...</pre></div>`.  We want to
       # manage the styling ourselves, so remove that.
       result = result.replace('<div class="highlight"><pre>', '').replace('</pre></div>', '')
 
       # Extract our segments from the pygmentized source.
-      highlighted = "\n#{result}\n".split /.*<span.*SEGMENT DIVIDER.*<\/span>.*/
+      highlighted = "\n#{result}\n".split ///.*<span.*#{seg}\s#{div}.*<\/span>.*///
 
       if highlighted.length != segments.length
+        console.log(result)
+
         error = new Error CompatibilityHelpers.format 'pygmentize rendered %d of %d segments; expected to be equal',
           highlighted.length, segments.length
 
@@ -256,10 +275,10 @@ module.exports = Utils =
         # Double negative: match characters that are spaces but not newlines
         indentation = segmentCode.match(/^[^\S\n]+/)?[0] || ''
         if language.singleLineComment?
-          mergedCode += "\n#{indentation}#{language.singleLineComment[0]} SEGMENT DIVIDER\n"
+          mergedCode += "\n#{indentation}#{language.singleLineComment[0]} #{seg} #{div}\n"
         else
           mlc = language.multiLineComment
-          mergedCode += "\n#{indentation}#{mlc[0]} SEGMENT DIVIDER #{mlc[2]}\n"
+          mergedCode += "\n#{indentation}#{mlc[0]} #{seg} #{div} #{mlc[2]}\n"
 
       mergedCode += segmentCode
 
