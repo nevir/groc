@@ -623,3 +623,39 @@ input[type="search"]
 
   .docs .doc-section-header code
     font-size: 18px
+
+// ## Code folding
+
+.code.folded
+  .wrapper
+    display: none
+
+  .marker
+    +border-radius(0.2em)
+    +box-shadow(#2f3539 1px 1px 1px 0)
+    display: block
+    border: 1px solid #73787f
+    padding: 0.2em 0.5em
+    background: #58616b
+    font: 12px 'Droid Sans Mono', Menlo, Monaco, monospace
+    text-shadow: #2f3539 1px 1px 0px
+    cursor: pointer
+    -webkit-touch-callout: none
+    -webkit-user-select: none
+    -khtml-user-select: none
+    -moz-user-select: -moz-none
+    -ms-user-select: none
+    user-select: none
+
+    .c1
+      color: #73787f
+      font-style: normal
+
+  .marker:hover
+    background: #5f6872
+
+    .c1
+      color: #7b8087
+
+  .marker .c1:after
+    content: " ..."

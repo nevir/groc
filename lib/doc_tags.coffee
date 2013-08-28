@@ -2,6 +2,19 @@
 
 humanize = require './utils/humanize'
 
+# This function collapses... spaces
+#
+# @private
+# @method  collapse_space
+#
+# @param  {String} value This is the value which will be collapsed. The primary
+#                        purpose of this method is to allow multiline parameter
+#                        descriptions, just like this one.
+#
+# @return {String}
+collapse_space = (value) ->
+  value.replace /\s+/g, ' '
+
 # This is a sample doc tagged block comment
 #
 # @public
@@ -107,7 +120,7 @@ module.exports = DOC_TAGS =
     #
     # @return {Object}
     parseValue:  (value) ->
-      parts = value.match /^\{([^\}]+)\}\s+(\[?)([\w\.\$]+)(?:=([^\s\]]+))?(\]?)\s*(.*)$/
+      parts = collapse_space(value).match /^\{([^\}]+)\}\s+(\[?)([\w\.\$]+)(?:=([^\s\]]+))?(\]?)\s*(.*)$/
       types:        (parts[1]?.split /\|{1,2}/g)
       isOptional:   (parts[2] == '[' and parts[5] == ']')
       varName:      parts[3]
@@ -167,7 +180,7 @@ module.exports = DOC_TAGS =
   'return':
     section:     'returns'
     parseValue:  (value) ->
-      parts = value.match /^\{([^\}]+)\}\s*(.*)$/
+      parts = collapse_space(value).match /^\{([^\}]+)\}\s*(.*)$/
       types:       parts[1].split /\|{1,2}/g
       description: parts[2]
     markdown:     (value) ->
@@ -177,7 +190,7 @@ module.exports = DOC_TAGS =
   throw:
     section:     'returns'
     parseValue:  (value) ->
-      parts = value.match /^\{([^\}]+)\}\s*(.*)$/
+      parts = collapse_space(value).match /^\{([^\}]+)\}\s*(.*)$/
       types:       parts[1].split /\|{1,2}/g
       description: parts[2]
     markdown:    (value) ->
