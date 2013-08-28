@@ -76,6 +76,7 @@ module.exports = class Base
       for segment in segments
         segment.markdownedComments = Utils.trimBlankLines segment.markdownedComments
         segment.highlightedCode    = Utils.trimBlankLines segment.highlightedCode
+        segment.foldMarker         = Utils.trimBlankLines(segment.foldMarker || '')
 
       templateContext =
         project:     @project
