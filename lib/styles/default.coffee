@@ -133,8 +133,8 @@ module.exports = class Default extends Base
       metaOutput += "#{humanize.capitalize firstPart.join(' ')}"
       if sections.flags? or sections.metadata?
         secondPart = []
-        firstPart.push tag.markdown for tag in sections.flags if sections.flags?
-        firstPart.push tag.markdown for tag in sections.metadata if sections.metadata?
+        secondPart.push tag.markdown for tag in sections.flags if sections.flags?
+        secondPart.push tag.markdown for tag in sections.metadata if sections.metadata?
         metaOutput += " #{humanize.joinSentence secondPart}"
 
       output += "<span class='doc-section-header'>#{metaOutput}</span>\n\n" if metaOutput?
