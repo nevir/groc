@@ -284,7 +284,7 @@ module.exports = Utils =
     pygmentize.stdin.end()
 
   parseDocTags: (segments, project, callback) ->
-    TAG_REGEX = /(^|\s)@(\w+)(?:\s+(.*))?/
+    TAG_REGEX = /(?:^|\s)@(\w+)(?:\s+(.*))?/
     TAG_VALUE_REGEX = /^(?:"(.*)"|'(.*)'|\{(.*)\}|(.*))$/
 
     try
@@ -300,8 +300,8 @@ module.exports = Utils =
         for line in segment.comments when line?
           if (match = line.match TAG_REGEX)?
             currTag = {
-              name: match[2]
-              value: match[3] || ''
+              name: match[1]
+              value: match[2] || ''
             }
             tags.push currTag
           else
