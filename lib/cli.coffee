@@ -113,6 +113,7 @@ module.exports = CLI = (inputArgs, callback) ->
     languages:
       describe: "Path to language definition file."
       default:  "groc/lib/languages"
+      type:     'path'
 
     silent:
       describe: "Output errors only."
