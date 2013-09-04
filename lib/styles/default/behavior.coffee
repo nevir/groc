@@ -213,9 +213,15 @@ buildTOCNode = (node, metaInfo) ->
     when 'file'
       #} Single line to avoid extra whitespace
       node$.append """<a class="label" href="#{metaInfo.relativeRoot}#{node.data.targetPath}.html" title="#{node.data.projectPath}"><span class="text">#{node.data.title}</span></a>"""
+      clickLabel = ->
+        selectNode node$
 
     when 'folder'
-      node$.append """<span class="label"><span class="text">#{node.data.title}</span></span>"""
+      node$.append """<a class="label" href="#"><span class="text">#{node.data.title}</span></a>"""
+      clickLabel = (evt) ->
+        selectNode node$
+        node$.toggleClass 'expanded'
+        evt.preventDefault()
 
   if node.children?.length > 0
     children$ = $('<ol class="children"/>')
@@ -224,7 +230,7 @@ buildTOCNode = (node, metaInfo) ->
     node$.append children$
 
   label$ = node$.find('> .label')
-  label$.click -> selectNode node$
+  label$.click clickLabel
 
   discloser$ = $('<span class="discloser"/>').prependTo label$
   discloser$.addClass 'placeholder' unless node.children?.length > 0
