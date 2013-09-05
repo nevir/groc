@@ -209,13 +209,28 @@ buildNav = (metaInfo) ->
 buildTOCNode = (node, metaInfo) ->
   node$ = $("""<li class="#{node.type}"/>""")
 
+  #} just to clarify: we use it in the `clickLabel`-method below, but can
+  #} reference the first time after initializing it a few more lines below
+  discloser = null
+
   switch node.type
     when 'file'
       #} Single line to avoid extra whitespace
       node$.append """<a class="label" href="#{metaInfo.relativeRoot}#{node.data.targetPath}.html" title="#{node.data.projectPath}"><span class="text">#{node.data.title}</span></a>"""
+      clickLabel = (evt) ->
+        if evt.target is discloser
+          node$.toggleClass 'expanded'
+          evt.preventDefault()
+          return false
+        selectNode node$
 
     when 'folder'
-      node$.append """<span class="label"><span class="text">#{node.data.title}</span></span>"""
+      node$.append """<a class="label" href="#"><span class="text">#{node.data.title}</span></a>"""
+      clickLabel = (evt) ->
+        selectNode node$
+        node$.toggleClass 'expanded'
+        evt.preventDefault()
+        return false
 
   if node.children?.length > 0
     children$ = $('<ol class="children"/>')
@@ -224,13 +239,11 @@ buildTOCNode = (node, metaInfo) ->
     node$.append children$
 
   label$ = node$.find('> .label')
-  label$.click -> selectNode node$
+  label$.click clickLabel
 
   discloser$ = $('<span class="discloser"/>').prependTo label$
   discloser$.addClass 'placeholder' unless node.children?.length > 0
-  discloser$.click (evt) ->
-    node$.toggleClass 'expanded'
-    evt.preventDefault()
+  discloser = discloser$.get(0)
 
   # Persist our references to the node
   fileMap[node.data.targetPath] = node$ if node.type == 'file'
