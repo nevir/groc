@@ -62,7 +62,7 @@ module.exports = class Project
     pool = spate.pool (k for k of fileMap), maxConcurrency: @BATCH_SIZE, (currentFile, done) =>
       @log.debug "Processing %s", currentFile
 
-      language = Utils.getLanguage currentFile
+      language = Utils.getLanguage currentFile, @options.languages
       unless language?
         @log.warn '%s is not in a supported language, skipping.', currentFile
         return done()
