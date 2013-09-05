@@ -112,7 +112,7 @@ module.exports = CLI = (inputArgs, callback) ->
 
     languages:
       describe: "Path to language definition file."
-      default:  "groc/lib/languages"
+      default:  "#{__dirname}/languages"
       type:     'path'
 
     silent:
