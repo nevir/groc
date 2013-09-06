@@ -102,7 +102,7 @@ module.exports = CLI = (inputArgs, callback) ->
       default:  'Default'
 
     showdown:
-      describe: "Showdown extension(s) to load, repeat option to add more extensions (--no-showdown and the option itself discards default)."
+      describe: "Showdown extensions to load, repeat for more, specifying --[no-]showdown discards default."
       alias:    'sd'
       default:  ['github','table']
       type:     'list'
