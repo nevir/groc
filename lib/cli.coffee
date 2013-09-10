@@ -9,7 +9,7 @@ optimist = require 'optimist'
 
 CLIHelpers   = require './utils/cli_helpers'
 Logger       = require './utils/logger'
-PACKAGE_INFO = require './package_info'
+PACKAGE_INFO = require '../package.json'
 Project      = require './project'
 styles       = require './styles'
 Utils        = require './utils'
