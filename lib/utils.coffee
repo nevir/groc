@@ -9,7 +9,7 @@ _        = require 'underscore'
 showdown = require 'showdown'
 
 CompatibilityHelpers = require './utils/compatibility_helpers'
-LANGUAGES            = require './languages'
+LANGUAGES            = null
 DOC_TAGS             = require './doc_tags'
 Logger               = require './utils/logger'
 
@@ -24,9 +24,11 @@ module.exports = Utils =
   # Detect and return the language that a given file is written in.
   #
   # The language is also annotated with a name property, matching the laguages key in LANGUAGES.
-  getLanguage: (filePath) ->
+  getLanguage: (filePath, languageDefinitions = './languages') ->
     unless @_languageDetectionCache?
       @_languageDetectionCache = []
+
+      LANGUAGES = require(languageDefinitions) if not LANGUAGES?
 
       for name, language of LANGUAGES
         language.name = name
