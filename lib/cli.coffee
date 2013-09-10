@@ -101,6 +101,12 @@ module.exports = CLI = (inputArgs, callback) ->
       alias:    's'
       default:  'Default'
 
+    showdown:
+      describe: "Showdown extensions to load, repeat for more, specifying --[no-]showdown discards default."
+      alias:    'sd'
+      default:  ['github','table']
+      type:     'list'
+
     strip:
       describe: "A path prefix to strip when generating documentation paths (or --no-strip)."
       alias:    't'
@@ -176,6 +182,7 @@ module.exports = CLI = (inputArgs, callback) ->
 
   # Set up project-specific options as we get them.
   project.options.requireWhitespaceAfterToken = !!argv['whitespace-after-token']
+  project.options.showdown = argv.showdown
 
   # We expand the `--glob` expressions into a poor-man's set, so that we can easily remove
   # exclusions defined by `--except` before we add the result to the project's file list.
