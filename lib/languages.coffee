@@ -28,7 +28,7 @@ module.exports = LANGUAGES =
     foldPrefix:        '-'
 
   Clojure:
-    nameMatchers:      ['.clj']
+    nameMatchers:      ['.clj', '.cljs']
     pygmentsLexer:     'clojure'
     singleLineComment: [';;']
     ignorePrefix:      '}'
