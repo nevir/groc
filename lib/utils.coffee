@@ -1,6 +1,8 @@
-# Miscellaneous code fragments reside here.
-#
-# TODO: These should be migrated into `lib/utils`.
+###
+Miscellaneous code fragments reside here.
+
+TODO: should be migrated into `lib/utils`.
+###
 
 childProcess = require 'child_process'
 path         = require 'path'
@@ -137,6 +139,26 @@ module.exports = Utils =
 
         else if (match = line.match blockLineMatcher)?
           currSegment.comments.push match[2]
+
+        else
+          ###
+          # We are in a multi-line block-comment, hence the whole line is part
+          # of the comment.  This is especially needed for multi-line comment
+          # contents starting immediately at the beginning of a line (without
+          # indention, like those in CoffeeScripts).  The `blockLineMatcher`
+          # from above can not catch those comments due to the `whitespaceMatch`
+          # restrictions from above.  Empty block-comment lines, like the one
+          # after this paragraph have no `whitespaceMatch` restriction …
+          #
+          # @description This comment itself is a multi-line block-comment with
+          #             `@doctags`, indention and (needlessly) prefixed by `'#'`.
+          # @description The very first comment in this file would render it's
+          #              content as code if this `else`-clause is missing.
+          ###
+          if ///^\s*(#{blockLines.join '|'})$///.test line
+            currSegment.comments.push ""
+          else
+            currSegment.comments.push line
 
       # Match that line to the language's multi line comment syntax, if it exists
       else if language.multiLineComment? and (match = line.match blockStartMatcher)?
