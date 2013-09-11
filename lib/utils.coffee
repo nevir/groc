@@ -100,6 +100,9 @@ module.exports = Utils =
     # Special case: If the language is comments-only, we can skip pygments
     return [new @Segment [], lines] if language.commentsOnly
 
+    # Special case: If the language is code-only, we can shorten the process
+    return [new @Segment lines, []] if language.codeOnly
+
     segments = []
     currSegment = new @Segment
 
