@@ -94,6 +94,11 @@ module.exports = LANGUAGES =
     ignorePrefix:      '}'
     foldPrefix:        '-'
 
+  JSON                :
+    nameMatchers      : ['.json']
+    pygmentsLexer     : 'json'
+    codeOnly          : true
+
   LaTeX:
     nameMatchers:      ['.tex', '.latex', '.sty']
     pygmentsLexer:     'latex'
