@@ -57,7 +57,7 @@ module.exports = StyleHelpers =
             type:  'folder'
             data:
               path:  targetChunks[0..i].join '/'
-              title: targetChunks[i]
+              title: if chunk == 'index' and i is 0 then file.pageTitle else targetChunks[i]
             depth: i + 1
 
           prevPath = [] # Make sure that we don't match directories several levels in, after a fail.
@@ -78,7 +78,7 @@ module.exports = StyleHelpers =
 
       # Otherwise we just fall back to the file's target path...
       else
-        fileData.title = path.basename file.targetPath
+        fileData.title = if file.targetPath == 'index' then file.pageTitle else path.basename file.targetPath
 
       nodes.push
         type:   'file'
