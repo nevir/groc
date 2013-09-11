@@ -90,7 +90,7 @@ module.exports = CLI = (inputArgs, callback) ->
       alias:    'i'
       default:  'README.md'
 
-    title:
+    'index-page-title':
       describe: "The index's page title in the generated documentation."
       default:  'index'
 
@@ -199,7 +199,7 @@ module.exports = CLI = (inputArgs, callback) ->
   # `Project#generate` can take some options, such as which style to use.  Since we're generating
   # differently depending on whether or not github is enabled, let's set those up now:
   options =
-    title: argv.title
+    indexPageTitle: argv['index-page-title']
     style: styles[argv.style]
 
   # Good to go!
