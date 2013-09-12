@@ -127,10 +127,10 @@ module.exports = Utils =
         singleLineMatcher = blockSingleLineMatcher
 
     if language.ignorePrefix?
-      stripIgnorePrefix = ///(#{language.singleLineComment.join '|'})#{whitespaceMatch}#{language.ignorePrefix}///
+      stripIgnorePrefix = ///(#{language.singleLineComment.join '|'})#{whitespaceMatch}#{Utils.regexpEscape language.ignorePrefix}///
 
     if language.foldPrefix?
-      stripFoldPrefix = ///(#{language.singleLineComment.join '|'})#{whitespaceMatch}#{language.foldPrefix}///
+      stripFoldPrefix = ///(#{language.singleLineComment.join '|'})#{whitespaceMatch}#{Utils.regexpEscape language.foldPrefix}///
 
     inBlock = false
 
@@ -160,7 +160,7 @@ module.exports = Utils =
       # Match that line to the language's single line comment syntax.
       #
       # However, we treat all comments beginning with } as inline code commentary
-      # and comments starting with ~ cause that comment and the following code
+      # and comments starting with ^ cause that comment and the following code
       # block to start folded.
       else if (match = line.match singleLineMatcher)?
 
@@ -173,7 +173,7 @@ module.exports = Utils =
           if stripIgnorePrefix? and value.indexOf(language.ignorePrefix) is 0
 
             # **Unfold this code ->**
-            # ~ The previous cycle contained code, so lets start a new segment,
+            # ^ The previous cycle contained code, so lets start a new segment,
             # } but only if the previous code-line isn't a comment forced to be
             # } part of the code, as implemented here.  This allows embedding a
             # } series of code-comments, even folded like this one.
@@ -192,12 +192,12 @@ module.exports = Utils =
               segments.push currSegment
               currSegment = new @Segment
 
-            # ~ … if we start this comment with “~” instead of “}” it and all
+            # ^ … if we start this comment with “^” instead of “}” it and all
             # } code up to the next segment's first comment starts folded
             if stripFoldPrefix? and value.indexOf(language.foldPrefix) is 0
 
               # } … so folding stopped above, as this is a new segment !
-              # Let's strip the “~” character from our documentation
+              # Let's strip the “^” character from our documentation
               currSegment.foldMarker = line.replace stripFoldPrefix, match[1]
 
             else
