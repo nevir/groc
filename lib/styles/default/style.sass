@@ -185,6 +185,15 @@ $single-column-toggle-width: $scale-stop-width
       .wrapper
         display: inline-block
 
+  // Fit the meta info into on screen, removing any overflow it creates
+  #meta
+    position:   static
+    margin:     $common-margin * 2 0 0 0
+    overflow-y: hidden
+    overflow-x: auto
+
+    .file-path
+      display: inline-block
 
 // ## Navigation
 $tools-padding: ($tools-height - 1em) / 2
