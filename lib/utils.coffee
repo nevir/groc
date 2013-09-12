@@ -101,7 +101,7 @@ module.exports = Utils =
     return [new @Segment [], lines] if language.commentsOnly
 
     # Special case: If the language is code-only, we can shorten the process
-    return [new @Segment lines, []] if language.codeOnly
+    return [new @Segment lines, (options.markdown ? '').split /\r?\n/] if language.codeOnly
 
     segments = []
     currSegment = new @Segment
