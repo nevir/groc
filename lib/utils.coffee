@@ -131,6 +131,12 @@ module.exports = Utils =
       else
         singleLineMatcher = blockSingleLineMatcher
 
+    if language.ignorePrefix?
+      stripIgnorePrefix = ///(#{language.singleLineComment.join '|'})#{whitespaceMatch}#{Utils.regexpEscape language.ignorePrefix}///
+
+    if language.foldPrefix?
+      stripFoldPrefix = ///(#{language.singleLineComment.join '|'})#{whitespaceMatch}#{Utils.regexpEscape language.foldPrefix}///
+
     inBlock = false
 
     for line in lines
@@ -179,30 +185,48 @@ module.exports = Utils =
       # Match that line to the language's single line comment syntax.
       #
       # However, we treat all comments beginning with } as inline code commentary
-      # and comments starting with ! cause that comment and the following code
+      # and comments starting with ^ cause that comment and the following code
       # block to start folded.
       else if (match = line.match singleLineMatcher)?
 
         value = (match[2] || match[4])
 
-        if !value? or value == ''
-
-        else
-          if currSegment.code.length > 0
-            segments.push currSegment
-            currSegment = new @Segment
+        if value? and value isnt ''
 
           # } For example, this comment should be treated as part of our code.
-          if value[0] == language.ignorePrefix
-            # } But let's not show the } character in our documentation
-            currSegment.code.push line.replace language.singleLineComment + language.ignorePrefix, language.singleLineComment
+          # } Achieved by prefixing the comment's content with “}”
+          if stripIgnorePrefix? and value.indexOf(language.ignorePrefix) is 0
 
-          # - ..and if we'd started this comment with ! instead of } it and all the code to the next comment would start folded
-          else if value[0] == language.foldPrefix
-            currSegment.foldMarker = line.replace language.singleLineComment + language.foldPrefix, language.singleLineComment
+            # **Unfold this code ->**
+            # ^ The previous cycle contained code, so lets start a new segment,
+            # } but only if the previous code-line isn't a comment forced to be
+            # } part of the code, as implemented here.  This allows embedding a
+            # } series of code-comments, even folded like this one.
+            if currSegment.code.length > 0 and \
+               not (currSegment.code[currSegment.code.length - 1].match singleLineMatcher)?
+              segments.push currSegment
+              currSegment = new @Segment
+
+            # Let's strip the “}” character from our documentation
+            currSegment.code.push line.replace stripIgnorePrefix, match[1]
 
           else
-            currSegment.comments.push value
+
+            # The previous cycle contained code, so lets start a new segment
+            if currSegment.code.length > 0
+              segments.push currSegment
+              currSegment = new @Segment
+
+            # ^ … if we start this comment with “^” instead of “}” it and all
+            # } code up to the next segment's first comment starts folded
+            if stripFoldPrefix? and value.indexOf(language.foldPrefix) is 0
+
+              # } … so folding stopped above, as this is a new segment !
+              # Let's strip the “^” character from our documentation
+              currSegment.foldMarker = line.replace stripFoldPrefix, match[1]
+
+            else
+              currSegment.comments.push value
 
       else
         currSegment.code.push line

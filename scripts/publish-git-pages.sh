@@ -12,7 +12,7 @@ exec_git() {
   for (( i = 1; i <= $#; i++ )); do
     eval arg=\$$i
     if [[ $arg == *\ * ]]; then
-      #} We assume that double quotes will not be used as part of argument values.
+      # } We assume that double quotes will not be used as part of argument values.
       args="$args \"$arg\""
     else
       args="$args $arg"
@@ -20,7 +20,7 @@ exec_git() {
   done
 
   set +e
-  #} Even though we wrap the arguments in quotes, bash is splitting on whitespace within.  Why?
+  # } Even though we wrap the arguments in quotes, bash is splitting on whitespace within.  Why?
   result=`eval git $args 2>&1`
   status=$?
   set -e
@@ -77,10 +77,19 @@ fi
 # We want to keep in complete sync (deleting old docs, or cruft from previous documentation output)
 exec_git ls-files | xargs rm
 
-cp -Rf $DOCS_PATH/* .
-if [[ -e $DOCS_PATH/.gitignore ]]; then
-  cp $DOCS_PATH/.gitignore .gitignore
-fi
+# The previous solution below fails to copy .dot-files, therefore we utilize
+# `find`, which in turn also made the `if`-statement obsolete.
+#
+# >     cp -Rf $DOCS_PATH/* .
+# >     if [[ -e $DOCS_PATH/.gitignore ]]; then
+# >       cp $DOCS_PATH/.gitignore .gitignore
+# >     fi
+#   
+# Alternative solution using `tar`
+#
+# >     ( cd $DOCS_PATH ; tar --excude .git cf - . ) | tar xkpvvf -
+#
+find $DOCS_PATH -maxdepth 1 -not -path $DOCS_PATH -and -not -path $DOCS_PATH/.git -exec cp -Rf "{}" . \;
 
 # Do nothing unless we actually have changes
 if [[ `git status -s` != "" ]]; then

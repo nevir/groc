@@ -64,7 +64,8 @@ $inline-code-background-color: #fbf8f3
   font-family:    "HelveticaNeue-UltraLight", "Helvetica Neue", Helvetica, "Droid Sans", sans-serif
   font-weight:    100
   letter-spacing: 0.0625em
-  line-height:    1.75
+  line-height:    1.25
+  margin-bottom:  0.5
 
 =tools-font
   +commentary-font
@@ -185,6 +186,15 @@ $single-column-toggle-width: $scale-stop-width
       .wrapper
         display: inline-block
 
+  // Fit the meta info into on screen, removing any overflow it creates
+  #meta
+    position:   static
+    margin:     $common-margin * 2 0 0 0
+    overflow-y: hidden
+    overflow-x: auto
+
+    .file-path
+      display: inline-block
 
 // ## Navigation
 $tools-padding: ($tools-height - 1em) / 2
@@ -658,4 +668,4 @@ input[type="search"]
       color: #7b8087
 
   .marker .c1:after
-    content: " ..."
+    content: " …"
