@@ -197,34 +197,37 @@ module.exports = Utils =
           # } Achieved by prefixing the comment's content with “}”
           if stripIgnorePrefix? and value.indexOf(language.ignorePrefix) is 0
 
-            # **Unfold this code ->**
-            # ^ The previous cycle contained code, so lets start a new segment,
-            # } but only if the previous code-line isn't a comment forced to be
-            # } part of the code, as implemented here.  This allows embedding a
-            # } series of code-comments, even folded like this one.
-            if currSegment.code.length > 0 and \
-               not (currSegment.code[currSegment.code.length - 1].match singleLineMatcher)?
-              segments.push currSegment
-              currSegment = new @Segment
+            # } Hint: never start a new segment here, these comments are code !
+            # } If we would do so the segments look visually not so appealing in
+            # } the narrowed single-column-view.
 
             # Let's strip the “}” character from our documentation
             currSegment.code.push line.replace stripIgnorePrefix, match[1]
 
           else
 
-            # The previous cycle contained code, so lets start a new segment
+            # The previous cycle contained code, lets start a new segment
             if currSegment.code.length > 0
               segments.push currSegment
               currSegment = new @Segment
 
+            # It's always a good idea to put a comment before folded content
+            # like this one here, because folded comments always have their
+            # own code-segment in their current implementation (see above).
+            # Without a leading comment, the folded code's segment would just
+            # follow the above's code segment, which looks visually not so
+            # appealing in the narrowed single-column-view.  
+            #   
+            # TODO: Alternative (a): Improve folded comments to not start a new segment, like embedded comments from above. (preferred solution)  
+            # TODO: Alternative (b): Improve folded comments visual appearance in single-column view. (easy solution)  
+
             # ^ … if we start this comment with “^” instead of “}” it and all
             # } code up to the next segment's first comment starts folded
             if stripFoldPrefix? and value.indexOf(language.foldPrefix) is 0
+              # } … so folding stops below, as this is a new segment !
 
-              # } … so folding stopped above, as this is a new segment !
               # Let's strip the “^” character from our documentation
               currSegment.foldMarker = line.replace stripFoldPrefix, match[1]
-
             else
               currSegment.comments.push value
 
