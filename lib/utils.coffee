@@ -126,22 +126,75 @@ module.exports = Utils =
 
     if language.singleLineComment?
       singleLines = @regexpEscape(language.singleLineComment).join '|'
-      aSingleLine = ///^\s*(?:#{singleLines})(?:#{whitespaceMatch}(.*))?$///
+      aSingleLine = ///
+        ^\s*                        # Start a line and skip all indention.
+        (?:#{singleLines})          # Match the single-line start but don't capture this group.
+        (?:                         # Also don't capture this group …
+          #{whitespaceMatch}        # … possibly starting with a whitespace, but
+          (.*)                      # … capture anything else in this …
+        )?                          # … optional group …
+        $                           # … up to the EOL.
+      ///
+
 
     if language.multiLineComment?
       mlc = language.multiLineComment
 
-      blockStarts = @regexpEscape(_.select mlc, (v, i) -> i % 3 == 0).join '|'
-      blockLines  = @regexpEscape(_.select mlc, (v, i) -> i % 3 == 1).join '|'
-      blockEnds   = @regexpEscape(_.select mlc, (v, i) -> i % 3 == 2).join '|'
+      unless (mlc.length % 3) is 0
+        throw new Error('Multi-line block-comment definitions must be a list of 3-tuples')
+
+      blockStarts = _.select mlc, (v, i) -> i % 3 == 0
+      blockLines  = _.select mlc, (v, i) -> i % 3 == 1
+      blockEnds   = _.select mlc, (v, i) -> i % 3 == 2
+
+      # This flag indicates if the end-mark of block-comments (the `blockEnds`
+      # list above) must correspond to the initial block-mark (the `blockStarts`
+      # above).  If this flag is missing it defaults to `true`.  The main idea
+      # is to embed sample block-comments with syntax A in another block-comment 
+      # with syntax B. This useful in handlebar's mixed syntax or other language
+      # combinations like html+php, which are supported by `pygmentize`.
+      strictMultiLineEnd = language.strictMultiLineEnd ? true
+
+      # This map is used to lookup corresponding line- and end-marks.
+      blockComments = {}
+      for v, i in blockStarts
+        blockComments[v] =
+          linemark: blockLines[i]
+          endmark : blockEnds[i]
+
+      blockStarts = @regexpEscape(blockStarts).join '|'
+      blockLines  = @regexpEscape(blockLines).join '|'
+      blockEnds   = @regexpEscape(blockEnds).join '|'
 
       # No need to match for any particular real content in `aBlockStart`, as
-      # either `aBlockLine`, `aBlockEnd` or the `isBlock` catch-all fallback
+      # either `aBlockLine`, `aBlockEnd` or the `inBlock` catch-all fallback
       # handles the real content, in the implementation below.
-      aBlockStart = ///^\s*(?:#{blockStarts}(?:#{blockLines})?(?:#{whitespaceMatch}|$))///
-      aBlockLine  = ///^\s*(?:#{blockLines}#{whitespaceMatch})(.*)$///
-      aBlockEnd   = ///^\s*(?:#{blockLines}#{whitespaceMatch})?(.*)(?:#{blockEnds})$///
-      aEmptyLine  = ///^\s*(?:#{blockLines})$///
+      aBlockStart = ///
+        ^(\s*)                      # Start a line and capture indention, used to reverse indent catch-all fallback lines.
+        (#{blockStarts})            # Capture the start-mark, to check the if line- and end-marks correspond, …
+        (#{blockLines})?            # … possibly followed by a line, captured to check if its corresponding to the start,
+        (?:#{whitespaceMatch}|$)    # … and finished by whitespace OR the EOL.
+      ///
+
+      aBlockLine = ///
+        ^\s*                        # Start a line and skip all indention.
+        (#{blockLines})             # Capture the line-mark to check if it corresponds to the start-mark, …
+        (#{whitespaceMatch})        # … possibly followed by whitespace,
+        (.*)$                       # … and collect all up to the line end.
+      ///
+
+      aBlockEnd = ///
+        (#{blockEnds})              # Capture the end-mark to check if it corresponds to the line start,
+        (.*)?$                      # … and collect all up to the line end.
+      ///
+
+      ###
+      # A special case used to capture empty block-comment lines, like the one
+      # below this line …
+      #
+      # … and above this line.
+      ###
+      aEmptyLine = ///^\s*(?:#{blockLines})$///
 
     if language.ignorePrefix?
       {ignorePrefix} = language
@@ -155,152 +208,191 @@ module.exports = Utils =
       stripMarks.push foldPrefix if foldPrefix?
       stripMarks = @regexpEscape(stripMarks).join '|'
 
-      # The dirty stuff happens here …
+      # A dirty lap-dance performed here …
       singleStrip = ///
-        (
-          #{singleLines}                    # The comment marker(s) to keep …
-          #{whitespaceMatch}                # … plus whitespace
+        (                           # Capture this group:
+          (?:#{singleLines})        #   The comment marker(s) to keep …
+          #{whitespaceMatch}        #   … plus whitespace
         )
-        (?:#{stripMarks})                   # The marker(s) to strip from result
+        (?:#{stripMarks})           # The marker(s) to strip from result
       /// if singleLines?
 
-      # … and here. 8-)
+      # … and the corresponding gang-bang here. 8-)
       blockStrip = ///
-        (
-          #{blockStarts}                    # The comment marker(s) to keep …
-          (?:#{blockLines})?                # … optionally plus one more mark
-          #{whitespaceMatch}                # … plus whitespace
+        (                           # Capture this group:
+          (?:#{blockStarts})        #   The comment marker(s) to keep …
+          (?:#{blockLines})?        #   … optionally plus one more mark
+          #{whitespaceMatch}        #   … plus whitespace
         )
-        (?:#{stripMarks})                   # The marker(s) to strip from result
+        (?:#{stripMarks})           # The marker(s) to strip from result
       /// if blockStarts?
 
+    inBlock   = false
+    inFolded  = false
+    inIgnored = false
 
-    isBlock   = false
-    isFolded  = false
-    isIgnored = false
-
+    # Variables used in temporary assignments have been collected here for
+    # documentation purposes only. 
     blockline = null
-    indent    = 0
+    blockmark = null
+    linemark  = null
+    space     = null
+    endmark   = null
+    indention = null
+    comment   = null
+    code      = null
 
     for line in lines
 
       # Match that line to the language's block-comment syntax, if it exists
-      if aBlockStart? and not isBlock and aBlockStart.test line
+      if aBlockStart? and not inBlock and (match = line.match aBlockStart)?
+        console.log "start a block", [line, match]
+        inBlock = true
+        # Reusing `match` as a placeholder.
+        [match, indention, blockmark, linemark] = match
 
-        isBlock = true
-
-        if currSegment.code.length > 0
+        # Block-comments are an important tool to structure code into larger
+        # segments, therefore we always start a new segment if the current one
+        # is not empty.
+        if (
+          currSegment.code.length > 0 or 
+          currSegment.comments.length > 0 or 
+          currSegment.foldMarker isnt ''
+        )
           segments.push currSegment
           currSegment   = new @Segment
-          isFolded      = false
+          inFolded      = false
 
-        # After stripping the block-comments start, preserving any inline stuff,
-        # we continue at the `if isBlock` statement below.  We don't touch the
-        # `line` itself, as we might need it.
+        # Strip the block-comments start, preserving any inline stuff.
+        # We don't touch the `line` itself, as we still need it.
         blockline = line.replace aBlockStart, ''
 
+        # If we found a `linemark`, prepend it (back) to the `blockline`, if it
+        # does not correspond to the initial `blockmark`.
+        if linemark? and blockComments[blockmark].linemark isnt linemark
+          blockline = "#{linemark}#{blockline}"
+
+        # Check if this block-comment is collapsible.
         if foldPrefix? and blockline.indexOf(foldPrefix) is 0
           ### ^ collapsing block-comments:
           # In block-comments only `aBlockStart` may initiate the collapsing.
           # This comment utilizes this syntax, by starting the comment with `^`.
           ###
+          inFolded  = true
 
-          # Let's strip the “^” character from our documentation,
-          # using the untouched original `line`
-          blockline = line.replace blockStrip, '$1'
-          isFolded  = true
+          # Let's strip the “^” character from our original line, for later use.
+          line = line.replace blockStrip, '$1'
+          # Also strip it from our `blockline`.
+          blockline = blockline[1...] 
 
+        # Check if this block-comment stays embedded in the code.
         else if ignorePrefix? and blockline.indexOf(ignorePrefix) is 0
           ### } embedded block-comments:
           # In block-comments only `aBlockStart` may initiate the embedding.
           # This comment utilizes this syntax, by starting the comment with `}`.
           ###
+          inIgnored = true
 
-          # Let's strip the “}” character from our documentation,
-          # using the untouched original `line`
-          blockline = line.replace blockStrip, '$1'
-          isIgnored = true
+          # Let's strip the “}” character from our original line, for later use.
+          line = line.replace blockStrip, '$1'
+          # Also strip it from our `blockline`.
+          blockline = blockline[1...] 
 
       # This flag is triggered above.
-      if isBlock
+      if inBlock
 
         # Catch all lines, unless there is a `blockline` from above.
-        # These lines have all leading spaces stripped - this should be enhanced
-        # to stripped only as many whitespaces as the initial `aBlockStart` has
-        # as indent.
-        # blockline = line.replace /^\s+/, '' unless blockline?
         blockline = line unless blockline?
 
-        # Match a block-comment's end, even when `isFolded or isIgnored` flags
+        console.log "  in block", ["fold:", inFolded, "ignore:", inIgnored], [blockline]
+
+        # Match a block-comment's end, even when `inFolded or inIgnored` flags
         # are true …
         if (match = blockline.match aBlockEnd)?
-          ### … to ensure that we finally leave the block-comment, especially the ones on a single-line like this one. ###
-          isBlock = false
 
-          # Strip any `blockline`-prefixes or -suffixes when
-          # `isFolded or isIgnored` flags are false.
-          blockline = match[1] unless isFolded or isIgnored
+          # Reusing `match` as a placeholder.
+          [match, endmark, code] = match
 
-        # Match a block-comment's line, when `isFolded or isIgnored` are false.
-        else if not (isFolded or isIgnored) and (match = blockline.match aBlockLine)?
-          # Strip any `blockline`-prefixes or -suffixes and continue below.
-          blockline = match[1]
+          # The `endmark` must correspond to the `blockmark`'s.
+          if not strictMultiLineEnd or blockComments[blockmark].endmark is endmark
 
-        if isIgnored
-          currSegment.code.push blockline
+            ### Ensure to leave the block-comment, especially single-lines like this one. ###
+            inBlock = false
+
+            blockline = blockline.replace aBlockEnd, '' unless (inFolded or inIgnored)
+
+          console.log "  a block end", ['still inBlock?', inBlock], [match, blockline]
+
+        # Match a block-comment's line, when `inFolded or inIgnored` are false.
+        if not (inFolded or inIgnored) and (match = blockline.match aBlockLine)?
+
+          # Reusing `match` as a placeholder.
+          [match, linemark, space, comment] = match
+
+          # If we found a `linemark`, prepend it (back) to the `comment`,
+          # if it does not correspond to the initial `blockmark`.
+          if linemark? and blockComments[blockmark].linemark isnt linemark
+            comment = "#{linemark}#{space ? ''}#{comment}"
+
+          blockline = comment
+
+          console.log "  a block line", [match, blockline]
+
+        if inIgnored
+          currSegment.code.push line
 
           # Make sure that the next cycle starts fresh, 
           # if we are going to leave the block.
-          isIgnored = false if not isBlock
+          inIgnored = false if not inBlock
 
         else
           # The previous cycle contained code, so lets start a new segment, but
-          # only if the `isFolded` flag is false or if this is the first line to
+          # only if the `inFolded` flag is false or if this is the first line to
           # fold (= foldMarker is empty).
-          if currSegment.code.length > 0 and (not isFolded or currSegment.foldMarker is '')
+          if currSegment.code.length > 0 and (not inFolded or currSegment.foldMarker is '')
             segments.push currSegment
             currSegment = new @Segment
 
-          if isFolded
+          if inFolded
 
             # If the foldMarker is empty assign `blockline` to `foldMarker` …
             if currSegment.foldMarker is ''
-              currSegment.foldMarker = blockline
+              currSegment.foldMarker = line
 
             # … else collect the `blockline` as code.
             else
-              currSegment.code.push blockline
-
+              currSegment.code.push line
+          
           else
 
-            ###
-            # Implements the default handler for the `blockline` from above as
-            # well as a catch-all fallback handling anything in a block-comment
-            # that doesn't match anything above.
-            #
-            # So are in a multi-line block-comment, hence the whole line is part
-            # of the comment.  This is especially needed for multi-line comment
-            # contents starting immediately at the beginning of a line (without
-            # indention, like those in CoffeeScripts).  The `aBlockLine` from
-            # above can not catch those comments due to the `whitespaceMatch`
-            # restrictions from above.  Empty block-comment lines, like the one
-            # after this paragraph have no `whitespaceMatch` restriction …
-            #
-            # @description This comment is a block-comment with `@doctags`,
-            #              indention and (needlessly) prefixed by `'#'`.
-            # @description The very first comment in this file would render it's
-            #              content as code if this `else`-clause is missing.
-            ###
+            # A special case as described in the initialization of `aEmptyLine`.
             if aEmptyLine.test line
               currSegment.comments.push ""
+              console.log "  block comment", "(empty)"
+
+            else
+              console.log "  block comment?", [blockline]
 
               ###
-              Collect all but start- and end-block-comment lines, but include
-              single-line block-comments that match `aBlockStart` and
-              `aBlockEnd`, having the `isBlock` flag set to false at this point.
+              Collect all but empty start- and end-block-comment lines, hence
+              single-line block-comments simultaneous matching `aBlockStart`
+              and `aBlockEnd` have a false `inBlock` flag at this point, are
+              included.
               ###
-            else if (not isBlock and aBlockStart.test line) or not aBlockEnd.test line
-              currSegment.comments.push blockline
+              if not /^\s*$/.test(blockline) or (inBlock and not aBlockStart.test line)
+                # Strip leading `indention` from block-comment like the one above
+                # to align their content with the initial blockmark.
+                if indention? and indention isnt '' and not aBlockLine.test line
+                  blockline = blockline.replace ///^#{indention}///, ''
+
+                console.log "  block comment!", [blockline]
+
+                currSegment.comments.push blockline
+
+              # The `code` may occure immediatly after a block-comment end.
+              if code?
+                currSegment.code.push code unless inBlock # fool-proof ?
+                code = null
 
         # Make sure the next cycle starts fresh.
         blockline = null
@@ -312,17 +404,19 @@ module.exports = Utils =
       # block to start folded.
       else if (match = line.match aSingleLine)?
 
-        singleline = match[1]
+        # Uses `match` as a placeholder.
+        [match, comment] = match
 
-        if singleline? and singleline isnt ''
+        if comment? and comment isnt ''
 
           # } For example, this comment should be treated as part of our code.
           # } Achieved by prefixing the comment's content with “}”
-          if ignorePrefix? and singleline.indexOf(ignorePrefix) is 0
+          if ignorePrefix? and comment.indexOf(ignorePrefix) is 0
 
             # } Hint: never start a new segment here, these comments are code !
             # } If we would do so the segments look visually not so appealing in
-            # } the narrowed single-column-view.
+            # } the narrowed single-column-view, and we can not embed a series
+            # } of comments like these here.
 
             # Let's strip the “}” character from our documentation
             currSegment.code.push line.replace singleStrip, '$1'
@@ -334,7 +428,7 @@ module.exports = Utils =
             if currSegment.code.length > 0
               segments.push currSegment
               currSegment   = new @Segment
-              isFolded      = false
+              inFolded      = false
 
             # It's always a good idea to put a comment before folded content
             # like this one here, because folded comments always have their
@@ -348,15 +442,16 @@ module.exports = Utils =
             #
             # ^ … if we start this comment with “^” instead of “}” it and all
             # } code up to the next segment's first comment starts folded
-            if foldPrefix? and singleline.indexOf(foldPrefix) is 0
+            if foldPrefix? and comment.indexOf(foldPrefix) is 0
 
               # } … so folding stops below, as this is a new segment !
               # Let's strip the “^” character from our documentation
               currSegment.foldMarker = line.replace singleStrip, '$1'
 
             else
-              currSegment.comments.push singleline
+              currSegment.comments.push comment
 
+      # We surely (should) have raw code at this point.
       else
         currSegment.code.push line
 

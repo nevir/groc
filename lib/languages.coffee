@@ -15,8 +15,8 @@ module.exports = LANGUAGES =
   CSharp:
     nameMatchers:      ['.cs']
     pygmentsLexer:     'csharp'
-    singleLineComment: ['//']
     multiLineComment:  ['/*', '*', '*/']
+    singleLineComment: ['//']
     ignorePrefix:      '}'
     foldPrefix:        '^'
 
@@ -37,19 +37,50 @@ module.exports = LANGUAGES =
   CoffeeScript:
     nameMatchers:      ['.coffee', 'Cakefile']
     pygmentsLexer:     'coffee-script'
+    # CoffeScript's multi-line block-comment variants:
+    ###* }
+     * Variant 1
+     * 
+     * Tip: use '-' or '+' for bullet-lists instead of '*' to distinguish
+     * bullet-lists visually from this kind of block comments.  The preceding
+     * whitespaces in the line-matcher and end-matcher are required. Without
+     * them this syntax makes no sense, as it is meant to produce comments
+     * like the following in compiled javascript:
+     * 
+     *     /**
+     *      * A sample comment, having a preceding whitespace per line. Useful
+     *      * to embed `@doctags` in javascript compiled from coffeescript.
+     *      * <= COMBINE THESE TWO CHARS => /
+     * 
+     * (The the final comment-mark above has been TWEAKED to not raise an error)
+     ###
+    ### }
+    Variant 2
+    
+    Uses the the below defined syntax, without preceding `#` per line. This is
+    the syntax for what the definition is actually meant for !
+    ###
+    ### } 
+    # Variant 3
+    #
+    # **This syntax is nonsense and strongly disencouraged !**
+    #
+    # The block-comment line-matcher `'#'` also works on lines not starting
+    # with `'#'`, because we add unmatched lines to the comments once we are
+    # in a multi-line comment-block and until we left them …
+    ###
     multiLineComment  : [
-      # This kind of comment is not yet enabled here, but works, if foldPrefix
-      # has been set to something else than '-'.  Then we can use '-' for
-      # bullet-lists instead of '*' to distinguish bullet-lists from this kind
-      # of block comments.  A patch to switch from '-' to '~' has been prepared
-      # and waits for merging.
-      # } '###*',    ' *',   '###',
-
-      # The block-comment line-matcher `'#'` also works on lines not starting
-      # with `'#'`, because we add unmatched lines to the comments once we are
-      # in a multi-line comment-block and until we left them …
-      '###',     '#',    '###'
+      # Syntax definition for variant 1.
+      '###*',   ' *',   ' ###',
+      # Syntax definition for variant 2 and 3.
+      '###' ,   '#' ,   '###'
     ]
+    # This flag indicates if the end-mark of block-comments (the third value in
+    # the list of 3-tuples above) must correspond to the initial block-mark (the
+    # first value in the list of 3-tuples above).  If this flag is missing it
+    # defaults to `true`. If true it allows one to nest block-comments in
+    # different syntax-definitions, like in handlebars or html+php.
+    strictMultiLineEnd:false
     singleLineComment: ['#']
     ignorePrefix:      '}'
     foldPrefix:        '^'
@@ -68,6 +99,9 @@ module.exports = LANGUAGES =
       '<!--', '', '-->', # HTML block comments go first, for code highlighting / segment splitting purposes
       '{{!',  '', '}}'   # Actual handlebars block comments
     ]
+    # See above for a description of this flag.
+    strictMultiLineEnd:true
+    # This one differs from the common `ignorePrefix` of all other languages !
     ignorePrefix:      '#'
     foldPrefix:        '^'
 
@@ -95,8 +129,8 @@ module.exports = LANGUAGES =
   JavaScript:
     nameMatchers:      ['.js']
     pygmentsLexer:     'javascript'
-    singleLineComment: ['//']
     multiLineComment:  ['/*', '*', '*/']
+    singleLineComment: ['//']
     ignorePrefix:      '}'
     foldPrefix:        '^'
 
