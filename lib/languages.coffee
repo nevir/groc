@@ -62,7 +62,7 @@ module.exports = LANGUAGES =
     ###
     # This syntax produces arkward comments in the compiled javascript, if the
     # pull-request _“[Format block-comments
-    # better] (<https://github.com/jashkenas/coffee-script/pull/3132)”_ has not 
+    # better](<https://github.com/jashkenas/coffee-script/pull/3132)”_ has not 
     # been applied to coffee-script's codebase …
     ### } 
     # Variant 3
