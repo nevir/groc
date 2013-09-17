@@ -296,7 +296,7 @@ module.exports = Utils =
           # Let's strip the “}” character from our original line, for later use.
           line = line.replace blockStrip, '$1'
           # Also strip it from our `blockline`.
-          blockline = blockline[foldPrefix.length...] 
+          blockline = blockline[ignorePrefix.length...] 
 
       # This flag is triggered above.
       if inBlock
