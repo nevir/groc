@@ -37,10 +37,12 @@ module.exports = LANGUAGES =
   CoffeeScript:
     nameMatchers:      ['.coffee', 'Cakefile']
     pygmentsLexer:     'coffee-script'
-    # CoffeScript's multi-line block-comment variants:
+    # **CoffeScript's multi-line block-comment styles.**
+
+    # - Variant 1:
+    #   (Variant 3 is preferred over this syntax, as soon as the pull-request
+    #    mentioned below has been merged into coffee-script's codebase.)
     ###* }
-     * Variant 1
-     * 
      * Tip: use '-' or '+' for bullet-lists instead of '*' to distinguish
      * bullet-lists visually from this kind of block comments.  The preceding
      * whitespaces in the line-matcher and end-matcher are required. Without
@@ -54,19 +56,17 @@ module.exports = LANGUAGES =
      * 
      * (The the final comment-mark above has been TWEAKED to not raise an error)
      ###
+    # - Variant 2:
     ### }
-    Variant 2
-    
     Uses the the below defined syntax, without preceding `#` per line. This is
     the syntax for what the definition is actually meant for !
     ###
-    # This syntax produces arkward comments in the compiled javascript, if the
-    # pull-request _“[Format block-comments
-    # better](<https://github.com/jashkenas/coffee-script/pull/3132)”_ has not 
-    # been applied to coffee-script's codebase …
+    # - Variant 3:  
+    #   (This syntax produces arkward comments in the compiled javascript, if
+    #    the pull-request _“[Format block-comments
+    #    better](<https://github.com/jashkenas/coffee-script/pull/3132)”_ has 
+    #    not been applied to coffee-script's codebase …)
     ### } 
-    # Variant 3
-    #
     # The block-comment line-matcher `'#'` also works on lines not starting
     # with `'#'`, because we add unmatched lines to the comments once we are
     # in a multi-line comment-block and until we left them …
