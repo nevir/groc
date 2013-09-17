@@ -283,7 +283,7 @@ module.exports = Utils =
           # Let's strip the “^” character from our original line, for later use.
           line = line.replace blockStrip, '$1'
           # Also strip it from our `blockline`.
-          blockline = blockline[1...] 
+          blockline = blockline[foldPrefix.length...] 
 
         # Check if this block-comment stays embedded in the code.
         else if ignorePrefix? and blockline.indexOf(ignorePrefix) is 0
@@ -296,7 +296,7 @@ module.exports = Utils =
           # Let's strip the “}” character from our original line, for later use.
           line = line.replace blockStrip, '$1'
           # Also strip it from our `blockline`.
-          blockline = blockline[1...] 
+          blockline = blockline[foldPrefix.length...] 
 
       # This flag is triggered above.
       if inBlock
