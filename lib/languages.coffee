@@ -60,10 +60,12 @@ module.exports = LANGUAGES =
     Uses the the below defined syntax, without preceding `#` per line. This is
     the syntax for what the definition is actually meant for !
     ###
+    # This syntax produces arkward comments in the compiled javascript, if the
+    # pull-request _[Format block-comments better]
+    # (<https://github.com/jashkenas/coffee-script/pull/3132)_ has not 
+    # been applied to coffee-script's codebase …
     ### } 
     # Variant 3
-    #
-    # **This syntax is nonsense and strongly disencouraged !**
     #
     # The block-comment line-matcher `'#'` also works on lines not starting
     # with `'#'`, because we add unmatched lines to the comments once we are
