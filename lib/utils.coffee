@@ -246,8 +246,8 @@ module.exports = Utils =
 
       # Match that line to the language's block-comment syntax, if it exists
       if aBlockStart? and not inBlock and (match = line.match aBlockStart)?
-        console.log "start a block", [line, match]
         inBlock = true
+
         # Reusing `match` as a placeholder.
         [match, indention, blockmark, linemark] = match
 
@@ -304,8 +304,6 @@ module.exports = Utils =
         # Catch all lines, unless there is a `blockline` from above.
         blockline = line unless blockline?
 
-        console.log "  in block", ["fold:", inFolded, "ignore:", inIgnored], [blockline]
-
         # Match a block-comment's end, even when `inFolded or inIgnored` flags
         # are true …
         if (match = blockline.match aBlockEnd)?
@@ -321,8 +319,6 @@ module.exports = Utils =
 
             blockline = blockline.replace aBlockEnd, '' unless (inFolded or inIgnored)
 
-          console.log "  a block end", ['still inBlock?', inBlock], [match, blockline]
-
         # Match a block-comment's line, when `inFolded or inIgnored` are false.
         if not (inFolded or inIgnored) and (match = blockline.match aBlockLine)?
 
@@ -335,8 +331,6 @@ module.exports = Utils =
             comment = "#{linemark}#{space ? ''}#{comment}"
 
           blockline = comment
-
-          console.log "  a block line", [match, blockline]
 
         if inIgnored
           currSegment.code.push line
@@ -359,20 +353,16 @@ module.exports = Utils =
             if currSegment.foldMarker is ''
               currSegment.foldMarker = line
 
-            # … else collect the `blockline` as code.
-            else
-              currSegment.code.push line
-          
+            # … and collect the `blockline` as code.
+            currSegment.code.push line
+
           else
 
             # A special case as described in the initialization of `aEmptyLine`.
             if aEmptyLine.test line
               currSegment.comments.push ""
-              console.log "  block comment", "(empty)"
 
             else
-              console.log "  block comment?", [blockline]
-
               ###
               Collect all but empty start- and end-block-comment lines, hence
               single-line block-comments simultaneous matching `aBlockStart`
@@ -384,8 +374,6 @@ module.exports = Utils =
                 # to align their content with the initial blockmark.
                 if indention? and indention isnt '' and not aBlockLine.test line
                   blockline = blockline.replace ///^#{indention}///, ''
-
-                console.log "  block comment!", [blockline]
 
                 currSegment.comments.push blockline
 
@@ -448,6 +436,8 @@ module.exports = Utils =
               # Let's strip the “^” character from our documentation
               currSegment.foldMarker = line.replace singleStrip, '$1'
 
+              # And collect it as code.
+              currSegment.code.push currSegment.foldMarker
             else
               currSegment.comments.push comment
 

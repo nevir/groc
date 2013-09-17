@@ -636,9 +636,13 @@ input[type="search"]
 
 // ## Code folding
 
+.code .marker
+  display: none
+
 .code.folded
   .wrapper
     display: none
+    cursor: default
 
   .marker
     +border-radius(0.2em)
