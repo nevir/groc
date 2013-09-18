@@ -335,7 +335,7 @@ module.exports = Utils =
     pygmentize.stdin.end()
 
   parseDocTags: (segments, project, callback) ->
-    TAG_REGEX = /(?:^|\s)@(\w+)(?:\s+(.*))?/
+    TAG_REGEX = /^\s?@(\w+)(?:\s+(.*))?/
     TAG_VALUE_REGEX = /^(?:"(.*)"|'(.*)'|\{(.*)\}|(.*))$/
 
     try
