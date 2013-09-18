@@ -172,19 +172,18 @@ clearHighlight = (text$) ->
 fileMap = {} # A map of targetPath -> DOM node
 
 buildNav = (metaInfo) ->
-  nav$ = $("""
-    <nav>
-      <ul class="tools">
-        <li class="toggle">Table of Contents</li>
-        <li class="search">
-          <input id="search" type="search" autocomplete="off"/>
-        </li>
-      </ul>
-      <ol class="toc"/>
-      </div>
-    </nav>
-  """).appendTo $('body')
+  nav$ = $('nav')
   toc$ = nav$.find '.toc'
+  console.log tableOfContents
+
+  $("""
+    <ul class="tools">
+      <li class="toggle">Table of Contents</li>
+      <li class="search">
+        <input id="search" type="search" autocomplete="off"/>
+      </li>
+    </ul>
+  """).prependTo nav$
 
   if metaInfo.githubURL
     # Special case the index to go to the project root
