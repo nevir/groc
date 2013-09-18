@@ -317,8 +317,10 @@ $ ->
       else
         search$.val ''
 
-  # Make folded code blocks toggleable
-  $('.code.folded .marker').each (index, marker) ->
-    marker$ = $(marker)
-    marker$.click (evt) ->
-      marker$.parent().toggleClass 'folded'
+  # Make folded code blocks toggleable; the marker and the code are clickable.
+  $('.code.folded').each (index, code) ->
+    code$ = $(code)
+    code$.click (evt) ->
+      code$.toggleClass 'folded'
+      evt.preventDefault()
+      return false
