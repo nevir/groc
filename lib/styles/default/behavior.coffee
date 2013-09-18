@@ -324,10 +324,3 @@ $ ->
       code$.toggleClass 'folded'
       evt.preventDefault()
       return false
-    
-    marker$ = $('.marker', code)
-    # Hack to enhance CSS text-selection prevention, if the user taps quickly.
-    marker$.mousedown (evt) ->
-      code$.toggleClass 'folded'
-      evt.preventDefault()
-      return false

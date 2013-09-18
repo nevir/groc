@@ -636,7 +636,7 @@ input[type="search"]
 
 // ## Code folding
 
-.code .marker
+.code .marker, .code .marker.wrapper, .code .wrapper.marker
   display: none
 
 .code.folded
@@ -650,6 +650,8 @@ input[type="search"]
     display: block
     border: 1px solid #73787f
     padding: 0.2em 0.5em
+    margin-left: -0.5em
+    margin-right: -0.5em
     background: #58616b
     font: 12px 'Droid Sans Mono', Menlo, Monaco, monospace
     text-shadow: #2f3539 1px 1px 0px
