@@ -251,18 +251,6 @@ module.exports = Utils =
         # Reusing `match` as a placeholder.
         [match, indention, blockmark, linemark] = match
 
-        # Block-comments are an important tool to structure code into larger
-        # segments, therefore we always start a new segment if the current one
-        # is not empty.
-        if (
-          currSegment.code.length > 0 or 
-          currSegment.comments.length > 0 or 
-          currSegment.foldMarker isnt ''
-        )
-          segments.push currSegment
-          currSegment   = new @Segment
-          inFolded      = false
-
         # Strip the block-comments start, preserving any inline stuff.
         # We don't touch the `line` itself, as we still need it.
         blockline = line.replace aBlockStart, ''
@@ -274,6 +262,13 @@ module.exports = Utils =
 
         # Check if this block-comment is collapsible.
         if foldPrefix? and blockline.indexOf(foldPrefix) is 0
+
+          # We always start a new segment if the current one is not empty or 
+          # already folded.
+          if inFolded or currSegment.code.length > 0
+            segments.push currSegment
+            currSegment   = new @Segment
+
           ### ^ collapsing block-comments:
           # In block-comments only `aBlockStart` may initiate the collapsing.
           # This comment utilizes this syntax, by starting the comment with `^`.
@@ -297,6 +292,14 @@ module.exports = Utils =
           line = line.replace blockStrip, '$1'
           # Also strip it from our `blockline`.
           blockline = blockline[ignorePrefix.length...] 
+
+        # Block-comments are an important tool to structure code into larger
+        # segments, therefore we always start a new segment if the current one
+        # is not empty.
+        else if currSegment.code.length > 0
+          segments.push currSegment
+          currSegment   = new @Segment
+          inFolded      = false
 
       # This flag is triggered above.
       if inBlock
@@ -340,12 +343,6 @@ module.exports = Utils =
           inIgnored = false if not inBlock
 
         else
-          # The previous cycle contained code, so lets start a new segment, but
-          # only if the `inFolded` flag is false or if this is the first line to
-          # fold (= foldMarker is empty).
-          if currSegment.code.length > 0 and (not inFolded or currSegment.foldMarker is '')
-            segments.push currSegment
-            currSegment = new @Segment
 
           if inFolded
 
@@ -358,6 +355,11 @@ module.exports = Utils =
 
           else
 
+            # The previous cycle contained code, so lets start a new segment.
+            if currSegment.code.length > 0
+              segments.push currSegment
+              currSegment = new @Segment
+  
             # A special case as described in the initialization of `aEmptyLine`.
             if aEmptyLine.test line
               currSegment.comments.push ""
