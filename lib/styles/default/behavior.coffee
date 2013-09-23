@@ -1,16 +1,14 @@
-tableOfContents = <%= JSON.stringify(tableOfContents) %>
-
 # # Page Behavior
 
 # ## Table of Contents
 
 # Global jQuery references to navigation components we care about.
-nav$ = null
-toc$ = null
+html$   = $(document.documentElement).removeClass('no-js').addClass('js')
+nav$    = null
+toc$    = null
+search$ = null
 
 setTableOfContentsActive = (active) ->
-  html$ = $('html')
-
   if active
     nav$.addClass  'active'
     html$.addClass 'popped'
@@ -54,11 +52,11 @@ setCurrentNodeExpanded = (expanded) ->
   focusCurrentNode()
 
 selectNode = (newNode$) ->
+  currentNode$ ?= newNode$
   # Remove first, in case it's the same node
   currentNode$.removeClass 'selected'
   newNode$.addClass 'selected'
 
-  currentNode$ = newNode$
   focusCurrentNode()
 
 selectNodeByDocumentPath = (documentPath, headerSlug=null) ->
@@ -78,10 +76,12 @@ selectNodeByDocumentPath = (documentPath, headerSlug=null) ->
 
 moveCurrentNode = (up) ->
   visibleNodes$ = toc$.find 'li:visible:not(.filtered)'
+  console.log 'moveCurrentNode', up, visibleNodes$
 
   # Fall back to the first node if anything goes wrong
   newIndex = 0
   for node, i in visibleNodes$
+    console.log 'move?', currentNode$[0]
     if node == currentNode$[0]
       newIndex = if up then i - 1 else i + 1
       newIndex = 0 if newIndex < 0
@@ -91,8 +91,11 @@ moveCurrentNode = (up) ->
   selectNode $(visibleNodes$[newIndex])
 
 visitCurrentNode = ->
-  labelLink$ = currentNode$.children('a.label')
-  window.location = labelLink$.attr 'href' if labelLink$.length > 0
+  if currentNode$.hasClass 'current'
+    search$.blur()
+    window.location
+  else
+    window.location = currentNode$.children('a.label').attr 'href'
 
 
 # ## Node Search
@@ -108,13 +111,13 @@ appendSearchNode = (node$) ->
 
 currentQuery = ''
 searchNodes = (queryString) ->
-  queryString = queryString.toLowerCase().replace(/\s+/, '')
+  queryString = queryString.toLowerCase().replace(/\s+/g, ' ')
   return if queryString == currentQuery
   currentQuery = queryString
 
   return clearFilter() if queryString == ''
 
-  matcher  = new RegExp (c.replace /[-[\]{}()*+?.,\\^$|#\s]/, "\\$&" for c in queryString).join '.*'
+  matcher  = new RegExp (c.replace ///[-[\]{}()*+?.,\\^$|#\s]///, "\\$&" for c in queryString).join '.*'
   matched  = []
   filtered = []
 
@@ -124,7 +127,7 @@ searchNodes = (queryString) ->
   return clearFilter() if matched.length > MAX_FILTER_SIZE
 
   nav$.addClass 'searching'
-
+  
   # Update the DOM
   for nodeInfo in filtered
     nodeInfo[1].removeClass 'matched-child'
@@ -145,7 +148,7 @@ clearFilter = ->
   currentQuery = ''
 
   for nodeInfo in searchableNodes
-    nodeInfo[1].removeClass 'filtered matched-child'
+    nodeInfo[1].removeClass 'filtered matched-child matched'
     clearHighlight nodeInfo[2]
 
 highlightMatch = (text$, queryString) ->
@@ -174,7 +177,6 @@ fileMap = {} # A map of targetPath -> DOM node
 buildNav = (metaInfo) ->
   nav$ = $('nav')
   toc$ = nav$.find '.toc'
-  console.log tableOfContents
 
   $("""
     <ul class="tools">
@@ -200,53 +202,40 @@ buildNav = (metaInfo) ->
       </li>
     """
 
-  for node in tableOfContents
-    toc$.append buildTOCNode node, metaInfo
+  $('li', toc$).each (index) -> buildTOCNode(this, metaInfo)
 
   nav$
 
 buildTOCNode = (node, metaInfo) ->
-  node$ = $("""<li class="#{node.type}"/>""")
+  node$ = $(node)
 
-  #} just to clarify: we use it in the `clickLabel`-method below, but can
-  #} reference the first time after initializing it a few more lines below
-  discloser = null
+  # } just to clarify: we use it in the `clickLabel`-method below, but can
+  # } reference the first time after initializing it a few more lines below
+  label$ = node$.find('> .label')
 
-  switch node.type
-    when 'file'
-      #} Single line to avoid extra whitespace
-      node$.append """<a class="label" href="#{metaInfo.relativeRoot}#{node.data.targetPath}.html" title="#{node.data.projectPath}"><span class="text">#{node.data.title}</span></a>"""
-      clickLabel = (evt) ->
-        if evt.target is discloser
-          node$.toggleClass 'expanded'
-          evt.preventDefault()
-          return false
-        selectNode node$
+  appendSearchNode node$
+  node$.removeClass 'expanded'
+  discloser    = label$.find('> .discloser').get(0)
 
-    when 'folder'
-      node$.append """<a class="label" href="#"><span class="text">#{node.data.title}</span></a>"""
-      clickLabel = (evt) ->
-        selectNode node$
+  if node$.hasClass 'file'
+    # Persist our references to the node
+    targetPath = node$.data('groc-target-path')
+    fileMap[targetPath] = node$
+    clickLabel = (evt) ->
+      console.log 'click', node, node$, evt.target is discloser
+      if evt.target is discloser
         node$.toggleClass 'expanded'
         evt.preventDefault()
         return false
+      selectNode node$
+  else
+    clickLabel = (evt) ->
+      console.log 'click', node, node$, evt
+      node$.toggleClass 'expanded'
+      evt.preventDefault()
+      return false
 
-  if node.children?.length > 0
-    children$ = $('<ol class="children"/>')
-    children$.append buildTOCNode c, metaInfo for c in node.children
-
-    node$.append children$
-
-  label$ = node$.find('> .label')
-  label$.click clickLabel
-
-  discloser$ = $('<span class="discloser"/>').prependTo label$
-  discloser$.addClass 'placeholder' unless node.children?.length > 0
-  discloser = discloser$.get(0)
-
-  # Persist our references to the node
-  fileMap[node.data.targetPath] = node$ if node.type == 'file'
-  appendSearchNode node$
+  label$.click clickLabel if clickLabel?
 
   node$
 
@@ -285,7 +274,7 @@ $ ->
   # Set up the table of contents toggle
   toggle$ = nav$.find '.toggle'
   toggle$.click (evt) ->
-    if search$.is ':focus' then search$.blur() else search$.focus()
+    if (nav$.hasClass 'active' || search$.is ':focus') then search$.blur() else search$.focus()
     evt.preventDefault()
 
   # Prevent text selection if the user taps quickly
@@ -296,28 +285,50 @@ $ ->
   $('body').keydown (evt) ->
     if nav$.hasClass 'active'
       switch evt.keyCode
-        when 13 then visitCurrentNode() # return
-        when 37 then setCurrentNodeExpanded false # left
-        when 38 then moveCurrentNode true # up
-        when 39 then setCurrentNodeExpanded true # right
-        when 40 then moveCurrentNode false # down
+        when 13 then visitCurrentNode() # Return
+        when 27 # ESC
+          setTableOfContentsActive(false)
+        when 37 then setCurrentNodeExpanded false # left ←
+        when 38 then moveCurrentNode true # up ↑
+        when 39 then setCurrentNodeExpanded true # right →
+        when 40 then moveCurrentNode false # down ↓
         else return
-
       evt.preventDefault()
+    else
+      switch evt.keyCode 
+        when 13
+          search$.focus()
+          evt.preventDefault()
+        when 27
+          setTableOfContentsActive(true)
+          evt.preventDefault()
 
   # searching
   search$.bind 'keyup search', (evt) ->
     searchNodes search$.val()
 
   search$.keydown (evt) ->
-    if evt.keyCode == 27 # Esc
-      if search$.val().trim() == ''
+    switch evt.keyCode
+      when 9 # TAB
+        console.log 'keydown TAB'
         search$.blur()
-      else
-        search$.val ''
+        setTableOfContentsActive(true) 
+        evt.preventDefault()
+        return false
+      when 27 # ESC
+        console.log 'keydown ESC'
+        if search$.val().trim() == ''
+          search$.blur()
+        else
+          search$.val ''
+        evt.preventDefault()
+        return false
 
   # Make folded code blocks toggleable
   $('.code.folded .marker').each (index, marker) ->
     marker$ = $(marker)
     marker$.click (evt) ->
       marker$.parent().toggleClass 'folded'
+
+  # } toggleTableOfContents()
+  return

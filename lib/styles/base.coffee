@@ -12,6 +12,7 @@ module.exports = class Base
     @project = project
     @log     = project.log
     @files   = []
+    @docs    = []
     @outline = {} # Keyed on target path
 
   renderFile: (data, fileInfo, callback) ->
@@ -59,7 +60,8 @@ module.exports = class Base
 
             @renderDocFile segments, fileInfo, callback
 
-  # renderDocTags: # THIS METHOD MUST BE DEFINED BY SUBCLASSES
+  # THIS METHOD MUST BE DEFINED BY SUBCLASSES
+  # } renderDocTags: (…) -> …
 
   renderDocFile: (segments, fileInfo, callback) ->
     @log.trace 'BaseStyle#renderDocFile(..., %j, ...)', fileInfo
@@ -100,17 +102,20 @@ module.exports = class Base
         @log.error 'Rendering documentation template for %s failed: %s', docPath, error.message
         return callback error
 
-      fs.writeFile docPath, data, 'utf-8', (error) =>
-        if error
-          @log.error 'Failed to write documentation file %s: %s', docPath, error.message
-          return callback error
+      templateContext.docPath = docPath
+      templateContext.docPage = data
 
-        @log.pass docPath
-        callback()
+      @docs.push templateContext
+      @log.pass "Prepared “#{docPath}”"
+      callback()
+
+  # THIS METHOD MUST BE DEFINED BY SUBCLASSES
+  # } renderDocuments: (callback) -> …
 
   renderCompleted: (callback) ->
     @log.trace 'BaseStyle#renderCompleted(...)'
 
     @tableOfContents = StyleHelpers.buildTableOfContents @files, @outline
-
-    callback()
+    @renderDocuments (error) =>
+      return error if error
+      callback()

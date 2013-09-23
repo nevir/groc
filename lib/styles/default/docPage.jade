@@ -36,16 +36,5 @@ html(lang="en", class="no-js")
               .code
                 .wrapper!= segments[i].highlightedCode
 
-    mixin entry(caption)
-      a.label(href=attributes.href, title=attributes.title)
-        span.text= caption
-
-    mixin toc(nodes)
-      - each node in nodes
-        li(class=node.type)
-          - if(node.type == 'file')
-            +link(node.data.title)(class="label", title=node.data.projectPath, href=relativeRoot + data.targetPath + '.html')
-          - if(node.type == 'folder')
-            +link(node.data.title)(class="label", title=node.data.projectPath, href='#')
     nav
-      ol.toc
+      ol.toc!= '<%= tocFragment %>'

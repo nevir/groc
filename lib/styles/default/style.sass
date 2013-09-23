@@ -95,9 +95,6 @@ $commentary-column-width: $commentary-width + ($common-margin + $column-padding)
 html, body
   height: 100%
 
-#document
-  min-height: 100%
-
 // Conceptually, the layout focuses the user on the commentary first, so we lay out that column.
 body
   max-width: $commentary-column-width
@@ -155,6 +152,12 @@ $scale-stop-width:  $scale-start-width * $scale-min
 // We swap over to the single column layout once we hit the edge of the scaling
 $single-column-toggle-width: $scale-stop-width
 
+.no-js .segment .code
+  margin-right: $tools-width
+
+.no-js body
+  max-width: $commentary-column-width + $tools-width
+
 // Switch modes at a little wider than a full (padded) column
 @media (max-width: #{$single-column-toggle-width})
 
@@ -163,7 +166,7 @@ $single-column-toggle-width: $scale-stop-width
 
   body
     margin: 0 auto
-
+    
   .segment
     padding:     0
     white-space: normal
@@ -186,6 +189,18 @@ $single-column-toggle-width: $scale-stop-width
       .wrapper
         display: inline-block
 
+  .no-js body
+    max-width: $commentary-column-width
+
+  .no-js #document
+    min-height: auto
+
+  .js #document
+    min-height: 100%
+
+  .no-js .segment .code
+    margin-right: auto
+
   // Fit the meta info into on screen, removing any overflow it creates
   #meta
     position:   static
@@ -195,6 +210,17 @@ $single-column-toggle-width: $scale-stop-width
 
     .file-path
       display: inline-block
+
+  .no-js #meta
+    margin-top: 0
+
+// Switch modes at a little wider than a full (padded) column
+@media (min-width: #{$single-column-toggle-width})
+  .no-js #document
+    min-height: auto
+
+  .js #document
+    min-height: 100%
 
 // ## Navigation
 $tools-padding: ($tools-height - 1em) / 2
@@ -267,6 +293,12 @@ nav
     li li li li li li .label
       padding-left: $tools-padding * 6
 
+.no-js nav
+  @media (max-width: #{$single-column-toggle-width})
+    position: relative
+  .toc
+    top: 0
+
 // ## Behavior
 $navigation-shift-duration: 150ms
 
@@ -278,16 +310,16 @@ nav
   .tools .toggle
     +transition(background $navigation-shift-duration)
 
-  &.active
-    +transition(height 0 0)
-    height: 100%
+nav.active, .no-js nav
+  +transition(height 0 0)
+  height: 100%
 
 // In two-column mode, we slide the table of contents in from the right
 nav .toc
   +transition(right $navigation-shift-duration)
   right: -100%
 
-nav.active .toc
+nav.active .toc, .no-js nav .toc
   right: 0
 
 // In single column mode, we slide in from the left (and also pop the body)
@@ -297,7 +329,7 @@ nav.active .toc
     right: auto
     left: -100%
 
-  nav.active .toc
+  nav.active .toc, .no-js nav .toc
     left: 0
 
 // When we switch to the navigation in single column mode, "pop" the body off by sliding it off
@@ -510,12 +542,9 @@ nav
       &:hover
         +opacity(0.9)
 
-  &.active .tools
-    +border-bottom-left-radius(0)
-
-    .toggle
-      background:  darken($tools-background-color, 10%)
-      position:    relative
+  &.active .tools .toggle
+    background:  darken($tools-background-color, 10%)
+    position:    relative
 
   .toc
     +box-shadow(rgba(0,0,0,0.3) 0 0 0.5em 0.1em)
@@ -537,6 +566,10 @@ nav
 
     .selected > .label
       background: $commentary-background-color
+      +box-shadow(darken($tools-background-color, 30%) 1px 1px 1px 0 inset)
+
+    .selected > .label:hover
+      background: darken($tools-background-color, 10%)
 
     // Search styling
     .label em
@@ -564,6 +597,9 @@ nav
 
     .toc
       background: $opaque-tools-background-color
+
+nav.active .tools, .no-js nav .tools
+  +border-bottom-left-radius(0)
 
 // ### Commentary Elements
 

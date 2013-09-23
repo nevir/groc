@@ -22,6 +22,9 @@ module.exports = class Default extends Base
     templateData  = fs.readFileSync path.join(@sourceAssets, 'docPage.jade'), 'utf-8'
     @templateFunc = jade.compile templateData
 
+    fragmentData  = fs.readFileSync path.join(@sourceAssets, 'tocFragment.jade'), 'utf-8'
+    @fragmentFunc = jade.compile fragmentData
+
   renderCompleted: (callback) ->
     @log.trace 'styles.Default#renderCompleted(...)'
 
@@ -73,7 +76,7 @@ module.exports = class Default extends Base
         @log.trace 'Compiled %s', scriptPath
       catch error
         @log.debug scriptSource
-        @log.error 'Failed to compile %s: %s', scriptPath, error.message
+        @log.error 'Failed to compile %s (%s): %s', scriptPath, scriptSource, error.message
         return callback error
 
       #@compressScript scriptSource, callback
@@ -112,6 +115,30 @@ module.exports = class Default extends Base
         @log.trace 'Wrote %s', outputPath
 
         callback()
+
+  renderDocuments: (callback) ->
+    @log.trace 'styles.Default#renderTableOfContents(callback)'
+    style = this
+    last = @docs.length - 1
+    for context, index in @docs
+      do ->
+        idx = index
+        {docPath, docPage} = context
+        delete context.docPath
+        delete context.docPage
+        context.tableOfContents = style.tableOfContents
+        try
+          style.tocFragment = style.fragmentFunc context
+        catch error
+          style.log.error 'Rendering table of contents fragment failed for file %s: %s', docPath, error.message
+          return callback error
+
+        fs.writeFile docPath, _.template(docPage, style), 'utf-8', (error) =>
+          if error
+            style.log.error 'Failed to write documentation file %s: %s', docPath, error.message
+            return callback error
+          style.log.pass "Finished “#{docPath}”"
+          callback() if idx is last
 
   renderDocTags: (segments) ->
     for segment, segmentIndex in segments when segment.tagSections?
