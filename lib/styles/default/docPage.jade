@@ -29,7 +29,7 @@ html(lang="en", class="no-js")
           - if (segments[i].highlightedCode != '')
             - if (segments[i].foldMarker != '')
               .code.folded
-                .marker.wrapper
+                .wrapper.marker
                   span.c1!= segments[i].foldMarker
                 .wrapper!= segments[i].highlightedCode
             - else
