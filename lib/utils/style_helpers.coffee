@@ -85,6 +85,18 @@ module.exports = StyleHelpers =
         data:    fileData
         depth:   file.targetPath.split( path.join('/') ).length
         outline: outlines[file.targetPath]
+        toJSON: ->
+          # Kind of privacy protection and to reduce the size …
+          {data:{language,sourcePath},toJSON} = @
+          delete @data.language
+          delete @data.sourcePath
+          delete @toJSON
+          json = JSON.stringify(@)
+          @data.language = language
+          @data.sourcePath = sourcePath
+          @toJSON = toJSON
+          json
+
 
     @buildNodeTree nodes
 

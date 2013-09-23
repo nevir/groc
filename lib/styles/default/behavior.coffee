@@ -214,8 +214,8 @@ buildTOCNode = (node, metaInfo) ->
 
   if node$.hasClass 'file'
     # Persist our references to the node
-    data = node$.data('groc')
-    fileMap[data.targetPath] = node$
+    {data:{targetPath}} = node$.data('groc')
+    fileMap[targetPath] = node$
     clickLabel = (evt) ->
       if evt.target is discloser
         node$.toggleClass 'expanded'

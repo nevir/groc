@@ -22,20 +22,8 @@ module.exports = class Default extends Base
     data  = fs.readFileSync path.join(@sourceAssets, 'docPage.jade'), 'utf-8'
     @templateFunc = jade.compile data
 
-  renderDocument: (context, source, target, callback) ->
-    @log.trace 'styles.Default#renderDocument(callback)'
-
-    try
-      data = @templateFunc context
-    catch error
-      @log.error 'Rendering documentation template for %s failed: %s', docPath, error.message
-      return callback error
-
-    pageFile: target
-    pageData: data
-
-  renderCompleted: (callback) ->
-    @log.trace 'styles.Default#renderCompleted(...)'
+  exportCompleted: (callback) ->
+    @log.trace 'styles.Default#exportCompleted(...)'
 
     super (error) =>
       return error if error

@@ -98,53 +98,31 @@ module.exports = class Base
       @log.pass "Processed “#{fileInfo.projectPath}”"
       callback()
 
+  # @public
+  # @method renderTemplate
+  # @param  {Object}          context
+  # @param  {String}          source
+  # @param  {String}          target
+  # @param  {Function}        callback
+  # @return {Object.<String>}
+  # @throws {Error}           If @templateFunc has not been set.
+  renderTemplate: (context, source, target, callback) ->
+    @log.trace 'styles.Base#renderTemplate(context, source, target, callback)'
+    throw new Error "@templateFunc must be defined by subclasses!" unless @templateFunc
+    context.tableOfContents = @tableOfContents
+    try
+      data = @templateFunc context
+    catch error
+      @log.error 'Rendering template for %s failed: %s', source, error.message
+      callback error
+    delete context.tableOfContents
+    return data
+
   renderCompleted: (callback) ->
     @log.trace 'BaseStyle#renderCompleted(...)'
-
-    throw new Error "@renderDocument must be defined by subclasses!" unless @renderDocument
-
     @tableOfContents = StyleHelpers.buildTableOfContents @files, @outline
+    callback()
 
-    last = @docs.length - 1
-    for context, index in @docs
-      do =>
-        current = index
-        {
-          docPath,
-          sourcePath
-        } = context
-
-        # remove stuff we don't want to see in the rendered result
-        delete context.docPath
-        delete context.sourcePath
-
-        context.tableOfContents = @tableOfContents
-        context.tocToJSON = (toc) ->
-          {language,sourcePath} = toc
-          delete toc.language
-          delete toc.sourcePath
-          json = JSON.stringify(toc)
-          toc.language = language
-          toc.sourcePath = sourcePath
-          json
-
-        {
-          pageFile,
-          pageData
-        } = @renderDocument context, sourcePath, docPath, callback
-        delete context.tableOfContents
-
-        if pageFile? and pageData?
-          fs.writeFile pageFile, pageData, 'utf-8', (error) =>
-            if error
-              @log.error 'Failed to write documentation file %s: %s', pageFile, error.message
-              return callback error
-            @log.pass "Exported “#{docPath}”"
-            callback() if current is last
-        else
-          @log.warn "Skipped “#{docPath}”"
-          callback() if current is last
-
-  # THIS METHOD MUST BE DEFINED BY SUBCLASSES
-  # } renderDocument: (context, source, target, callback) -> …
-
+  exportCompleted: (callback) ->
+    @log.trace 'BaseStyle#exportCompleted(...)'
+    callback()
