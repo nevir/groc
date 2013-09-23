@@ -87,14 +87,10 @@ module.exports = StyleHelpers =
         outline: outlines[file.targetPath]
         toJSON: ->
           # Kind of privacy protection and to reduce the size …
-          {data:{language,sourcePath},toJSON} = @
-          delete @data.language
-          delete @data.sourcePath
-          delete @toJSON
-          json = JSON.stringify(@)
-          @data.language = language
-          @data.sourcePath = sourcePath
-          @toJSON = toJSON
+          json = _(@).clone()
+          delete json.data.language
+          delete json.data.sourcePath
+          delete json.toJSON
           json
 
 
