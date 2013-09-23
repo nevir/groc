@@ -556,7 +556,7 @@ nav
       text-decoration: none
       border-top:      1px solid darken($tools-background-color, 15%)
       border-bottom:   1px solid darken($tools-background-color, 15%)
-      margin-top:     -1px
+      margin-top:      -1px
 
       &:hover
         background: darken($tools-background-color, 10%)
@@ -564,12 +564,20 @@ nav
     .file > .label
       font-weight: bold
 
+    .current > .label
+      background: darken($tools-background-color, 10%)
+      +box-shadow(darken($tools-background-color, 10%) 0 0 2px 1px inset)
+      border-top: 1px solid darken($tools-background-color, 30%)
+      border-bottom: 1px solid darken($tools-background-color, 30%)
+
     .selected > .label
       background: $commentary-background-color
-      +box-shadow(darken($tools-background-color, 30%) 1px 1px 1px 0 inset)
 
     .selected > .label:hover
       background: darken($tools-background-color, 10%)
+
+    .current > .label:hover
+      background: darken($tools-background-color, 15%)
 
     // Search styling
     .label em
