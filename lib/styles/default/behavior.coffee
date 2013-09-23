@@ -209,18 +209,15 @@ buildNav = (metaInfo) ->
 buildTOCNode = (node, metaInfo) ->
   node$ = $(node)
 
+  label$ = node$.find('> .label')
   # } just to clarify: we use it in the `clickLabel`-method below, but can
   # } reference the first time after initializing it a few more lines below
-  label$ = node$.find('> .label')
-
-  appendSearchNode node$
-  node$.removeClass 'expanded'
-  discloser    = label$.find('> .discloser').get(0)
+  discloser = label$.find('> .discloser').get(0)
 
   if node$.hasClass 'file'
     # Persist our references to the node
-    targetPath = node$.data('groc-target-path')
-    fileMap[targetPath] = node$
+    data = node$.data('groc')
+    fileMap[data.targetPath] = node$
     clickLabel = (evt) ->
       console.log 'click', node, node$, evt.target is discloser
       if evt.target is discloser
@@ -236,6 +233,9 @@ buildTOCNode = (node, metaInfo) ->
       return false
 
   label$.click clickLabel if clickLabel?
+
+  appendSearchNode node$
+  node$.removeClass 'expanded'
 
   node$
 

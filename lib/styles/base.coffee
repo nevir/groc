@@ -87,6 +87,7 @@ module.exports = class Base
         sourcePath:  fileInfo.sourcePath
         targetPath:  fileInfo.targetPath
         projectPath: fileInfo.projectPath
+        docPath:     docPath
 
       # How many levels deep are we?
       pathChunks = path.dirname(fileInfo.targetPath).split(/[\/\\]/)
@@ -94,16 +95,6 @@ module.exports = class Base
         templateContext.relativeRoot = ''
       else
         templateContext.relativeRoot = "#{pathChunks.map(-> '..').join '/'}/"
-
-      try
-        data = @templateFunc templateContext
-
-      catch error
-        @log.error 'Rendering documentation template for %s failed: %s', docPath, error.message
-        return callback error
-
-      templateContext.docPath = docPath
-      templateContext.docPage = data
 
       @docs.push templateContext
       @log.pass "Prepared “#{docPath}”"

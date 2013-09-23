@@ -4,7 +4,7 @@ mixin tocLink(caption, expanded)
     span.text= caption
 
 mixin tocItem(node, prefix, root, expanded)
-  li(class=node.type + (expanded ? ' expanded' : '') + (node.data.projectPath == root ? ' selected current' : ''), data-groc-target-path=node.data.targetPath)
+  li(class=node.type + (expanded ? ' expanded' : '') + (node.data.projectPath == root ? ' selected current' : ''), data-groc=node.data)
     - if(node.type == 'file')
       +tocLink(node.data.title, expanded)(class="label", title=node.data.projectPath, href=prefix + node.data.targetPath + '.html')
     - if(node.type == 'folder')

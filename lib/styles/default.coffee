@@ -123,15 +123,22 @@ module.exports = class Default extends Base
     for context, index in @docs
       do ->
         idx = index
-        {docPath, docPage} = context
+        {docPath} = context
         delete context.docPath
-        delete context.docPage
+
+        try
+          docPage = style.templateFunc context
+        catch error
+          style.log.error 'Rendering documentation template for %s failed: %s', docPath, error.message
+          return callback error
+
         context.tableOfContents = style.tableOfContents
         try
           style.tocFragment = style.fragmentFunc context
         catch error
           style.log.error 'Rendering table of contents fragment failed for file %s: %s', docPath, error.message
           return callback error
+        delete context.tableOfContents
 
         fs.writeFile docPath, _.template(docPage, style), 'utf-8', (error) =>
           if error
