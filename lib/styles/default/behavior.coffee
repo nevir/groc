@@ -55,8 +55,7 @@ selectNode = (newNode$) ->
   currentNode$ ?= newNode$
   # Remove first, in case it's the same node
   currentNode$.removeClass 'selected'
-  newNode$.addClass 'selected'
-
+  currentNode$ = newNode$.addClass 'selected'
   focusCurrentNode()
 
 selectNodeByDocumentPath = (documentPath, headerSlug=null) ->
@@ -76,12 +75,10 @@ selectNodeByDocumentPath = (documentPath, headerSlug=null) ->
 
 moveCurrentNode = (up) ->
   visibleNodes$ = toc$.find 'li:visible:not(.filtered)'
-  console.log 'moveCurrentNode', up, visibleNodes$
 
   # Fall back to the first node if anything goes wrong
   newIndex = 0
   for node, i in visibleNodes$
-    console.log 'move?', currentNode$[0]
     if node == currentNode$[0]
       newIndex = if up then i - 1 else i + 1
       newIndex = 0 if newIndex < 0
@@ -91,12 +88,13 @@ moveCurrentNode = (up) ->
   selectNode $(visibleNodes$[newIndex])
 
 visitCurrentNode = ->
-  if currentNode$.hasClass 'current'
+  if currentNode$.hasClass 'folder'
+    setCurrentNodeExpanded(not currentNode$.hasClass 'expanded')
+  else if currentNode$.hasClass 'current'
     search$.blur()
-    window.location
   else
     window.location = currentNode$.children('a.label').attr 'href'
-
+  return
 
 # ## Node Search
 
@@ -141,7 +139,7 @@ searchNodes = (queryString) ->
     highlightMatch nodeInfo[2], queryString
 
     # Filter out our immediate parent
-    $(p).addClass 'matched-child' for p in nodeInfo[1].parents 'li'
+    $(p).addClass 'matched-child' for p in nodeInfo[1].parents 'li' when not $(p).hasClass 'matched'
 
 clearFilter = ->
   nav$.removeClass 'searching'
@@ -219,7 +217,6 @@ buildTOCNode = (node, metaInfo) ->
     data = node$.data('groc')
     fileMap[data.targetPath] = node$
     clickLabel = (evt) ->
-      console.log 'click', node, node$, evt.target is discloser
       if evt.target is discloser
         node$.toggleClass 'expanded'
         evt.preventDefault()
@@ -227,7 +224,6 @@ buildTOCNode = (node, metaInfo) ->
       selectNode node$
   else
     clickLabel = (evt) ->
-      console.log 'click', node, node$, evt
       node$.toggleClass 'expanded'
       evt.preventDefault()
       return false
@@ -286,8 +282,7 @@ $ ->
     if nav$.hasClass 'active'
       switch evt.keyCode
         when 13 then visitCurrentNode() # Return
-        when 27 # ESC
-          setTableOfContentsActive(false)
+        when 27 then setTableOfContentsActive(false) # ESC
         when 37 then setCurrentNodeExpanded false # left ←
         when 38 then moveCurrentNode true # up ↑
         when 39 then setCurrentNodeExpanded true # right →
@@ -310,13 +305,11 @@ $ ->
   search$.keydown (evt) ->
     switch evt.keyCode
       when 9 # TAB
-        console.log 'keydown TAB'
         search$.blur()
         setTableOfContentsActive(true) 
         evt.preventDefault()
         return false
       when 27 # ESC
-        console.log 'keydown ESC'
         if search$.val().trim() == ''
           search$.blur()
         else

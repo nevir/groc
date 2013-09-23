@@ -84,9 +84,14 @@ module.exports = class Project
     pool.exec (error) =>
       return callback error if error
 
+      @log.info ''
+      @log.pass 'Documentation generated'
+      @log.info ''
+      @log.info 'Exporting documentation …'
+
       style.renderCompleted (error) =>
         return callback error if error
 
         @log.info ''
-        @log.pass 'Documentation generated'
+        @log.pass 'Documentation exported'
         callback()
