@@ -56,7 +56,7 @@ html(lang="en", class="no-js")
       - each node, index in nodes
         - var expanded = node.children && node.children.length > 0
         - var selected = node.data.projectPath == current
-        li(class=node.type + (expanded ? ' expanded' : '') + (selected ? ' current' : ''), data-groc=JSON.stringify(node))
+        li(class=node.type + (expanded ? ' expanded' : '') + (selected ? ' current' : ''), data-groc=JSON.stringify({'data':{'targetPath':node.data.targetPath}}))
           +tocItem(index, node, prefix, current, expanded)
 
     nav

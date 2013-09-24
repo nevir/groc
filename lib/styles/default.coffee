@@ -19,8 +19,8 @@ module.exports = class Default extends Base
     @sourceAssets = path.join __dirname, 'default'
     @targetAssets = path.resolve @project.outPath, 'assets'
 
-    data  = fs.readFileSync path.join(@sourceAssets, 'docPage.jade'), 'utf-8'
-    @templateFunc = jade.compile data
+    templateData  = fs.readFileSync path.join(@sourceAssets, 'docPage.jade'), 'utf-8'
+    @templateFunc = jade.compile templateData
 
   exportCompleted: (callback) ->
     @log.trace 'styles.Default#exportCompleted(...)'

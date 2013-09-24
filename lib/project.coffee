@@ -45,8 +45,8 @@ module.exports = class Project
   #
   # Currently, the only supported option is:
   generate: (options, callback) ->
-    @log.trace 'Project#generate(%j, ...)', options
-    @log.info 'Generating documentation…'
+    @log.trace 'Project#Generate(%j, ...)', options
+    @log.info 'Generating documentation …'
 
     # * style: The style prototype to use.  Defaults to `styles.Default`
     style = new (options.style || styles.Default) @
@@ -94,8 +94,8 @@ module.exports = class Project
 
   # And where the magic is drilled into the disk.
   export: (style, options, callback) ->
-    @log.trace 'Project#export(%j, ...)', options
-    @log.info 'Exporting documentation…'
+    @log.trace 'Project#Export(%j, ...)', options
+    @log.info 'Exporting documentation …'
 
     pool = spate.pool (k for k in style.docs), maxConcurrency: @BATCH_SIZE, (context, done) =>
       {

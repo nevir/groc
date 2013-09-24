@@ -88,9 +88,10 @@ module.exports = StyleHelpers =
         toJSON: ->
           # Kind of privacy protection and to reduce the size …
           json = _(@).clone()
+          delete json.toJSON
+          json.data = _(@data).clone()
           delete json.data.language
           delete json.data.sourcePath
-          delete json.toJSON
           json
 
 

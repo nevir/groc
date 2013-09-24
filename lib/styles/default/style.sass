@@ -153,10 +153,10 @@ $scale-stop-width:  $scale-start-width * $scale-min
 $single-column-toggle-width: $scale-stop-width
 
 .no-js .segment .code
-  margin-right: $tools-width
+  margin-right: $tools-width + ( 2 * $common-margin )
 
 .no-js body
-  max-width: $commentary-column-width + $tools-width
+  max-width: $commentary-column-width + $tools-width + ( 2 * $common-margin )
 
 // Switch modes at a little wider than a full (padded) column
 @media (max-width: #{$single-column-toggle-width})
@@ -166,7 +166,7 @@ $single-column-toggle-width: $scale-stop-width
 
   body
     margin: 0 auto
-    
+
   .segment
     padding:     0
     white-space: normal
@@ -310,7 +310,11 @@ nav
   .tools .toggle
     +transition(background $navigation-shift-duration)
 
-nav.active, .no-js nav
+  &.active
+    +transition(height 0 0)
+    height: 100%
+
+.no-js nav
   +transition(height 0 0)
   height: 100%
 
@@ -542,9 +546,12 @@ nav
       &:hover
         +opacity(0.9)
 
-  &.active .tools .toggle
-    background:  darken($tools-background-color, 10%)
-    position:    relative
+  &.active .tools
+    +border-bottom-left-radius(0)
+
+    .toggle
+      background:  darken($tools-background-color, 10%)
+      position:    relative
 
   .toc
     +box-shadow(rgba(0,0,0,0.3) 0 0 0.5em 0.1em)
@@ -556,7 +563,7 @@ nav
       text-decoration: none
       border-top:      1px solid darken($tools-background-color, 15%)
       border-bottom:   1px solid darken($tools-background-color, 15%)
-      margin-top:      -1px
+      margin-top:     -1px
 
       &:hover
         background: darken($tools-background-color, 10%)
@@ -606,7 +613,7 @@ nav
     .toc
       background: $opaque-tools-background-color
 
-nav.active .tools, .no-js nav .tools
+.no-js nav .tools
   +border-bottom-left-radius(0)
 
 // ### Commentary Elements
