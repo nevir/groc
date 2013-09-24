@@ -104,11 +104,13 @@ module.exports = class Base
   # @param  {String}          source
   # @param  {String}          target
   # @param  {Function}        callback
-  # @return {Object.<String>}
+  # @return {String}
   # @throws {Error}           If @templateFunc has not been set.
   renderTemplate: (context, source, target, callback) ->
     @log.trace 'styles.Base#renderTemplate(context, source, target, callback)'
+
     throw new Error "@templateFunc must be defined by subclasses!" unless @templateFunc
+
     context.tableOfContents = @tableOfContents
     try
       data = @templateFunc context
@@ -116,6 +118,7 @@ module.exports = class Base
       @log.error 'Rendering template for %s failed: %s', source, error.message
       callback error
     delete context.tableOfContents
+
     return data
 
   renderCompleted: (callback) ->
