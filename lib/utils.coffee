@@ -124,6 +124,25 @@ module.exports = Utils =
     # Enforced whitespace after the comment token
     whitespaceMatch = if options.requireWhitespaceAfterToken then '\\s' else '\\s?'
 
+    if language.literateCode?
+      literateCode = @regexpEscape(language.literateCode)
+
+      codeStarts = _.select(literateCode, (v, i) -> i % 2 == 0).join '|'
+      codeLines  = _.select(literateCode, (v, i) -> i % 2 == 1).join '|'
+
+      aCodeStart  = ///
+        ^                          # Start a line.
+        (?:#{codeStarts})          # Match but don't capture the codeStart …
+        $                          # … up to the EOL.
+      ///
+
+      aCodeLine  = ///
+        ^                          # Start a line.
+        (?:#{codeLines})           # Match but don't capture the codeLines and …
+        (.*)?                      # … optionally capture everything …
+        $                          # … up to the EOL.
+      ///
+
     if language.singleLineComment?
       singleLines = @regexpEscape(language.singleLineComment).join '|'
       aSingleLine = ///
@@ -227,6 +246,8 @@ module.exports = Utils =
         (?:#{stripMarks})           # The marker(s) to strip from result
       /// if blockStarts?
 
+    # If available we start in literal parsing mode.
+    isLiteral = aCodeLine?
     inBlock   = false
     inFolded  = false
     inIgnored = false
@@ -242,7 +263,83 @@ module.exports = Utils =
     comment   = null
     code      = null
 
+    # This flag indicates if the previous line was empty, hence literate code
+    # must always be surrounded (or at least introduced) by an indicator,
+    # which is usually a empty line.  This is needed to distinguish code from
+    # bullet-lists or the like, which may accidently match the start of a line
+    # of code.  The initial value `true` allows us to immediately start with
+    # code, although this is quite unusual.
+    canCode = aCodeLine?
+
+    # Now iterate over each line
     for line in lines
+
+      if aCodeLine?
+
+        if canCode and (match = line.match aCodeLine)?
+
+          [match, codeline] = match
+
+          # Skip empty code-lines (often used to close a code-block).
+          # TODO: Skipping empty code-lines is certainly not perfect yet!
+          continue if not codeline? or codeline is ''
+
+          # The previous cycle contained literate comments - If one absolutely
+          # wants to separate code from comments into independent segments this
+          # block must be enabled.
+          if isLiteral and currSegment.comments.length > 0
+            # TODO: Implement a better literal-segments solution:
+            # If the current segment contains just one empty line, merge the
+            # code with the previous segment, and make the previous segment
+            # the current
+            segments.push currSegment
+            currSegment   = new @Segment
+            isFolded      = false # Make sure to reset folding state.
+
+          isLiteral = false
+
+          # Process the matching literate code as if it isn't literate, hence
+          # we continue further processing of this line and therefore no
+          # `continue`-statement occurs here.  Compare this to the following
+          # `else`-statement.
+          line = codeline
+
+        else
+          # A code-block requires an introducing indicator, to distinguish code
+          # from nested bullet-list or the like, as described in the `canCode` 
+          # flag initialization above.
+          canCode = aCodeStart.test line
+
+          if isLiteral
+            # The previous cycle contained literate code, so let's start a new
+            # segment, as in literate mode we separate code from comments in
+            # independent segments, as overlapping makes no sense in most cases.
+            if currSegment.code.length > 0
+              # TODO: Implement a better literal-segments solution. Idea:
+              #       (a) Use horizontal lines as split marks
+              #       (b) Use previous headline
+              #       (c) Optimize splitArray afterwards ?
+              #       (d) Combine any of the above
+              segments.push currSegment
+              currSegment   = new @Segment
+              isFolded      = false # Make sure to reset folding state.
+
+          else
+            # From the previous cycle are comments left not being literate,
+            # so let's start a new segment and reset folding state.
+            if currSegment.comments.length > 0
+              segments.push currSegment
+              currSegment   = new @Segment
+              isFolded      = false
+
+          # Collect this line, even empty ones in literal mode
+          currSegment.comments.push line
+
+          # Switch to plain literal comments
+          isLiteral = true
+
+          # We skip further processing this line.  A literal is as it is.
+          continue
 
       # Match that line to the language's block-comment syntax, if it exists
       if aBlockStart? and not inBlock and (match = line.match aBlockStart)?
