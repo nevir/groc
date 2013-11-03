@@ -235,6 +235,7 @@ module.exports = LANGUAGES =
   SCSS:
     nameMatchers:      ['.scss']
     pygmentsLexer:     'scss'
+    multiLineComment:  ['/*', '*', '*/']
     singleLineComment: ['//']
     ignorePrefix:      '}'
     foldPrefix:        '^'
