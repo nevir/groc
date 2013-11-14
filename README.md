@@ -66,6 +66,29 @@ There are [additional options](http://nevir.github.com/groc/cli.html#cli-options
 groc, if you are interested.
 
 
+### Using groc (from node)
+
+To use groc within node you can use following syntax in your module:
+
+    require('groc').CLI(
+      [
+        "README.md",
+        "TODO.js",
+        "LICENSE.js",
+        "js/*",
+        "-o./webpages/doc"
+      ],
+      function(err) {
+        if (err) console.error(err);
+        else console.log('Done!');
+      }
+    );
+
+Look at the [additional options](http://nevir.github.com/groc/cli.html#cli-options) and include
+the alias in the string, followed by the value (without any blank) as shown above for
+the output directory `-o`.
+
+
 ### Configuring groc (.groc.json)
 
 Groc supports a simple JSON configuration format once you know the config values that appeal to you.
