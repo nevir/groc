@@ -162,6 +162,14 @@ module.exports = LANGUAGES =
     ignorePrefix:      '}'
     foldPrefix:        '^'
 
+  LiveScript:
+    nameMatchers:       ['.ls', 'Slakefile']
+    pygmentsLexer:      'livescript'
+    multiLineComment:   ['/*' '*', '*/']
+    singleLineComment:  ['#']
+    ignorePrefix:       '}'
+    foldPrefix:         '^'
+
   Lua:
     nameMatchers:      ['.lua']
     pygmentsLexer:     'lua'
