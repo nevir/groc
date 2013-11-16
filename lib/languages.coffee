@@ -165,7 +165,7 @@ module.exports = LANGUAGES =
   LiveScript:
     nameMatchers:       ['.ls', 'Slakefile']
     pygmentsLexer:      'livescript'
-    multiLineComment:   ['/*' '*', '*/']
+    multiLineComment:   ['/*', '*', '*/']
     singleLineComment:  ['#']
     ignorePrefix:       '}'
     foldPrefix:         '^'
