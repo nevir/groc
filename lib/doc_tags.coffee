@@ -54,23 +54,23 @@ module.exports = DOC_TAGS =
     section:     'type'
 
   accessor:
-    section:     'flag'
+    section:     'flags'
     markdown:    'is an accessor'
   async:
-    section:     'flag'
+    section:     'flags'
     markdown:    'is asynchronous'
   asynchronous:  'async'
   getter:
-    section:     'flag'
+    section:     'flags'
     markdown:    'is a getter'
   recursive:
-    section:     'flag'
+    section:     'flags'
     markdown:    'is recursive'
   refactor:
-    section:     'flag'
+    section:     'flags'
     markdown:    'needs to be refactored'
   setter:
-    section:     'flag'
+    section:     'flags'
     markdown:    'is a setter'
 
   alias:
@@ -199,6 +199,6 @@ module.exports = DOC_TAGS =
   throws:        'throw'
 
   defaultNoValue:
-    section:     'flag'
+    section:     'flags'
   defaultHasValue:
     section:     'metadata'
