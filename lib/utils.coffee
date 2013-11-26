@@ -392,7 +392,7 @@ module.exports = Utils =
       # However, we treat all comments beginning with } as inline code commentary
       # and comments starting with ^ cause that comment and the following code
       # block to start folded.
-      else if (match = line.match aSingleLine)?
+      else if aSingleLine? and (match = line.match aSingleLine)?
 
         # Uses `match` as a placeholder.
         [match, comment] = match
