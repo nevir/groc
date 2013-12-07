@@ -148,6 +148,16 @@ module.exports = LANGUAGES =
     pygmentsLexer     : 'json'
     codeOnly          : true
 
+  JSP:
+    nameMatchers:      ['.jsp']
+    pygmentsLexer:     'jsp'
+    multiLineComment:  [
+      '<%--', '', '--%>'
+    ]
+    strictMultiLineEnd:true
+    ignorePrefix:      '#'
+    foldPrefix:        '^'
+
   LaTeX:
     nameMatchers:      ['.tex', '.latex', '.sty']
     pygmentsLexer:     'latex'
