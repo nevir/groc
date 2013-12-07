@@ -114,6 +114,16 @@ module.exports = LANGUAGES =
     ignorePrefix:      '}'
     foldPrefix:        '^'
 
+  HTML:
+    nameMatchers:      ['.html']
+    pygmentsLexer:     'html'
+    multiLineComment:  [
+      '<!--', '', '-->'
+    ]
+    strictMultiLineEnd:true
+    ignorePrefix:      '#'
+    foldPrefix:        '^'
+
   Jade:
     nameMatchers:      ['.jade']
     pygmentsLexer:     'jade'
@@ -251,6 +261,16 @@ module.exports = LANGUAGES =
     pygmentsLexer:     'sql'
     singleLineComment: ['--']
     ignorePrefix:      '}'
+    foldPrefix:        '^'
+
+  XML:
+    nameMatchers:      ['.html', '.xml']
+    pygmentsLexer:     'html'
+    multiLineComment:  [
+      '<!--', '', '-->'
+    ]
+    strictMultiLineEnd:true
+    ignorePrefix:      '#'
     foldPrefix:        '^'
 
   YAML:
