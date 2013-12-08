@@ -264,8 +264,8 @@ module.exports = LANGUAGES =
     foldPrefix:        '^'
 
   XML:
-    nameMatchers:      ['.html', '.xml']
-    pygmentsLexer:     'html'
+    nameMatchers:      ['.xml']
+    pygmentsLexer:     'xml'
     multiLineComment:  [
       '<!--', '', '-->'
     ]
