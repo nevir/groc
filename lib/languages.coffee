@@ -71,11 +71,16 @@ module.exports = LANGUAGES =
     # with `'#'`, because we add unmatched lines to the comments once we are
     # in a multi-line comment-block and until we left them …
     ###
+    #- Variant 4:
+    #   (This definition matches the format used by YUIDoc to parse CoffeeScript
+    #   comments)
     multiLineComment  : [
       # Syntax definition for variant 1.
       '###*',   ' *',   ' ###',
       # Syntax definition for variant 2 and 3.
-      '###' ,   '#' ,   '###'
+      '###' ,   '#' ,   '###',
+      # Syntax definition for variant 4
+      '###*',   '#',    '###'
     ]
     # This flag indicates if the end-mark of block-comments (the third value in
     # the list of 3-tuples above) must correspond to the initial block-mark (the
