@@ -2,7 +2,7 @@
 
 module.exports = LANGUAGES =
   Markdown:
-    nameMatchers: ['.md']
+    nameMatchers: ['.md', '.markdown','.mkd', '.mkdn', '.mdown']
     commentsOnly: true
 
   C:
