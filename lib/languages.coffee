@@ -252,6 +252,14 @@ module.exports = LANGUAGES =
     singleLineComment: ['--']
     ignorePrefix:      '}'
     foldPrefix:        '^'
+    
+  TypeScript:
+    nameMatchers:      ['.ts']
+    pygmentsLexer:     'ts'
+    multiLineComment:  ['/*', '*', '*/']
+    singleLineComment: ['//']
+    ignorePrefix:      '}'
+    foldPrefix:        '^'
 
   YAML:
     nameMatchers:      ['.yml', '.yaml']
