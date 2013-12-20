@@ -8,6 +8,7 @@ spate = require 'spate'
 CompatibilityHelpers = require './utils/compatibility_helpers'
 Logger               = require './utils/logger'
 Utils                = require './utils'
+styles               = require './styles'
 
 
 # A core concept of `groc` is that your code is grouped into a project, and that there is a certain
