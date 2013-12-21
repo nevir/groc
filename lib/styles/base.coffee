@@ -36,7 +36,12 @@ module.exports = class Base
 
         @renderDocTags segments
 
-        Utils.highlightCode segments, fileInfo.language, (error) =>
+        if @project.options.highlighter is 'pygments'
+          highlightCode = Utils.highlightCodeUsingPygments
+        else
+          highlightCode = Utils.highlightCodeUsingHighlightJS
+
+        highlightCode segments, fileInfo.language, (error) =>
           if error
             if error.failedHighlights
               for highlight, i in error.failedHighlights

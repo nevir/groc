@@ -466,7 +466,7 @@ module.exports = Utils =
       @foldMarker = foldMarker
 
   # Annotate an array of segments using [highlight.js](http://highlightjs.org/)
-  highlightCode: (segments, language, callback) ->
+  highlightCodeUsingHighlightJS: (segments, language, callback) ->
     lang = language.highlightJS or language.pygmentsLexer or ''
     doHighlight = do ->
       if (lang is 'AUTO') or (lang is '')
@@ -481,6 +481,104 @@ module.exports = Utils =
         segment.highlightedCode = ""
 
     callback()
+
+  # Annotate an array of segments by running their code through [Pygments](http://pygments.org/).
+  highlightCodeUsingPygments: (segments, language, callback) ->
+    # Don't bother spawning pygments if we have nothing to highlight
+    numCodeLines = segments.reduce ( (c,s) -> c + s.code.length ), 0
+    if numCodeLines == 0
+      for segment in segments
+        segment.highlightedCode = ''
+
+      return callback()
+
+    errListener = (error) ->
+      # This appears to only occur when pygmentize is missing:
+      Logger.error "Unable to find 'pygmentize' on your PATH.  Please install pygments."
+      Logger.info ''
+
+      # Lack of pygments is a one time setup task, we don't feel bad about killing the process
+      # off until the user does so.  It's a hard requirement.
+      process.exit 1
+
+    pygmentize = childProcess.spawn 'pygmentize', [
+      '-l', language.pygmentsLexer
+      '-f', 'html'
+      '-O', 'encoding=utf-8,tabsize=2'
+    ]
+    pygmentize.stderr.addListener 'data', (data)  -> callback data.toString()
+    pygmentize.stdin.addListener 'error', errListener
+    pygmentize.on 'error', errListener
+
+
+    # We'll just split the output at the end.  pygmentize doesn't stream its output, and a given
+    # source file is small enough that it shouldn't matter.
+    result = ''
+    pygmentize.stdout.addListener 'data', (data) =>
+      result += data.toString()
+
+    # v0.8 changed exit/close event semantics.
+    match = process.version.match /v(\d+\.\d+)/
+    closeEvent = if parseFloat(match[1]) < 0.8 then 'exit' else 'close'
+
+    # We can't include either of the following words ANYWHERE directly adjacent to each other
+    # Otherwise, our regex (~10 lines below) will split on them, and the number of code blocks
+    # and comment blocks will not be equal.
+    seg = 'SEGMENT'
+    div = 'DIVIDER'
+
+    pygmentize.addListener closeEvent, (args...) =>
+      # pygments spits it out wrapped in `<div class="highlight"><pre>...</pre></div>`.  We want to
+      # manage the styling ourselves, so remove that.
+      result = result.replace('<div class="highlight"><pre>', '').replace('</pre></div>', '')
+
+      # Extract our segments from the pygmentized source.
+      highlighted = "\n#{result}\n".split ///.*<span.*#{seg}\s#{div}.*<\/span>.*///
+
+      if highlighted.length != segments.length
+        console.log(result)
+
+        error = new Error CompatibilityHelpers.format 'pygmentize rendered %d of %d segments; expected to be equal',
+          highlighted.length, segments.length
+
+        error.pygmentsOutput   = result
+        error.failedHighlights = highlighted
+        return callback error
+
+      # Attach highlighted source to the highlightedCode property of a Segment.
+      for segment, i in segments
+        segment.highlightedCode = highlighted[i]
+
+      callback()
+
+    # Rather than spawning pygments for each segment, we stream it all in, separated by 'magic'
+    # comments so that we can split the highlighted source back into segments.
+    #
+    # To further complicate things, pygments doesn't let us cheat with indentation-aware languages:
+    # We have to match the indentation of the line following the divider comment.
+    mergedCode = ''
+    for segment, i in segments
+      segmentCode = segment.code.join '\n'
+
+      if i > 0
+        # Double negative: match characters that are spaces but not newlines
+        indentation = segmentCode.match(/^[^\S\n]+/)?[0] || ''
+        if language.singleLineComment?
+          mergedCode += "\n#{indentation}#{language.singleLineComment[0]} #{seg} #{div}\n"
+        else
+          mlc = language.multiLineComment
+          mergedCode += "\n#{indentation}#{mlc[0]} #{seg} #{div} #{mlc[2]}\n"
+
+      mergedCode += segmentCode
+
+    pygmentize.stdin.write mergedCode
+    pygmentize.stdin.end()
+
+  # default
+  highlightCode: (segments, language, callback) ->
+    Logger.warn "Usage of highlightCode is deprecated. Specify highlighter"+
+      " instead. (Using highlight.js as default.)"
+    highlightCodeUsingHighlightJS(segments, language, callback)
 
   parseDocTags: (segments, project, callback) ->
     TAG_REGEX = /(?:^|\n)@(\w+)(?:\s+(.*))?/
