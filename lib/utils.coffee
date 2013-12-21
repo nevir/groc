@@ -9,7 +9,16 @@ path         = require 'path'
 
 _        = require 'underscore'
 hljs     = require 'highlight.js'
-showdown = require 'showdown'
+marked   = require 'marked'
+
+marked.setOptions
+  highlight: (code, lang) ->
+    if lang
+      try
+        return hljs.highlight(lang, code, true).value
+      catch e
+        return code
+    return code
 
 CompatibilityHelpers = require './utils/compatibility_helpers'
 LANGUAGES            = null
@@ -152,7 +161,7 @@ module.exports = Utils =
       # This flag indicates if the end-mark of block-comments (the `blockEnds`
       # list above) must correspond to the initial block-mark (the `blockStarts`
       # above).  If this flag is missing it defaults to `true`.  The main idea
-      # is to embed sample block-comments with syntax A in another block-comment 
+      # is to embed sample block-comments with syntax A in another block-comment
       # with syntax B. This useful in handlebar's mixed syntax or other language
       # combinations like html+php, which are supported by `pygmentize`.
       strictMultiLineEnd = language.strictMultiLineEnd ? true
@@ -239,7 +248,7 @@ module.exports = Utils =
     inIgnored = false
 
     # Variables used in temporary assignments have been collected here for
-    # documentation purposes only. 
+    # documentation purposes only.
     blockline = null
     blockmark = null
     linemark  = null
@@ -270,7 +279,7 @@ module.exports = Utils =
         # Check if this block-comment is collapsible.
         if foldPrefix? and blockline.indexOf(foldPrefix) is 0
 
-          # We always start a new segment if the current one is not empty or 
+          # We always start a new segment if the current one is not empty or
           # already folded.
           if inFolded or currSegment.code.length > 0
             segments.push currSegment
@@ -285,7 +294,7 @@ module.exports = Utils =
           # Let's strip the “^” character from our original line, for later use.
           line = line.replace blockStrip, '$1'
           # Also strip it from our `blockline`.
-          blockline = blockline[foldPrefix.length...] 
+          blockline = blockline[foldPrefix.length...]
 
         # Check if this block-comment stays embedded in the code.
         else if ignorePrefix? and blockline.indexOf(ignorePrefix) is 0
@@ -298,7 +307,7 @@ module.exports = Utils =
           # Let's strip the “}” character from our original line, for later use.
           line = line.replace blockStrip, '$1'
           # Also strip it from our `blockline`.
-          blockline = blockline[ignorePrefix.length...] 
+          blockline = blockline[ignorePrefix.length...]
 
         # Block-comments are an important tool to structure code into larger
         # segments, therefore we always start a new segment if the current one
@@ -345,7 +354,7 @@ module.exports = Utils =
         if inIgnored
           currSegment.code.push line
 
-          # Make sure that the next cycle starts fresh, 
+          # Make sure that the next cycle starts fresh,
           # if we are going to leave the block.
           inIgnored = false if not inBlock
 
@@ -366,7 +375,7 @@ module.exports = Utils =
             if currSegment.code.length > 0
               segments.push currSegment
               currSegment = new @Segment
-  
+
             # A special case as described in the initialization of `aEmptyLine`.
             if aEmptyLine.test line
               currSegment.comments.push ""
@@ -432,10 +441,10 @@ module.exports = Utils =
             # own code-segment in their current implementation (see above).
             # Without a leading comment, the folded code's segment would just
             # follow the above's code segment, which looks visually not so
-            # appealing in the narrowed single-column-view.  
-            #   
-            # TODO: _Alternative (a)_: Improve folded comments to not start a new segment, like embedded comments from above. _(preferred solution)_    
-            # TODO: _Alternative (b)_: Improve folded comments visual appearance in single-column view. _(easy solution)_  
+            # appealing in the narrowed single-column-view.
+            #
+            # TODO: _Alternative (a)_: Improve folded comments to not start a new segment, like embedded comments from above. _(preferred solution)_
+            # TODO: _Alternative (b)_: Improve folded comments visual appearance in single-column view. _(easy solution)_
             #
             # ^ … if we start this comment with “^” instead of “}” it and all
             # } code up to the next segment's first comment starts folded
@@ -662,13 +671,11 @@ module.exports = Utils =
     callback()
 
   # Annotate an array of segments by running their comments through
-  # [showdown](https://github.com/coreyti/showdown).
+  # [marked](https://github.com/chjj/marked).
   markdownComments: (segments, project, callback) ->
-    converter = new showdown.converter(extensions: project.options.showdown)
-
     try
       for segment, segmentIndex in segments
-        markdown = converter.makeHtml segment.comments.join '\n'
+        markdown = marked segment.comments.join '\n'
         headers  = []
 
         # showdown generates header ids by lowercasing & dropping non-word characters.  We'd like
