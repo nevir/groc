@@ -105,6 +105,11 @@ module.exports = CLI = (inputArgs, callback) ->
       alias:    's'
       default:  'Default'
 
+    highlighter:
+      describe: "The highlighter to use. Either highlight.js (default) or pygments."
+      alias:    'hl'
+      default:  'highlight.js'
+
     showdown:
       describe: "Showdown extensions to load, repeat for more, specifying --[no-]showdown discards default."
       alias:    'sd'
@@ -193,6 +198,7 @@ module.exports = CLI = (inputArgs, callback) ->
   project.options.requireWhitespaceAfterToken = !!argv['whitespace-after-token']
   project.options.showdown = argv.showdown
   project.options.languages = argv.languages
+  project.options.highlighter = argv.highlighter
 
   # We expand the `--glob` expressions into a poor-man's set, so that we can easily remove
   # exclusions defined by `--except` before we add the result to the project's file list.

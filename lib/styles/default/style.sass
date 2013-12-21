@@ -1,5 +1,6 @@
 @import "compass"
-@import "codestyles"
+@import "codestyles-highlight"
+@import "codestyles-pygments"
 
 @import "compass/reset"
 
@@ -459,7 +460,8 @@ html
 
 .code
   .wrapper
-    +codestyles
+    +codestyles-highlight
+    +codestyles-pygments
     +code-font
     +text-shadow($code-shadow-color 1px 1px 0)
     color: $code-foreground-color
