@@ -36,7 +36,9 @@ Groc depends on [Node.js](http://nodejs.org/) and [Pygments](http://pygments.org
 those installed - and assuming that your node install came with [npm](http://npmjs.org/) - you can
 install groc via:
 
-    npm install -g groc
+__*Note: since this is a fork of the main Groc app, you need to install via our Git Repository*__
+
+    npm install -g git+https://github.com/gilt/groc.git
 
 For those new to npm, `-g` indicates that you want groc installed as a global command for your
 environment.  You may need to prefix the command with sudo, depending on how you installed node.
