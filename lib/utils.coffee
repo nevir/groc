@@ -8,6 +8,7 @@ childProcess = require 'child_process'
 path         = require 'path'
 
 _        = require 'underscore'
+hljs     = require 'highlight.js'
 showdown = require 'showdown'
 
 CompatibilityHelpers = require './utils/compatibility_helpers'
@@ -77,7 +78,8 @@ module.exports = Utils =
       file = absPath
 
       for stripPath in stripPrefixes
-        file = file[stripPath.length..] if file[0...stripPath.length] is stripPath
+        if file[0...stripPath.length] is stripPath
+          file = file[stripPath.length..]
 
       # We also strip the extension under the assumption that the consumer of
       # this path map is going to substitute in their own.  Plus, if they care
@@ -463,8 +465,25 @@ module.exports = Utils =
       @comments = comments
       @foldMarker = foldMarker
 
+  # Annotate an array of segments using [highlight.js](http://highlightjs.org/)
+  highlightCodeUsingHighlightJS: (segments, language, callback) ->
+    lang = language.highlightJS or language.pygmentsLexer or ''
+    doHighlight = do ->
+      if (lang is 'AUTO') or (lang is '')
+        (code) -> hljs.highlightAuto(code).value
+      else
+        (code) -> hljs.highlight(lang, code, true).value
+
+    for segment in segments
+      if segment.code?.length
+        segment.highlightedCode = doHighlight segment.code.join('\n')
+      else
+        segment.highlightedCode = ""
+
+    callback()
+
   # Annotate an array of segments by running their code through [Pygments](http://pygments.org/).
-  highlightCode: (segments, language, callback) ->
+  highlightCodeUsingPygments: (segments, language, callback) ->
     # Don't bother spawning pygments if we have nothing to highlight
     numCodeLines = segments.reduce ( (c,s) -> c + s.code.length ), 0
     if numCodeLines == 0
@@ -554,6 +573,12 @@ module.exports = Utils =
 
     pygmentize.stdin.write mergedCode
     pygmentize.stdin.end()
+
+  # default
+  highlightCode: (segments, language, callback) ->
+    Logger.warn "Usage of highlightCode is deprecated. Specify highlighter"+
+      " instead. (Using highlight.js as default.)"
+    highlightCodeUsingHighlightJS(segments, language, callback)
 
   parseDocTags: (segments, project, callback) ->
     TAG_REGEX = /(?:^|\n)@(\w+)(?:\s+(.*))?/

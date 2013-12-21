@@ -1,0 +1,114 @@
+@mixin codestyles-highlight () {
+  $code-color-keyword: #e0c090;
+  $code-color-attribute: #a9c2ba;
+  $code-color-property: #abd9cf;
+  $code-color-class: #cee4dd;
+  $code-color-variable: #b9d0af;
+  $code-color-string: #e9baba;
+  $code-color-interpolated: #cba8d6;
+  $code-color-punctuation: #ded3a1;
+  $code-color-comment: #b1bac4;
+  $prefix: ''; // or 'hljs-'
+
+  .hljs {
+    display: block; padding: 0.5em;
+    // background: #002b36; color: #839496;
+  }
+
+  .#{$prefix}comment,
+  .#{$prefix}template_comment,
+  .diff .#{$prefix}header,
+  .#{$prefix}doctype,
+  .#{$prefix}pi,
+  .lisp .#{$prefix}string,
+  .#{$prefix}javadoc {
+    color: $code-color-comment;
+    font-style: italic;
+  }
+
+  .#{$prefix}keyword,
+  .#{$prefix}winutils,
+  .method,
+  .#{$prefix}addition,
+  .css .#{$prefix}tag,
+  .#{$prefix}request,
+  .#{$prefix}status,
+  .nginx .#{$prefix}title {
+    color: $code-color-keyword;
+  }
+
+  .#{$prefix}string {
+    color: $code-color-string;
+  }
+
+  .#{$prefix}property {
+    color: $code-color-variable;
+  }
+
+  .#{$prefix}function {
+    color: $code-color-property;
+  }
+
+  .#{$prefix}class {
+    color: $code-color-class;
+  }  
+
+  .#{$prefix}number,
+  .#{$prefix}command,
+  .#{$prefix}tag .#{$prefix}value,
+  .#{$prefix}rules .#{$prefix}value,
+  .#{$prefix}phpdoc,
+  .tex .#{$prefix}formula,
+  .#{$prefix}regexp,
+  .#{$prefix}hexcolor {
+    color: $code-color-interpolated;
+  }
+
+  .#{$prefix}title,
+  .#{$prefix}localvars,
+  .#{$prefix}chunk,
+  .#{$prefix}decorator,
+  .#{$prefix}built_in,
+  .#{$prefix}identifier,
+  .vhdl .#{$prefix}literal,
+  .#{$prefix}id,
+  .css .#{$prefix}function {
+    color: $code-color-attribute;
+  }
+
+  .#{$prefix}attribute,
+  .#{$prefix}variable,
+  .lisp .#{$prefix}body,
+  .smalltalk .#{$prefix}number,
+  .#{$prefix}constant,
+  .#{$prefix}class .#{$prefix}title,
+  .#{$prefix}parent,
+  .haskell .#{$prefix}type {
+    color: $code-color-variable;
+  }
+
+  .#{$prefix}preprocessor,
+  .#{$prefix}preprocessor .#{$prefix}keyword,
+  .#{$prefix}pragma,
+  .#{$prefix}shebang,
+  .#{$prefix}symbol,
+  .#{$prefix}symbol .#{$prefix}string,
+  .diff .#{$prefix}change,
+  .#{$prefix}special,
+  .#{$prefix}attr_selector,
+  .#{$prefix}important,
+  .#{$prefix}subst,
+  .#{$prefix}cdata,
+  .clojure .#{$prefix}title,
+  .css .#{$prefix}pseudo {
+    color: $code-color-class;
+  }
+
+  .#{$prefix}deletion {
+    color: #dc322f;
+  }
+
+  .tex .#{$prefix}formula {
+    background: $code-color-string;
+  }
+}
