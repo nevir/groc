@@ -105,12 +105,6 @@ module.exports = CLI = (inputArgs, callback) ->
       alias:    's'
       default:  'Default'
 
-    showdown:
-      describe: "Showdown extensions to load, repeat for more, specifying --[no-]showdown discards default."
-      alias:    'sd'
-      default:  ['github','table']
-      type:     'list'
-
     strip:
       describe: "A path prefix to strip when generating documentation paths (or --no-strip)."
       alias:    't'

@@ -36,7 +36,9 @@ Groc depends on [Node.js](http://nodejs.org/) and [Pygments](http://pygments.org
 those installed - and assuming that your node install came with [npm](http://npmjs.org/) - you can
 install groc via:
 
-    npm install -g groc
+```bash
+$ npm install -g groc
+```
 
 For those new to npm, `-g` indicates that you want groc installed as a global command for your
 environment.  You may need to prefix the command with sudo, depending on how you installed node.
@@ -46,11 +48,15 @@ environment.  You may need to prefix the command with sudo, depending on how you
 
 To generate documentation, just point groc to source files that you want docs for:
 
-    groc *.rb
+```bash
+$ groc *.rb
+```
 
 Groc will also handle extended globbing syntax if you quote arguments:
 
-    groc "lib/**/*.coffee" README.md
+```bash
+$ groc "lib/**/*.coffee" README.md
+```
 
 By default, groc will drop the generated documentation in the `doc/` folder of your project, and it
 will treat `README.md` as the index.  Take a look at your generated docs, and see if everything is
@@ -58,7 +64,9 @@ in order!
 
 Once you are pleased with the output, you can push your docs to your github pages branch:
 
-    groc --github "lib/**/*.coffee" README.md
+```bash
+$ groc --github "lib/**/*.coffee" README.md
+```
 
 Groc will automagically create and push the `gh-pages` branch if it is missing.
 
@@ -74,10 +82,12 @@ Create a `.groc.json` file in your project root, where each key maps to an optio
 the `groc` command.  File names and globs are defined as an array with the key `glob`.  For
 example, groc's own configuration is:
 
-    {
-      "glob": ["lib/**/*.coffee", "README.md", "lib/styles/*/style.sass", "lib/styles/*/*.jade"],
-      "github": true
-    }
+```json
+{
+  "glob": ["lib/**/*.coffee", "README.md", "lib/styles/*/style.sass", "lib/styles/*/*.jade"],
+  "github": true
+}
+```
 
 From now on, if you call `groc` without any arguments, it will use your pre-defined configuration.
 
