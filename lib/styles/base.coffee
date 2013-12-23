@@ -12,6 +12,7 @@ module.exports = class Base
     @project = project
     @log     = project.log
     @files   = []
+    @docs    = []
     @outline = {} # Keyed on target path
 
   renderFile: (data, fileInfo, callback) ->
@@ -59,12 +60,11 @@ module.exports = class Base
 
             @renderDocFile segments, fileInfo, callback
 
-  # renderDocTags: # THIS METHOD MUST BE DEFINED BY SUBCLASSES
+  # THIS METHOD MUST BE DEFINED BY SUBCLASSES
+  # } renderDocTags: (…) -> …
 
   renderDocFile: (segments, fileInfo, callback) ->
     @log.trace 'BaseStyle#renderDocFile(..., %j, ...)', fileInfo
-
-    throw new Error "@templateFunc must be defined by subclasses!" unless @templateFunc
 
     docPath = path.resolve @project.outPath, "#{fileInfo.targetPath}.html"
 
@@ -85,6 +85,7 @@ module.exports = class Base
         sourcePath:  fileInfo.sourcePath
         targetPath:  fileInfo.targetPath
         projectPath: fileInfo.projectPath
+        docPath:     docPath
 
       # How many levels deep are we?
       pathChunks = path.dirname(fileInfo.targetPath).split(/[\/\\]/)
@@ -93,24 +94,38 @@ module.exports = class Base
       else
         templateContext.relativeRoot = "#{pathChunks.map(-> '..').join '/'}/"
 
-      try
-        data = @templateFunc templateContext
+      @docs.push templateContext
+      @log.pass "Processed “#{fileInfo.projectPath}”"
+      callback()
 
-      catch error
-        @log.error 'Rendering documentation template for %s failed: %s', docPath, error.message
-        return callback error
+  # @public
+  # @method renderTemplate
+  # @param  {Object}          context
+  # @param  {String}          source
+  # @param  {String}          target
+  # @param  {Function}        callback
+  # @return {String}
+  # @throws {Error}           If @templateFunc has not been set.
+  renderTemplate: (context, source, target, callback) ->
+    @log.trace 'styles.Base#renderTemplate(context, source, target, callback)'
 
-      fs.writeFile docPath, data, 'utf-8', (error) =>
-        if error
-          @log.error 'Failed to write documentation file %s: %s', docPath, error.message
-          return callback error
+    throw new Error "@templateFunc must be defined by subclasses!" unless @templateFunc
 
-        @log.pass docPath
-        callback()
+    context.tableOfContents = @tableOfContents
+    try
+      data = @templateFunc context
+    catch error
+      @log.error 'Rendering template for %s failed: %s', source, error.message
+      callback error
+    delete context.tableOfContents
+
+    return data
 
   renderCompleted: (callback) ->
     @log.trace 'BaseStyle#renderCompleted(...)'
-
     @tableOfContents = StyleHelpers.buildTableOfContents @files, @outline
+    callback()
 
+  exportCompleted: (callback) ->
+    @log.trace 'BaseStyle#exportCompleted(...)'
     callback()

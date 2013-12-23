@@ -1,5 +1,5 @@
 !!! 5
-html(lang="en")
+html(lang="en", class="no-js")
   head
     title= pageTitle
   meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
@@ -35,3 +35,30 @@ html(lang="en")
             - else
               .code
                 .wrapper!= segments[i].highlightedCode
+
+    - var tabindexOffset = 100
+
+    mixin tocLink(caption, expanded, tabindex)
+      a.label(href=attributes.href || '#', title=attributes.title, tabindex=tabindexOffset + tabindex)
+        span(class='discloser' + (expanded ? '' : ' placeholder'))
+        span.text= caption
+
+    mixin tocItem(index, node, prefix, current, expanded)
+      - if(node.type == 'file')
+        +tocLink(node.data.title, expanded, index)(class="label", title=node.data.projectPath, href=prefix + node.data.targetPath + '.html')
+      - if(node.type == 'folder')
+        +tocLink(node.data.title, expanded, index)(class="label", title=node.data.projectPath)
+      - if(expanded)
+        ol.children
+          +tocList(node.children, prefix, current)
+
+    mixin tocList(nodes, prefix, current)
+      - each node, index in nodes
+        - var expanded = node.children && node.children.length > 0
+        - var selected = node.data.projectPath == current
+        li(class=node.type + (expanded ? ' expanded' : '') + (selected ? ' current' : ''), data-groc=JSON.stringify({'data':{'targetPath':node.data.targetPath}}))
+          +tocItem(index, node, prefix, current, expanded)
+
+    nav
+      ol.toc
+        +tocList(tableOfContents, relativeRoot, projectPath)

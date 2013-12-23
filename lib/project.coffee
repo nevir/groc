@@ -47,7 +47,7 @@ module.exports = class Project
   # Currently, the only supported option is:
   generate: (options, callback) ->
     @log.trace 'Project#Generate(%j, ...)', options
-    @log.info 'Generating documentation...'
+    @log.info 'Generating documentation …'
 
     # * style: The style prototype to use.  Defaults to `styles.Default`
     style = new (options.style || styles.Default) @
@@ -90,4 +90,41 @@ module.exports = class Project
 
         @log.info ''
         @log.pass 'Documentation generated'
+        @log.info ''
+        @export style, options, callback
+
+  # And where the magic is drilled into the disk.
+  export: (style, options, callback) ->
+    @log.trace 'Project#Export(%j, ...)', options
+    @log.info 'Exporting documentation …'
+
+    pool = spate.pool (k for k in style.docs), maxConcurrency: @BATCH_SIZE, (context, done) =>
+      {
+        docPath,
+        sourcePath
+      } = context
+      @log.debug "Exporting %s", docPath
+
+      docPage = style.renderTemplate context, sourcePath, docPath, callback
+
+      if docPage?
+        fs.writeFile docPath, docPage, 'utf-8', (error) =>
+          if error
+            @log.error 'Failed to export file %s: %s', docPath, error.message
+            return callback error
+          @log.pass "Exported “#{docPath}”"
+          done()
+      else
+        @log.warn "Skipped “#{docPath}”"
+        done()
+
+    pool.exec (error) =>
+      return callback error if error
+
+      style.exportCompleted (error) =>
+        return callback error if error
+
+        @log.info ''
+        @log.pass 'Documentation exported'
+        @log.info ''
         callback()
