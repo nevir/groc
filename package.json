@@ -38,7 +38,7 @@
     "spate": "~0.1.0",
     "uglify-js": "~2.4.6",
     "underscore": "~1.6.0",
-    "highlight.js": "~7.5.0"
+    "highlight.js": "~8.0.0"
   },
   "devDependencies": {},
 
