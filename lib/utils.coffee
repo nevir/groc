@@ -447,6 +447,10 @@ module.exports = Utils =
               currSegment.code.push currSegment.foldMarker
             else
               currSegment.comments.push comment
+        
+        else
+          if options.allowEmptyLines
+            currSegment.comments.push ''
 
       # We surely (should) have raw code at this point.
       else
