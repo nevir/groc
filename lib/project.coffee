@@ -68,6 +68,26 @@ module.exports = class Project
         @log.warn '%s is not in a supported language, skipping.', currentFile
         return done()
 
+      fileInfo =
+        language:    language
+        sourcePath:  currentFile
+        projectPath: currentFile.replace ///^#{Utils.regexpEscape @root + CompatibilityHelpers.pathSep}///, ''
+        targetPath:  if currentFile == indexPath then 'index' else fileMap[currentFile]
+        pageTitle:   if currentFile == indexPath then (options.indexPageTitle || 'index') else fileMap[currentFile]
+
+      targetFullPath = path.resolve @outPath, "#{fileInfo.targetPath}.html"
+      
+      if options.onlyRenderNewer
+      	
+      	if fs.existsSync(currentFile) and fs.existsSync(targetFullPath)
+      	
+	        sourceStat = fs.statSync currentFile
+	        targetStat = fs.statSync targetFullPath
+	        
+	        if targetStat.mtime.getTime() > sourceStat.mtime.getTime()
+	          style.files.push fileInfo
+	          return done()
+      
       fs.readFile currentFile, 'utf-8', (error, data) =>
         if error
           @log.error "Failed to process %s: %s", currentFile, error.message
