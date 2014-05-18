@@ -172,8 +172,8 @@ module.exports = LANGUAGES =
     nameMatchers:      ['.jsp']
     pygmentsLexer:     'jsp'
     multiLineComment:  [
-      '<%--', '', '--%>',
-      '<!--', '', '-->'
+      '<!--', '', '-->',
+      '<%--', '', '--%>'
     ]
     strictMultiLineEnd:true
     ignorePrefix:      '#'
