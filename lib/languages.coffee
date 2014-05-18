@@ -126,6 +126,13 @@ module.exports = LANGUAGES =
     ignorePrefix:      '}'
     foldPrefix:        '^'
 
+  HTML:
+    nameMatchers:      ['.htm', '.html']
+    pygmentsLexer:     'html'
+    multiLineComment:  ['<!--', '', '-->']
+    ignorePrefix:      '}'
+    foldPrefix:        '^'
+    
   Jade:
     nameMatchers:      ['.jade']
     pygmentsLexer:     'jade'
@@ -165,7 +172,8 @@ module.exports = LANGUAGES =
     nameMatchers:      ['.jsp']
     pygmentsLexer:     'jsp'
     multiLineComment:  [
-      '<%--', '', '--%>'
+      '<%--', '', '--%>',
+      '<!--', '', '-->'
     ]
     strictMultiLineEnd:true
     ignorePrefix:      '#'
