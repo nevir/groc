@@ -22,9 +22,8 @@ module.exports = LANGUAGES =
     
   CSS:
     nameMatchers:      ['.css']
-    pygmentsLexer:     'css'
+    pygmentsLexer:     'CSS'
     multiLineComment:  ['/*', '*', '*/']
-    singleLineComment: ['/*']
     ignorePrefix:      '}'
     foldPrefix:        '^'
 
