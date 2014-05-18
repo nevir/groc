@@ -130,6 +130,7 @@ module.exports = LANGUAGES =
     nameMatchers:      ['.java']
     pygmentsLexer:     'java'
     singleLineComment: ['//']
+    multiLineComment:  ['/*', '*', '*/']
     ignorePrefix:      '}'
     foldPrefix:        '^'
 
