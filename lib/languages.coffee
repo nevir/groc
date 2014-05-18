@@ -19,6 +19,14 @@ module.exports = LANGUAGES =
     singleLineComment: ['//']
     ignorePrefix:      '}'
     foldPrefix:        '^'
+    
+  CSS:
+    nameMatchers:      ['.css']
+    pygmentsLexer:     'css'
+    multiLineComment:  ['/*', '*', '*/']
+    singleLineComment: ['/*']
+    ignorePrefix:      '}'
+    foldPrefix:        '^'
 
   'C++':
     nameMatchers:      ['.cpp', '.hpp', '.c++', '.h++', '.cc', '.hh', '.cxx', '.hxx']
