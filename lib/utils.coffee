@@ -8,7 +8,17 @@ childProcess = require 'child_process'
 path         = require 'path'
 
 _        = require 'underscore'
-showdown = require 'showdown'
+hljs     = require 'highlight.js'
+marked   = require 'marked'
+
+marked.setOptions
+  highlight: (code, lang) ->
+    if lang
+      try
+        return hljs.highlight(lang, code, true).value
+      catch e
+        return code
+    return code
 
 CompatibilityHelpers = require './utils/compatibility_helpers'
 LANGUAGES            = null
@@ -637,13 +647,11 @@ module.exports = Utils =
     callback()
 
   # Annotate an array of segments by running their comments through
-  # [showdown](https://github.com/coreyti/showdown).
+  # [marked](https://github.com/chjj/marked).
   markdownComments: (segments, project, callback) ->
-    converter = new showdown.converter(extensions: project.options.showdown)
-
     try
       for segment, segmentIndex in segments
-        markdown = converter.makeHtml segment.comments.join '\n'
+        markdown = marked segment.comments.join '\n'
         headers  = []
 
         # showdown generates header ids by lowercasing & dropping non-word characters.  We'd like

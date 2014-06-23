@@ -34,10 +34,11 @@
     "glob":          ">= 3.0.1",
     "jade":          "0.x",
     "optimist":      ">= 0.3.4",
-    "showdown":      ">= 0.2.0",
+    "marked":        "~0.2.10",
     "spate":         ">= 0.1.0",
     "uglify-js":     ">= 1.1.1",
-    "underscore":    ">= 1.2.2"
+    "underscore":    ">= 1.2.2",
+    "highlight.js":  "~7.5.0"
   },
   "devDependencies": {},
 
