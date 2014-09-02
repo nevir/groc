@@ -51,12 +51,12 @@ module.exports = LANGUAGES =
      * whitespaces in the line-matcher and end-matcher are required. Without
      * them this syntax makes no sense, as it is meant to produce comments
      * like the following in compiled javascript:
-     * 
+     *
      *     /**
      *      * A sample comment, having a preceding whitespace per line. Useful
      *      * to embed `@doctags` in javascript compiled from coffeescript.
      *      * <= COMBINE THESE TWO CHARS => /
-     * 
+     *
      * (The the final comment-mark above has been TWEAKED to not raise an error)
      ###
     # - Variant 2:
@@ -64,12 +64,12 @@ module.exports = LANGUAGES =
     Uses the the below defined syntax, without preceding `#` per line. This is
     the syntax for what the definition is actually meant for !
     ###
-    # - Variant 3:  
+    # - Variant 3:
     #   (This syntax produces arkward comments in the compiled javascript, if
     #    the pull-request _“[Format block-comments
-    #    better](<https://github.com/jashkenas/coffee-script/pull/3132)”_ has 
+    #    better](<https://github.com/jashkenas/coffee-script/pull/3132)”_ has
     #    not been applied to coffee-script's codebase …)
-    ### } 
+    ### }
     # The block-comment line-matcher `'#'` also works on lines not starting
     # with `'#'`, because we add unmatched lines to the comments once we are
     # in a multi-line comment-block and until we left them …
@@ -289,7 +289,16 @@ module.exports = LANGUAGES =
     singleLineComment: ['--']
     ignorePrefix:      '}'
     foldPrefix:        '^'
-    
+
+  Swift:
+    nameMatchers:      ['.swift']
+    pygmentsLexer:     'swift'
+    highlightJS:       'swift'
+    singleLineComment: ['//']
+    multiLineComment:  ['/*', '*', '*/']
+    ignorePrefix:      '}'
+    foldPrefix:        '^'
+
   TypeScript:
     nameMatchers:      ['.ts']
     pygmentsLexer:     'ts'
