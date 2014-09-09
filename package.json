@@ -37,7 +37,7 @@
     "showdown":      ">= 0.2.0",
     "spate":         ">= 0.1.0",
     "uglify-js":     ">= 1.1.1",
-    "underscore":    ">= 1.2.2"
+    "underscore":    "~1.6.0"
   },
   "devDependencies": {},
 
