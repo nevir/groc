@@ -260,7 +260,7 @@ module.exports = CLI = (inputArgs, callback) ->
         # 2. Copies the generated docs from `.git/groc-tmp` over any existing files in the branch.
         # 3. Creates a commit with _just_ the generated docs; any additional files are removed.
         # 4. Cleans up and switches back to the user's original branch.
-        script = childProcess.spawn path.resolve(__dirname, '..', 'scripts', 'publish-git-pages.sh'), [remote]
+        script = childProcess.spawn path.resolve(__dirname, '..', 'scripts', 'publish-git-pages.sh'), [remote, projectConfig.commitMessage]
 
         script.stdout.on 'data', (data) -> project.log.info  data.toString().trim()
         script.stderr.on 'data', (data) -> project.log.error data.toString().trim()

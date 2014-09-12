@@ -42,6 +42,8 @@ fi
 CURRENT_BRANCH=`git branch 2>/dev/null| sed -n '/^\*/s/^\* //p'`
 CURRENT_COMMIT=`git rev-parse HEAD`
 
+[[ $2 ]] && COMMIT_MESSAGE=$2 || COMMIT_MESSAGE="Generated documentation for $CURRENT_COMMIT"
+
 # Preserve the project's .gitignore so that we don't check in or otherwise screw up hidden files
 if [[ -e .gitignore ]]; then
   cp .gitignore $DOCS_PATH/
@@ -94,7 +96,7 @@ find $DOCS_PATH -maxdepth 1 -not -path $DOCS_PATH -and -not -path $DOCS_PATH/.gi
 # Do nothing unless we actually have changes
 if [[ `git status -s` != "" ]]; then
   exec_git add -A
-  exec_git commit -m "Generated documentation for $CURRENT_COMMIT"
+  exec_git commit -m $COMMIT_MESSAGE
   exec_git push $TARGET_REMOTE $TARGET_BRANCH
 fi
 
