@@ -32,9 +32,8 @@ Groc will:
 
 ### Installing groc
 
-Groc depends on [Node.js](http://nodejs.org/) and [Pygments](http://pygments.org/).  Once you have
-those installed - and assuming that your node install came with [npm](http://npmjs.org/) - you can
-install groc via:
+Groc depends on [Node.js](http://nodejs.org/).  Once you have those installed - and assuming that 
+your node install came with [npm](http://npmjs.org/) - you can install groc via:
 
     npm install -g groc
 
