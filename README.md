@@ -9,6 +9,12 @@ It is very heavily influenced by [Jeremy Ashkenas](https://github.com/jashkenas)
 groc can't tout the same quick 'n dirty principles of docco).
 
 
+## Maintainers
+
+Groc, unfortunately, does not have any active maintainers. If you are interested in picking up the
+torch, please toss me an email (ian@nevir.net).
+
+
 ## What does it give you?
 
 Groc will:
