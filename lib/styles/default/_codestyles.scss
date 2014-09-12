@@ -8,7 +8,7 @@
   $code-color-interpolated: #cba8d6;
   $code-color-punctuation: #ded3a1;
   $code-color-comment: #b1bac4;
-  $prefix: ''; // or '#{$prefix}'
+  $prefix: 'hljs-';
 
   .hljs {
     display: block; padding: 0.5em;
@@ -51,7 +51,7 @@
 
   .#{$prefix}class {
     color: $code-color-class;
-  }  
+  }
 
   .#{$prefix}number,
   .#{$prefix}command,
@@ -116,7 +116,7 @@
 @mixin inline-codestyles () {
   // Orginal Style from ethanschoonover.com/solarized
   // (c) Jeremy Hull <sourdrums@gmail.com>
-  $prefix: ''; // or 'hljs-'
+  $prefix: 'hljs-';
 
   .#{$prefix}comment,
   .#{$prefix}template_comment,
