@@ -290,6 +290,14 @@ module.exports = LANGUAGES =
     ignorePrefix:      '}'
     foldPrefix:        '^'
     
+  Swift:
+    nameMatchers:      ['.swift']
+    pygmentsLexer:     'swift'
+    singleLineComment: ['//']
+    multiLineComment:  ['/*', '*', '*/']
+    ignorePrefix:      '}'
+    foldPrefix:        '^'
+    
   TypeScript:
     nameMatchers:      ['.ts']
     pygmentsLexer:     'ts'
