@@ -80,7 +80,17 @@ module.exports = class Project
           targetPath:  if currentFile == indexPath then 'index' else fileMap[currentFile]
           pageTitle:   if currentFile == indexPath then (options.indexPageTitle || 'index') else fileMap[currentFile]
 
-        style.renderFile data, fileInfo, done
+        markdownFile = "#{currentFile}.md" if language.codeOnly
+        if markdownFile? and not fileMap[markdownFile]? and fs.existsSync(markdownFile)
+          fs.readFile markdownFile, 'utf-8', (error, markdown) =>
+            if error
+              @log.error "Failed to process documentation %s of %s: %s", markdownFile, currentFile, error.message
+              return callback error
+
+            fileInfo.markdown = markdown
+            style.renderFile data, fileInfo, done
+        else
+          style.renderFile data, fileInfo, done
 
     pool.exec (error) =>
       return callback error if error
