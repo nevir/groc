@@ -1,97 +1,104 @@
-<!DOCTYPE html><html lang="en"><head><title>utils/style_helpers</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="utils/style_helpers"><meta name="groc-project-path" content="lib/utils/style_helpers.coffee"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/nevir/groc/blob/master/lib/utils/style_helpers.coffee">lib/utils/style_helpers.coffee</a></div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="nv">path = </span><span class="nx">require</span> <span class="s">&#39;path&#39;</span>
+<!DOCTYPE html><html lang="en"><head><title>utils/style_helpers</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="utils/style_helpers"><meta name="groc-project-path" content="lib/utils/style_helpers.coffee"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/nevir/groc/blob/master/lib/utils/style_helpers.coffee">lib/utils/style_helpers.coffee</a></div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper">path = <span class="hljs-built_in">require</span> <span class="hljs-string">'path'</span>
 
-<span class="nv">_ = </span><span class="nx">require</span> <span class="s">&#39;underscore&#39;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h1 id="style-helpers">Style Helpers</h1></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="c1">#</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>A collection of helpful functions to support styles and their behavior.</p></div></div><div class="code"><div class="wrapper"><span class="nv">module.exports = StyleHelpers =</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Generate a table of contents as a tree of {node: {...}, children: []} objects.</p></div></div><div class="code"><div class="wrapper">  <span class="c1">#</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We want a pretty complex hierarchy in our table of contents:
-buildTableOfContents: (files) -></p></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Given an array of markdowned segments, convert their list of headers into a hierarchical
-outline (table of contents!)</p></div></div><div class="code"><div class="wrapper">  <span class="nv">outlineHeaders: </span><span class="nf">(segments) -&gt;</span>
-    <span class="nv">headers = </span><span class="nx">segments</span><span class="p">.</span><span class="nx">reduce</span> <span class="p">(</span> <span class="nf">(a, s) -&gt;</span> <span class="nx">a</span><span class="p">.</span><span class="nx">concat</span> <span class="nx">s</span><span class="p">.</span><span class="nx">headers</span> <span class="p">),</span> <span class="p">[]</span>
-    <span class="k">return</span> <span class="p">[]</span> <span class="k">unless</span> <span class="nx">headers</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span>
+_ = <span class="hljs-built_in">require</span> <span class="hljs-string">'underscore'</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="style-helpers">Style Helpers</h1>
+<p>A collection of helpful functions to support styles and their behavior.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-built_in">module</span>.<span class="hljs-built_in">exports</span> = StyleHelpers =</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Generate a table of contents as a tree of {node: {...}, children: []} objects.
+We want a pretty complex hierarchy in our table of contents:
+buildTableOfContents: (files) -&gt;</p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Given an array of markdowned segments, convert their list of headers into a hierarchical
+outline (table of contents!)</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-attribute">outlineHeaders</span>: <span class="hljs-function"><span class="hljs-params">(segments)</span> -&gt;</span>
+    headers = segments.reduce <span class="hljs-function"><span class="hljs-params">( (a, s) -&gt; a.concat s.headers )</span>, []
+    <span class="hljs-title">return</span> [] <span class="hljs-title">unless</span> <span class="hljs-title">headers</span>.<span class="hljs-title">length</span> &gt; 0
 
-    <span class="nv">nodes = </span><span class="p">[]</span>
-    <span class="k">for</span> <span class="nx">header</span> <span class="k">in</span> <span class="nx">headers</span>
-      <span class="nx">nodes</span><span class="p">.</span><span class="nx">push</span>
-        <span class="nv">type: </span><span class="s">&#39;heading&#39;</span>
-        <span class="nv">data: </span> <span class="nx">header</span>
-        <span class="nv">depth: </span><span class="nx">header</span><span class="p">.</span><span class="nx">level</span>
+    <span class="hljs-title">nodes</span> = []
+    <span class="hljs-title">for</span> <span class="hljs-title">header</span> <span class="hljs-title">in</span> <span class="hljs-title">headers</span>
+      <span class="hljs-title">nodes</span>.<span class="hljs-title">push</span>
+        <span class="hljs-title">type</span>: '<span class="hljs-title">heading</span>'
+        <span class="hljs-title">data</span>:  <span class="hljs-title">header</span>
+        <span class="hljs-title">depth</span>: <span class="hljs-title">header</span>.<span class="hljs-title">level</span>
 
-    <span class="nx">@buildNodeTree</span> <span class="nx">nodes</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Generate a table of contents as a tree of {..., children: []} objects.</p></div></div><div class="code"><div class="wrapper">  <span class="c1">#</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We take a list of file info objects, and a map of outlines to fileInfo.targetPath.</p></div></div><div class="code"><div class="wrapper">  <span class="c1">#</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We want a pretty complex hierarchy in our table of contents:</p></div></div><div class="code"><div class="wrapper">  <span class="nv">buildTableOfContents: </span><span class="nf">(files, outlines) -&gt;</span>
-    <span class="nv">files = </span><span class="nx">files</span><span class="p">.</span><span class="nx">sort</span> <span class="nf">(a, b) -&gt;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+    @<span class="hljs-title">buildNodeTree</span> <span class="hljs-title">nodes</span>
+</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Generate a table of contents as a tree of {..., children: []} objects.
+We take a list of file info objects, and a map of outlines to fileInfo.targetPath.
+We want a pretty complex hierarchy in our table of contents:</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-attribute">buildTableOfContents</span>: <span class="hljs-function"><span class="hljs-params">(files, outlines)</span> -&gt;</span>
+    files = files.sort <span class="hljs-function"><span class="hljs-params">(a, b)</span> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><ul>
 <li>The index is always first in the table of contents.</li>
-</ul></div></div><div class="code"><div class="wrapper">      <span class="k">return</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="nx">a</span><span class="p">.</span><span class="nx">targetPath</span> <span class="o">==</span> <span class="s">&#39;index&#39;</span>
-      <span class="k">return</span>  <span class="mi">1</span> <span class="k">if</span> <span class="nx">b</span><span class="p">.</span><span class="nx">targetPath</span> <span class="o">==</span> <span class="s">&#39;index&#39;</span>
+</ul></div></div><div class="code"><div class="wrapper">      <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span> <span class="hljs-keyword">if</span> a.targetPath == <span class="hljs-string">'index'</span>
+      <span class="hljs-keyword">return</span>  <span class="hljs-number">1</span> <span class="hljs-keyword">if</span> b.targetPath == <span class="hljs-string">'index'</span>
 
-      <span class="k">return</span> <span class="mi">0</span> <span class="k">if</span> <span class="nx">a</span><span class="p">.</span><span class="nx">targetPath</span> <span class="o">==</span> <span class="nx">b</span><span class="p">.</span><span class="nx">targetPath</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
-<li>files matching a directory name come directly before it.  E.g. "foo" &lt; "foo/bar" &lt; "foz"</li>
-</ul></div></div><div class="code"><div class="wrapper">      <span class="k">if</span> <span class="nx">a</span><span class="p">.</span><span class="nx">targetPath</span> <span class="o">&lt;</span> <span class="nx">b</span><span class="p">.</span><span class="nx">targetPath</span> <span class="k">then</span> <span class="o">-</span><span class="mi">1</span> <span class="k">else</span> <span class="mi">1</span>
+      <span class="hljs-keyword">return</span> <span class="hljs-number">0</span> <span class="hljs-keyword">if</span> a.targetPath == b.targetPath</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><ul>
+<li>files matching a directory name come directly before it.  E.g. &quot;foo&quot; &lt; &quot;foo/bar&quot; &lt; &quot;foz&quot;</li>
+</ul></div></div><div class="code"><div class="wrapper">      <span class="hljs-keyword">if</span> a.targetPath &lt; b.targetPath <span class="hljs-keyword">then</span> -<span class="hljs-number">1</span> <span class="hljs-keyword">else</span> <span class="hljs-number">1</span>
 
-    <span class="nv">nodes    = </span><span class="p">[]</span>
-    <span class="nv">prevPath = </span><span class="p">[]</span>
-    <span class="k">for</span> <span class="nx">file</span> <span class="k">in</span> <span class="nx">files</span>
-      <span class="nv">targetChunks = </span><span class="nx">file</span><span class="p">.</span><span class="nx">targetPath</span><span class="p">.</span><span class="nx">split</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
-      <span class="nv">pathChunks   = </span><span class="nx">targetChunks</span><span class="p">[</span><span class="mi">0</span><span class="p">...</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
-<li>If a file has the same name as a directory, it takes ownership of that directory's folder.</li>
-</ul></div></div><div class="code"><div class="wrapper">      <span class="k">for</span> <span class="nx">chunk</span><span class="p">,</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">pathChunks</span>
-        <span class="k">if</span> <span class="nx">prevPath</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">!=</span> <span class="nx">chunk</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+    nodes    = []
+    prevPath = []
+    <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> files
+      targetChunks = file.targetPath.split path.join(<span class="hljs-string">'/'</span>)
+      pathChunks   = targetChunks[<span class="hljs-number">0.</span>..-<span class="hljs-number">1</span>]</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><ul>
+<li>If a file has the same name as a directory, it takes ownership of that directory&#39;s folder.</li>
+</ul></div></div><div class="code"><div class="wrapper">      <span class="hljs-keyword">for</span> chunk, i <span class="hljs-keyword">in</span> pathChunks
+        <span class="hljs-keyword">if</span> prevPath[i] != chunk</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><ul>
 <li>Otherwise we have a generic folder node that takes its place in the table of contents.
 TODO: We probably want some way to rename folders!</li>
-</ul></div></div><div class="code"><div class="wrapper">          <span class="nx">nodes</span><span class="p">.</span><span class="nx">push</span>
-            <span class="nv">type: </span> <span class="s">&#39;folder&#39;</span>
-            <span class="nv">data:</span>
-              <span class="nv">path: </span> <span class="nx">targetChunks</span><span class="p">[</span><span class="mi">0</span><span class="p">..</span><span class="nx">i</span><span class="p">].</span><span class="nx">join</span> <span class="s">&#39;/&#39;</span>
-              <span class="nv">title: </span><span class="nx">targetChunks</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
-            <span class="nv">depth: </span><span class="nx">i</span> <span class="o">+</span> <span class="mi">1</span>
+</ul></div></div><div class="code"><div class="wrapper">          nodes.push
+            <span class="hljs-attribute">type</span>:  <span class="hljs-string">'folder'</span>
+            <span class="hljs-attribute">data</span>:
+              <span class="hljs-attribute">path</span>:  targetChunks[<span class="hljs-number">0.</span>.i].join <span class="hljs-string">'/'</span>
+              <span class="hljs-attribute">title</span>: <span class="hljs-keyword">if</span> chunk == <span class="hljs-string">'index'</span> <span class="hljs-keyword">and</span> i <span class="hljs-keyword">is</span> <span class="hljs-number">0</span> <span class="hljs-keyword">then</span> file.pageTitle <span class="hljs-keyword">else</span> targetChunks[i]
+            <span class="hljs-attribute">depth</span>: i + <span class="hljs-number">1</span>
 
-          <span class="nv">prevPath = </span><span class="p">[]</span> <span class="c1"># Make sure that we don&#39;t match directories several levels in, after a fail.</span>
+          prevPath = [] <span class="hljs-comment"># Make sure that we don't match directories several levels in, after a fail.</span>
 
-      <span class="nv">prevPath = </span><span class="nx">targetChunks</span>
+      prevPath = targetChunks
 
-      <span class="nv">fileData = </span><span class="nx">_</span><span class="p">(</span><span class="nx">file</span><span class="p">).</span><span class="nx">clone</span><span class="p">()</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Annotate the file data with a title to represent it.</p></div></div><div class="code"><div class="wrapper">      <span class="c1">#</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>If possible, we use the initial header in the file,</p></div></div><div class="code"><div class="wrapper">      <span class="k">if</span> <span class="nx">outlines</span><span class="p">[</span><span class="nx">file</span><span class="p">.</span><span class="nx">targetPath</span><span class="p">]</span><span class="o">?</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">?</span><span class="p">.</span><span class="nx">data</span><span class="o">?</span><span class="p">.</span><span class="nx">isFileHeader</span>
-        <span class="nv">fileData.firstHeader = </span><span class="nx">outlines</span><span class="p">[</span><span class="nx">file</span><span class="p">.</span><span class="nx">targetPath</span><span class="p">].</span><span class="nx">shift</span><span class="p">()</span>
-        <span class="nv">fileData.title       = </span><span class="nx">fileData</span><span class="p">.</span><span class="nx">firstHeader</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">title</span>
+      fileData = _(file).clone()</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Annotate the file data with a title to represent it.
+If possible, we use the initial header in the file,</p></div></div><div class="code"><div class="wrapper">      <span class="hljs-keyword">if</span> outlines[file.targetPath]?[<span class="hljs-number">0</span>]?.data?.isFileHeader
+        fileData.firstHeader = outlines[file.targetPath].shift()
+        fileData.title       = fileData.firstHeader.data.title
 
-        <span class="k">if</span> <span class="nx">fileData</span><span class="p">.</span><span class="nx">firstHeader</span><span class="p">.</span><span class="nx">children</span><span class="o">?</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span>
-          <span class="nx">outlines</span><span class="p">[</span><span class="nx">file</span><span class="p">.</span><span class="nx">targetPath</span><span class="p">]</span> <span class="o">=</span> <span class="nx">fileData</span><span class="p">.</span><span class="nx">firstHeader</span><span class="p">.</span><span class="nx">children</span><span class="p">.</span><span class="nx">concat</span> <span class="nx">outlines</span><span class="p">[</span><span class="nx">file</span><span class="p">.</span><span class="nx">targetPath</span><span class="p">]</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Otherwise we just fall back to the file's target path...</p></div></div><div class="code"><div class="wrapper">      <span class="k">else</span>
-        <span class="nv">fileData.title = </span><span class="nx">path</span><span class="p">.</span><span class="nx">basename</span> <span class="nx">file</span><span class="p">.</span><span class="nx">targetPath</span>
+        <span class="hljs-keyword">if</span> fileData.firstHeader.children?.length &gt; <span class="hljs-number">0</span>
+          outlines[file.targetPath] = fileData.firstHeader.children.concat outlines[file.targetPath]</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Otherwise we just fall back to the file&#39;s target path...</p></div></div><div class="code"><div class="wrapper">      <span class="hljs-keyword">else</span>
+        fileData.title = <span class="hljs-keyword">if</span> file.targetPath == <span class="hljs-string">'index'</span> <span class="hljs-keyword">then</span> file.pageTitle <span class="hljs-keyword">else</span> path.basename file.targetPath
 
-      <span class="nx">nodes</span><span class="p">.</span><span class="nx">push</span>
-        <span class="nv">type: </span>  <span class="s">&#39;file&#39;</span>
-        <span class="nv">data: </span>   <span class="nx">fileData</span>
-        <span class="nv">depth: </span>  <span class="nx">file</span><span class="p">.</span><span class="nx">targetPath</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span> <span class="p">).</span><span class="nx">length</span>
-        <span class="nv">outline: </span><span class="nx">outlines</span><span class="p">[</span><span class="nx">file</span><span class="p">.</span><span class="nx">targetPath</span><span class="p">]</span>
+      nodes.push
+        <span class="hljs-attribute">type</span>:   <span class="hljs-string">'file'</span>
+        <span class="hljs-attribute">data</span>:    fileData
+        <span class="hljs-attribute">depth</span>:   file.targetPath.split( path.join(<span class="hljs-string">'/'</span>) ).length
+        <span class="hljs-attribute">outline</span>: outlines[file.targetPath]
 
-    <span class="nx">@buildNodeTree</span> <span class="nx">nodes</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Take a flat, though ordered, list of nodes and convert them into a tree.</p></div></div><div class="code"><div class="wrapper">  <span class="c1">#</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Nodes are expected to have a <code>depth</code> property.  Each node is annotated with an array of
-<code>children</code> if it does not exist.  Children are appended, otherwise.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">buildNodeTree: </span><span class="nf">(nodes) -&gt;</span>
-    <span class="nv">result = </span><span class="p">[]</span>
-    <span class="nv">stack  = </span><span class="p">[]</span>
+    <span class="hljs-property">@buildNodeTree</span> nodes</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Take a flat, though ordered, list of nodes and convert them into a tree.
+Nodes are expected to have a <code>depth</code> property.  Each node is annotated with an array of
+<code>children</code> if it does not exist.  Children are appended, otherwise.</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-attribute">buildNodeTree</span>: <span class="hljs-function"><span class="hljs-params">(nodes)</span> -&gt;</span>
+    result = []
+    stack  = []
 
-    <span class="k">for</span> <span class="nx">node</span> <span class="k">in</span> <span class="nx">nodes</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Unwind the stack until we get to the first node that is at a lower depth than us.  We are
-considered to be its child</p></div></div><div class="code"><div class="wrapper">      <span class="nx">stack</span><span class="p">.</span><span class="nx">pop</span><span class="p">()</span> <span class="k">while</span> <span class="nx">_</span><span class="p">(</span><span class="nx">stack</span><span class="p">).</span><span class="nx">last</span><span class="p">()</span><span class="o">?</span><span class="p">.</span><span class="nx">depth</span> <span class="o">&gt;=</span> <span class="nx">node</span><span class="p">.</span><span class="nx">depth</span>
+    <span class="hljs-keyword">for</span> node <span class="hljs-keyword">in</span> nodes</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Unwind the stack until we get to the first node that is at a lower depth than us.  We are
+considered to be its child</p></div></div><div class="code"><div class="wrapper">      stack.pop() <span class="hljs-keyword">while</span> _(stack).last()?.depth &gt;= node.depth
 
-      <span class="k">if</span> <span class="nx">stack</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">0</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Top level nodes are directly returned in the result list.</p></div></div><div class="code"><div class="wrapper">        <span class="nx">result</span><span class="p">.</span><span class="nx">push</span> <span class="nx">node</span>
-      <span class="k">else</span>
-        <span class="nx">_</span><span class="p">(</span><span class="nx">stack</span><span class="p">).</span><span class="nx">last</span><span class="p">().</span><span class="nx">children</span> <span class="o">||=</span> <span class="p">[]</span>
-        <span class="nx">_</span><span class="p">(</span><span class="nx">stack</span><span class="p">).</span><span class="nx">last</span><span class="p">().</span><span class="nx">children</span><span class="p">.</span><span class="nx">push</span> <span class="nx">node</span>
+      <span class="hljs-keyword">if</span> stack.length == <span class="hljs-number">0</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Top level nodes are directly returned in the result list.</p></div></div><div class="code"><div class="wrapper">        result.push node
+      <span class="hljs-keyword">else</span>
+        _(stack).last().children ||= []
+        _(stack).last().children.push node
 
-      <span class="nx">stack</span><span class="p">.</span><span class="nx">push</span> <span class="nx">node</span>
+      stack.push node
 
-    <span class="nx">result</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>It helps visually to separate headers that are not attached to other comments into their own
-segment.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">segmentizeSoloHeaders: </span><span class="nf">(segments) -&gt;</span>
-    <span class="nv">results = </span><span class="p">[]</span>
-    <span class="k">for</span> <span class="nx">segment</span> <span class="k">in</span> <span class="nx">segments</span>
-      <span class="nv">headerOnly = </span><span class="nx">segment</span><span class="p">.</span><span class="nx">markdownedComments</span><span class="p">.</span><span class="nx">match</span> <span class="sr">/^\s*&lt;h\d[^&gt;]*&gt;[^&lt;]*&lt;\/h\d&gt;\s*$/</span>
-      <span class="k">if</span> <span class="nx">headerOnly</span> <span class="o">and</span> <span class="o">not</span> <span class="nx">segment</span><span class="p">.</span><span class="nx">highlightedCode</span><span class="p">.</span><span class="nx">match</span> <span class="sr">/^\s*$/</span>
-        <span class="nx">results</span><span class="p">.</span><span class="nx">push</span>
-          <span class="nv">code: </span>              <span class="p">[]</span>
-          <span class="nv">comments: </span>          <span class="nx">segment</span><span class="p">.</span><span class="nx">comments</span>
-          <span class="nv">highlightedCode: </span>   <span class="s">&#39;&#39;</span>
-          <span class="nv">markdownedComments: </span><span class="nx">segment</span><span class="p">.</span><span class="nx">markdownedComments</span>
+    result</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>It helps visually to separate headers that are not attached to other comments into their own
+segment.</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-attribute">segmentizeSoloHeaders</span>: <span class="hljs-function"><span class="hljs-params">(segments)</span> -&gt;</span>
+    results = []
+    <span class="hljs-keyword">for</span> segment <span class="hljs-keyword">in</span> segments
+      headerOnly = segment.markdownedComments.match <span class="hljs-regexp">/^\s*&lt;h\d[^&gt;]*&gt;[^&lt;]*&lt;\/h\d&gt;\s*$/</span>
+      <span class="hljs-keyword">if</span> headerOnly <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> segment.highlightedCode.match <span class="hljs-regexp">/^\s*$/</span>
+        results.push
+          <span class="hljs-attribute">code</span>:               []
+          <span class="hljs-attribute">comments</span>:           segment.comments
+          <span class="hljs-attribute">highlightedCode</span>:    <span class="hljs-string">''</span>
+          <span class="hljs-attribute">markdownedComments</span>: segment.markdownedComments
 
-        <span class="nx">results</span><span class="p">.</span><span class="nx">push</span>
-          <span class="nv">code: </span>              <span class="nx">segment</span><span class="p">.</span><span class="nx">code</span>
-          <span class="nv">comments: </span>          <span class="p">[]</span>
-          <span class="nv">highlightedCode: </span>   <span class="nx">segment</span><span class="p">.</span><span class="nx">highlightedCode</span>
-          <span class="nv">markdownedComments: </span><span class="s">&#39;&#39;</span>
+        results.push
+          <span class="hljs-attribute">code</span>:               segment.code
+          <span class="hljs-attribute">comments</span>:           []
+          <span class="hljs-attribute">highlightedCode</span>:    segment.highlightedCode
+          <span class="hljs-attribute">markdownedComments</span>: <span class="hljs-string">''</span>
 
-      <span class="k">else</span>
-        <span class="nx">results</span><span class="p">.</span><span class="nx">push</span> <span class="nx">segment</span>
+      <span class="hljs-keyword">else</span>
+        results.push segment
 
-    <span class="nx">results</span></div></div></div></div></body></html>
+    results</div></div></div></div></body></html>

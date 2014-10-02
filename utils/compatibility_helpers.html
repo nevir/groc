@@ -1,31 +1,31 @@
-<!DOCTYPE html><html lang="en"><head><title>utils/compatibility_helpers</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="utils/compatibility_helpers"><meta name="groc-project-path" content="lib/utils/compatibility_helpers.coffee"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/nevir/groc/blob/master/lib/utils/compatibility_helpers.coffee">lib/utils/compatibility_helpers.coffee</a></div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="nv">path = </span><span class="nx">require</span> <span class="s">&#39;path&#39;</span>
-<span class="nv">util = </span><span class="nx">require</span> <span class="s">&#39;util&#39;</span>
+<!DOCTYPE html><html lang="en"><head><title>utils/compatibility_helpers</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="utils/compatibility_helpers"><meta name="groc-project-path" content="lib/utils/compatibility_helpers.coffee"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/nevir/groc/blob/master/lib/utils/compatibility_helpers.coffee">lib/utils/compatibility_helpers.coffee</a></div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper">path = <span class="hljs-built_in">require</span> <span class="hljs-string">'path'</span>
+util = <span class="hljs-built_in">require</span> <span class="hljs-string">'util'</span>
 
-<span class="nv">FORMAT_REGEXP = </span><span class="sr">/%[sdj%]/g</span>
+FORMAT_REGEXP = <span class="hljs-regexp">/%[sdj%]/g</span>
 
-<span class="nv">module.exports = CompatibilityHelpers =</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p><code>path.sep</code> was introduced with Node 0.8, so make sure we have it in 0.6.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">pathSep: </span><span class="nx">path</span><span class="p">.</span><span class="nx">sep</span> <span class="o">||</span> <span class="p">(</span><span class="k">if</span> <span class="nx">process</span><span class="p">.</span><span class="nx">platform</span> <span class="o">==</span> <span class="s">&#39;win32&#39;</span> <span class="k">then</span> <span class="s">&#39;\\&#39;</span> <span class="k">else</span> <span class="s">&#39;/&#39;</span><span class="p">)</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>A backport of Node 0.6's util.format</p></div></div><div class="code"><div class="wrapper">  <span class="nv">format: </span><span class="nf">(args...) -&gt;</span>
-    <span class="k">return</span> <span class="nx">util</span><span class="p">.</span><span class="nx">format</span> <span class="nx">args</span><span class="p">...</span> <span class="k">if</span> <span class="nx">util</span><span class="p">.</span><span class="nx">format</span><span class="o">?</span>
+<span class="hljs-built_in">module</span>.<span class="hljs-built_in">exports</span> = CompatibilityHelpers =</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>path.sep</code> was introduced with Node 0.8, so make sure we have it in 0.6.</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-attribute">pathSep</span>: path.sep || (<span class="hljs-keyword">if</span> process.platform == <span class="hljs-string">'win32'</span> <span class="hljs-keyword">then</span> <span class="hljs-string">'\\'</span> <span class="hljs-keyword">else</span> <span class="hljs-string">'/'</span>)</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>A backport of Node 0.6&#39;s util.format</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-attribute">format</span>: <span class="hljs-function"><span class="hljs-params">(args...)</span> -&gt;</span>
+    <span class="hljs-keyword">return</span> util.format args... <span class="hljs-keyword">if</span> util.format?
 
-    <span class="k">if</span> <span class="k">typeof</span> <span class="nx">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;string&#39;</span>
-      <span class="k">return</span> <span class="nx">args</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span> <span class="nf">(o) -&gt;</span> <span class="nx">util</span><span class="p">.</span><span class="nx">inspect</span> <span class="nx">o</span> <span class="p">).</span><span class="nx">join</span> <span class="s">&#39; &#39;</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">typeof</span> args[<span class="hljs-number">0</span>] != <span class="hljs-string">'string'</span>
+      <span class="hljs-keyword">return</span> args.map<span class="hljs-function"><span class="hljs-params">( (o) -&gt; util.inspect o )</span>.<span class="hljs-title">join</span> ' '
 
-    <span class="nv">i   = </span><span class="mi">1</span>
-    <span class="nv">len = </span><span class="nx">args</span><span class="p">.</span><span class="nx">length</span>
-    <span class="nv">str = </span><span class="nb">String</span><span class="p">(</span><span class="nx">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]).</span><span class="nx">replace</span> <span class="nx">FORMAT_REGEXP</span><span class="p">,</span> <span class="nf">(x) -&gt;</span>
-      <span class="k">return</span> <span class="nx">x</span> <span class="k">if</span> <span class="nx">i</span> <span class="o">&gt;=</span> <span class="nx">len</span>
+    <span class="hljs-title">i</span>   = 1
+    <span class="hljs-title">len</span> = <span class="hljs-title">args</span>.<span class="hljs-title">length</span>
+    <span class="hljs-title">str</span> = <span class="hljs-title">String</span><span class="hljs-params">(args[<span class="hljs-number">0</span>])</span>.<span class="hljs-title">replace</span> <span class="hljs-title">FORMAT_REGEXP</span>, <span class="hljs-params">(x)</span> -&gt;</span>
+      <span class="hljs-keyword">return</span> x <span class="hljs-keyword">if</span> i &gt;= len
 
-      <span class="k">switch</span> <span class="nx">x</span>
-        <span class="k">when</span> <span class="s">&#39;%s&#39;</span> <span class="k">then</span> <span class="nb">String</span> <span class="nx">args</span><span class="p">[</span><span class="nx">i</span><span class="o">++</span><span class="p">]</span>
-        <span class="k">when</span> <span class="s">&#39;%d&#39;</span> <span class="k">then</span> <span class="nb">Number</span> <span class="nx">args</span><span class="p">[</span><span class="nx">i</span><span class="o">++</span><span class="p">]</span>
-        <span class="k">when</span> <span class="s">&#39;%j&#39;</span> <span class="k">then</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span> <span class="nx">args</span><span class="p">[</span><span class="nx">i</span><span class="o">++</span><span class="p">]</span>
-        <span class="k">when</span> <span class="s">&#39;%%&#39;</span> <span class="k">then</span> <span class="s">&#39;%&#39;</span>
-        <span class="k">else</span> <span class="nx">x</span>
+      <span class="hljs-keyword">switch</span> x
+        <span class="hljs-keyword">when</span> <span class="hljs-string">'%s'</span> <span class="hljs-keyword">then</span> String args[i++]
+        <span class="hljs-keyword">when</span> <span class="hljs-string">'%d'</span> <span class="hljs-keyword">then</span> Number args[i++]
+        <span class="hljs-keyword">when</span> <span class="hljs-string">'%j'</span> <span class="hljs-keyword">then</span> JSON.stringify args[i++]
+        <span class="hljs-keyword">when</span> <span class="hljs-string">'%%'</span> <span class="hljs-keyword">then</span> <span class="hljs-string">'%'</span>
+        <span class="hljs-keyword">else</span> x
 
-    <span class="k">while</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">len</span>
-      <span class="nv">x = </span><span class="nx">args</span><span class="p">[</span><span class="nx">i</span><span class="o">++</span><span class="p">]</span>
-      <span class="k">if</span> <span class="nx">x</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">or</span> <span class="k">typeof</span> <span class="nx">x</span> <span class="o">!=</span> <span class="s">&#39;object&#39;</span>
-        <span class="nx">str</span> <span class="o">+=</span> <span class="s">&#39; &#39;</span> <span class="o">+</span> <span class="nx">x</span>
-      <span class="k">else</span>
-        <span class="nx">str</span> <span class="o">+=</span> <span class="s">&#39; &#39;</span> <span class="o">+</span> <span class="nx">util</span><span class="p">.</span><span class="nx">inspect</span> <span class="nx">x</span>
+    <span class="hljs-keyword">while</span> i &lt; len
+      x = args[i++]
+      <span class="hljs-keyword">if</span> x == <span class="hljs-literal">null</span> <span class="hljs-keyword">or</span> <span class="hljs-keyword">typeof</span> x != <span class="hljs-string">'object'</span>
+        str += <span class="hljs-string">' '</span> + x
+      <span class="hljs-keyword">else</span>
+        str += <span class="hljs-string">' '</span> + util.inspect x
 
-    <span class="nx">str</span></div></div></div></div></body></html>
+    str</div></div></div></div></body></html>

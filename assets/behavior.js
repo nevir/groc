@@ -9,13 +9,14 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
       "type": "file",
       "data": {
         "language": {
-          "nameMatchers": [".md"],
+          "nameMatchers": [".md", ".markdown", ".mkd", ".mkdn", ".mdown"],
           "commentsOnly": true,
           "name": "Markdown"
         },
-        "sourcePath": "/Users/ian/coding/groc/README.md",
+        "sourcePath": "/Users/imac/work/nevir/groc/README.md",
         "projectPath": "README.md",
         "targetPath": "index",
+        "pageTitle": "index",
         "firstHeader": {
           "type": "heading",
           "data": {
@@ -27,6 +28,14 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "depth": 1,
           "children": [
             {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Maintainers",
+                "slug": "maintainers"
+              },
+              "depth": 2
+            }, {
               "type": "heading",
               "data": {
                 "level": 2,
@@ -89,8 +98,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "type": "heading",
               "data": {
                 "level": 2,
-                "title": "What's in the works?",
-                "slug": "whats-in-the-works"
+                "title": "What&#39;s in the works?",
+                "slug": "what39s-in-the-works"
               },
               "depth": 2
             }
@@ -101,6 +110,14 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
       "depth": 1,
       "outline": [
         {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "Maintainers",
+            "slug": "maintainers"
+          },
+          "depth": 2
+        }, {
           "type": "heading",
           "data": {
             "level": 2,
@@ -163,8 +180,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "type": "heading",
           "data": {
             "level": 2,
-            "title": "What's in the works?",
-            "slug": "whats-in-the-works"
+            "title": "What&#39;s in the works?",
+            "slug": "what39s-in-the-works"
           },
           "depth": 2
         }
@@ -173,14 +190,37 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
       "type": "file",
       "data": {
         "language": {
+          "nameMatchers": [".json"],
+          "pygmentsLexer": "json",
+          "codeOnly": true,
+          "name": "JSON"
+        },
+        "sourcePath": "/Users/imac/work/nevir/groc/.groc.json",
+        "projectPath": ".groc.json",
+        "targetPath": ".groc",
+        "pageTitle": ".groc",
+        "title": ".groc"
+      },
+      "depth": 1,
+      "outline": []
+    }, {
+      "type": "file",
+      "data": {
+        "language": {
           "nameMatchers": [".coffee", "Cakefile"],
           "pygmentsLexer": "coffee-script",
+          "highlightJS": "coffeescript",
+          "multiLineComment": ["###*", " *", " ###", "###", "#", "###", "###*", "#", "###"],
+          "strictMultiLineEnd": false,
           "singleLineComment": ["#"],
+          "ignorePrefix": "}",
+          "foldPrefix": "^",
           "name": "CoffeeScript"
         },
-        "sourcePath": "/Users/ian/coding/groc/lib/cli.coffee",
+        "sourcePath": "/Users/imac/work/nevir/groc/lib/cli.coffee",
         "projectPath": "lib/cli.coffee",
         "targetPath": "cli",
+        "pageTitle": "cli",
         "firstHeader": {
           "type": "heading",
           "data": {
@@ -286,12 +326,50 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "language": {
           "nameMatchers": [".coffee", "Cakefile"],
           "pygmentsLexer": "coffee-script",
+          "highlightJS": "coffeescript",
+          "multiLineComment": ["###*", " *", " ###", "###", "#", "###", "###*", "#", "###"],
+          "strictMultiLineEnd": false,
           "singleLineComment": ["#"],
+          "ignorePrefix": "}",
+          "foldPrefix": "^",
           "name": "CoffeeScript"
         },
-        "sourcePath": "/Users/ian/coding/groc/lib/languages.coffee",
+        "sourcePath": "/Users/imac/work/nevir/groc/lib/doc_tags.coffee",
+        "projectPath": "lib/doc_tags.coffee",
+        "targetPath": "doc_tags",
+        "pageTitle": "doc_tags",
+        "firstHeader": {
+          "type": "heading",
+          "data": {
+            "level": 1,
+            "title": "Known Doc Tags",
+            "slug": "known-doc-tags",
+            "isFileHeader": true
+          },
+          "depth": 1
+        },
+        "title": "Known Doc Tags"
+      },
+      "depth": 1,
+      "outline": []
+    }, {
+      "type": "file",
+      "data": {
+        "language": {
+          "nameMatchers": [".coffee", "Cakefile"],
+          "pygmentsLexer": "coffee-script",
+          "highlightJS": "coffeescript",
+          "multiLineComment": ["###*", " *", " ###", "###", "#", "###", "###*", "#", "###"],
+          "strictMultiLineEnd": false,
+          "singleLineComment": ["#"],
+          "ignorePrefix": "}",
+          "foldPrefix": "^",
+          "name": "CoffeeScript"
+        },
+        "sourcePath": "/Users/imac/work/nevir/groc/lib/languages.coffee",
         "projectPath": "lib/languages.coffee",
         "targetPath": "languages",
+        "pageTitle": "languages",
         "firstHeader": {
           "type": "heading",
           "data": {
@@ -310,15 +388,16 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
       "type": "file",
       "data": {
         "language": {
-          "nameMatchers": [".coffee", "Cakefile"],
-          "pygmentsLexer": "coffee-script",
-          "singleLineComment": ["#"],
-          "name": "CoffeeScript"
+          "nameMatchers": [".json"],
+          "pygmentsLexer": "json",
+          "codeOnly": true,
+          "name": "JSON"
         },
-        "sourcePath": "/Users/ian/coding/groc/lib/package_info.coffee",
-        "projectPath": "lib/package_info.coffee",
-        "targetPath": "package_info",
-        "title": "package_info"
+        "sourcePath": "/Users/imac/work/nevir/groc/package.json",
+        "projectPath": "package.json",
+        "targetPath": "package",
+        "pageTitle": "package",
+        "title": "package"
       },
       "depth": 1,
       "outline": []
@@ -328,12 +407,18 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "language": {
           "nameMatchers": [".coffee", "Cakefile"],
           "pygmentsLexer": "coffee-script",
+          "highlightJS": "coffeescript",
+          "multiLineComment": ["###*", " *", " ###", "###", "#", "###", "###*", "#", "###"],
+          "strictMultiLineEnd": false,
           "singleLineComment": ["#"],
+          "ignorePrefix": "}",
+          "foldPrefix": "^",
           "name": "CoffeeScript"
         },
-        "sourcePath": "/Users/ian/coding/groc/lib/project.coffee",
+        "sourcePath": "/Users/imac/work/nevir/groc/lib/project.coffee",
         "projectPath": "lib/project.coffee",
         "targetPath": "project",
+        "pageTitle": "project",
         "firstHeader": {
           "type": "heading",
           "data": {
@@ -362,12 +447,16 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "language": {
               "nameMatchers": [".sh"],
               "pygmentsLexer": "sh",
+              "highlightJS": "bash",
               "singleLineComment": ["#"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
               "name": "Shell"
             },
-            "sourcePath": "/Users/ian/coding/groc/scripts/publish-git-pages.sh",
+            "sourcePath": "/Users/imac/work/nevir/groc/scripts/publish-git-pages.sh",
             "projectPath": "scripts/publish-git-pages.sh",
             "targetPath": "scripts/publish-git-pages",
+            "pageTitle": "scripts/publish-git-pages",
             "title": "publish-git-pages"
           },
           "depth": 2,
@@ -380,12 +469,18 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "language": {
           "nameMatchers": [".coffee", "Cakefile"],
           "pygmentsLexer": "coffee-script",
+          "highlightJS": "coffeescript",
+          "multiLineComment": ["###*", " *", " ###", "###", "#", "###", "###*", "#", "###"],
+          "strictMultiLineEnd": false,
           "singleLineComment": ["#"],
+          "ignorePrefix": "}",
+          "foldPrefix": "^",
           "name": "CoffeeScript"
         },
-        "sourcePath": "/Users/ian/coding/groc/lib/styles.coffee",
+        "sourcePath": "/Users/imac/work/nevir/groc/lib/styles.coffee",
         "projectPath": "lib/styles.coffee",
         "targetPath": "styles",
+        "pageTitle": "styles",
         "title": "styles"
       },
       "depth": 1,
@@ -397,12 +492,18 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "language": {
               "nameMatchers": [".coffee", "Cakefile"],
               "pygmentsLexer": "coffee-script",
+              "highlightJS": "coffeescript",
+              "multiLineComment": ["###*", " *", " ###", "###", "#", "###", "###*", "#", "###"],
+              "strictMultiLineEnd": false,
               "singleLineComment": ["#"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
               "name": "CoffeeScript"
             },
-            "sourcePath": "/Users/ian/coding/groc/lib/styles/base.coffee",
+            "sourcePath": "/Users/imac/work/nevir/groc/lib/styles/base.coffee",
             "projectPath": "lib/styles/base.coffee",
             "targetPath": "styles/base",
+            "pageTitle": "styles/base",
             "title": "base"
           },
           "depth": 2,
@@ -413,12 +514,18 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "language": {
               "nameMatchers": [".coffee", "Cakefile"],
               "pygmentsLexer": "coffee-script",
+              "highlightJS": "coffeescript",
+              "multiLineComment": ["###*", " *", " ###", "###", "#", "###", "###*", "#", "###"],
+              "strictMultiLineEnd": false,
               "singleLineComment": ["#"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
               "name": "CoffeeScript"
             },
-            "sourcePath": "/Users/ian/coding/groc/lib/styles/default.coffee",
+            "sourcePath": "/Users/imac/work/nevir/groc/lib/styles/default.coffee",
             "projectPath": "lib/styles/default.coffee",
             "targetPath": "styles/default",
+            "pageTitle": "styles/default",
             "title": "default"
           },
           "depth": 2,
@@ -430,12 +537,18 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                 "language": {
                   "nameMatchers": [".coffee", "Cakefile"],
                   "pygmentsLexer": "coffee-script",
+                  "highlightJS": "coffeescript",
+                  "multiLineComment": ["###*", " *", " ###", "###", "#", "###", "###*", "#", "###"],
+                  "strictMultiLineEnd": false,
                   "singleLineComment": ["#"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
                   "name": "CoffeeScript"
                 },
-                "sourcePath": "/Users/ian/coding/groc/lib/styles/default/behavior.coffee",
+                "sourcePath": "/Users/imac/work/nevir/groc/lib/styles/default/behavior.coffee",
                 "projectPath": "lib/styles/default/behavior.coffee",
                 "targetPath": "styles/default/behavior",
+                "pageTitle": "styles/default/behavior",
                 "title": "behavior"
               },
               "depth": 3,
@@ -494,12 +607,16 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                 "language": {
                   "nameMatchers": [".jade"],
                   "pygmentsLexer": "jade",
+                  "highlightJS": "AUTO",
                   "singleLineComment": ["//", "//-"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
                   "name": "Jade"
                 },
-                "sourcePath": "/Users/ian/coding/groc/lib/styles/default/docPage.jade",
+                "sourcePath": "/Users/imac/work/nevir/groc/lib/styles/default/docPage.jade",
                 "projectPath": "lib/styles/default/docPage.jade",
                 "targetPath": "styles/default/docPage",
+                "pageTitle": "styles/default/docPage",
                 "title": "docPage"
               },
               "depth": 3,
@@ -510,12 +627,16 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                 "language": {
                   "nameMatchers": [".sass"],
                   "pygmentsLexer": "sass",
+                  "highlightJS": "AUTO",
                   "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
                   "name": "Sass"
                 },
-                "sourcePath": "/Users/ian/coding/groc/lib/styles/default/style.sass",
+                "sourcePath": "/Users/imac/work/nevir/groc/lib/styles/default/style.sass",
                 "projectPath": "lib/styles/default/style.sass",
                 "targetPath": "styles/default/style",
+                "pageTitle": "styles/default/style",
                 "title": "style"
               },
               "depth": 3,
@@ -629,6 +750,25 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                     "title": "Browser-Specific Tweaks",
                     "slug": "browser-specific-tweaks"
                   },
+                  "depth": 2,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 3,
+                        "title": "Doc Tags",
+                        "slug": "doc-tags"
+                      },
+                      "depth": 3
+                    }
+                  ]
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Code folding",
+                    "slug": "code-folding"
+                  },
                   "depth": 2
                 }
               ]
@@ -642,12 +782,18 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         "language": {
           "nameMatchers": [".coffee", "Cakefile"],
           "pygmentsLexer": "coffee-script",
+          "highlightJS": "coffeescript",
+          "multiLineComment": ["###*", " *", " ###", "###", "#", "###", "###*", "#", "###"],
+          "strictMultiLineEnd": false,
           "singleLineComment": ["#"],
+          "ignorePrefix": "}",
+          "foldPrefix": "^",
           "name": "CoffeeScript"
         },
-        "sourcePath": "/Users/ian/coding/groc/lib/utils.coffee",
+        "sourcePath": "/Users/imac/work/nevir/groc/lib/utils.coffee",
         "projectPath": "lib/utils.coffee",
         "targetPath": "utils",
+        "pageTitle": "utils",
         "title": "utils"
       },
       "depth": 1,
@@ -659,12 +805,18 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "language": {
               "nameMatchers": [".coffee", "Cakefile"],
               "pygmentsLexer": "coffee-script",
+              "highlightJS": "coffeescript",
+              "multiLineComment": ["###*", " *", " ###", "###", "#", "###", "###*", "#", "###"],
+              "strictMultiLineEnd": false,
               "singleLineComment": ["#"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
               "name": "CoffeeScript"
             },
-            "sourcePath": "/Users/ian/coding/groc/lib/utils/cli_helpers.coffee",
+            "sourcePath": "/Users/imac/work/nevir/groc/lib/utils/cli_helpers.coffee",
             "projectPath": "lib/utils/cli_helpers.coffee",
             "targetPath": "utils/cli_helpers",
+            "pageTitle": "utils/cli_helpers",
             "title": "cli_helpers"
           },
           "depth": 2,
@@ -712,12 +864,18 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "language": {
               "nameMatchers": [".coffee", "Cakefile"],
               "pygmentsLexer": "coffee-script",
+              "highlightJS": "coffeescript",
+              "multiLineComment": ["###*", " *", " ###", "###", "#", "###", "###*", "#", "###"],
+              "strictMultiLineEnd": false,
               "singleLineComment": ["#"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
               "name": "CoffeeScript"
             },
-            "sourcePath": "/Users/ian/coding/groc/lib/utils/compatibility_helpers.coffee",
+            "sourcePath": "/Users/imac/work/nevir/groc/lib/utils/compatibility_helpers.coffee",
             "projectPath": "lib/utils/compatibility_helpers.coffee",
             "targetPath": "utils/compatibility_helpers",
+            "pageTitle": "utils/compatibility_helpers",
             "title": "compatibility_helpers"
           },
           "depth": 2,
@@ -728,12 +886,40 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "language": {
               "nameMatchers": [".coffee", "Cakefile"],
               "pygmentsLexer": "coffee-script",
+              "highlightJS": "coffeescript",
+              "multiLineComment": ["###*", " *", " ###", "###", "#", "###", "###*", "#", "###"],
+              "strictMultiLineEnd": false,
               "singleLineComment": ["#"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
               "name": "CoffeeScript"
             },
-            "sourcePath": "/Users/ian/coding/groc/lib/utils/logger.coffee",
+            "sourcePath": "/Users/imac/work/nevir/groc/lib/utils/humanize.coffee",
+            "projectPath": "lib/utils/humanize.coffee",
+            "targetPath": "utils/humanize",
+            "pageTitle": "utils/humanize",
+            "title": "humanize"
+          },
+          "depth": 2,
+          "outline": []
+        }, {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".coffee", "Cakefile"],
+              "pygmentsLexer": "coffee-script",
+              "highlightJS": "coffeescript",
+              "multiLineComment": ["###*", " *", " ###", "###", "#", "###", "###*", "#", "###"],
+              "strictMultiLineEnd": false,
+              "singleLineComment": ["#"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
+              "name": "CoffeeScript"
+            },
+            "sourcePath": "/Users/imac/work/nevir/groc/lib/utils/logger.coffee",
             "projectPath": "lib/utils/logger.coffee",
             "targetPath": "utils/logger",
+            "pageTitle": "utils/logger",
             "firstHeader": {
               "type": "heading",
               "data": {
@@ -754,12 +940,18 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "language": {
               "nameMatchers": [".coffee", "Cakefile"],
               "pygmentsLexer": "coffee-script",
+              "highlightJS": "coffeescript",
+              "multiLineComment": ["###*", " *", " ###", "###", "#", "###", "###*", "#", "###"],
+              "strictMultiLineEnd": false,
               "singleLineComment": ["#"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
               "name": "CoffeeScript"
             },
-            "sourcePath": "/Users/ian/coding/groc/lib/utils/style_helpers.coffee",
+            "sourcePath": "/Users/imac/work/nevir/groc/lib/utils/style_helpers.coffee",
             "projectPath": "lib/utils/style_helpers.coffee",
             "targetPath": "utils/style_helpers",
+            "pageTitle": "utils/style_helpers",
             "title": "style_helpers"
           },
           "depth": 2,
@@ -785,7 +977,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 
   setTableOfContentsActive = function(active) {
     var html$;
-
     html$ = $('html');
     if (active) {
       nav$.addClass('active');
@@ -804,7 +995,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 
   focusCurrentNode = function() {
     var currentNodeBottom, currentNodeTop;
-
     currentNodeTop = currentNode$.offset().top - toc$.children(':visible').first().offset().top;
     currentNodeBottom = currentNodeTop + currentNode$.children('.label').height();
     if (currentNodeTop < toc$.scrollTop()) {
@@ -817,7 +1007,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 
   setCurrentNodeExpanded = function(expanded) {
     var parents$;
-
     if (expanded) {
       currentNode$.addClass('expanded');
     } else {
@@ -842,7 +1031,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 
   selectNodeByDocumentPath = function(documentPath, headerSlug) {
     var link, urlChunks, _i, _len, _ref;
-
     if (headerSlug == null) {
       headerSlug = null;
     }
@@ -865,7 +1053,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 
   moveCurrentNode = function(up) {
     var i, newIndex, node, visibleNodes$, _i, _len;
-
     visibleNodes$ = toc$.find('li:visible:not(.filtered)');
     newIndex = 0;
     for (i = _i = 0, _len = visibleNodes$.length; _i < _len; i = ++_i) {
@@ -886,7 +1073,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 
   visitCurrentNode = function() {
     var labelLink$;
-
     labelLink$ = currentNode$.children('a.label');
     if (labelLink$.length > 0) {
       return window.location = labelLink$.attr('href');
@@ -899,7 +1085,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 
   appendSearchNode = function(node$) {
     var text$;
-
     text$ = node$.find('> .label .text');
     return searchableNodes.push([text$.text().toLowerCase(), node$, text$]);
   };
@@ -908,7 +1093,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 
   searchNodes = function(queryString) {
     var c, filtered, matched, matcher, nodeInfo, p, _i, _j, _k, _len, _len1, _len2, _results;
-
     queryString = queryString.toLowerCase().replace(/\s+/, '');
     if (queryString === currentQuery) {
       return;
@@ -919,7 +1103,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
     }
     matcher = new RegExp(((function() {
       var _i, _len, _results;
-
       _results = [];
       for (_i = 0, _len = queryString.length; _i < _len; _i++) {
         c = queryString[_i];
@@ -955,7 +1138,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
       highlightMatch(nodeInfo[2], queryString);
       _results.push((function() {
         var _l, _len3, _ref, _results1;
-
         _ref = nodeInfo[1].parents('li');
         _results1 = [];
         for (_l = 0, _len3 = _ref.length; _l < _len3; _l++) {
@@ -970,7 +1152,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 
   clearFilter = function() {
     var nodeInfo, _i, _len, _results;
-
     nav$.removeClass('searching');
     currentQuery = '';
     _results = [];
@@ -984,7 +1165,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 
   highlightMatch = function(text$, queryString) {
     var char, foundIndex, furthestIndex, lowerText, markedText, nodeText, _i, _len;
-
     nodeText = text$.text();
     lowerText = nodeText.toLowerCase();
     markedText = '';
@@ -1006,7 +1186,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 
   buildNav = function(metaInfo) {
     var node, sourceURL, _i, _len;
-
     nav$ = $("<nav>\n  <ul class=\"tools\">\n    <li class=\"toggle\">Table of Contents</li>\n    <li class=\"search\">\n      <input id=\"search\" type=\"search\" autocomplete=\"off\"/>\n    </li>\n  </ul>\n  <ol class=\"toc\"/>\n  </div>\n</nav>").appendTo($('body'));
     toc$ = nav$.find('.toc');
     if (metaInfo.githubURL) {
@@ -1025,15 +1204,29 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
   };
 
   buildTOCNode = function(node, metaInfo) {
-    var c, children$, discloser$, label$, node$, _i, _len, _ref, _ref1, _ref2;
-
+    var c, children$, clickLabel, discloser, discloser$, label$, node$, _i, _len, _ref, _ref1, _ref2;
     node$ = $("<li class=\"" + node.type + "\"/>");
+    discloser = null;
     switch (node.type) {
       case 'file':
         node$.append("<a class=\"label\" href=\"" + metaInfo.relativeRoot + node.data.targetPath + ".html\" title=\"" + node.data.projectPath + "\"><span class=\"text\">" + node.data.title + "</span></a>");
+        clickLabel = function(evt) {
+          if (evt.target === discloser) {
+            node$.toggleClass('expanded');
+            evt.preventDefault();
+            return false;
+          }
+          return selectNode(node$);
+        };
         break;
       case 'folder':
-        node$.append("<span class=\"label\"><span class=\"text\">" + node.data.title + "</span></span>");
+        node$.append("<a class=\"label\" href=\"#\"><span class=\"text\">" + node.data.title + "</span></a>");
+        clickLabel = function(evt) {
+          selectNode(node$);
+          node$.toggleClass('expanded');
+          evt.preventDefault();
+          return false;
+        };
     }
     if (((_ref = node.children) != null ? _ref.length : void 0) > 0) {
       children$ = $('<ol class="children"/>');
@@ -1045,17 +1238,12 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
       node$.append(children$);
     }
     label$ = node$.find('> .label');
-    label$.click(function() {
-      return selectNode(node$);
-    });
+    label$.click(clickLabel);
     discloser$ = $('<span class="discloser"/>').prependTo(label$);
     if (!(((_ref2 = node.children) != null ? _ref2.length : void 0) > 0)) {
       discloser$.addClass('placeholder');
     }
-    discloser$.click(function(evt) {
-      node$.toggleClass('expanded');
-      return evt.preventDefault();
-    });
+    discloser = discloser$.get(0);
     if (node.type === 'file') {
       fileMap[node.data.targetPath] = node$;
     }
@@ -1065,7 +1253,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 
   $(function() {
     var lastMousedownTimestamp, metaInfo, search$, toggle$;
-
     metaInfo = {
       relativeRoot: $('meta[name="groc-relative-root"]').attr('content'),
       githubURL: $('meta[name="groc-github-url"]').attr('content'),
@@ -1131,7 +1318,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
     search$.bind('keyup search', function(evt) {
       return searchNodes(search$.val());
     });
-    return search$.keydown(function(evt) {
+    search$.keydown(function(evt) {
       if (evt.keyCode === 27) {
         if (search$.val().trim() === '') {
           return search$.blur();
@@ -1139,6 +1326,15 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           return search$.val('');
         }
       }
+    });
+    return $('.code.folded').each(function(index, code) {
+      var code$;
+      code$ = $(code);
+      return code$.click(function(evt) {
+        code$.toggleClass('folded');
+        evt.preventDefault();
+        return false;
+      });
     });
   });
 

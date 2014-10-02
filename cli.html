@@ -1,168 +1,188 @@
-<!DOCTYPE html><html lang="en"><head><title>cli</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="cli"><meta name="groc-project-path" content="lib/cli.coffee"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/nevir/groc/blob/master/lib/cli.coffee">lib/cli.coffee</a></div></div><div id="document"><div class="segment"><div class="comments"><div class="wrapper"><h1 id="command-line-interface">Command Line Interface</h1></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="nv">childProcess = </span><span class="nx">require</span> <span class="s">&#39;child_process&#39;</span>
-<span class="nv">fs           = </span><span class="nx">require</span> <span class="s">&#39;fs&#39;</span>
-<span class="nv">path         = </span><span class="nx">require</span> <span class="s">&#39;path&#39;</span>
+<!DOCTYPE html><html lang="en"><head><title>cli</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="cli"><meta name="groc-project-path" content="lib/cli.coffee"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/nevir/groc/blob/master/lib/cli.coffee">lib/cli.coffee</a></div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="command-line-interface">Command Line Interface</h1></div></div></div><div class="segment"><div class="code"><div class="wrapper">childProcess = <span class="hljs-built_in">require</span> <span class="hljs-string">'child_process'</span>
+fs           = <span class="hljs-built_in">require</span> <span class="hljs-string">'fs'</span>
+path         = <span class="hljs-built_in">require</span> <span class="hljs-string">'path'</span>
 
-<span class="nv">glob     = </span><span class="nx">require</span> <span class="s">&#39;glob&#39;</span>
-<span class="nv">optimist = </span><span class="nx">require</span> <span class="s">&#39;optimist&#39;</span>
+glob     = <span class="hljs-built_in">require</span> <span class="hljs-string">'glob'</span>
+optimist = <span class="hljs-built_in">require</span> <span class="hljs-string">'optimist'</span>
 
-<span class="nv">CLIHelpers   = </span><span class="nx">require</span> <span class="s">&#39;./utils/cli_helpers&#39;</span>
-<span class="nv">Logger       = </span><span class="nx">require</span> <span class="s">&#39;./utils/logger&#39;</span>
-<span class="nv">PACKAGE_INFO = </span><span class="nx">require</span> <span class="s">&#39;./package_info&#39;</span>
-<span class="nv">Project      = </span><span class="nx">require</span> <span class="s">&#39;./project&#39;</span>
-<span class="nv">styles       = </span><span class="nx">require</span> <span class="s">&#39;./styles&#39;</span>
-<span class="nv">Utils        = </span><span class="nx">require</span> <span class="s">&#39;./utils&#39;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Readable command line output is just as important as readable documentation!  It is the first
+CLIHelpers   = <span class="hljs-built_in">require</span> <span class="hljs-string">'./utils/cli_helpers'</span>
+Logger       = <span class="hljs-built_in">require</span> <span class="hljs-string">'./utils/logger'</span>
+PACKAGE_INFO = <span class="hljs-built_in">require</span> <span class="hljs-string">'../package.json'</span>
+Project      = <span class="hljs-built_in">require</span> <span class="hljs-string">'./project'</span>
+styles       = <span class="hljs-built_in">require</span> <span class="hljs-string">'./styles'</span>
+Utils        = <span class="hljs-built_in">require</span> <span class="hljs-string">'./utils'</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Readable command line output is just as important as readable documentation!  It is the first
 interaction that a developer will have with a tool like this, so we want to leave a good
-impression with nicely formatted and readable command line output.</p></div></div><div class="code"><div class="wrapper"><span class="nv">module.exports = CLI = </span><span class="nf">(inputArgs, callback) -&gt;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>In keeping with our console beautification project, make sure that our output isn't getting
-too comfortable with the user's next shell line.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">actualCallback = </span><span class="nx">callback</span>
-  <span class="nv">callback = </span><span class="nf">(args...) -&gt;</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&#39;&#39;</span>
+impression with nicely formatted and readable command line output.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-built_in">module</span>.<span class="hljs-built_in">exports</span> = <span class="hljs-function"><span class="hljs-title">CLI</span> = <span class="hljs-params">(inputArgs, callback)</span> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>In keeping with our console beautification project, make sure that our output isn&#39;t getting
+too comfortable with the user&#39;s next shell line.</p></div></div><div class="code"><div class="wrapper">  actualCallback = callback
+  <span class="hljs-function"><span class="hljs-title">callback</span> = <span class="hljs-params">(args...)</span> -&gt;</span>
+    <span class="hljs-built_in">console</span>.log <span class="hljs-string">''</span>
 
-    <span class="nx">actualCallback</span> <span class="nx">args</span><span class="p">...</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We use <a href="https://github.com/substack/node-optimist">Optimist</a> to parse our command line arguments
-in a sane manner, and manage the myriad of options.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">opts = </span><span class="nx">optimist</span> <span class="nx">inputArgs</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="cli-overview">CLI Overview</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Readable command line output is just as important as readable documentation! It is the first
+    actualCallback args...</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>We use <a href="https://github.com/substack/node-optimist">Optimist</a> to parse our command line arguments
+in a sane manner, and manage the myriad of options.</p></div></div><div class="code"><div class="wrapper">  opts = optimist inputArgs</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="cli-overview">CLI Overview</h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Readable command line output is just as important as readable documentation! It is the first
 interaction that a developer will have with a tool like this, so we want to leave a good
-impression with nicely formatted and readable output.</p></div></div><div class="code"><div class="wrapper">  <span class="nx">opts</span>
-    <span class="p">.</span><span class="nx">usage</span><span class="p">(</span><span class="s">&quot;&quot;&quot;</span>
-<span class="s">    Usage: groc [options] &quot;lib/**/*.coffee&quot; doc/*.md</span>
+impression with nicely formatted and readable output.</p></div></div><div class="code"><div class="wrapper">  opts
+    .usage(<span class="hljs-string">"""
+    Usage: groc [options] "lib/**/*.coffee" doc/*.md
 
-<span class="s">    groc accepts lists of files and (quoted) glob expressions to match the files you would like to</span>
-<span class="s">    generate documentation for.  Any unnamed options are shorthand for --glob arg.</span>
+    groc accepts lists of files and (quoted) glob expressions to match the files you would like to
+    generate documentation for.  Any unnamed options are shorthand for --glob arg.
 
-<span class="s">    You can also specify arguments via a configuration file in the current directory named</span>
-<span class="s">    .groc.json.  It should contain a mapping between option names and their values.  For example:</span>
+    You can also specify arguments via a configuration file in the current directory named
+    .groc.json.  It should contain a mapping between option names and their values.  For example:
 
-<span class="s">      { &quot;glob&quot;: [&quot;lib&quot;, &quot;vendor&quot;], out: &quot;documentation&quot;, strip: [] }</span>
-<span class="s">    &quot;&quot;&quot;</span><span class="p">)</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="cli-options">CLI Options</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  <span class="nv">optionsConfig =</span>
+      { "glob": ["lib", "vendor"], out: "documentation", strip: [] }
+    """</span>)</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="cli-options">CLI Options</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  optionsConfig =
 
-    <span class="nv">help:</span>
-      <span class="nv">describe: </span><span class="s">&quot;You&#39;re looking at it.&quot;</span>
-      <span class="nv">alias: </span>  <span class="p">[</span><span class="s">&#39;h&#39;</span><span class="p">,</span> <span class="s">&#39;?&#39;</span><span class="p">]</span>
-      <span class="nv">type: </span>    <span class="s">&#39;boolean&#39;</span>
+    <span class="hljs-attribute">help</span>:
+      <span class="hljs-attribute">describe</span>: <span class="hljs-string">"You're looking at it."</span>
+      <span class="hljs-attribute">alias</span>:   [<span class="hljs-string">'h'</span>, <span class="hljs-string">'?'</span>]
+      <span class="hljs-attribute">type</span>:     <span class="hljs-string">'boolean'</span>
 
-    <span class="nv">glob:</span>
-      <span class="nv">describe: </span><span class="s">&quot;A file path or globbing expression that matches files to generate documentation for.&quot;</span>
-      <span class="nv">default: </span> <span class="nf">(opts) -&gt;</span> <span class="nx">opts</span><span class="p">.</span><span class="nx">argv</span><span class="p">.</span><span class="nx">_</span>
-      <span class="nv">type: </span>    <span class="s">&#39;list&#39;</span>
+    <span class="hljs-attribute">glob</span>:
+      <span class="hljs-attribute">describe</span>: <span class="hljs-string">"A file path or globbing expression that matches files to generate documentation for."</span>
+      <span class="hljs-attribute">default</span>:  <span class="hljs-function"><span class="hljs-params">(opts)</span> -&gt;</span> opts.argv._
+      <span class="hljs-attribute">type</span>:     <span class="hljs-string">'list'</span>
 
-    <span class="nv">except:</span>
-      <span class="nv">describe: </span><span class="s">&quot;Glob expression of files to exclude.  Can be specified multiple times.&quot;</span>
-      <span class="nv">alias: </span>   <span class="s">&#39;e&#39;</span>
-      <span class="nv">type: </span>    <span class="s">&#39;list&#39;</span>
+    <span class="hljs-attribute">except</span>:
+      <span class="hljs-attribute">describe</span>: <span class="hljs-string">"Glob expression of files to exclude.  Can be specified multiple times."</span>
+      <span class="hljs-attribute">alias</span>:    <span class="hljs-string">'e'</span>
+      <span class="hljs-attribute">type</span>:     <span class="hljs-string">'list'</span>
 
-    <span class="nv">github:</span>
-      <span class="nv">describe: </span><span class="s">&quot;Generate your docs in the gh-pages branch of your git repository.  --out is ignored.&quot;</span>
-      <span class="nv">alias: </span>   <span class="s">&#39;gh&#39;</span>
-      <span class="nv">type: </span>    <span class="s">&#39;boolean&#39;</span>
+    <span class="hljs-attribute">github</span>:
+      <span class="hljs-attribute">describe</span>: <span class="hljs-string">"Generate your docs in the gh-pages branch of your git repository.  --out is ignored."</span>
+      <span class="hljs-attribute">alias</span>:    <span class="hljs-string">'gh'</span>
+      <span class="hljs-attribute">type</span>:     <span class="hljs-string">'boolean'</span>
 
-    <span class="s">&#39;repository-url&#39;</span><span class="o">:</span>
-      <span class="nv">describe: </span><span class="s">&quot;Supply your GitHub repository URL (if groc fails to guess it).&quot;</span>
-      <span class="nv">type: </span>    <span class="s">&#39;string&#39;</span>
+    <span class="hljs-string">'repository-url'</span>:
+      <span class="hljs-attribute">describe</span>: <span class="hljs-string">"Supply your GitHub repository URL (if groc fails to guess it)."</span>
+      <span class="hljs-attribute">type</span>:     <span class="hljs-string">'string'</span>
 
-    <span class="nv">out:</span>
-      <span class="nv">describe: </span><span class="s">&quot;The directory to place generated documentation, relative to the project root.&quot;</span>
-      <span class="nv">alias: </span>   <span class="s">&#39;o&#39;</span>
-      <span class="nv">default: </span> <span class="s">&#39;./doc&#39;</span>
-      <span class="nv">type: </span>    <span class="s">&#39;path&#39;</span>
+    <span class="hljs-attribute">out</span>:
+      <span class="hljs-attribute">describe</span>: <span class="hljs-string">"The directory to place generated documentation, relative to the project root."</span>
+      <span class="hljs-attribute">alias</span>:    <span class="hljs-string">'o'</span>
+      <span class="hljs-attribute">default</span>:  <span class="hljs-string">'./doc'</span>
+      <span class="hljs-attribute">type</span>:     <span class="hljs-string">'path'</span>
 
-    <span class="nv">index:</span>
-      <span class="nv">describe: </span><span class="s">&quot;The file to use as the index of the generated documentation.&quot;</span>
-      <span class="nv">alias: </span>   <span class="s">&#39;i&#39;</span>
-      <span class="nv">default: </span> <span class="s">&#39;README.md&#39;</span>
+    <span class="hljs-attribute">index</span>:
+      <span class="hljs-attribute">describe</span>: <span class="hljs-string">"The file to use as the index of the generated documentation."</span>
+      <span class="hljs-attribute">alias</span>:    <span class="hljs-string">'i'</span>
+      <span class="hljs-attribute">default</span>:  <span class="hljs-string">'README.md'</span>
 
-    <span class="nv">root:</span>
-      <span class="nv">describe: </span><span class="s">&quot;The root directory of the project.&quot;</span>
-      <span class="nv">alias: </span>   <span class="s">&#39;r&#39;</span>
-      <span class="nv">default: </span> <span class="s">&#39;.&#39;</span>
-      <span class="nv">type: </span>    <span class="s">&#39;path&#39;</span>
+    <span class="hljs-string">'index-page-title'</span>:
+      <span class="hljs-attribute">describe</span>: <span class="hljs-string">"The index's page title in the generated documentation."</span>
+      <span class="hljs-attribute">default</span>:  <span class="hljs-string">'index'</span>
 
-    <span class="nv">style:</span>
-      <span class="nv">describe: </span><span class="s">&quot;The style to use when generating documentation.&quot;</span>
-      <span class="nv">alias: </span>   <span class="s">&#39;s&#39;</span>
-      <span class="nv">default: </span> <span class="s">&#39;Default&#39;</span>
+    <span class="hljs-attribute">root</span>:
+      <span class="hljs-attribute">describe</span>: <span class="hljs-string">"The root directory of the project."</span>
+      <span class="hljs-attribute">alias</span>:    <span class="hljs-string">'r'</span>
+      <span class="hljs-attribute">default</span>:  <span class="hljs-string">'.'</span>
+      <span class="hljs-attribute">type</span>:     <span class="hljs-string">'path'</span>
 
-    <span class="nv">strip:</span>
-      <span class="nv">describe: </span><span class="s">&quot;A path prefix to strip when generating documentation paths (or --no-strip).&quot;</span>
-      <span class="nv">alias: </span>   <span class="s">&#39;t&#39;</span>
+    <span class="hljs-attribute">style</span>:
+      <span class="hljs-attribute">describe</span>: <span class="hljs-string">"The style to use when generating documentation."</span>
+      <span class="hljs-attribute">alias</span>:    <span class="hljs-string">'s'</span>
+      <span class="hljs-attribute">default</span>:  <span class="hljs-string">'Default'</span>
 
-    <span class="s">&#39;whitespace-after-token&#39;</span><span class="o">:</span>
-      <span class="nv">describe: </span><span class="s">&quot;Require whitespace after a comment token for a line to be considered a comment.&quot;</span>
-      <span class="nv">default: </span> <span class="kc">true</span>
-      <span class="nv">type: </span>    <span class="s">&#39;boolean&#39;</span>
+    <span class="hljs-attribute">highlighter</span>:
+      <span class="hljs-attribute">describe</span>: <span class="hljs-string">"The highlighter to use. Either highlight.js (default) or pygments."</span>
+      <span class="hljs-attribute">alias</span>:    <span class="hljs-string">'hl'</span>
+      <span class="hljs-attribute">default</span>:  <span class="hljs-string">'highlight.js'</span>
 
-    <span class="nv">silent:</span>
-      <span class="nv">describe: </span><span class="s">&quot;Output errors only.&quot;</span>
+    <span class="hljs-attribute">strip</span>:
+      <span class="hljs-attribute">describe</span>: <span class="hljs-string">"A path prefix to strip when generating documentation paths (or --no-strip)."</span>
+      <span class="hljs-attribute">alias</span>:    <span class="hljs-string">'t'</span>
 
-    <span class="nv">version:</span>
-      <span class="nv">describe: </span><span class="s">&quot;Shows you the current version of groc (</span><span class="si">#{</span><span class="nx">PACKAGE_INFO</span><span class="p">.</span><span class="nx">version</span><span class="si">}</span><span class="s">)&quot;</span>
-      <span class="nv">alias: </span>   <span class="s">&#39;v&#39;</span>
+    <span class="hljs-string">'whitespace-after-token'</span>:
+      <span class="hljs-attribute">describe</span>: <span class="hljs-string">"Require whitespace after a comment token for a line to be considered a comment."</span>
+      <span class="hljs-attribute">default</span>:  <span class="hljs-literal">true</span>
+      <span class="hljs-attribute">type</span>:     <span class="hljs-string">'boolean'</span>
 
-    <span class="nv">verbose:</span>
-      <span class="nv">describe: </span><span class="s">&quot;Output the inner workings of groc to help diagnose issues.&quot;</span>
+    <span class="hljs-attribute">languages</span>:
+      <span class="hljs-attribute">describe</span>: <span class="hljs-string">"Path to language definition file."</span>
+      <span class="hljs-attribute">default</span>:  <span class="hljs-string">"<span class="hljs-subst">#{__dirname}</span>/languages"</span>
+      <span class="hljs-attribute">type</span>:     <span class="hljs-string">'path'</span>
 
-   <span class="s">&#39;very-verbose&#39;</span><span class="o">:</span>
-      <span class="nv">describe: </span><span class="s">&quot;Hey, you asked for it.&quot;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="argument-processing">Argument processing</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We treat the values within the current project's <code>.groc.json</code> as defaults, so that you can
-easily override the persisted configuration when testing and tweaking.</p></div></div><div class="code"><div class="wrapper">  <span class="c1">#</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>For example, if you have configured your <code>.groc.json</code> to include <code>"github": true</code>, it is
-extremely helpful to use <code>groc --no-github</code> until you are satisfied with the generated output.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">projectConfigPath = </span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span> <span class="s">&#39;.groc.json&#39;</span>
-  <span class="k">try</span>
-    <span class="nv">projectConfig = </span><span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span> <span class="nx">projectConfigPath</span>
-  <span class="k">catch</span> <span class="nx">err</span>
-    <span class="k">unless</span> <span class="nx">err</span><span class="p">.</span><span class="nx">code</span> <span class="o">==</span> <span class="s">&#39;ENOENT&#39;</span> <span class="o">||</span> <span class="nx">err</span><span class="p">.</span><span class="nx">code</span> <span class="o">==</span> <span class="s">&#39;EBADF&#39;</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">opts</span><span class="p">.</span><span class="nx">help</span><span class="p">()</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span>
-      <span class="nx">Logger</span><span class="p">.</span><span class="nx">error</span> <span class="s">&quot;Failed to load .groc.json: %s&quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">.</span><span class="nx">message</span>
+    <span class="hljs-attribute">silent</span>:
+      <span class="hljs-attribute">describe</span>: <span class="hljs-string">"Output errors only."</span>
 
-      <span class="k">return</span> <span class="nx">callback</span> <span class="nx">err</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We rely on <a href="utils/cli_helpers.html#configureoptimist">CLIHelpers.configureOptimist</a> to provide
-the extra options behavior that we require.</p></div></div><div class="code"><div class="wrapper">  <span class="nx">CLIHelpers</span><span class="p">.</span><span class="nx">configureOptimist</span> <span class="nx">opts</span><span class="p">,</span> <span class="nx">optionsConfig</span><span class="p">,</span> <span class="nx">projectConfig</span>
-  <span class="c1">#} We have one special case that depends on other defaults...</span>
-  <span class="nx">opts</span><span class="p">.</span><span class="nx">default</span> <span class="s">&#39;strip&#39;</span><span class="p">,</span> <span class="nx">Utils</span><span class="p">.</span><span class="nx">guessStripPrefixes</span> <span class="nx">opts</span><span class="p">.</span><span class="nx">argv</span><span class="p">.</span><span class="nx">glob</span> <span class="k">unless</span> <span class="nx">projectConfig</span><span class="o">?</span><span class="p">.</span><span class="nx">strip</span><span class="o">?</span> <span class="o">and</span> <span class="nx">opts</span><span class="p">.</span><span class="nx">argv</span><span class="p">.</span><span class="nx">glob</span><span class="o">?</span>
+    <span class="hljs-attribute">version</span>:
+      <span class="hljs-attribute">describe</span>: <span class="hljs-string">"Shows you the current version of groc (<span class="hljs-subst">#{PACKAGE_INFO.version}</span>)"</span>
+      <span class="hljs-attribute">alias</span>:    <span class="hljs-string">'v'</span>
 
-  <span class="nv">argv = </span><span class="nx">CLIHelpers</span><span class="p">.</span><span class="nx">extractArgv</span> <span class="nx">opts</span><span class="p">,</span> <span class="nx">optionsConfig</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>If we're in tracing mode, the parsed options are extremely helpful.</p></div></div><div class="code"><div class="wrapper">  <span class="nx">Logger</span><span class="p">.</span><span class="nx">trace</span> <span class="s">&#39;argv: %j&#39;</span><span class="p">,</span> <span class="nx">argv</span> <span class="k">if</span> <span class="nx">argv</span><span class="p">[</span><span class="s">&#39;very-verbose&#39;</span><span class="p">]</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Version checks short circuit before our pretty printing begins, since it is
-one of those things that you might want to reference from other scripts.</p></div></div><div class="code"><div class="wrapper">  <span class="k">return</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">PACKAGE_INFO</span><span class="p">.</span><span class="nx">version</span> <span class="k">if</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">version</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>In keeping with our stance on readable output, we don't want it bumping up
+    <span class="hljs-attribute">verbose</span>:
+      <span class="hljs-attribute">describe</span>: <span class="hljs-string">"Output the inner workings of groc to help diagnose issues."</span>
+
+   <span class="hljs-string">'very-verbose'</span>:
+      <span class="hljs-attribute">describe</span>: <span class="hljs-string">"Hey, you asked for it."</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="argument-processing">Argument processing</h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>We treat the values within the current project&#39;s <code>.groc.json</code> as defaults, so that you can
+easily override the persisted configuration when testing and tweaking.
+For example, if you have configured your <code>.groc.json</code> to include <code>&quot;github&quot;: true</code>, it is
+extremely helpful to use <code>groc --no-github</code> until you are satisfied with the generated output.</p></div></div><div class="code"><div class="wrapper">  projectConfigPath = path.resolve <span class="hljs-string">'.groc.json'</span>
+  <span class="hljs-keyword">try</span>
+    projectConfig = JSON.parse fs.readFileSync projectConfigPath
+  <span class="hljs-keyword">catch</span> err
+    <span class="hljs-keyword">unless</span> err.code == <span class="hljs-string">'ENOENT'</span> || err.code == <span class="hljs-string">'EBADF'</span>
+      <span class="hljs-built_in">console</span>.log opts.help()
+      <span class="hljs-built_in">console</span>.log
+      Logger.error <span class="hljs-string">"Failed to load .groc.json: %s"</span>, err.message
+
+      <span class="hljs-keyword">return</span> callback err</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>We rely on <a href="utils/cli_helpers.html#configureoptimist">CLIHelpers.configureOptimist</a> to provide
+the extra options behavior that we require.</p></div></div><div class="code"><div class="wrapper">  CLIHelpers.configureOptimist opts, optionsConfig, projectConfig
+  <span class="hljs-comment">#} We have one special case that depends on other defaults...</span>
+  opts.<span class="hljs-reserved">default</span> <span class="hljs-string">'strip'</span>, Utils.guessStripPrefixes opts.argv.glob <span class="hljs-keyword">unless</span> projectConfig?.strip? <span class="hljs-keyword">and</span> opts.argv.glob?
+
+  argv = CLIHelpers.extractArgv opts, optionsConfig</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>If we&#39;re in tracing mode, the parsed options are extremely helpful.</p></div></div><div class="code"><div class="wrapper">  Logger.trace <span class="hljs-string">'argv: %j'</span>, argv <span class="hljs-keyword">if</span> argv[<span class="hljs-string">'very-verbose'</span>]</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Version checks short circuit before our pretty printing begins, since it is
+one of those things that you might want to reference from other scripts.</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.log PACKAGE_INFO.version <span class="hljs-keyword">if</span> argv.version</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>In keeping with our stance on readable output, we don&#39;t want it bumping up
 against the shell execution lines and blurring together; use that whitespace
-with great gusto!</p></div></div><div class="code"><div class="wrapper">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&#39;&#39;</span>
+with great gusto!</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-built_in">console</span>.log <span class="hljs-string">''</span>
 
-  <span class="k">return</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">opts</span><span class="p">.</span><span class="nx">help</span><span class="p">()</span> <span class="k">if</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">help</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="project-generation">Project Generation</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>A <a href="project.html">Project</a> is just a handy way to configure the generation process, and is in
-charge of kicking that off.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">project = </span><span class="k">new</span> <span class="nx">Project</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">root</span><span class="p">,</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">out</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p><code>--silent</code>, <code>--verbose</code> and <code>--very-verbose</code> just impact the logging level of the project.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">project.log.minLevel = </span><span class="nx">Logger</span><span class="o">::</span><span class="nx">LEVELS</span><span class="p">.</span><span class="nx">ERROR</span> <span class="k">if</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">silent</span>
-  <span class="nv">project.log.minLevel = </span><span class="nx">Logger</span><span class="o">::</span><span class="nx">LEVELS</span><span class="p">.</span><span class="nx">DEBUG</span> <span class="k">if</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">verbose</span>
-  <span class="nv">project.log.minLevel = </span><span class="nx">Logger</span><span class="o">::</span><span class="nx">LEVELS</span><span class="p">.</span><span class="nx">TRACE</span> <span class="k">if</span> <span class="nx">argv</span><span class="p">[</span><span class="s">&#39;very-verbose&#39;</span><span class="p">]</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Set up project-specific options as we get them.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">project.options.requireWhitespaceAfterToken = </span><span class="o">!!</span><span class="nx">argv</span><span class="p">[</span><span class="s">&#39;whitespace-after-token&#39;</span><span class="p">]</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We expand the <code>--glob</code> expressions into a poor-man's set, so that we can easily remove
-exclusions defined by <code>--except</code> before we add the result to the project's file list.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">files = </span><span class="p">{}</span>
-  <span class="k">for</span> <span class="nx">globExpression</span> <span class="k">in</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">glob</span>
-    <span class="nx">files</span><span class="p">[</span><span class="nx">file</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span> <span class="k">for</span> <span class="nx">file</span> <span class="k">in</span> <span class="nx">glob</span><span class="p">.</span><span class="nx">sync</span> <span class="nx">globExpression</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.log opts.help() <span class="hljs-keyword">if</span> argv.help</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="project-generation">Project Generation</h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>A <a href="project.html">Project</a> is just a handy way to configure the generation process, and is in
+charge of kicking that off.</p></div></div><div class="code"><div class="wrapper">  project = <span class="hljs-keyword">new</span> Project argv.root, argv.out</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>--silent</code>, <code>--verbose</code> and <code>--very-verbose</code> just impact the logging level of the project.</p></div></div><div class="code"><div class="wrapper">  project.log.minLevel = <span class="hljs-attribute">Logger</span>::LEVELS.ERROR <span class="hljs-keyword">if</span> argv.silent
+  project.log.minLevel = <span class="hljs-attribute">Logger</span>::LEVELS.DEBUG <span class="hljs-keyword">if</span> argv.verbose
+  project.log.minLevel = <span class="hljs-attribute">Logger</span>::LEVELS.TRACE <span class="hljs-keyword">if</span> argv[<span class="hljs-string">'very-verbose'</span>]</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Set up project-specific options as we get them.</p></div></div><div class="code"><div class="wrapper">  project.options.requireWhitespaceAfterToken = !!argv[<span class="hljs-string">'whitespace-after-token'</span>]
+  project.options.showdown = argv.showdown
+  project.options.languages = argv.languages
+  project.options.highlighter = argv.highlighter</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>We expand the <code>--glob</code> expressions into a poor-man&#39;s set, so that we can easily remove
+exclusions defined by <code>--except</code> before we add the result to the project&#39;s file list.</p></div></div><div class="code"><div class="wrapper">  files = {}
+  <span class="hljs-keyword">for</span> globExpression <span class="hljs-keyword">in</span> argv.glob
+    files[file] = <span class="hljs-literal">true</span> <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> glob.sync globExpression
 
-  <span class="k">for</span> <span class="nx">globExpression</span> <span class="k">in</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">except</span>
-    <span class="k">delete</span> <span class="nx">files</span><span class="p">[</span><span class="nx">file</span><span class="p">]</span> <span class="k">for</span> <span class="nx">file</span> <span class="k">in</span> <span class="nx">glob</span><span class="p">.</span><span class="nx">sync</span> <span class="nx">globExpression</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>There are several properties that we need to configure on a project before we can go ahead and
-generate its documentation.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">project.index = </span><span class="nx">argv</span><span class="p">.</span><span class="nx">index</span>
-  <span class="nv">project.files = </span><span class="p">(</span><span class="nx">f</span> <span class="k">for</span> <span class="nx">f</span> <span class="k">of</span> <span class="nx">files</span><span class="p">)</span>
-  <span class="nv">project.stripPrefixes = </span><span class="nx">argv</span><span class="p">.</span><span class="nx">strip</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p><code>Project#generate</code> can take some options, such as which style to use.  Since we're generating
-differently depending on whether or not github is enabled, let's set those up now:</p></div></div><div class="code"><div class="wrapper">  <span class="nv">options =</span>
-    <span class="nv">style: </span><span class="nx">styles</span><span class="p">[</span><span class="nx">argv</span><span class="p">.</span><span class="nx">style</span><span class="p">]</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Good to go!</p></div></div><div class="code"><div class="wrapper">  <span class="k">unless</span> <span class="nx">argv</span><span class="p">.</span><span class="nx">github</span>
-    <span class="nx">project</span><span class="p">.</span><span class="nx">generate</span> <span class="nx">options</span><span class="p">,</span> <span class="nf">(error) -&gt;</span>
-      <span class="nx">callback</span> <span class="nx">error</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="github">GitHub</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  <span class="k">else</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We want to be able to annotate generated documentation with the project's GitHub URL.  This is
-handy for things like generating links directly to each file's source.</p></div></div><div class="code"><div class="wrapper">    <span class="nx">CLIHelpers</span><span class="p">.</span><span class="nx">guessPrimaryGitHubURL</span> <span class="nx">argv</span><span class="p">[</span><span class="s">&#39;repository-url&#39;</span><span class="p">],</span> <span class="nf">(error, url, remote) -&gt;</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;publish_to_github&quot;</span><span class="p">,</span> <span class="nx">error</span><span class="p">,</span> <span class="nx">url</span><span class="p">,</span> <span class="nx">remote</span>
+  <span class="hljs-keyword">for</span> globExpression <span class="hljs-keyword">in</span> argv.except
+    <span class="hljs-keyword">delete</span> files[file] <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> glob.sync globExpression</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>There are several properties that we need to configure on a project before we can go ahead and
+generate its documentation.</p></div></div><div class="code"><div class="wrapper">  project.index = argv.index
+  project.files = (f <span class="hljs-keyword">for</span> f <span class="hljs-keyword">of</span> files)
+  project.stripPrefixes = argv.strip</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>Project#generate</code> can take some options, such as which style to use.  Since we&#39;re generating
+differently depending on whether or not github is enabled, let&#39;s set those up now:</p></div></div><div class="code"><div class="wrapper">  options =
+    <span class="hljs-attribute">indexPageTitle</span>: argv[<span class="hljs-string">'index-page-title'</span>]
+    <span class="hljs-attribute">style</span>: styles[argv.style]</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Good to go!</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-keyword">unless</span> argv.github
+    project.generate options, <span class="hljs-function"><span class="hljs-params">(error)</span> -&gt;</span>
+      callback error</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="github">GitHub</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  <span class="hljs-keyword">else</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>We want to be able to annotate generated documentation with the project&#39;s GitHub URL.  This is
+handy for things like generating links directly to each file&#39;s source.</p></div></div><div class="code"><div class="wrapper">    CLIHelpers.guessPrimaryGitHubURL argv[<span class="hljs-string">'repository-url'</span>], <span class="hljs-function"><span class="hljs-params">(error, url, remote)</span> -&gt;</span>
+      <span class="hljs-built_in">console</span>.log <span class="hljs-string">"publish_to_github"</span>, error, url, remote
 
-      <span class="k">if</span> <span class="nx">error</span>
-        <span class="nx">project</span><span class="p">.</span><span class="nx">log</span><span class="p">.</span><span class="nx">error</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
-        <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
+      <span class="hljs-keyword">if</span> error
+        project.log.error error.message
+        <span class="hljs-keyword">return</span> callback error
 
-      <span class="nv">project.githubURL = </span><span class="nx">url</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We hide the docs inside <code>.git/groc-tmp</code> so that we can switch branches without losing the
+      project.githubURL = url</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>We hide the docs inside <code>.git/groc-tmp</code> so that we can switch branches without losing the
 generated output.  It also keeps us out of the business of finding an OS-sanctioned
-temporary path.</p></div></div><div class="code"><div class="wrapper">      <span class="nv">project.outPath = </span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span> <span class="s">&#39;.git&#39;</span><span class="p">,</span> <span class="s">&#39;groc-tmp&#39;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Dealing with generation for github pages is pretty involved, and requires a lot of back
+temporary path.</p></div></div><div class="code"><div class="wrapper">      project.outPath = path.resolve path.join <span class="hljs-string">'.git'</span>, <span class="hljs-string">'groc-tmp'</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Dealing with generation for github pages is pretty involved, and requires a lot of back
 and forth with git.  Rather than descend into callback hell in Node, we farm the logic
-out to a shell script.</p></div></div><div class="code"><div class="wrapper">      <span class="nx">project</span><span class="p">.</span><span class="nx">generate</span> <span class="nx">options</span><span class="p">,</span> <span class="nf">(error) -&gt;</span>
-        <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span> <span class="k">if</span> <span class="nx">error</span>
+out to a shell script.</p></div></div><div class="code"><div class="wrapper">      project.generate options, <span class="hljs-function"><span class="hljs-params">(error)</span> -&gt;</span>
+        <span class="hljs-keyword">return</span> callback error <span class="hljs-keyword">if</span> error
 
-        <span class="nx">project</span><span class="p">.</span><span class="nx">log</span><span class="p">.</span><span class="nx">info</span> <span class="s">&#39;&#39;</span>
-        <span class="nx">project</span><span class="p">.</span><span class="nx">log</span><span class="p">.</span><span class="nx">info</span> <span class="s">&#39;Publishing documentation to github...&#39;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Roughly, the publishing script:</p></div></div><div class="code"><div class="wrapper">        <span class="c1">#</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ol>
+        project.log.info <span class="hljs-string">''</span>
+        project.log.info <span class="hljs-string">'Publishing documentation to github...'</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Roughly, the publishing script:</p>
+<ol>
 <li>Switches to the <code>gh-pages</code> branch (creating it if necessary)</li>
 <li>Copies the generated docs from <code>.git/groc-tmp</code> over any existing files in the branch.</li>
 <li>Creates a commit with <em>just</em> the generated docs; any additional files are removed.</li>
-<li>Cleans up and switches back to the user's original branch.</li>
-</ol></div></div><div class="code"><div class="wrapper">        <span class="nv">script = </span><span class="nx">childProcess</span><span class="p">.</span><span class="nx">spawn</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="s">&#39;..&#39;</span><span class="p">,</span> <span class="s">&#39;scripts&#39;</span><span class="p">,</span> <span class="s">&#39;publish-git-pages.sh&#39;</span><span class="p">),</span> <span class="p">[</span><span class="nx">remote</span><span class="p">]</span>
+<li>Cleans up and switches back to the user&#39;s original branch.</li>
+</ol></div></div><div class="code"><div class="wrapper">        script = childProcess.spawn path.resolve(__dirname, <span class="hljs-string">'..'</span>, <span class="hljs-string">'scripts'</span>, <span class="hljs-string">'publish-git-pages.sh'</span>), [remote]
 
-        <span class="nx">script</span><span class="p">.</span><span class="nx">stdout</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;data&#39;</span><span class="p">,</span> <span class="nf">(data) -&gt;</span> <span class="nx">project</span><span class="p">.</span><span class="nx">log</span><span class="p">.</span><span class="nx">info</span>  <span class="nx">data</span><span class="p">.</span><span class="nx">toString</span><span class="p">().</span><span class="nx">trim</span><span class="p">()</span>
-        <span class="nx">script</span><span class="p">.</span><span class="nx">stderr</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;data&#39;</span><span class="p">,</span> <span class="nf">(data) -&gt;</span> <span class="nx">project</span><span class="p">.</span><span class="nx">log</span><span class="p">.</span><span class="nx">error</span> <span class="nx">data</span><span class="p">.</span><span class="nx">toString</span><span class="p">().</span><span class="nx">trim</span><span class="p">()</span>
+        script.stdout.<span class="hljs-literal">on</span> <span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-params">(data)</span> -&gt;</span> project.log.info  data.toString().trim()
+        script.stderr.<span class="hljs-literal">on</span> <span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-params">(data)</span> -&gt;</span> project.log.error data.toString().trim()
 
-        <span class="nx">script</span><span class="p">.</span><span class="nx">on</span> <span class="s">&#39;exit&#39;</span><span class="p">,</span> <span class="nf">(code) -&gt;</span>
-          <span class="k">return</span> <span class="nx">callback</span> <span class="k">new</span> <span class="nb">Error</span> <span class="s">&#39;Git publish failed&#39;</span> <span class="k">if</span> <span class="nx">code</span> <span class="o">!=</span> <span class="mi">0</span>
+        script.<span class="hljs-literal">on</span> <span class="hljs-string">'exit'</span>, <span class="hljs-function"><span class="hljs-params">(code)</span> -&gt;</span>
+          <span class="hljs-keyword">return</span> callback <span class="hljs-keyword">new</span> Error <span class="hljs-string">'Git publish failed'</span> <span class="hljs-keyword">if</span> code != <span class="hljs-number">0</span>
 
-          <span class="nx">callback</span><span class="p">()</span></div></div></div></div></body></html>
+          callback()</div></div></div></div></body></html>

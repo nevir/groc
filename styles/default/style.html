@@ -1,476 +1,541 @@
-<!DOCTYPE html><html lang="en"><head><title>styles/default/style</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="styles/default/style"><meta name="groc-project-path" content="lib/styles/default/style.sass"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/nevir/groc/blob/master/lib/styles/default/style.sass">lib/styles/default/style.sass</a></div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="k">@import</span> <span class="s">&quot;compass&quot;</span>
-<span class="k">@import</span> <span class="s">&quot;code_styles&quot;</span>
+<!DOCTYPE html><html lang="en"><head><title>styles/default/style</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="styles/default/style"><meta name="groc-project-path" content="lib/styles/default/style.sass"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/nevir/groc/blob/master/lib/styles/default/style.sass">lib/styles/default/style.sass</a></div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-variable">@import</span> <span class="hljs-string">"compass"</span>
+<span class="hljs-variable">@import</span> <span class="hljs-string">"codestyles"</span>
 
-<span class="k">@import</span> <span class="s">&quot;compass/reset&quot;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="configuration">Configuration</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="sizing">Sizing</h3></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+<span class="hljs-variable">@import</span> <span class="hljs-string">"compass/reset"</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="configuration">Configuration</h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="sizing">Sizing</h3></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><ul>
 <li>Margin between segments in two-column mode, padding for code/comments in single-column mode.</li>
-</ul></div></div><div class="code"><div class="wrapper"><span class="na">$common-margin</span><span class="o">:</span> <span class="mi">1</span><span class="kt">em</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+</ul></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$common</span><span class="hljs-attribute">-margin</span>: <span class="hljs-number">1</span>em</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><ul>
 <li>Additional padding to each column in two-column mode</li>
-</ul></div></div><div class="code"><div class="wrapper"><span class="na">$column-padding</span><span class="o">:</span> <span class="mi">1</span><span class="kt">em</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+</ul></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$column</span><span class="hljs-attribute">-padding</span>: <span class="hljs-number">1</span>em</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><ul>
 <li>The <code>line length</code> of the commentary column in both modes.</li>
-</ul></div></div><div class="code"><div class="wrapper"><span class="na">$commentary-width</span><span class="o">:</span> <span class="mi">29</span><span class="kt">em</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+</ul></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$commentary</span><span class="hljs-attribute">-width</span>: <span class="hljs-number">29</span>em</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><ul>
 <li>Width of the tools pulldown in two-column mode.  NOT scaled by tools-font.</li>
-</ul></div></div><div class="code"><div class="wrapper"><span class="na">$tools-width</span><span class="o">:</span> <span class="mi">20</span><span class="kt">em</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+</ul></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$tools</span><span class="hljs-attribute">-width</span>: <span class="hljs-number">20</span>em</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><ul>
 <li>Height of the main toolbar, scaled by the size of tools-font</li>
-</ul></div></div><div class="code"><div class="wrapper"><span class="na">$tools-height</span><span class="o">:</span> <span class="mi">2</span><span class="mf">.1</span><span class="kt">em</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Smooth-scale the page in viewports that are between ideal widths for two-column and one-column
-modes.  Scaling starts at the same width as $tools-width into the code column.</p></div></div><div class="code"><div class="wrapper"><span class="na">$scale-steps</span><span class="o">:</span> <span class="mi">136</span> <span class="c1">// Approx 1 per pixel on a desktop (8.5em distance &amp; 16px per em)</span>
-<span class="na">$scale-min</span><span class="o">:</span>   <span class="mi">0</span><span class="mf">.85</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><pre><code>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam cursus lorem at mi hendrerit pretium. Maecenas ultrices dolor dictum orci lobortis fringilla. Integer ut sem at libero scelerisque commodo quis a dui. Nulla pellentesque, purus non ultricies porta, diam est fringilla orci, dignissim mattis leo erat a urna. Donec fermentum orci nec magna vehicula consectetur. Vivamus a dui eget orci malesuada elementum. Cras tempor mi sit amet ligula mollis porta. Nulla eu purus eget dui aliquet iaculis in quis massa. Phasellus sed lectus ac augue tincidunt blandit. Pellentesque et aliquam neque. Donec faucibus ultricies sem, ut mattis ante consectetur sed. In sollicitudin consectetur nisl, nec malesuada diam dictum ut. Duis feugiat, lorem in pulvinar interdum, nibh turpis lobortis erat, dictum hendrerit massa nibh molestie odio. Ut ultricies, dui a lobortis aliquam, massa diam tempus eros, eu ornare risus mi vitae elit. Integer pretium vulputate eros vitae luctus. Mauris in rhoncus nisi.
-</code></pre></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="color-scheme">Color Scheme</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="na">$commentary-background-color</span><span class="o">:</span> <span class="mh">#f5fbff</span>
-<span class="na">$commentary-foreground-color</span><span class="o">:</span> <span class="mh">#4a525a</span> <span class="c1">// Thank you, Mr. Gruber</span>
-<span class="na">$commentary-shadow-color</span><span class="o">:</span>     <span class="mh">#ffffff</span>
+</ul></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$tools</span><span class="hljs-attribute">-height</span>: <span class="hljs-number">2.1</span>em</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Smooth-scale the page in viewports that are between ideal widths for two-column and one-column
+modes.  Scaling starts at the same width as $tools-width into the code column.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$scale</span><span class="hljs-attribute">-steps</span>: <span class="hljs-number">136</span> <span class="hljs-comment">// Approx 1 per pixel on a desktop (8.5em distance &amp; 16px per em)</span>
+<span class="hljs-variable">$scale</span><span class="hljs-attribute">-min</span>:   <span class="hljs-number">0.85</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><pre><code>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam cursus lorem at mi hendrerit pretium. Maecenas ultrices dolor dictum orci lobortis fringilla. Integer ut sem at libero scelerisque commodo quis a dui. Nulla pellentesque, purus non ultricies porta, diam est fringilla orci, dignissim mattis leo erat a urna. Donec fermentum orci nec magna vehicula consectetur. Vivamus a dui eget orci malesuada elementum. Cras tempor mi sit amet ligula mollis porta. Nulla eu purus eget dui aliquet iaculis in quis massa. Phasellus sed lectus ac augue tincidunt blandit. Pellentesque et aliquam neque. Donec faucibus ultricies sem, ut mattis ante consectetur sed. In sollicitudin consectetur nisl, nec malesuada diam dictum ut. Duis feugiat, lorem in pulvinar interdum, nibh turpis lobortis erat, dictum hendrerit massa nibh molestie odio. Ut ultricies, dui a lobortis aliquam, massa diam tempus eros, eu ornare risus mi vitae elit. Integer pretium vulputate eros vitae luctus. Mauris in rhoncus nisi.</code></pre></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="color-scheme">Color Scheme</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-variable">$commentary</span><span class="hljs-attribute">-background</span><span class="hljs-attribute">-color</span>: <span class="hljs-variable">#f5fbff</span>
+<span class="hljs-variable">$commentary</span><span class="hljs-attribute">-foreground</span><span class="hljs-attribute">-color</span>: <span class="hljs-variable">#4</span>a525a <span class="hljs-comment">// Thank you, Mr. Gruber</span>
+<span class="hljs-variable">$commentary</span><span class="hljs-attribute">-shadow</span><span class="hljs-attribute">-color</span>:     <span class="hljs-variable">#ffffff</span>
 
-<span class="na">$code-background-color</span><span class="o">:</span> <span class="mh">#4a525a</span>
-<span class="na">$code-foreground-color</span><span class="o">:</span> <span class="mh">#cbd1d8</span>
-<span class="na">$code-shadow-color</span><span class="o">:</span>     <span class="nf">darken</span><span class="p">(</span><span class="nv">$code-background-color</span><span class="o">,</span> <span class="mi">15</span><span class="kt">%</span><span class="p">)</span>
+<span class="hljs-variable">$code</span><span class="hljs-attribute">-background</span><span class="hljs-attribute">-color</span>: <span class="hljs-variable">#4</span>a525a
+<span class="hljs-variable">$code</span><span class="hljs-attribute">-foreground</span><span class="hljs-attribute">-color</span>: <span class="hljs-variable">#cbd1d8</span>
+<span class="hljs-variable">$code</span><span class="hljs-attribute">-shadow</span><span class="hljs-attribute">-color</span>:     darken(<span class="hljs-variable">$code</span><span class="hljs-attribute">-background</span><span class="hljs-attribute">-color</span>, <span class="hljs-number">15</span><span class="hljs-subst">%</span>)
 
-<span class="na">$link-color</span><span class="o">:</span> <span class="mh">#a8614e</span>
-<span class="na">$link-hover-foreground-color</span><span class="o">:</span> <span class="mh">#a8614e</span>
-<span class="na">$link-hover-background-color</span><span class="o">:</span> <span class="nf">lighten</span><span class="p">(</span><span class="mh">#a8614e</span><span class="o">,</span> <span class="mi">43</span><span class="kt">%</span><span class="p">)</span>
-<span class="na">$link-hover-shadow-color</span><span class="o">:</span>     <span class="nf">lighten</span><span class="p">(</span><span class="mh">#a8614e</span><span class="o">,</span> <span class="mi">60</span><span class="kt">%</span><span class="p">)</span>
+<span class="hljs-variable">$link</span><span class="hljs-attribute">-color</span>: <span class="hljs-variable">#a8614e</span>
+<span class="hljs-variable">$link</span><span class="hljs-attribute">-hover</span><span class="hljs-attribute">-foreground</span><span class="hljs-attribute">-color</span>: <span class="hljs-variable">#a8614e</span>
+<span class="hljs-variable">$link</span><span class="hljs-attribute">-hover</span><span class="hljs-attribute">-background</span><span class="hljs-attribute">-color</span>: lighten(<span class="hljs-variable">#a8614e</span>, <span class="hljs-number">43</span><span class="hljs-subst">%</span>)
+<span class="hljs-variable">$link</span><span class="hljs-attribute">-hover</span><span class="hljs-attribute">-shadow</span><span class="hljs-attribute">-color</span>:     lighten(<span class="hljs-variable">#a8614e</span>, <span class="hljs-number">60</span><span class="hljs-subst">%</span>)
 
-<span class="na">$tools-background-color</span><span class="o">:</span> <span class="nf">transparentize</span><span class="p">(</span><span class="mh">#e6e6e6</span><span class="o">,</span> <span class="mi">0</span><span class="mf">.1</span><span class="p">)</span>
-<span class="na">$tools-foreground-color</span><span class="o">:</span> <span class="mh">#4a525a</span>
-<span class="na">$tools-shadow-color</span><span class="o">:</span>     <span class="mh">#f0f0f0</span>
+<span class="hljs-variable">$tools</span><span class="hljs-attribute">-background</span><span class="hljs-attribute">-color</span>: transparentize(<span class="hljs-variable">#e6e6e6</span>, <span class="hljs-number">0.1</span>)
+<span class="hljs-variable">$tools</span><span class="hljs-attribute">-foreground</span><span class="hljs-attribute">-color</span>: <span class="hljs-variable">#4</span>a525a
+<span class="hljs-variable">$tools</span><span class="hljs-attribute">-shadow</span><span class="hljs-attribute">-color</span>:     <span class="hljs-variable">#f0f0f0</span>
 
-<span class="na">$inline-code-background-color</span><span class="o">:</span> <span class="mh">#fbf8f3</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="typography">Typography</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="nf">=commentary-font</span>
-  <span class="na">font-family</span><span class="o">:</span> <span class="s2">&quot;Helvetica Neue&quot;</span><span class="o">,</span> <span class="n">Helvetica</span><span class="o">,</span> <span class="s2">&quot;Droid Sans&quot;</span><span class="o">,</span> <span class="no">sans-serif</span>
-  <span class="na">font-weight</span><span class="o">:</span> <span class="mi">300</span>
-  <span class="na">font-size</span><span class="o">:</span>   <span class="mi">0</span><span class="mf">.9375</span><span class="kt">em</span>
-  <span class="na">line-height</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.35</span>
+<span class="hljs-variable">$inline</span><span class="hljs-attribute">-code</span><span class="hljs-attribute">-background</span><span class="hljs-attribute">-color</span>: <span class="hljs-variable">#fbf8f3</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="typography">Typography</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-subst">=</span>commentary<span class="hljs-attribute">-font</span>
+  font<span class="hljs-attribute">-family</span>: <span class="hljs-string">"Helvetica Neue"</span>, Helvetica, <span class="hljs-string">"Droid Sans"</span>, sans<span class="hljs-attribute">-serif</span>
+  font<span class="hljs-attribute">-weight</span>: <span class="hljs-number">300</span>
+  font<span class="hljs-attribute">-size</span>:   <span class="hljs-number">0.9375</span>em
+  line<span class="hljs-attribute">-height</span>: <span class="hljs-number">1.35</span>
 
-<span class="nf">=code-font</span>
-  <span class="na">font-family</span><span class="o">:</span> <span class="s2">&quot;Droid Sans Mono&quot;</span><span class="o">,</span> <span class="n">Menlo</span><span class="o">,</span> <span class="n">Monaco</span><span class="o">,</span> <span class="no">monospace</span>
-  <span class="na">font-size</span><span class="o">:</span>   <span class="mi">0</span><span class="mf">.75</span><span class="kt">em</span>
-  <span class="na">line-height</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.4</span>
+<span class="hljs-subst">=</span>code<span class="hljs-attribute">-font</span>
+  font<span class="hljs-attribute">-family</span>: <span class="hljs-string">"Droid Sans Mono"</span>, Menlo, Monaco, monospace
+  font<span class="hljs-attribute">-size</span>:   <span class="hljs-number">0.75</span>em
+  line<span class="hljs-attribute">-height</span>: <span class="hljs-number">1.4</span>
 
-<span class="nf">=header-font</span>
-  <span class="na">font-family</span><span class="o">:</span>    <span class="s2">&quot;HelveticaNeue-UltraLight&quot;</span><span class="o">,</span> <span class="s2">&quot;Helvetica Neue&quot;</span><span class="o">,</span> <span class="n">Helvetica</span><span class="o">,</span> <span class="s2">&quot;Droid Sans&quot;</span><span class="o">,</span> <span class="no">sans-serif</span>
-  <span class="na">font-weight</span><span class="o">:</span>    <span class="mi">100</span>
-  <span class="na">letter-spacing</span><span class="o">:</span> <span class="mi">0</span><span class="mf">.0625</span><span class="kt">em</span>
-  <span class="na">line-height</span><span class="o">:</span>    <span class="mi">1</span><span class="mf">.75</span>
+<span class="hljs-subst">=</span><span class="hljs-keyword">header</span><span class="hljs-attribute">-font</span>
+  font<span class="hljs-attribute">-family</span>:    <span class="hljs-string">"HelveticaNeue-UltraLight"</span>, <span class="hljs-string">"Helvetica Neue"</span>, Helvetica, <span class="hljs-string">"Droid Sans"</span>, sans<span class="hljs-attribute">-serif</span>
+  font<span class="hljs-attribute">-weight</span>:    <span class="hljs-number">100</span>
+  letter<span class="hljs-attribute">-spacing</span>: <span class="hljs-number">0.0625</span>em
+  line<span class="hljs-attribute">-height</span>:    <span class="hljs-number">1.25</span>
+  margin<span class="hljs-attribute">-bottom</span>:  <span class="hljs-number">0.5</span>em
 
-<span class="nf">=tools-font</span>
-  <span class="nd">+commentary-font</span>
+<span class="hljs-subst">=</span>tools<span class="hljs-attribute">-font</span>
+  <span class="hljs-subst">+</span>commentary<span class="hljs-attribute">-font</span>
 
-<span class="nf">=header-font-sizes</span>
-  <span class="nt">h1</span>
-    <span class="na">font-size</span><span class="o">:</span> <span class="mi">2</span><span class="mf">.5</span><span class="kt">em</span>
-  <span class="nt">h2</span>
-    <span class="na">font-size</span><span class="o">:</span> <span class="mi">2</span><span class="kt">em</span>
-  <span class="nt">h3</span>
-    <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.6</span><span class="kt">em</span>
-  <span class="nt">h4</span>
-    <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.4</span><span class="kt">em</span>
-  <span class="nt">h5</span>
-    <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.3</span><span class="kt">em</span>
-  <span class="nt">h6</span>
-    <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.2</span><span class="kt">em</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="two-column-layout">Two-Column Layout</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>As a general tenet, we try to avoid using margins, as they get us into trouble.  Pparticularly,
+<span class="hljs-subst">=</span><span class="hljs-keyword">header</span><span class="hljs-attribute">-font</span><span class="hljs-attribute">-sizes</span>
+  h1
+    font<span class="hljs-attribute">-size</span>: <span class="hljs-number">2.5</span>em
+  h2
+    font<span class="hljs-attribute">-size</span>: <span class="hljs-number">2</span>em
+  h3
+    font<span class="hljs-attribute">-size</span>: <span class="hljs-number">1.6</span>em
+  h4
+    font<span class="hljs-attribute">-size</span>: <span class="hljs-number">1.4</span>em
+  h5
+    font<span class="hljs-attribute">-size</span>: <span class="hljs-number">1.3</span>em
+  h6
+    font<span class="hljs-attribute">-size</span>: <span class="hljs-number">1.2</span>em</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="two-column-layout">Two-Column Layout</h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>As a general tenet, we try to avoid using margins, as they get us into trouble.  Pparticularly,
 when ensuring that our <code>html</code>/<code>body</code>/<code>#document</code> are full height and do not induce scrolling
-unless their content grows past the page.</p></div></div><div class="code"><div class="wrapper"><span class="na">$commentary-column-width</span><span class="o">:</span> <span class="nv">$commentary-width</span> <span class="o">+</span> <span class="p">(</span><span class="nv">$common-margin</span> <span class="o">+</span> <span class="nv">$column-padding</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
-
-<span class="nt">html</span><span class="o">,</span> <span class="nt">body</span>
-  <span class="na">height</span><span class="o">:</span> <span class="mi">100</span><span class="kt">%</span>
-
-<span class="nn">#document</span>
-  <span class="na">min-height</span><span class="o">:</span> <span class="mi">100</span><span class="kt">%</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Conceptually, the layout focuses the user on the commentary first, so we lay out that column.</p></div></div><div class="code"><div class="wrapper"><span class="nt">body</span>
-  <span class="na">max-width</span><span class="o">:</span> <span class="nv">$commentary-column-width</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>In two-column mode, the segment is actually shifted over a full column to favor code fragments.
-We may or may not have either .comment or .code sections, so we need to handle all three cases.</p></div></div><div class="code"><div class="wrapper"><span class="nc">.segment</span>
-  <span class="na">padding</span><span class="o">:</span>     <span class="p">(</span><span class="nv">$common-margin</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">0</span> <span class="p">(</span><span class="nv">$common-margin</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="nv">$commentary-column-width</span>
-  <span class="na">white-space</span><span class="o">:</span> <span class="no">nowrap</span>
-
-  <span class="k">&amp;</span><span class="nd">:first-child</span>
-    <span class="na">padding-top</span><span class="o">:</span> <span class="nv">$common-margin</span> <span class="o">+</span> <span class="nv">$column-padding</span> <span class="o">+</span> <span class="nv">$tools-height</span>
-
-  <span class="k">&amp;</span><span class="nd">:last-child</span>
-    <span class="na">padding-bottom</span><span class="o">:</span> <span class="nv">$common-margin</span> <span class="o">+</span> <span class="nv">$column-padding</span>
-
-  <span class="nc">.comments</span><span class="o">,</span> <span class="nc">.code</span>
-    <span class="na">display</span><span class="o">:</span>        <span class="no">inline</span><span class="o">-</span><span class="no">block</span>
-    <span class="na">vertical-align</span><span class="o">:</span> <span class="no">top</span>
-    <span class="na">padding</span><span class="o">:</span>        <span class="mi">0</span> <span class="p">(</span><span class="nv">$common-margin</span> <span class="o">+</span> <span class="nv">$column-padding</span><span class="p">)</span>
-
-  <span class="nc">.comments</span>
-    <span class="na">margin-left</span><span class="o">:</span> <span class="o">-</span><span class="nv">$commentary-column-width</span>
-    <span class="na">width</span><span class="o">:</span>        <span class="nv">$commentary-width</span>
-    <span class="na">white-space</span><span class="o">:</span>  <span class="no">normal</span>
-
-  <span class="nc">.code</span>
-    <span class="na">white-space</span><span class="o">:</span> <span class="n">pre</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Fit the meta info into the code column</p></div></div><div class="code"><div class="wrapper"><span class="nn">#meta</span>
-  <span class="na">position</span><span class="o">:</span> <span class="no">absolute</span>
-  <span class="na">left</span><span class="o">:</span>     <span class="nv">$commentary-column-width</span>
-  <span class="na">padding</span><span class="o">:</span>  <span class="nv">$common-margin</span> <span class="o">/</span> <span class="mi">4</span> <span class="nv">$common-margin</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="two-column-scaling">Two-Column Scaling</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Before we swap over to a single column layout, we scale the page down a little bit in an effort
-to squeeze some extra life out of it.</p></div></div><div class="code"><div class="wrapper"><span class="c1">//</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Scaling starts once the toolbar is flush with the main column</p></div></div><div class="code"><div class="wrapper"><span class="na">$scale-start-width</span><span class="o">:</span> <span class="nv">$commentary-column-width</span> <span class="o">+</span> <span class="nv">$tools-width</span>
-<span class="na">$scale-stop-width</span><span class="o">:</span>  <span class="nv">$scale-start-width</span> <span class="o">*</span> <span class="nv">$scale-min</span>
-
-<span class="k">@for</span> <span class="nv">$i</span> <span class="ow">from</span> <span class="mi">0</span> <span class="ow">through</span> <span class="nv">$scale-steps</span> <span class="o">-</span> <span class="mi">2</span> <span class="c1">// Skip the last step; it&#39;s exactly $scale-stop-width</span>
-  <span class="nv">$scale</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.0</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span><span class="mf">.0</span> <span class="o">-</span> <span class="nv">$scale-min</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nv">$i</span> <span class="o">/</span> <span class="p">(</span><span class="nv">$scale-steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
-  <span class="k">@media</span> <span class="o">(</span><span class="nt">max-width</span><span class="nd">:</span> <span class="nn">#</span><span class="err">{$</span><span class="nt">scale-start-width</span> <span class="o">*</span> <span class="err">$</span><span class="nt">scale</span><span class="err">}</span><span class="o">)</span>
-    <span class="nt">html</span>
-      <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="kt">em</span> <span class="o">*</span> <span class="nv">$scale</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="single-column-layout">Single-Column Layout</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We swap over to the single column layout once we hit the edge of the scaling</p></div></div><div class="code"><div class="wrapper"><span class="na">$single-column-toggle-width</span><span class="o">:</span> <span class="nv">$scale-stop-width</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Switch modes at a little wider than a full (padded) column</p></div></div><div class="code"><div class="wrapper"><span class="k">@media</span> <span class="o">(</span><span class="nt">max-width</span><span class="nd">:</span> <span class="nn">#</span><span class="err">{$</span><span class="nt">single-column-toggle-width</span><span class="err">}</span><span class="o">)</span>
-
-  <span class="nt">html</span>
-    <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="kt">em</span>
-
-  <span class="nt">body</span>
-    <span class="na">margin</span><span class="o">:</span> <span class="mi">0</span> <span class="no">auto</span>
-
-  <span class="nc">.segment</span>
-    <span class="na">padding</span><span class="o">:</span>     <span class="mi">0</span>
-    <span class="na">white-space</span><span class="o">:</span> <span class="no">normal</span>
-    <span class="na">max-width</span><span class="o">:</span>   <span class="nv">$commentary-width</span>
-    <span class="na">margin</span><span class="o">:</span>      <span class="mi">0</span> <span class="no">auto</span>
-
-    <span class="nc">.comments</span><span class="o">,</span> <span class="nc">.code</span>
-      <span class="na">display</span><span class="o">:</span> <span class="no">block</span>
-      <span class="na">padding</span><span class="o">:</span> <span class="nv">$common-margin</span>
-
-    <span class="nc">.comments</span>
-      <span class="na">margin-left</span><span class="o">:</span> <span class="mi">0</span>
-      <span class="na">width</span><span class="o">:</span>       <span class="no">auto</span>
-
-    <span class="nc">.code</span>
-      <span class="na">display</span><span class="o">:</span>    <span class="no">block</span>
-      <span class="na">overflow-y</span><span class="o">:</span> <span class="no">hidden</span>
-      <span class="na">overflow-x</span><span class="o">:</span> <span class="no">auto</span>
-
-      <span class="nc">.wrapper</span>
-        <span class="na">display</span><span class="o">:</span> <span class="no">inline</span><span class="o">-</span><span class="no">block</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="navigation">Navigation</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="na">$tools-padding</span><span class="o">:</span> <span class="p">(</span><span class="nv">$tools-height</span> <span class="o">-</span> <span class="mi">1</span><span class="kt">em</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
-
-<span class="nt">nav</span>
-  <span class="na">position</span><span class="o">:</span> <span class="no">fixed</span>
-  <span class="na">top</span><span class="o">:</span>      <span class="mi">0</span>
-  <span class="na">right</span><span class="o">:</span>    <span class="mi">0</span>
-  <span class="na">width</span><span class="o">:</span>    <span class="nv">$tools-width</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Nav should be full width in single column mode</p></div></div><div class="code"><div class="wrapper">  <span class="k">@media</span> <span class="o">(</span><span class="nt">max-width</span><span class="nd">:</span> <span class="nn">#</span><span class="err">{$</span><span class="nt">single-column-toggle-width</span><span class="err">}</span><span class="o">)</span>
-    <span class="na">left</span><span class="o">:</span>  <span class="mi">0</span>
-    <span class="na">width</span><span class="o">:</span> <span class="mi">100</span><span class="kt">%</span>
-
-  <span class="nc">.tools</span>
-    <span class="na">position</span><span class="o">:</span> <span class="no">relative</span>
-    <span class="na">z-index</span><span class="o">:</span>  <span class="mi">100</span>
-
-    <span class="nt">li</span>
-      <span class="na">display</span><span class="o">:</span>        <span class="no">table-cell</span>
-      <span class="na">vertical-align</span><span class="o">:</span> <span class="no">middle</span>
-      <span class="na">text-align</span><span class="o">:</span>     <span class="no">center</span>
-      <span class="na">white-space</span><span class="o">:</span>    <span class="no">nowrap</span>
-      <span class="na">height</span><span class="o">:</span>         <span class="nv">$tools-height</span>
-      <span class="na">padding</span><span class="o">:</span>        <span class="mi">0</span> <span class="nv">$tools-padding</span>
-
-    <span class="nc">.github</span>
-      <span class="na">padding</span><span class="o">:</span> <span class="mi">0</span>
-
-      <span class="nt">a</span>
-        <span class="na">display</span><span class="o">:</span>      <span class="no">block</span>
-        <span class="na">height</span><span class="o">:</span>       <span class="nv">$tools-height</span>
-        <span class="na">width</span><span class="o">:</span>        <span class="nv">$tools-height</span>
-        <span class="na">text-indent</span><span class="o">:</span> <span class="mi">-9001</span><span class="kt">em</span>
-
-    <span class="nc">.search</span>
-      <span class="na">width</span><span class="o">:</span> <span class="mi">100</span><span class="kt">%</span>
-
-      <span class="nt">input</span>
-        <span class="nd">+box-sizing</span><span class="p">(</span><span class="no">border</span><span class="o">-</span><span class="n">box</span><span class="p">)</span>
-        <span class="na">display</span><span class="o">:</span> <span class="no">block</span>
-        <span class="na">width</span><span class="o">:</span> <span class="mi">100</span><span class="kt">%</span>
-
-  <span class="nc">.toc</span>
-    <span class="nd">+box-sizing</span><span class="p">(</span><span class="no">border</span><span class="o">-</span><span class="n">box</span><span class="p">)</span>
-    <span class="na">position</span><span class="o">:</span>   <span class="no">absolute</span>
-    <span class="na">top</span><span class="o">:</span>        <span class="nv">$tools-height</span>
-    <span class="na">bottom</span><span class="o">:</span>     <span class="mi">0</span>
-    <span class="na">width</span><span class="o">:</span>      <span class="mi">100</span><span class="kt">%</span>
-    <span class="na">overflow-x</span><span class="o">:</span> <span class="no">hidden</span>
-    <span class="na">overflow-y</span><span class="o">:</span> <span class="no">auto</span>
-
-    <span class="nt">li</span>
-      <span class="na">position</span><span class="o">:</span> <span class="no">relative</span>
-
-    <span class="nc">.label</span>
-      <span class="na">display</span><span class="o">:</span>     <span class="no">block</span>
-      <span class="na">line-height</span><span class="o">:</span> <span class="mi">2</span><span class="kt">em</span>
-      <span class="na">padding</span><span class="o">:</span>     <span class="mi">0</span> <span class="nv">$tools-padding</span> <span class="mi">0</span> <span class="nv">$tools-padding</span>
-
-    <span class="nt">li</span> <span class="nt">li</span> <span class="nc">.label</span>
-      <span class="na">padding-left</span><span class="o">:</span> <span class="nv">$tools-padding</span> <span class="o">*</span> <span class="mi">2</span>
-    <span class="nt">li</span> <span class="nt">li</span> <span class="nt">li</span> <span class="nc">.label</span>
-      <span class="na">padding-left</span><span class="o">:</span> <span class="nv">$tools-padding</span> <span class="o">*</span> <span class="mi">3</span>
-    <span class="nt">li</span> <span class="nt">li</span> <span class="nt">li</span> <span class="nt">li</span> <span class="nc">.label</span>
-      <span class="na">padding-left</span><span class="o">:</span> <span class="nv">$tools-padding</span> <span class="o">*</span> <span class="mi">4</span>
-    <span class="nt">li</span> <span class="nt">li</span> <span class="nt">li</span> <span class="nt">li</span> <span class="nt">li</span> <span class="nc">.label</span>
-      <span class="na">padding-left</span><span class="o">:</span> <span class="nv">$tools-padding</span> <span class="o">*</span> <span class="mi">5</span>
-    <span class="nt">li</span> <span class="nt">li</span> <span class="nt">li</span> <span class="nt">li</span> <span class="nt">li</span> <span class="nt">li</span> <span class="nc">.label</span>
-      <span class="na">padding-left</span><span class="o">:</span> <span class="nv">$tools-padding</span> <span class="o">*</span> <span class="mi">6</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="behavior">Behavior</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="na">$navigation-shift-duration</span><span class="o">:</span> <span class="mi">150</span><span class="kt">ms</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>In either mode, we need to expand the nav's height when showing the table of contents (we don't
-want a blank div getting in the way of interaction)</p></div></div><div class="code"><div class="wrapper"><span class="nt">nav</span>
-  <span class="nd">+transition</span><span class="p">(</span><span class="no">height</span> <span class="mi">0</span> <span class="nv">$navigation-shift-duration</span><span class="p">)</span>
-
-  <span class="nc">.tools</span> <span class="nc">.toggle</span>
-    <span class="nd">+transition</span><span class="p">(</span><span class="no">background</span> <span class="nv">$navigation-shift-duration</span><span class="p">)</span>
-
-  <span class="k">&amp;</span><span class="nc">.active</span>
-    <span class="nd">+transition</span><span class="p">(</span><span class="no">height</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="na">height</span><span class="o">:</span> <span class="mi">100</span><span class="kt">%</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>In two-column mode, we slide the table of contents in from the right</p></div></div><div class="code"><div class="wrapper"><span class="nt">nav</span> <span class="nc">.toc</span>
-  <span class="nd">+transition</span><span class="p">(</span><span class="no">right</span> <span class="nv">$navigation-shift-duration</span><span class="p">)</span>
-  <span class="na">right</span><span class="o">:</span> <span class="mi">-100</span><span class="kt">%</span>
-
-<span class="nt">nav</span><span class="nc">.active</span> <span class="nc">.toc</span>
-  <span class="na">right</span><span class="o">:</span> <span class="mi">0</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>In single column mode, we slide in from the left (and also pop the body)</p></div></div><div class="code"><div class="wrapper"><span class="k">@media</span> <span class="o">(</span><span class="nt">max-width</span><span class="nd">:</span> <span class="nn">#</span><span class="err">{$</span><span class="nt">single-column-toggle-width</span><span class="err">}</span><span class="o">)</span>
-  <span class="nt">nav</span> <span class="nc">.toc</span>
-    <span class="nd">+transition</span><span class="p">(</span><span class="no">left</span> <span class="nv">$navigation-shift-duration</span><span class="p">)</span>
-    <span class="na">right</span><span class="o">:</span> <span class="no">auto</span>
-    <span class="na">left</span><span class="o">:</span> <span class="mi">-100</span><span class="kt">%</span>
-
-  <span class="nt">nav</span><span class="nc">.active</span> <span class="nc">.toc</span>
-    <span class="na">left</span><span class="o">:</span> <span class="mi">0</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>When we switch to the navigation in single column mode, "pop" the body off by sliding it off
-screen to the right.</p></div></div><div class="code"><div class="wrapper"><span class="k">@media</span> <span class="o">(</span><span class="nt">max-width</span><span class="nd">:</span> <span class="nn">#</span><span class="err">{$</span><span class="nt">single-column-toggle-width</span><span class="err">}</span><span class="o">)</span>
-  <span class="nt">body</span>
-    <span class="nd">+transition</span><span class="p">(</span><span class="no">left</span> <span class="nv">$navigation-shift-duration</span><span class="p">)</span>
-    <span class="na">position</span><span class="o">:</span> <span class="no">relative</span>
-    <span class="na">left</span><span class="o">:</span>     <span class="mi">0</span>
-
-  <span class="nt">html</span><span class="nc">.popped</span>
-    <span class="na">overflow</span><span class="o">:</span> <span class="no">hidden</span>
-
-    <span class="nt">body</span>
-      <span class="na">left</span><span class="o">:</span> <span class="mi">100</span><span class="kt">%</span>
-      <span class="na">overflow</span><span class="o">:</span> <span class="no">hidden</span>
-
-<span class="nt">nav</span> <span class="nc">.toc</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>By default, all file lists are collapsed.</p></div></div><div class="code"><div class="wrapper">  <span class="nc">.children</span><span class="o">,</span> <span class="nc">.outline</span>
-    <span class="na">display</span><span class="o">:</span> <span class="no">none</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We only expand direct descendants for files, but outlines are fully expanded from the outset.</p></div></div><div class="code"><div class="wrapper">  <span class="nc">.expanded</span> <span class="o">&gt;</span> <span class="nc">.children</span><span class="o">,</span> <span class="nc">.expanded</span> <span class="o">&gt;</span> <span class="nc">.outline</span><span class="o">,</span> <span class="nc">.expanded</span> <span class="o">&gt;</span> <span class="nc">.outline</span> <span class="nc">.children</span>
-    <span class="na">display</span><span class="o">:</span> <span class="no">block</span>
-
-  <span class="nc">.discloser</span>
-    <span class="nd">+transition-property</span><span class="p">(</span><span class="o">-</span><span class="n">moz-transform</span> <span class="o">-</span><span class="n">webkit-transform</span> <span class="o">-</span><span class="n">o-transform</span> <span class="n">transform</span><span class="p">)</span> <span class="c1">// bah.</span>
-    <span class="nd">+transition-duration</span><span class="p">(</span><span class="mi">200</span><span class="kt">ms</span><span class="p">)</span>
-    <span class="nd">+rotate</span><span class="p">(</span><span class="mi">0</span><span class="kt">deg</span><span class="p">)</span>
-    <span class="na">display</span><span class="o">:</span>         <span class="no">inline</span><span class="o">-</span><span class="no">block</span>
-    <span class="na">height</span><span class="o">:</span>          <span class="mi">9</span><span class="kt">px</span>
-    <span class="na">width</span><span class="o">:</span>           <span class="mi">9</span><span class="kt">px</span>
-    <span class="na">padding</span><span class="o">:</span>         <span class="mi">0</span><span class="mf">.2</span><span class="kt">em</span>
-    <span class="na">margin</span><span class="o">:</span>          <span class="mi">0</span><span class="mf">.2</span><span class="kt">em</span> <span class="mi">0</span><span class="mf">.2</span><span class="kt">em</span> <span class="mi">-0</span><span class="mf">.2</span><span class="kt">em</span> <span class="mi">0</span><span class="mf">.2</span><span class="kt">em</span>
-    <span class="na">vertical-align</span><span class="o">:</span>  <span class="no">baseline</span>
-    <span class="na">background</span><span class="o">:</span>      <span class="nf">inline-image</span><span class="p">(</span><span class="s1">&#39;</span><span class="s2">disclosure-indicator.png&#39;</span><span class="p">)</span> <span class="no">center</span> <span class="no">center</span> <span class="no">no-repeat</span>
-    <span class="na">background-size</span><span class="o">:</span> <span class="mi">9</span><span class="kt">px</span> <span class="mi">9</span><span class="kt">px</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Every label gets one, but not all need to display them.</p></div></div><div class="code"><div class="wrapper">  <span class="nc">.discloser.placeholder</span><span class="o">,</span> <span class="nc">.expanded</span> <span class="o">&gt;</span> <span class="nc">.outline</span> <span class="nc">.discloser</span>
-    <span class="na">background</span><span class="o">:</span> <span class="no">none</span>
-
-  <span class="nc">.expanded</span> <span class="o">&gt;</span> <span class="nc">.label</span> <span class="nc">.discloser</span>
-    <span class="nd">+rotate</span><span class="p">(</span><span class="mi">90</span><span class="kt">deg</span><span class="p">)</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>When searching, we only hide labels so that the hierarchy can still be shown to the user</p></div></div><div class="code"><div class="wrapper">  <span class="nc">.filtered</span> <span class="o">&gt;</span> <span class="nc">.label</span>
-    <span class="na">display</span><span class="o">:</span> <span class="no">none</span>
-
-  <span class="nc">.matched-child</span> <span class="o">&gt;</span> <span class="nc">.label</span>
-    <span class="na">display</span><span class="o">:</span> <span class="no">block</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Make sure that we expand to show any matched nodes</p></div></div><div class="code"><div class="wrapper">  <span class="nc">.matched-child</span> <span class="o">&gt;</span> <span class="nc">.children</span><span class="o">,</span> <span class="nc">.matched-child</span> <span class="o">&gt;</span> <span class="nc">.outline</span><span class="o">,</span> <span class="nc">.matched-child</span> <span class="o">&gt;</span> <span class="nc">.outline</span> <span class="nc">.children</span>
-    <span class="na">display</span><span class="o">:</span> <span class="no">block</span>
-
-  <span class="nc">.matched</span> <span class="o">&gt;</span> <span class="nc">.children</span><span class="o">,</span> <span class="nc">.matched</span> <span class="o">&gt;</span> <span class="nc">.outline</span><span class="o">,</span> <span class="nc">.matched</span> <span class="o">&gt;</span> <span class="nc">.outline</span> <span class="nc">.children</span>
-    <span class="na">display</span><span class="o">:</span> <span class="no">block</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Disclosure indicators are confusing when we're searching</p></div></div><div class="code"><div class="wrapper"><span class="nt">nav</span><span class="nc">.searching</span> <span class="nc">.toc</span> <span class="nc">.discloser</span>
-  <span class="na">display</span><span class="o">:</span> <span class="no">none</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="typography">Typography</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="nc">.comments</span> <span class="nc">.wrapper</span>
-  <span class="nd">+commentary-font</span>
-
-  <span class="nt">h1</span><span class="o">,</span> <span class="nt">h2</span><span class="o">,</span> <span class="nt">h3</span><span class="o">,</span> <span class="nt">h4</span><span class="o">,</span> <span class="nt">h5</span><span class="o">,</span> <span class="nt">h6</span>
-    <span class="nd">+header-font</span>
-  <span class="nd">+header-font-sizes</span>
-
-  <span class="nt">p</span>
-    <span class="na">margin</span><span class="o">:</span> <span class="mi">1</span><span class="kt">em</span> <span class="mi">0</span>
-
-  <span class="o">&gt;</span> <span class="o">*</span>
-    <span class="k">&amp;</span><span class="nd">:first-child</span>
-      <span class="na">margin-top</span><span class="o">:</span> <span class="mi">0</span>
-
-    <span class="k">&amp;</span><span class="nd">:last-child</span>
-      <span class="na">margin-bottom</span><span class="o">:</span> <span class="mi">0</span>
-
-  <span class="nt">ol</span><span class="o">,</span> <span class="nt">ul</span>
-    <span class="na">padding-left</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.75</span><span class="kt">em</span>
-
-  <span class="nt">ol</span> <span class="nt">li</span>
-    <span class="na">list-style</span><span class="o">:</span> <span class="no">decimal</span>
-
-  <span class="nt">ul</span> <span class="nt">li</span>
-    <span class="na">list-style</span><span class="o">:</span> <span class="no">disc</span>
-
-  <span class="nt">li</span>
-    <span class="na">margin</span><span class="o">:</span> <span class="mi">1</span><span class="kt">em</span> <span class="mi">0</span>
-
-    <span class="k">&amp;</span><span class="nd">:first-child</span>
-      <span class="na">margin-top</span><span class="o">:</span> <span class="mi">0</span>
-    <span class="k">&amp;</span><span class="nd">:last-child</span>
-      <span class="na">margin-bottom</span><span class="o">:</span> <span class="mi">0</span>
-
-  <span class="nt">code</span>
-    <span class="na">display</span><span class="o">:</span> <span class="no">inline</span><span class="o">-</span><span class="no">block</span>
-    <span class="na">padding</span><span class="o">:</span> <span class="mi">0</span><span class="mf">.25</span><span class="kt">em</span> <span class="mi">0</span><span class="mf">.25</span><span class="kt">em</span> <span class="mi">0</span> <span class="mi">0</span><span class="mf">.25</span><span class="kt">em</span>
-
-  <span class="nt">pre</span>
-    <span class="na">display</span><span class="o">:</span>    <span class="no">block</span>
-    <span class="na">overflow-x</span><span class="o">:</span> <span class="no">auto</span>
-    <span class="na">overflow-y</span><span class="o">:</span> <span class="no">hidden</span>
-
-    <span class="nt">code</span>
-      <span class="na">padding</span><span class="o">:</span> <span class="nv">$common-margin</span>
-
-  <span class="nt">blockquote</span>
-    <span class="na">padding</span><span class="o">:</span> <span class="mi">0</span> <span class="nv">$common-margin</span>
-
-  <span class="nt">strong</span>
-    <span class="na">font-weight</span><span class="o">:</span> <span class="mi">700</span>
-
-  <span class="nt">em</span>
-    <span class="na">font-style</span><span class="o">:</span> <span class="no">italic</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="visual-design">Visual Design</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We want a bit of depth between the columns, so make the code appear inset</p></div></div><div class="code"><div class="wrapper"><span class="na">$code-column-shadow-width</span><span class="o">:</span> <span class="mi">1</span><span class="kt">em</span>
-<span class="na">$background-gradient</span><span class="o">:</span> <span class="nf">linear-gradient</span><span class="p">(</span><span class="no">left</span><span class="o">,</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$code-background-color</span><span class="o">,</span> <span class="mi">15</span><span class="kt">%</span><span class="p">)</span><span class="o">,</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$code-background-color</span><span class="o">,</span> <span class="mi">5</span><span class="kt">%</span><span class="p">)</span> <span class="mi">0</span><span class="mf">.3</span> <span class="o">*</span> <span class="nv">$code-column-shadow-width</span><span class="o">,</span> <span class="nv">$code-background-color</span> <span class="nv">$code-column-shadow-width</span><span class="p">)</span>
-
-<span class="nt">html</span>
-  <span class="na">background</span><span class="o">:</span> <span class="nv">$code-background-color</span> <span class="c1">// Degrade gracefully</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We cheat and use #document to display the shadow</p></div></div><div class="code"><div class="wrapper"><span class="nn">#document</span>
-  <span class="nd">+background</span><span class="p">(</span><span class="nv">$commentary-background-color</span> <span class="nv">$background-gradient</span> <span class="nv">$commentary-column-width</span> <span class="no">no-repeat</span><span class="p">)</span>
-  <span class="na">margin-right</span><span class="o">:</span> <span class="o">-</span><span class="nv">$code-column-shadow-width</span>
-  <span class="na">padding-right</span><span class="o">:</span> <span class="nv">$code-column-shadow-width</span>
-
-  <span class="k">@media</span> <span class="o">(</span><span class="nt">max-width</span><span class="nd">:</span> <span class="nn">#</span><span class="err">{$</span><span class="nt">single-column-toggle-width</span><span class="err">}</span><span class="o">)</span>
-    <span class="na">margin-right</span><span class="o">:</span>  <span class="mi">0</span>
-    <span class="na">padding-right</span><span class="o">:</span> <span class="mi">0</span>
-
-<span class="nn">#meta</span> <span class="o">&gt;</span> <span class="o">*</span>
-  <span class="nd">+commentary-font</span>
-  <span class="nd">+text-shadow</span><span class="p">(</span><span class="nv">$code-shadow-color</span> <span class="mi">1</span><span class="kt">px</span> <span class="mi">1</span><span class="kt">px</span> <span class="mi">0</span><span class="p">)</span>
-
-  <span class="k">&amp;</span><span class="o">,</span> <span class="nt">a</span>
-    <span class="na">color</span><span class="o">:</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$code-foreground-color</span><span class="o">,</span> <span class="mi">15</span><span class="kt">%</span><span class="p">)</span>
-
-  <span class="nt">a</span>
-    <span class="na">text-decoration</span><span class="o">:</span> <span class="no">none</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We apply font changes to .wrapper elements so that we do not resize the 'standard' em unit that
-we are relying on for layout.</p></div></div><div class="code"><div class="wrapper"><span class="nc">.comments</span> <span class="nc">.wrapper</span>
-  <span class="nd">+commentary-font</span>
-  <span class="nd">+text-shadow</span><span class="p">(</span><span class="nv">$commentary-shadow-color</span> <span class="mi">1</span><span class="kt">px</span> <span class="mi">1</span><span class="kt">px</span> <span class="mi">0</span><span class="p">)</span>
-  <span class="na">color</span><span class="o">:</span> <span class="nv">$commentary-foreground-color</span>
-
-<span class="nc">.code</span>
-  <span class="nc">.wrapper</span>
-    <span class="nd">+code-styles</span>
-    <span class="nd">+code-font</span>
-    <span class="nd">+text-shadow</span><span class="p">(</span><span class="nv">$code-shadow-color</span> <span class="mi">1</span><span class="kt">px</span> <span class="mi">1</span><span class="kt">px</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="na">color</span><span class="o">:</span> <span class="nv">$code-foreground-color</span>
-
-  <span class="k">@media</span> <span class="o">(</span><span class="nt">max-width</span><span class="nd">:</span> <span class="nn">#</span><span class="err">{$</span><span class="nt">single-column-toggle-width</span><span class="err">}</span><span class="o">)</span>
-    <span class="nd">+border-radius</span><span class="p">(</span><span class="mi">0</span><span class="mf">.4</span><span class="kt">em</span><span class="p">)</span>
-    <span class="nd">+box-shadow</span><span class="p">(</span><span class="nf">darken</span><span class="p">(</span><span class="nv">$code-background-color</span><span class="o">,</span> <span class="mi">15</span><span class="kt">%</span><span class="p">)</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="mf">.5</span><span class="kt">em</span> <span class="mi">0</span><span class="mf">.2</span><span class="kt">em</span> <span class="no">inset</span><span class="p">)</span>
-    <span class="na">background</span><span class="o">:</span> <span class="nv">$code-background-color</span>
-
-    <span class="nc">.wrapper</span>
-      <span class="nd">+box-shadow</span><span class="p">(</span><span class="nv">$code-background-color</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="mf">.25</span><span class="kt">em</span> <span class="mi">0</span><span class="mf">.75</span><span class="kt">em</span><span class="p">)</span>
-      <span class="na">background</span><span class="o">:</span> <span class="nv">$code-background-color</span>
-
-  <span class="k">@media</span> <span class="o">(</span><span class="nt">max-width</span><span class="nd">:</span> <span class="nn">#</span><span class="err">{$</span><span class="nt">commentary-width</span><span class="err">}</span><span class="o">)</span>
-    <span class="nd">+border-radius</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="nt">nav</span>
-  <span class="nd">+text-shadow</span><span class="p">(</span><span class="nv">$tools-shadow-color</span> <span class="mi">1</span><span class="kt">px</span> <span class="mi">1</span><span class="kt">px</span> <span class="mi">0</span><span class="p">)</span>
-  <span class="na">color</span><span class="o">:</span> <span class="nv">$tools-foreground-color</span>
-
-  <span class="nc">.tools</span><span class="o">,</span> <span class="nc">.toc</span>
-    <span class="nd">+tools-font</span>
-
-  <span class="nc">.tools</span>
-    <span class="nd">+box-shadow</span><span class="p">(</span><span class="nf">rgba</span><span class="p">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="mf">.3</span><span class="p">)</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="mf">.5</span><span class="kt">em</span> <span class="mi">0</span><span class="mf">.1</span><span class="kt">em</span><span class="p">)</span>
-    <span class="nd">+background</span><span class="p">(</span><span class="nf">linear-gradient</span><span class="p">(</span><span class="no">top</span><span class="o">,</span> <span class="nf">lighten</span><span class="p">(</span><span class="nv">$tools-background-color</span><span class="o">,</span> <span class="mi">10</span><span class="kt">%</span><span class="p">)</span><span class="o">,</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$tools-background-color</span><span class="o">,</span> <span class="mi">10</span><span class="kt">%</span><span class="p">)))</span>
-    <span class="nd">+border-bottom-left-radius</span><span class="p">(</span><span class="mi">0</span><span class="mf">.4</span><span class="kt">em</span><span class="p">)</span>
-    <span class="na">border-bottom</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nv">$tools-foreground-color</span>
-    <span class="na">border-left</span><span class="o">:</span>   <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nv">$tools-foreground-color</span>
-
-    <span class="k">@media</span> <span class="o">(</span><span class="nt">max-width</span><span class="nd">:</span> <span class="nn">#</span><span class="err">{$</span><span class="nt">scale-start-width</span><span class="err">}</span><span class="o">)</span>
-      <span class="nd">+border-bottom-left-radius</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-
-    <span class="nt">li</span>
-      <span class="na">border-right</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nv">$tools-foreground-color</span>
-
-      <span class="k">&amp;</span><span class="nd">:last-child</span>
-        <span class="na">border-right</span><span class="o">:</span> <span class="no">none</span>
-
-    <span class="nc">.toggle</span>
-      <span class="na">cursor</span><span class="o">:</span> <span class="no">pointer</span>
-
-    <span class="nc">.github</span> <span class="nt">a</span>
-      <span class="nd">+transition</span><span class="p">(</span><span class="no">opacity</span> <span class="mi">200</span><span class="kt">ms</span><span class="p">)</span>
-      <span class="nd">+opacity</span><span class="p">(</span><span class="mi">0</span><span class="mf">.5</span><span class="p">)</span>
-      <span class="na">background</span><span class="o">:</span>      <span class="nf">inline-image</span><span class="p">(</span><span class="s1">&#39;</span><span class="s2">github-icon.png&#39;</span><span class="p">)</span> <span class="no">center</span> <span class="no">center</span> <span class="no">no-repeat</span>
-      <span class="na">background-size</span><span class="o">:</span> <span class="mi">19</span><span class="mf">.5</span><span class="kt">px</span> <span class="mi">24</span><span class="kt">px</span>
-
-      <span class="k">&amp;</span><span class="nd">:hover</span>
-        <span class="nd">+opacity</span><span class="p">(</span><span class="mi">0</span><span class="mf">.9</span><span class="p">)</span>
-
-  <span class="k">&amp;</span><span class="nc">.active</span> <span class="nc">.tools</span>
-    <span class="nd">+border-bottom-left-radius</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-
-    <span class="nc">.toggle</span>
-      <span class="na">background</span><span class="o">:</span>  <span class="nf">darken</span><span class="p">(</span><span class="nv">$tools-background-color</span><span class="o">,</span> <span class="mi">10</span><span class="kt">%</span><span class="p">)</span>
-      <span class="na">position</span><span class="o">:</span>    <span class="no">relative</span>
-
-  <span class="nc">.toc</span>
-    <span class="nd">+box-shadow</span><span class="p">(</span><span class="nf">rgba</span><span class="p">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="mf">.3</span><span class="p">)</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="mf">.5</span><span class="kt">em</span> <span class="mi">0</span><span class="mf">.1</span><span class="kt">em</span><span class="p">)</span>
-    <span class="na">background</span><span class="o">:</span>  <span class="nv">$tools-background-color</span>
-    <span class="na">border-left</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nv">$tools-foreground-color</span>
-
-    <span class="nc">.label</span>
-      <span class="na">color</span><span class="o">:</span>           <span class="nv">$tools-foreground-color</span>
-      <span class="na">text-decoration</span><span class="o">:</span> <span class="no">none</span>
-      <span class="na">border-top</span><span class="o">:</span>      <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$tools-background-color</span><span class="o">,</span> <span class="mi">15</span><span class="kt">%</span><span class="p">)</span>
-      <span class="na">border-bottom</span><span class="o">:</span>   <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$tools-background-color</span><span class="o">,</span> <span class="mi">15</span><span class="kt">%</span><span class="p">)</span>
-      <span class="na">margin-top</span><span class="o">:</span>     <span class="mi">-1</span><span class="kt">px</span>
-
-      <span class="k">&amp;</span><span class="nd">:hover</span>
-        <span class="na">background</span><span class="o">:</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$tools-background-color</span><span class="o">,</span> <span class="mi">10</span><span class="kt">%</span><span class="p">)</span>
-
-    <span class="nc">.file</span> <span class="o">&gt;</span> <span class="nc">.label</span>
-      <span class="na">font-weight</span><span class="o">:</span> <span class="no">bold</span>
-
-    <span class="nc">.selected</span> <span class="o">&gt;</span> <span class="nc">.label</span>
-      <span class="na">background</span><span class="o">:</span> <span class="nv">$commentary-background-color</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Search styling</p></div></div><div class="code"><div class="wrapper">    <span class="nc">.label</span> <span class="nt">em</span>
-      <span class="na">font-weight</span><span class="o">:</span> <span class="no">bold</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>This isn't the best of signals...</p></div></div><div class="code"><div class="wrapper">    <span class="nc">.file</span> <span class="o">&gt;</span> <span class="nc">.label</span> <span class="nt">em</span>
-      <span class="na">color</span><span class="o">:</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$tools-foreground-color</span><span class="o">,</span> <span class="mi">25</span><span class="kt">%</span><span class="p">)</span>
-
-    <span class="nc">.matched-child</span> <span class="o">&gt;</span> <span class="nc">.label</span>
-      <span class="nd">+opacity</span><span class="p">(</span><span class="mi">0</span><span class="mf">.65</span><span class="p">)</span>
-      <span class="nd">+text-shadow</span><span class="p">(</span><span class="no">none</span><span class="p">)</span>
-      <span class="na">background</span><span class="o">:</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$tools-background-color</span><span class="o">,</span> <span class="mi">15</span><span class="kt">%</span><span class="p">)</span>
-
-  <span class="k">@media</span> <span class="o">(</span><span class="nt">max-width</span><span class="nd">:</span> <span class="nn">#</span><span class="err">{$</span><span class="nt">single-column-toggle-width</span><span class="err">}</span><span class="o">)</span>
-    <span class="nc">.tools</span><span class="o">,</span> <span class="nc">.toc</span>
-      <span class="na">border-left-width</span><span class="o">:</span> <span class="mi">0</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Make sure that our tools are opaque in single column mode so that the transitions aren't
-distracting</p></div></div><div class="code"><div class="wrapper">    <span class="na">$opaque-tools-background-color</span><span class="o">:</span> <span class="nf">opacify</span><span class="p">(</span><span class="nv">$tools-background-color</span><span class="o">,</span> <span class="mi">1</span><span class="mf">.0</span><span class="p">)</span>
-
-    <span class="nc">.tools</span>
-      <span class="nd">+background</span><span class="p">(</span><span class="nf">linear-gradient</span><span class="p">(</span><span class="no">top</span><span class="o">,</span> <span class="nf">lighten</span><span class="p">(</span><span class="nv">$opaque-tools-background-color</span><span class="o">,</span> <span class="mi">10</span><span class="kt">%</span><span class="p">)</span><span class="o">,</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$opaque-tools-background-color</span><span class="o">,</span> <span class="mi">10</span><span class="kt">%</span><span class="p">)))</span>
-
-    <span class="nc">.toc</span>
-      <span class="na">background</span><span class="o">:</span> <span class="nv">$opaque-tools-background-color</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h3 id="commentary-elements">Commentary Elements</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="nc">.comments</span> <span class="nc">.wrapper</span>
-  <span class="nt">a</span>
-    <span class="na">display</span><span class="o">:</span>         <span class="no">inline</span><span class="o">-</span><span class="no">block</span>
-    <span class="na">color</span><span class="o">:</span>           <span class="nv">$link-color</span>
-    <span class="na">text-decoration</span><span class="o">:</span> <span class="no">none</span>
-
-    <span class="k">&amp;</span><span class="nd">:hover</span><span class="o">,</span> <span class="k">&amp;</span><span class="nd">:hover</span> <span class="o">*</span>
-      <span class="na">text-decoration</span><span class="o">:</span> <span class="no">underline</span>
-
-  <span class="nt">code</span>
-    <span class="nd">+code-font</span>
-    <span class="na">border</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nf">darken</span><span class="p">(</span><span class="nf">desaturate</span><span class="p">(</span><span class="nv">$inline-code-background-color</span><span class="o">,</span> <span class="mi">25</span><span class="kt">%</span><span class="p">)</span><span class="o">,</span> <span class="mi">10</span><span class="kt">%</span><span class="p">)</span>
-
-  <span class="nt">pre</span><span class="o">,</span> <span class="nt">code</span>
-    <span class="nd">+border-radius</span><span class="p">(</span><span class="mi">0</span><span class="mf">.4</span><span class="kt">em</span><span class="p">)</span>
-    <span class="na">background</span><span class="o">:</span> <span class="nv">$inline-code-background-color</span>
-
-  <span class="nt">pre</span>
-    <span class="nd">+box-shadow</span><span class="p">(</span><span class="nf">darken</span><span class="p">(</span><span class="nf">desaturate</span><span class="p">(</span><span class="nv">$inline-code-background-color</span><span class="o">,</span> <span class="mi">15</span><span class="kt">%</span><span class="p">)</span><span class="o">,</span> <span class="mi">5</span><span class="kt">%</span><span class="p">)</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="mf">.4</span><span class="kt">em</span> <span class="mi">0</span><span class="mf">.2</span><span class="kt">em</span><span class="p">)</span>
-    <span class="na">border</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nf">darken</span><span class="p">(</span><span class="nf">desaturate</span><span class="p">(</span><span class="nv">$inline-code-background-color</span><span class="o">,</span> <span class="mi">15</span><span class="kt">%</span><span class="p">)</span><span class="o">,</span> <span class="mi">20</span><span class="kt">%</span><span class="p">)</span>
-
-    <span class="nt">code</span>
-      <span class="na">border-width</span><span class="o">:</span> <span class="mi">0</span>
-      <span class="na">background</span><span class="o">:</span>   <span class="no">transparent</span>
-
-  <span class="nt">blockquote</span>
-    <span class="na">$blockquote-border-color</span><span class="o">:</span> <span class="nf">lighten</span><span class="p">(</span><span class="nv">$commentary-foreground-color</span><span class="o">,</span> <span class="mi">30</span><span class="kt">%</span><span class="p">)</span>
-    <span class="na">border-left</span><span class="o">:</span>  <span class="mi">0</span><span class="mf">.15</span><span class="kt">em</span> <span class="no">solid</span> <span class="nv">$blockquote-border-color</span>
-    <span class="na">margin-left</span><span class="o">:</span> <span class="mi">-0</span><span class="mf">.15</span><span class="kt">em</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><h2 id="browser-specific-tweaks">Browser-Specific Tweaks</h2></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Don't allow mobile WebKit clients to mess with the font size</p></div></div><div class="code"><div class="wrapper"><span class="nt">body</span>
-  <span class="na">-webkit-text-size-adjust</span><span class="o">:</span> <span class="mi">100</span><span class="kt">%</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Replicate the WebKit type="search" appearance in other browsers if they don't have their own
-search field styling</p></div></div><div class="code"><div class="wrapper"><span class="na">input</span><span class="err">[</span><span class="na">type</span><span class="o">=</span><span class="s2">&quot;search&quot;</span><span class="p">]</span>
-  <span class="nd">+border-radius</span><span class="p">(</span><span class="mi">1</span><span class="kt">em</span><span class="p">)</span>
-  <span class="nd">+box-shadow</span><span class="p">(</span><span class="mh">#dddddd</span> <span class="mi">0</span> <span class="mi">1</span><span class="kt">px</span> <span class="mi">1</span><span class="kt">px</span> <span class="mi">0</span> <span class="no">inset</span><span class="p">)</span>
-  <span class="na">border</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="mh">#959595</span>
-  <span class="na">padding</span><span class="o">:</span> <span class="mi">0</span><span class="mf">.15</span><span class="kt">em</span> <span class="mi">0</span><span class="mf">.8</span><span class="kt">em</span></div></div></div></div></body></html>
+unless their content grows past the page.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$commentary</span><span class="hljs-attribute">-column</span><span class="hljs-attribute">-width</span>: <span class="hljs-variable">$commentary</span><span class="hljs-attribute">-width</span> <span class="hljs-subst">+</span> (<span class="hljs-variable">$common</span><span class="hljs-attribute">-margin</span> <span class="hljs-subst">+</span> <span class="hljs-variable">$column</span><span class="hljs-attribute">-padding</span>) <span class="hljs-subst">*</span> <span class="hljs-number">2</span>
+
+html, body
+  height: <span class="hljs-number">100</span><span class="hljs-subst">%</span>
+
+<span class="hljs-variable">#document</span>
+  <span class="hljs-keyword">min</span><span class="hljs-attribute">-height</span>: <span class="hljs-number">100</span><span class="hljs-subst">%</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Conceptually, the layout focuses the user on the commentary first, so we lay out that column.</p></div></div><div class="code"><div class="wrapper">body
+  <span class="hljs-keyword">max</span><span class="hljs-attribute">-width</span>: <span class="hljs-variable">$commentary</span><span class="hljs-attribute">-column</span><span class="hljs-attribute">-width</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>In two-column mode, the segment is actually shifted over a full column to favor code fragments.
+We may or may not have either .comment or .code sections, so we need to handle all three cases.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-built_in">.</span>segment
+  padding:     (<span class="hljs-variable">$common</span><span class="hljs-attribute">-margin</span> <span class="hljs-subst">/</span> <span class="hljs-number">2</span>) <span class="hljs-number">0</span> (<span class="hljs-variable">$common</span><span class="hljs-attribute">-margin</span> <span class="hljs-subst">/</span> <span class="hljs-number">2</span>) <span class="hljs-variable">$commentary</span><span class="hljs-attribute">-column</span><span class="hljs-attribute">-width</span>
+  white<span class="hljs-attribute">-space</span>: nowrap
+
+  <span class="hljs-subst">&amp;</span>:first<span class="hljs-attribute">-child</span>
+    padding<span class="hljs-attribute">-top</span>: <span class="hljs-variable">$common</span><span class="hljs-attribute">-margin</span> <span class="hljs-subst">+</span> <span class="hljs-variable">$column</span><span class="hljs-attribute">-padding</span> <span class="hljs-subst">+</span> <span class="hljs-variable">$tools</span><span class="hljs-attribute">-height</span>
+
+  <span class="hljs-subst">&amp;</span>:last<span class="hljs-attribute">-child</span>
+    padding<span class="hljs-attribute">-bottom</span>: <span class="hljs-variable">$common</span><span class="hljs-attribute">-margin</span> <span class="hljs-subst">+</span> <span class="hljs-variable">$column</span><span class="hljs-attribute">-padding</span>
+
+  <span class="hljs-built_in">.</span>comments, <span class="hljs-built_in">.</span>code
+    display:        <span class="hljs-keyword">inline</span><span class="hljs-attribute">-block</span>
+    vertical<span class="hljs-attribute">-align</span>: top
+    padding:        <span class="hljs-number">0</span> (<span class="hljs-variable">$common</span><span class="hljs-attribute">-margin</span> <span class="hljs-subst">+</span> <span class="hljs-variable">$column</span><span class="hljs-attribute">-padding</span>)
+
+  <span class="hljs-built_in">.</span>comments
+    margin<span class="hljs-attribute">-left</span>: <span class="hljs-subst">-</span><span class="hljs-variable">$commentary</span><span class="hljs-attribute">-column</span><span class="hljs-attribute">-width</span>
+    width:        <span class="hljs-variable">$commentary</span><span class="hljs-attribute">-width</span>
+    white<span class="hljs-attribute">-space</span>:  normal
+
+  <span class="hljs-built_in">.</span>code
+    white<span class="hljs-attribute">-space</span>: pre</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Fit the meta info into the code column</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">#meta</span>
+  position: absolute
+  left:     <span class="hljs-variable">$commentary</span><span class="hljs-attribute">-column</span><span class="hljs-attribute">-width</span>
+  padding:  <span class="hljs-variable">$common</span><span class="hljs-attribute">-margin</span> <span class="hljs-subst">/</span> <span class="hljs-number">4</span> <span class="hljs-variable">$common</span><span class="hljs-attribute">-margin</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="two-column-scaling">Two-Column Scaling</h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Before we swap over to a single column layout, we scale the page down a little bit in an effort
+to squeeze some extra life out of it.
+Scaling starts once the toolbar is flush with the main column</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$scale</span>-start-width: <span class="hljs-variable">$commentary</span>-column-width + <span class="hljs-variable">$tools</span>-width
+<span class="hljs-variable">$scale</span>-stop-width:  <span class="hljs-variable">$scale</span>-start-width * <span class="hljs-variable">$scale</span>-<span class="hljs-keyword">min</span>
+
+<span class="hljs-variable">@for</span> <span class="hljs-variable">$i</span> from <span class="hljs-number">0</span> through <span class="hljs-variable">$scale</span>-steps - <span class="hljs-number">2</span> <span class="hljs-comment">// Skip the last step; it's exactly $scale-stop-width</span>
+  <span class="hljs-variable">$scale</span>: <span class="hljs-number">1.0</span> - (<span class="hljs-number">1.0</span> - <span class="hljs-variable">$scale</span>-<span class="hljs-keyword">min</span>) * (<span class="hljs-variable">$i</span> / (<span class="hljs-variable">$scale</span>-steps - <span class="hljs-number">1</span>))
+  <span class="hljs-variable">@media</span> (<span class="hljs-keyword">max</span>-width: #{<span class="hljs-variable">$scale</span>-start-width * <span class="hljs-variable">$scale</span>})
+    html
+      font-<span class="hljs-keyword">size</span>: <span class="hljs-number">1</span>em * <span class="hljs-variable">$scale</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="single-column-layout">Single-Column Layout</h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>We swap over to the single column layout once we hit the edge of the scaling</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$single</span><span class="hljs-attribute">-column</span><span class="hljs-attribute">-toggle</span><span class="hljs-attribute">-width</span>: <span class="hljs-variable">$scale</span><span class="hljs-attribute">-stop</span><span class="hljs-attribute">-width</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Switch modes at a little wider than a full (padded) column</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">@media</span> (<span class="hljs-keyword">max</span>-width: #{<span class="hljs-variable">$single</span>-column-<span class="hljs-keyword">toggle</span>-width})
+
+  html
+    font-<span class="hljs-keyword">size</span>: <span class="hljs-number">1</span>em
+
+  body
+    margin: <span class="hljs-number">0</span> auto
+
+  .segment
+    padding:     <span class="hljs-number">0</span>
+    white-space: normal
+    <span class="hljs-keyword">max</span>-width:   <span class="hljs-variable">$commentary</span>-width
+    margin:      <span class="hljs-number">0</span> auto
+
+    .comments, .code
+      display: block
+      padding: <span class="hljs-variable">$common</span>-margin
+
+    .comments
+      margin-left: <span class="hljs-number">0</span>
+      width:       auto
+
+    .code
+      display:    block
+      overflow-y: hidden
+      overflow-x: auto
+
+      .wrapper
+        display: inline-block</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Fit the meta info into on screen, removing any overflow it creates</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-variable">#meta</span>
+    position:   static
+    margin:     <span class="hljs-variable">$common</span><span class="hljs-attribute">-margin</span> <span class="hljs-subst">*</span> <span class="hljs-number">2</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span>
+    overflow<span class="hljs-attribute">-y</span>: hidden
+    overflow<span class="hljs-attribute">-x</span>: auto
+
+    <span class="hljs-built_in">.</span>file<span class="hljs-attribute">-path</span>
+      display: <span class="hljs-keyword">inline</span><span class="hljs-attribute">-block</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="navigation">Navigation</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-variable">$tools</span><span class="hljs-attribute">-padding</span>: (<span class="hljs-variable">$tools</span><span class="hljs-attribute">-height</span> <span class="hljs-subst">-</span> <span class="hljs-number">1</span>em) <span class="hljs-subst">/</span> <span class="hljs-number">2</span>
+
+nav
+  position: fixed
+  top:      <span class="hljs-number">0</span>
+  right:    <span class="hljs-number">0</span>
+  width:    <span class="hljs-variable">$tools</span><span class="hljs-attribute">-width</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Nav should be full width in single column mode</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-variable">@media</span> (<span class="hljs-keyword">max</span>-width: #{<span class="hljs-variable">$single</span>-column-<span class="hljs-keyword">toggle</span>-width})
+    left:  <span class="hljs-number">0</span>
+    width: <span class="hljs-number">100</span>%
+
+  .tools
+    position: relative
+    z-index:  <span class="hljs-number">100</span>
+
+    li
+      display:        table-cell
+      vertical-<span class="hljs-keyword">align</span>: middle
+      <span class="hljs-keyword">text</span>-<span class="hljs-keyword">align</span>:     center
+      white-space:    nowrap
+      height:         <span class="hljs-variable">$tools</span>-height
+      padding:        <span class="hljs-number">0</span> <span class="hljs-variable">$tools</span>-padding
+
+    .github
+      padding: <span class="hljs-number">0</span>
+
+      a
+        display:      block
+        height:       <span class="hljs-variable">$tools</span>-height
+        width:        <span class="hljs-variable">$tools</span>-height
+        <span class="hljs-keyword">text</span>-indent: -<span class="hljs-number">9001</span>em
+
+    .search
+      width: <span class="hljs-number">100</span>%
+
+      input
+        +box-sizing(border-box)
+        display: block
+        width: <span class="hljs-number">100</span>%
+
+  .toc
+    +box-sizing(border-box)
+    position:   absolute
+    top:        <span class="hljs-variable">$tools</span>-height
+    bottom:     <span class="hljs-number">0</span>
+    width:      <span class="hljs-number">100</span>%
+    overflow-x: hidden
+    overflow-y: auto
+
+    li
+      position: relative
+
+    .label
+      display:     block
+      line-height: <span class="hljs-number">2</span>em
+      padding:     <span class="hljs-number">0</span> <span class="hljs-variable">$tools</span>-padding <span class="hljs-number">0</span> <span class="hljs-variable">$tools</span>-padding
+
+    li li .label
+      padding-left: <span class="hljs-variable">$tools</span>-padding * <span class="hljs-number">2</span>
+    li li li .label
+      padding-left: <span class="hljs-variable">$tools</span>-padding * <span class="hljs-number">3</span>
+    li li li li .label
+      padding-left: <span class="hljs-variable">$tools</span>-padding * <span class="hljs-number">4</span>
+    li li li li li .label
+      padding-left: <span class="hljs-variable">$tools</span>-padding * <span class="hljs-number">5</span>
+    li li li li li li .label
+      padding-left: <span class="hljs-variable">$tools</span>-padding * <span class="hljs-number">6</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="behavior">Behavior</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-variable">$navigation</span><span class="hljs-attribute">-shift</span><span class="hljs-attribute">-duration</span>: <span class="hljs-number">150</span>ms</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>In either mode, we need to expand the nav&#39;s height when showing the table of contents (we don&#39;t
+want a blank div getting in the way of interaction)</p></div></div><div class="code"><div class="wrapper">nav
+  <span class="hljs-subst">+</span>transition(height <span class="hljs-number">0</span> <span class="hljs-variable">$navigation</span><span class="hljs-attribute">-shift</span><span class="hljs-attribute">-duration</span>)
+
+  <span class="hljs-built_in">.</span>tools <span class="hljs-built_in">.</span>toggle
+    <span class="hljs-subst">+</span>transition(background <span class="hljs-variable">$navigation</span><span class="hljs-attribute">-shift</span><span class="hljs-attribute">-duration</span>)
+
+  <span class="hljs-subst">&amp;</span><span class="hljs-built_in">.</span>active
+    <span class="hljs-subst">+</span>transition(height <span class="hljs-number">0</span> <span class="hljs-number">0</span>)
+    height: <span class="hljs-number">100</span><span class="hljs-subst">%</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>In two-column mode, we slide the table of contents in from the right</p></div></div><div class="code"><div class="wrapper">nav .toc
+  +transition(<span class="hljs-constant">right</span> $navigation-shift-duration)
+  <span class="hljs-constant">right</span>: -<span class="hljs-number">100</span>%
+
+nav.active .toc
+  <span class="hljs-constant">right</span>: <span class="hljs-number">0</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>In single column mode, we slide in from the left (and also pop the body)</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">@media</span> (<span class="hljs-keyword">max</span>-width: #{<span class="hljs-variable">$single</span>-column-<span class="hljs-keyword">toggle</span>-width})
+  nav .toc
+    +transition(left <span class="hljs-variable">$navigation</span>-shift-duration)
+    right: auto
+    left: -<span class="hljs-number">100</span>%
+
+  nav.active .toc
+    left: <span class="hljs-number">0</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>When we switch to the navigation in single column mode, &quot;pop&quot; the body off by sliding it off
+screen to the right.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">@media</span> (<span class="hljs-keyword">max</span>-width: #{<span class="hljs-variable">$single</span>-column-<span class="hljs-keyword">toggle</span>-width})
+  body
+    +transition(left <span class="hljs-variable">$navigation</span>-shift-duration)
+    position: relative
+    left:     <span class="hljs-number">0</span>
+
+  html.popped
+    overflow: hidden
+
+    body
+      left: <span class="hljs-number">100</span>%
+      overflow: hidden
+
+nav .toc</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>By default, all file lists are collapsed.</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-preprocessor">.children</span>, <span class="hljs-preprocessor">.outline</span>
+    display: none</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>We only expand direct descendants for files, but outlines are fully expanded from the outset.</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-built_in">.</span>expanded <span class="hljs-subst">&gt;</span> <span class="hljs-built_in">.</span>children, <span class="hljs-built_in">.</span>expanded <span class="hljs-subst">&gt;</span> <span class="hljs-built_in">.</span>outline, <span class="hljs-built_in">.</span>expanded <span class="hljs-subst">&gt;</span> <span class="hljs-built_in">.</span>outline <span class="hljs-built_in">.</span>children
+    display: block
+
+  <span class="hljs-built_in">.</span>discloser
+    <span class="hljs-subst">+</span>transition<span class="hljs-attribute">-property</span>(<span class="hljs-attribute">-moz</span><span class="hljs-attribute">-transform</span> <span class="hljs-attribute">-webkit</span><span class="hljs-attribute">-transform</span> <span class="hljs-attribute">-o</span><span class="hljs-attribute">-transform</span> transform) <span class="hljs-comment">// bah.</span>
+    <span class="hljs-subst">+</span>transition<span class="hljs-attribute">-duration</span>(<span class="hljs-number">200</span>ms)
+    <span class="hljs-subst">+</span>rotate(<span class="hljs-number">0</span>deg)
+    display:         <span class="hljs-keyword">inline</span><span class="hljs-attribute">-block</span>
+    height:          <span class="hljs-number">9</span>px
+    width:           <span class="hljs-number">9</span>px
+    padding:         <span class="hljs-number">0.2</span>em
+    margin:          <span class="hljs-number">0.2</span>em <span class="hljs-number">0.2</span>em <span class="hljs-subst">-</span><span class="hljs-number">0.2</span>em <span class="hljs-number">0.2</span>em
+    vertical<span class="hljs-attribute">-align</span>:  baseline
+    background:      <span class="hljs-keyword">inline</span><span class="hljs-attribute">-image</span>(<span class="hljs-string">'disclosure-indicator.png'</span>) center center no<span class="hljs-attribute">-repeat</span>
+    background<span class="hljs-attribute">-size</span>: <span class="hljs-number">9</span>px <span class="hljs-number">9</span>px</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Every label gets one, but not all need to display them.</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-preprocessor">.discloser</span><span class="hljs-preprocessor">.placeholder</span>, <span class="hljs-preprocessor">.expanded</span> &gt; <span class="hljs-preprocessor">.outline</span> <span class="hljs-preprocessor">.discloser</span>
+    background: none
+
+  <span class="hljs-preprocessor">.expanded</span> &gt; <span class="hljs-preprocessor">.label</span> <span class="hljs-preprocessor">.discloser</span>
+    +rotate(<span class="hljs-number">90</span>deg)</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>When searching, we only hide labels so that the hierarchy can still be shown to the user</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-preprocessor">.filtered</span> &gt; <span class="hljs-preprocessor">.label</span>
+    display: none
+
+  <span class="hljs-preprocessor">.matched</span>-child &gt; <span class="hljs-preprocessor">.label</span>
+    display: block</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Make sure that we expand to show any matched nodes</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-preprocessor">.matched</span>-child &gt; <span class="hljs-preprocessor">.children</span>, <span class="hljs-preprocessor">.matched</span>-child &gt; <span class="hljs-preprocessor">.outline</span>, <span class="hljs-preprocessor">.matched</span>-child &gt; <span class="hljs-preprocessor">.outline</span> <span class="hljs-preprocessor">.children</span>
+    display: block
+
+  <span class="hljs-preprocessor">.matched</span> &gt; <span class="hljs-preprocessor">.children</span>, <span class="hljs-preprocessor">.matched</span> &gt; <span class="hljs-preprocessor">.outline</span>, <span class="hljs-preprocessor">.matched</span> &gt; <span class="hljs-preprocessor">.outline</span> <span class="hljs-preprocessor">.children</span>
+    display: block</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Disclosure indicators are confusing when we&#39;re searching</p></div></div><div class="code"><div class="wrapper">nav<span class="hljs-preprocessor">.searching</span> <span class="hljs-preprocessor">.toc</span> <span class="hljs-preprocessor">.discloser</span>
+  display: none</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="typography">Typography</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-built_in">.</span>comments <span class="hljs-built_in">.</span>wrapper
+  <span class="hljs-subst">+</span>commentary<span class="hljs-attribute">-font</span>
+
+  h1, h2, h3, h4, h5, h6
+    <span class="hljs-subst">+</span><span class="hljs-keyword">header</span><span class="hljs-attribute">-font</span>
+  <span class="hljs-subst">+</span><span class="hljs-keyword">header</span><span class="hljs-attribute">-font</span><span class="hljs-attribute">-sizes</span>
+
+  p
+    margin: <span class="hljs-number">1</span>em <span class="hljs-number">0</span>
+
+  <span class="hljs-subst">&gt;</span> <span class="hljs-subst">*</span>
+    <span class="hljs-subst">&amp;</span>:first<span class="hljs-attribute">-child</span>
+      margin<span class="hljs-attribute">-top</span>: <span class="hljs-number">0</span>
+
+    <span class="hljs-subst">&amp;</span>:last<span class="hljs-attribute">-child</span>
+      margin<span class="hljs-attribute">-bottom</span>: <span class="hljs-number">0</span>
+
+  ol, ul
+    padding<span class="hljs-attribute">-left</span>: <span class="hljs-number">1.75</span>em
+    margin: <span class="hljs-number">1</span>em <span class="hljs-number">0</span>
+
+  ol li
+    <span class="hljs-built_in">list</span><span class="hljs-attribute">-style</span>: <span class="hljs-built_in">decimal</span>
+
+  ul li
+    <span class="hljs-built_in">list</span><span class="hljs-attribute">-style</span>: disc
+
+  li
+    margin: <span class="hljs-number">1</span>em <span class="hljs-number">0</span>
+
+    <span class="hljs-subst">&amp;</span>:first<span class="hljs-attribute">-child</span>
+      margin<span class="hljs-attribute">-top</span>: <span class="hljs-number">0</span>
+    <span class="hljs-subst">&amp;</span>:last<span class="hljs-attribute">-child</span>
+      margin<span class="hljs-attribute">-bottom</span>: <span class="hljs-number">0</span>
+
+  code
+    display: <span class="hljs-keyword">inline</span><span class="hljs-attribute">-block</span>
+    padding: <span class="hljs-number">0.25</span>em <span class="hljs-number">0.25</span>em <span class="hljs-number">0</span> <span class="hljs-number">0.25</span>em
+
+  pre
+    display:    block
+    overflow<span class="hljs-attribute">-x</span>: auto
+    overflow<span class="hljs-attribute">-y</span>: hidden
+    <span class="hljs-subst">+</span><span class="hljs-keyword">inline</span><span class="hljs-attribute">-codestyles</span>
+
+    code
+      padding: <span class="hljs-variable">$common</span><span class="hljs-attribute">-margin</span>
+
+  blockquote
+    padding: <span class="hljs-number">0</span> <span class="hljs-variable">$common</span><span class="hljs-attribute">-margin</span>
+
+  strong
+    font<span class="hljs-attribute">-weight</span>: <span class="hljs-number">700</span>
+
+  em
+    font<span class="hljs-attribute">-style</span>: italic</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="visual-design">Visual Design</h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>We want a bit of depth between the columns, so make the code appear inset</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$code</span><span class="hljs-attribute">-column</span><span class="hljs-attribute">-shadow</span><span class="hljs-attribute">-width</span>: <span class="hljs-number">1</span>em
+<span class="hljs-variable">$background</span><span class="hljs-attribute">-gradient</span>: linear<span class="hljs-attribute">-gradient</span>(left, darken(<span class="hljs-variable">$code</span><span class="hljs-attribute">-background</span><span class="hljs-attribute">-color</span>, <span class="hljs-number">15</span><span class="hljs-subst">%</span>), darken(<span class="hljs-variable">$code</span><span class="hljs-attribute">-background</span><span class="hljs-attribute">-color</span>, <span class="hljs-number">5</span><span class="hljs-subst">%</span>) <span class="hljs-number">0.3</span> <span class="hljs-subst">*</span> <span class="hljs-variable">$code</span><span class="hljs-attribute">-column</span><span class="hljs-attribute">-shadow</span><span class="hljs-attribute">-width</span>, <span class="hljs-variable">$code</span><span class="hljs-attribute">-background</span><span class="hljs-attribute">-color</span> <span class="hljs-variable">$code</span><span class="hljs-attribute">-column</span><span class="hljs-attribute">-shadow</span><span class="hljs-attribute">-width</span>)
+
+html
+  background: <span class="hljs-variable">$code</span><span class="hljs-attribute">-background</span><span class="hljs-attribute">-color</span> <span class="hljs-comment">// Degrade gracefully</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>We cheat and use #document to display the shadow</p></div></div><div class="code"><div class="wrapper">#document
+  +background(<span class="hljs-variable">$commentary</span>-background-<span class="hljs-keyword">color</span> <span class="hljs-variable">$background</span>-gradient <span class="hljs-variable">$commentary</span>-column-width no-repeat)
+  margin-right: -<span class="hljs-variable">$code</span>-column-shadow-width
+  padding-right: <span class="hljs-variable">$code</span>-column-shadow-width
+
+  <span class="hljs-variable">@media</span> (<span class="hljs-keyword">max</span>-width: #{<span class="hljs-variable">$single</span>-column-<span class="hljs-keyword">toggle</span>-width})
+    margin-right:  <span class="hljs-number">0</span>
+    padding-right: <span class="hljs-number">0</span>
+
+#meta &gt; *
+  +commentary-font
+  +<span class="hljs-keyword">text</span>-shadow(<span class="hljs-variable">$code</span>-shadow-<span class="hljs-keyword">color</span> <span class="hljs-number">1</span>px <span class="hljs-number">1</span>px <span class="hljs-number">0</span>)
+
+  &amp;, a
+    <span class="hljs-keyword">color</span>: darken(<span class="hljs-variable">$code</span>-foreground-<span class="hljs-keyword">color</span>, <span class="hljs-number">15</span><span class="hljs-variable">%)</span>
+
+  a
+    <span class="hljs-keyword">text</span>-decoration: none</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>We apply font changes to .wrapper elements so that we do not resize the &#39;standard&#39; em unit that
+we are relying on for layout.</p></div></div><div class="code"><div class="wrapper">.comments .wrapper
+  +commentary-font
+  +<span class="hljs-keyword">text</span>-shadow(<span class="hljs-variable">$commentary</span>-shadow-<span class="hljs-keyword">color</span> <span class="hljs-number">1</span>px <span class="hljs-number">1</span>px <span class="hljs-number">0</span>)
+  <span class="hljs-keyword">color</span>: <span class="hljs-variable">$commentary</span>-foreground-<span class="hljs-keyword">color</span>
+
+.code
+  .wrapper
+    +codestyles
+    +code-font
+    +<span class="hljs-keyword">text</span>-shadow(<span class="hljs-variable">$code</span>-shadow-<span class="hljs-keyword">color</span> <span class="hljs-number">1</span>px <span class="hljs-number">1</span>px <span class="hljs-number">0</span>)
+    <span class="hljs-keyword">color</span>: <span class="hljs-variable">$code</span>-foreground-<span class="hljs-keyword">color</span>
+
+  <span class="hljs-variable">@media</span> (<span class="hljs-keyword">max</span>-width: #{<span class="hljs-variable">$single</span>-column-<span class="hljs-keyword">toggle</span>-width})
+    +border-radius(<span class="hljs-number">0.4</span>em)
+    +box-shadow(darken(<span class="hljs-variable">$code</span>-background-<span class="hljs-keyword">color</span>, <span class="hljs-number">15</span><span class="hljs-variable">%)</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">0.5</span>em <span class="hljs-number">0.2</span>em inset)
+    background: <span class="hljs-variable">$code</span>-background-<span class="hljs-keyword">color</span>
+
+    .wrapper
+      +box-shadow(<span class="hljs-variable">$code</span>-background-<span class="hljs-keyword">color</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">0.25</span>em <span class="hljs-number">0.75</span>em)
+      background: <span class="hljs-variable">$code</span>-background-<span class="hljs-keyword">color</span>
+
+  <span class="hljs-variable">@media</span> (<span class="hljs-keyword">max</span>-width: #{<span class="hljs-variable">$commentary</span>-width})
+    +border-radius(<span class="hljs-number">0</span>)
+
+nav
+  +<span class="hljs-keyword">text</span>-shadow(<span class="hljs-variable">$tools</span>-shadow-<span class="hljs-keyword">color</span> <span class="hljs-number">1</span>px <span class="hljs-number">1</span>px <span class="hljs-number">0</span>)
+  <span class="hljs-keyword">color</span>: <span class="hljs-variable">$tools</span>-foreground-<span class="hljs-keyword">color</span>
+
+  .tools, .toc
+    +tools-font
+
+  .tools
+    +box-shadow(rgba(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0.3</span>) <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">0.5</span>em <span class="hljs-number">0.1</span>em)
+    +background(linear-gradient(top, lighten(<span class="hljs-variable">$tools</span>-background-<span class="hljs-keyword">color</span>, <span class="hljs-number">10</span><span class="hljs-variable">%)</span>, darken(<span class="hljs-variable">$tools</span>-background-<span class="hljs-keyword">color</span>, <span class="hljs-number">10</span><span class="hljs-variable">%)</span>))
+    +border-bottom-left-radius(<span class="hljs-number">0.4</span>em)
+    border-bottom: <span class="hljs-number">1</span>px solid <span class="hljs-variable">$tools</span>-foreground-<span class="hljs-keyword">color</span>
+    border-left:   <span class="hljs-number">1</span>px solid <span class="hljs-variable">$tools</span>-foreground-<span class="hljs-keyword">color</span>
+
+    <span class="hljs-variable">@media</span> (<span class="hljs-keyword">max</span>-width: #{<span class="hljs-variable">$scale</span>-start-width})
+      +border-bottom-left-radius(<span class="hljs-number">0</span>)
+
+    li
+      border-right: <span class="hljs-number">1</span>px solid <span class="hljs-variable">$tools</span>-foreground-<span class="hljs-keyword">color</span>
+
+      &amp;:last-child
+        border-right: none
+
+    .<span class="hljs-keyword">toggle</span>
+      cursor: pointer
+
+    .github a
+      +transition(opacity <span class="hljs-number">200</span>ms)
+      +opacity(<span class="hljs-number">0.5</span>)
+      background:      inline-<span class="hljs-keyword">image</span>(<span class="hljs-string">'github-icon.png'</span>) center center no-repeat
+      background-<span class="hljs-keyword">size</span>: <span class="hljs-number">19.5</span>px <span class="hljs-number">24</span>px
+
+      &amp;:hover
+        +opacity(<span class="hljs-number">0.9</span>)
+
+  &amp;.active .tools
+    +border-bottom-left-radius(<span class="hljs-number">0</span>)
+
+    .<span class="hljs-keyword">toggle</span>
+      background:  darken(<span class="hljs-variable">$tools</span>-background-<span class="hljs-keyword">color</span>, <span class="hljs-number">10</span><span class="hljs-variable">%)</span>
+      position:    relative
+
+  .toc
+    +box-shadow(rgba(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0.3</span>) <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">0.5</span>em <span class="hljs-number">0.1</span>em)
+    background:  <span class="hljs-variable">$tools</span>-background-<span class="hljs-keyword">color</span>
+    border-left: <span class="hljs-number">1</span>px solid <span class="hljs-variable">$tools</span>-foreground-<span class="hljs-keyword">color</span>
+
+    .label
+      <span class="hljs-keyword">color</span>:           <span class="hljs-variable">$tools</span>-foreground-<span class="hljs-keyword">color</span>
+      <span class="hljs-keyword">text</span>-decoration: none
+      border-top:      <span class="hljs-number">1</span>px solid darken(<span class="hljs-variable">$tools</span>-background-<span class="hljs-keyword">color</span>, <span class="hljs-number">15</span><span class="hljs-variable">%)</span>
+      border-bottom:   <span class="hljs-number">1</span>px solid darken(<span class="hljs-variable">$tools</span>-background-<span class="hljs-keyword">color</span>, <span class="hljs-number">15</span><span class="hljs-variable">%)</span>
+      margin-top:     -<span class="hljs-number">1</span>px
+
+      &amp;:hover
+        background: darken(<span class="hljs-variable">$tools</span>-background-<span class="hljs-keyword">color</span>, <span class="hljs-number">10</span><span class="hljs-variable">%)</span>
+
+    .<span class="hljs-keyword">file</span> &gt; .label
+      font-weight: bold
+
+    .selected &gt; .label
+      background: <span class="hljs-variable">$commentary</span>-background-<span class="hljs-keyword">color</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Search styling</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-preprocessor">.label</span> em
+      font-weight: bold</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>This isn&#39;t the best of signals...</p></div></div><div class="code"><div class="wrapper">    .<span class="hljs-keyword">file</span> &gt; .label em
+      <span class="hljs-keyword">color</span>: darken(<span class="hljs-variable">$tools</span>-foreground-<span class="hljs-keyword">color</span>, <span class="hljs-number">25</span><span class="hljs-variable">%)</span>
+
+    .matched-child &gt; .label
+      +opacity(<span class="hljs-number">0.65</span>)
+      +<span class="hljs-keyword">text</span>-shadow(none)
+      background: darken(<span class="hljs-variable">$tools</span>-background-<span class="hljs-keyword">color</span>, <span class="hljs-number">15</span><span class="hljs-variable">%)</span>
+
+  <span class="hljs-variable">@media</span> (<span class="hljs-keyword">max</span>-width: #{<span class="hljs-variable">$single</span>-column-<span class="hljs-keyword">toggle</span>-width})
+    .tools, .toc
+      border-left-width: <span class="hljs-number">0</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Make sure that our tools are opaque in single column mode so that the transitions aren&#39;t
+distracting</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-variable">$opaque</span><span class="hljs-attribute">-tools</span><span class="hljs-attribute">-background</span><span class="hljs-attribute">-color</span>: opacify(<span class="hljs-variable">$tools</span><span class="hljs-attribute">-background</span><span class="hljs-attribute">-color</span>, <span class="hljs-number">1.0</span>)
+
+    <span class="hljs-built_in">.</span>tools
+      <span class="hljs-subst">+</span>background(linear<span class="hljs-attribute">-gradient</span>(top, lighten(<span class="hljs-variable">$opaque</span><span class="hljs-attribute">-tools</span><span class="hljs-attribute">-background</span><span class="hljs-attribute">-color</span>, <span class="hljs-number">10</span><span class="hljs-subst">%</span>), darken(<span class="hljs-variable">$opaque</span><span class="hljs-attribute">-tools</span><span class="hljs-attribute">-background</span><span class="hljs-attribute">-color</span>, <span class="hljs-number">10</span><span class="hljs-subst">%</span>)))
+
+    <span class="hljs-built_in">.</span>toc
+      background: <span class="hljs-variable">$opaque</span><span class="hljs-attribute">-tools</span><span class="hljs-attribute">-background</span><span class="hljs-attribute">-color</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="commentary-elements">Commentary Elements</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-built_in">.</span>comments <span class="hljs-built_in">.</span>wrapper
+  a
+    display:         <span class="hljs-keyword">inline</span><span class="hljs-attribute">-block</span>
+    color:           <span class="hljs-variable">$link</span><span class="hljs-attribute">-color</span>
+    text<span class="hljs-attribute">-decoration</span>: <span class="hljs-literal">none</span>
+
+    <span class="hljs-subst">&amp;</span>:hover, <span class="hljs-subst">&amp;</span>:hover <span class="hljs-subst">*</span>
+      text<span class="hljs-attribute">-decoration</span>: underline
+
+  code
+    <span class="hljs-subst">+</span>code<span class="hljs-attribute">-font</span>
+    border: <span class="hljs-number">1</span>px solid darken(desaturate(<span class="hljs-variable">$inline</span><span class="hljs-attribute">-code</span><span class="hljs-attribute">-background</span><span class="hljs-attribute">-color</span>, <span class="hljs-number">25</span><span class="hljs-subst">%</span>), <span class="hljs-number">10</span><span class="hljs-subst">%</span>)
+
+  pre, code
+    <span class="hljs-subst">+</span>border<span class="hljs-attribute">-radius</span>(<span class="hljs-number">0.4</span>em)
+    background: <span class="hljs-variable">$inline</span><span class="hljs-attribute">-code</span><span class="hljs-attribute">-background</span><span class="hljs-attribute">-color</span>
+
+  pre
+    <span class="hljs-subst">+</span>box<span class="hljs-attribute">-shadow</span>(darken(desaturate(<span class="hljs-variable">$inline</span><span class="hljs-attribute">-code</span><span class="hljs-attribute">-background</span><span class="hljs-attribute">-color</span>, <span class="hljs-number">15</span><span class="hljs-subst">%</span>), <span class="hljs-number">5</span><span class="hljs-subst">%</span>) <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">0.4</span>em <span class="hljs-number">0.2</span>em)
+    border: <span class="hljs-number">1</span>px solid darken(desaturate(<span class="hljs-variable">$inline</span><span class="hljs-attribute">-code</span><span class="hljs-attribute">-background</span><span class="hljs-attribute">-color</span>, <span class="hljs-number">15</span><span class="hljs-subst">%</span>), <span class="hljs-number">20</span><span class="hljs-subst">%</span>)
+
+    code
+      border<span class="hljs-attribute">-width</span>: <span class="hljs-number">0</span>
+      background:   transparent
+
+  blockquote
+    <span class="hljs-variable">$blockquote</span><span class="hljs-attribute">-border</span><span class="hljs-attribute">-color</span>: lighten(<span class="hljs-variable">$commentary</span><span class="hljs-attribute">-foreground</span><span class="hljs-attribute">-color</span>, <span class="hljs-number">30</span><span class="hljs-subst">%</span>)
+    border<span class="hljs-attribute">-left</span>:  <span class="hljs-number">0.15</span>em solid <span class="hljs-variable">$blockquote</span><span class="hljs-attribute">-border</span><span class="hljs-attribute">-color</span>
+    margin<span class="hljs-attribute">-left</span>: <span class="hljs-subst">-</span><span class="hljs-number">0.15</span>em</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="browser-specific-tweaks">Browser-Specific Tweaks</h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Don&#39;t allow mobile WebKit clients to mess with the font size</p></div></div><div class="code"><div class="wrapper">body
+  <span class="hljs-attribute">-webkit</span><span class="hljs-attribute">-text</span><span class="hljs-attribute">-size</span><span class="hljs-attribute">-adjust</span>: <span class="hljs-number">100</span><span class="hljs-subst">%</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Replicate the WebKit type=&quot;search&quot; appearance in other browsers if they don&#39;t have their own
+search field styling</p></div></div><div class="code"><div class="wrapper"><span class="hljs-tag">input</span><span class="hljs-attr_selector">[type="search"]</span>
+  +<span class="hljs-function">border-radius(<span class="hljs-number">1</span>em)</span>
+  +<span class="hljs-function">box-shadow(#dddddd <span class="hljs-number">0</span> <span class="hljs-number">1</span>px <span class="hljs-number">1</span>px <span class="hljs-number">0</span> inset)</span>
+  <span class="hljs-attribute">border</span><span class="hljs-value">: <span class="hljs-number">1</span>px solid <span class="hljs-hexcolor">#959595</span>
+  padding: <span class="hljs-number">0.15</span>em <span class="hljs-number">0.8</span>em
+</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="doc-tags">Doc Tags</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-preprocessor">.comments</span><span class="hljs-preprocessor">.doc</span>-section
+  //&amp;<span class="hljs-preprocessor">.doc</span>-section-public,
+  //&amp;<span class="hljs-preprocessor">.doc</span>-section-static</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p> .wrapper
+   color: #252519</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-built_in">.</span>wrapper
+    color: <span class="hljs-variable">#252519</span>
+
+  <span class="hljs-subst">&amp;</span><span class="hljs-built_in">.</span>doc<span class="hljs-attribute">-section</span><span class="hljs-attribute">-private</span>,
+  <span class="hljs-subst">&amp;</span><span class="hljs-built_in">.</span>doc<span class="hljs-attribute">-section</span><span class="hljs-attribute">-protected</span>,
+  <span class="hljs-subst">&amp;</span><span class="hljs-built_in">.</span>doc<span class="hljs-attribute">-section</span><span class="hljs-attribute">-internal</span>
+    <span class="hljs-built_in">.</span>wrapper
+      color: <span class="hljs-variable">#7</span>f7f7f
+
+  <span class="hljs-built_in">.</span>doc<span class="hljs-attribute">-section</span><span class="hljs-attribute">-header</span>
+    font: bold <span class="hljs-number">18</span>px <span class="hljs-string">'helvetica neue'</span>, helvetica, sans<span class="hljs-attribute">-serif</span>
+
+  <span class="hljs-built_in">.</span>docs <span class="hljs-built_in">.</span>doc<span class="hljs-attribute">-section</span><span class="hljs-attribute">-header</span> code
+    font<span class="hljs-attribute">-size</span>: <span class="hljs-number">18</span>px</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="code-folding">Code folding</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-built_in">.</span>code <span class="hljs-built_in">.</span>marker, <span class="hljs-built_in">.</span>code <span class="hljs-built_in">.</span>marker<span class="hljs-built_in">.</span>wrapper, <span class="hljs-built_in">.</span>code <span class="hljs-built_in">.</span>wrapper<span class="hljs-built_in">.</span>marker
+  display: <span class="hljs-literal">none</span>
+
+<span class="hljs-built_in">.</span>code<span class="hljs-built_in">.</span>folded
+  <span class="hljs-built_in">.</span>wrapper
+    display: <span class="hljs-literal">none</span>
+    cursor: default
+
+  <span class="hljs-built_in">.</span>marker
+    <span class="hljs-subst">+</span>border<span class="hljs-attribute">-radius</span>(<span class="hljs-number">0.2</span>em)
+    <span class="hljs-subst">+</span>box<span class="hljs-attribute">-shadow</span>(<span class="hljs-variable">#2</span>f3539 <span class="hljs-number">1</span>px <span class="hljs-number">1</span>px <span class="hljs-number">1</span>px <span class="hljs-number">0</span>)
+    display: <span class="hljs-keyword">inline</span><span class="hljs-attribute">-block</span>
+    border: <span class="hljs-number">1</span>px solid <span class="hljs-variable">#73787</span>f
+    padding: <span class="hljs-number">0.2</span>em <span class="hljs-number">0.5</span>em
+    margin<span class="hljs-attribute">-left</span>: <span class="hljs-subst">-</span><span class="hljs-number">0.5</span>em
+    margin<span class="hljs-attribute">-right</span>: <span class="hljs-subst">-</span><span class="hljs-number">0.5</span>em
+    background: <span class="hljs-variable">#58616</span>b
+    font: <span class="hljs-number">12</span>px <span class="hljs-string">'Droid Sans Mono'</span>, Menlo, Monaco, monospace
+    text<span class="hljs-attribute">-shadow</span>: <span class="hljs-variable">#2</span>f3539 <span class="hljs-number">1</span>px <span class="hljs-number">1</span>px <span class="hljs-number">0</span>px
+    cursor: pointer
+    <span class="hljs-attribute">-webkit</span><span class="hljs-attribute">-touch</span><span class="hljs-attribute">-callout</span>: <span class="hljs-literal">none</span>
+    <span class="hljs-attribute">-webkit</span><span class="hljs-attribute">-user</span><span class="hljs-attribute">-select</span>: <span class="hljs-literal">none</span>
+    <span class="hljs-attribute">-khtml</span><span class="hljs-attribute">-user</span><span class="hljs-attribute">-select</span>: <span class="hljs-literal">none</span>
+    <span class="hljs-attribute">-moz</span><span class="hljs-attribute">-user</span><span class="hljs-attribute">-select</span>: <span class="hljs-attribute">-moz</span><span class="hljs-attribute">-none</span>
+    <span class="hljs-attribute">-ms</span><span class="hljs-attribute">-user</span><span class="hljs-attribute">-select</span>: <span class="hljs-literal">none</span>
+    user<span class="hljs-attribute">-select</span>: <span class="hljs-literal">none</span>
+
+    <span class="hljs-built_in">.</span>c1
+      color: <span class="hljs-variable">#73787</span>f
+      font<span class="hljs-attribute">-style</span>: normal
+
+  <span class="hljs-built_in">.</span>marker:hover
+    background: <span class="hljs-variable">#5</span>f6872
+
+    <span class="hljs-built_in">.</span>c1
+      color: <span class="hljs-variable">#7</span>b8087
+
+  <span class="hljs-built_in">.</span>marker <span class="hljs-built_in">.</span>c1:after
+    content: <span class="hljs-string">" …"</span></div></div></div></div></body></html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html><html lang="en"><head><title>doc_tags</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="doc_tags"><meta name="groc-project-path" content="lib/doc_tags.coffee"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/nevir/groc/blob/master/lib/doc_tags.coffee">lib/doc_tags.coffee</a></div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="known-doc-tags">Known Doc Tags</h1></div></div></div><div class="segment"><div class="code"><div class="wrapper">humanize = <span class="hljs-built_in">require</span> <span class="hljs-string">'./utils/humanize'</span></div></div></div><div class="segment"><div class="comments doc-section doc-section-private"><div class="wrapper"><p><span class='doc-section-header'>Private method collapse_space</span></p>
+<p>This function collapses... spaces</p>
+<p>Parameters:</p>
+<ul>
+<li><strong>value must be a String.</strong><br/>(This is the value which will be collapsed. The primary purpose of this method is to allow multiline parameter descriptions, just like this one.)</li>
+</ul>
+<p><strong>Returns a String</strong></p></div></div><div class="code"><div class="wrapper"><span class="hljs-function"><span class="hljs-title">collapse_space</span> = <span class="hljs-params">(value)</span> -&gt;</span>
+  value.replace <span class="hljs-regexp">/\s+/g</span>, <span class="hljs-string">' '</span></div></div></div><div class="segment"><div class="comments doc-section doc-section-public"><div class="wrapper"><p><span class='doc-section-header'>Public module DOC<em>TAGS of type _Object</em></span></p>
+<p>This is a sample doc tagged block comment</p></div></div><div class="code"><div class="wrapper"><span class="hljs-built_in">module</span>.<span class="hljs-built_in">exports</span> = DOC_TAGS =
+  <span class="hljs-attribute">description</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'description'</span>
+    <span class="hljs-attribute">markdown</span>:    <span class="hljs-string">'{value}'</span>
+
+  <span class="hljs-attribute">internal</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'access'</span>
+  <span class="hljs-string">'private'</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'access'</span>
+  <span class="hljs-string">'protected'</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'access'</span>
+  <span class="hljs-string">'public'</span>:
+    <span class="hljs-attribute">valuePrefix</span>: <span class="hljs-string">'as'</span>
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'access'</span>
+  <span class="hljs-string">'static'</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'access'</span>
+
+  <span class="hljs-attribute">constructor</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'special'</span>
+  <span class="hljs-attribute">destructor</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'special'</span>
+
+  <span class="hljs-attribute">constant</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'type'</span>
+  <span class="hljs-attribute">method</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'type'</span>
+  <span class="hljs-attribute">module</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'type'</span>
+  <span class="hljs-string">'package'</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'type'</span>
+  <span class="hljs-attribute">property</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'type'</span>
+
+  <span class="hljs-attribute">accessor</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'flags'</span>
+    <span class="hljs-attribute">markdown</span>:    <span class="hljs-string">'is an accessor'</span>
+  <span class="hljs-attribute">async</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'flags'</span>
+    <span class="hljs-attribute">markdown</span>:    <span class="hljs-string">'is asynchronous'</span>
+  <span class="hljs-attribute">asynchronous</span>:  <span class="hljs-string">'async'</span>
+  <span class="hljs-attribute">getter</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'flags'</span>
+    <span class="hljs-attribute">markdown</span>:    <span class="hljs-string">'is a getter'</span>
+  <span class="hljs-attribute">recursive</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'flags'</span>
+    <span class="hljs-attribute">markdown</span>:    <span class="hljs-string">'is recursive'</span>
+  <span class="hljs-attribute">refactor</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'flags'</span>
+    <span class="hljs-attribute">markdown</span>:    <span class="hljs-string">'needs to be refactored'</span>
+  <span class="hljs-attribute">setter</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'flags'</span>
+    <span class="hljs-attribute">markdown</span>:    <span class="hljs-string">'is a setter'</span>
+
+  <span class="hljs-attribute">alias</span>:
+    <span class="hljs-attribute">valuePrefix</span>: <span class="hljs-string">'as'</span>
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'metadata'</span>
+    <span class="hljs-attribute">markdown</span>:    <span class="hljs-string">'is aliased as {value}'</span>
+  <span class="hljs-attribute">publishes</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'metadata'</span>
+  <span class="hljs-attribute">requests</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'metadata'</span>
+    <span class="hljs-attribute">markdown</span>:    <span class="hljs-string">'makes an ajax request to {value}'</span>
+  <span class="hljs-attribute">subscribes</span>:
+    <span class="hljs-attribute">valuePrefix</span>: <span class="hljs-string">'to'</span>
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'metadata'</span>
+    <span class="hljs-attribute">markdown</span>:    <span class="hljs-string">'subscribes to {value}'</span>
+  <span class="hljs-attribute">type</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'metadata'</span>
+    <span class="hljs-attribute">markdown</span>:    <span class="hljs-string">'of type _{value}_'</span>
+
+  <span class="hljs-attribute">todo</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'todo'</span>
+    <span class="hljs-attribute">markdown</span>:    <span class="hljs-string">'TODO: {value}'</span>
+
+  <span class="hljs-attribute">example</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'example'</span>
+    <span class="hljs-attribute">markdown</span>:    <span class="hljs-string">'{value}'</span>
+  <span class="hljs-attribute">examples</span>:      <span class="hljs-string">'example'</span>
+  <span class="hljs-attribute">usage</span>:         <span class="hljs-string">'example'</span>
+
+  <span class="hljs-attribute">howto</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'howto'</span>
+    <span class="hljs-attribute">markdown</span>:    <span class="hljs-string">'{value}'</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>A comment that does not have doc tags in it</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-attribute">note</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'discard'</span>
+  <span class="hljs-attribute">notes</span>:         <span class="hljs-string">'note'</span>
+
+  <span class="hljs-attribute">param</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'params'</span></div></div></div><div class="segment"><div class="comments doc-section doc-section-public"><div class="wrapper"><p><span class='doc-section-header'>Public method parseValue</span></p>
+<p>parses function parameters</p>
+<p>Parameters:</p>
+<ul>
+<li><strong>value must be a String.</strong><br/>(Text that follows @param)</li>
+</ul>
+<p><strong>Returns an Object</strong></p></div></div><div class="code"><div class="wrapper">    <span class="hljs-attribute">parseValue</span>:  <span class="hljs-function"><span class="hljs-params">(value)</span> -&gt;</span>
+      parts = collapse_space(value).match <span class="hljs-regexp">/^\{([^\}]+)\}\s+(\[?)([\w\.\$]+)(?:=([^\s\]]+))?(\]?)\s*(.*)$/</span>
+      <span class="hljs-attribute">types</span>:        (parts[<span class="hljs-number">1</span>]?.split <span class="hljs-regexp">/\|{1,2}/g</span>)
+      <span class="hljs-attribute">isOptional</span>:   (parts[<span class="hljs-number">2</span>] == <span class="hljs-string">'['</span> <span class="hljs-keyword">and</span> parts[<span class="hljs-number">5</span>] == <span class="hljs-string">']'</span>)
+      <span class="hljs-attribute">varName</span>:      parts[<span class="hljs-number">3</span>]
+      <span class="hljs-attribute">isSubParam</span>:   <span class="hljs-regexp">/\./</span>.test parts[<span class="hljs-number">3</span>]
+      <span class="hljs-attribute">defaultValue</span>: parts[<span class="hljs-number">4</span>]
+      <span class="hljs-attribute">description</span>:  parts[<span class="hljs-number">6</span>]</div></div></div><div class="segment"><div class="comments doc-section doc-section-private"><div class="wrapper"><p><span class='doc-section-header'>Private method markdown</span></p>
+<p>converts parsed values to markdown text</p>
+<p>Parameters:</p>
+<ul>
+<li><p><strong>value must be an Object.</strong></p>
+<ul>
+<li><p><strong>value.types must be an Array of Strings.</strong></p>
+</li>
+<li><p><strong>value.isOptional must be a Boolean and has a default value of false.</strong></p>
+</li>
+<li><p><strong>value.varName must be a String.</strong></p>
+</li>
+<li><p><strong>value.isSubParam must be a Boolean and has a default value of false.</strong></p>
+</li>
+<li><p><strong>value.defaultValue is optional and must be a String.</strong></p>
+</li>
+<li><p><strong>value.description is optional and must be a String.</strong></p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>Returns a String</strong><br/>(should be in markdown syntax)</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-attribute">markdown</span>:    <span class="hljs-function"><span class="hljs-params">(value)</span> -&gt;</span>
+      types = (
+        <span class="hljs-keyword">for</span> type <span class="hljs-keyword">in</span> value.types
+          <span class="hljs-keyword">if</span> type.match <span class="hljs-regexp">/^\.\.\.|\.\.\.$/</span>
+            <span class="hljs-string">"any number of <span class="hljs-subst">#{humanize.pluralize type.replace(<span class="hljs-regexp">/^\.\.\.|\.\.\.$/</span>, <span class="hljs-string">""</span>)}</span>"</span>
+          <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> type.match <span class="hljs-regexp">/\[\]$/</span>
+            <span class="hljs-string">"an Array of <span class="hljs-subst">#{humanize.pluralize type.replace(<span class="hljs-regexp">/\[\]$/</span>, <span class="hljs-string">""</span>)}</span>"</span>
+          <span class="hljs-keyword">else</span>
+            <span class="hljs-string">"<span class="hljs-subst">#{humanize.article type}</span> <span class="hljs-subst">#{type}</span>"</span>
+      )
+
+      fragments = []
+
+      fragments.push <span class="hljs-string">'is optional'</span> <span class="hljs-keyword">if</span> value.isOptional
+      verb = <span class="hljs-string">'must'</span>
+
+      <span class="hljs-keyword">if</span> types.length &gt; <span class="hljs-number">1</span>
+        verb = <span class="hljs-string">'can'</span>
+      <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> types[<span class="hljs-number">0</span>] == <span class="hljs-string">'a Mixed'</span>
+        verb = <span class="hljs-string">'can'</span>
+        types[<span class="hljs-number">0</span>] = <span class="hljs-string">'of any type'</span>
+      <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> types[<span class="hljs-number">0</span>] == <span class="hljs-string">'an Array of Mixeds'</span>
+        verb = <span class="hljs-string">'can'</span>
+        types[<span class="hljs-number">0</span>] = <span class="hljs-string">'an Array of any type'</span>
+      <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> types[<span class="hljs-number">0</span>] == <span class="hljs-string">'any number of Mixeds'</span>
+        verb = <span class="hljs-string">'can'</span>
+        types[<span class="hljs-number">0</span>] = <span class="hljs-string">'any number of arguments of any type'</span>
+
+      fragments.push <span class="hljs-string">"<span class="hljs-subst">#{verb}</span> be <span class="hljs-subst">#{humanize.joinSentence types, <span class="hljs-string">'or'</span>}</span>"</span>
+      fragments.push <span class="hljs-string">"has a default value of <span class="hljs-subst">#{value.defaultValue}</span>"</span> <span class="hljs-keyword">if</span> value.defaultValue?
+
+      <span class="hljs-string">"<span class="hljs-subst">#{<span class="hljs-keyword">if</span> value.isSubParam <span class="hljs-keyword">then</span> <span class="hljs-string">"    *"</span> <span class="hljs-keyword">else</span> <span class="hljs-string">"*"</span>}</span> **<span class="hljs-subst">#{value.varName}</span> <span class="hljs-subst">#{humanize.joinSentence fragments}</span>.**<span class="hljs-subst">#{<span class="hljs-keyword">if</span> value.description.length <span class="hljs-keyword">then</span> <span class="hljs-string">'&lt;br/&gt;('</span> <span class="hljs-keyword">else</span> <span class="hljs-string">''</span>}</span><span class="hljs-subst">#{value.description}</span><span class="hljs-subst">#{<span class="hljs-keyword">if</span> value.description.length <span class="hljs-keyword">then</span> <span class="hljs-string">')'</span> <span class="hljs-keyword">else</span> <span class="hljs-string">''</span>}</span>"</span>
+  <span class="hljs-attribute">params</span>:        <span class="hljs-string">'param'</span>
+  <span class="hljs-attribute">parameters</span>:    <span class="hljs-string">'param'</span>
+
+  <span class="hljs-string">'return'</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'returns'</span>
+    <span class="hljs-attribute">parseValue</span>:  <span class="hljs-function"><span class="hljs-params">(value)</span> -&gt;</span>
+      parts = collapse_space(value).match <span class="hljs-regexp">/^\{([^\}]+)\}\s*(.*)$/</span>
+      <span class="hljs-attribute">types</span>:       parts[<span class="hljs-number">1</span>].split <span class="hljs-regexp">/\|{1,2}/g</span>
+      <span class="hljs-attribute">description</span>: parts[<span class="hljs-number">2</span>]
+    <span class="hljs-attribute">markdown</span>:     <span class="hljs-function"><span class="hljs-params">(value)</span> -&gt;</span>
+      types = (<span class="hljs-string">"<span class="hljs-subst">#{humanize.article type}</span> <span class="hljs-subst">#{type}</span>"</span> <span class="hljs-keyword">for</span> type <span class="hljs-keyword">in</span> value.types)
+      <span class="hljs-string">"**returns <span class="hljs-subst">#{types.join <span class="hljs-string">' or '</span>}</span>**<span class="hljs-subst">#{<span class="hljs-keyword">if</span> value.description.length <span class="hljs-keyword">then</span> <span class="hljs-string">'&lt;br/&gt;('</span> <span class="hljs-keyword">else</span> <span class="hljs-string">''</span>}</span><span class="hljs-subst">#{value.description}</span><span class="hljs-subst">#{<span class="hljs-keyword">if</span> value.description.length <span class="hljs-keyword">then</span> <span class="hljs-string">')'</span> <span class="hljs-keyword">else</span> <span class="hljs-string">''</span>}</span>"</span>
+  <span class="hljs-attribute">returns</span>:       <span class="hljs-string">'return'</span>
+  <span class="hljs-attribute">throw</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'returns'</span>
+    <span class="hljs-attribute">parseValue</span>:  <span class="hljs-function"><span class="hljs-params">(value)</span> -&gt;</span>
+      parts = collapse_space(value).match <span class="hljs-regexp">/^\{([^\}]+)\}\s*(.*)$/</span>
+      <span class="hljs-attribute">types</span>:       parts[<span class="hljs-number">1</span>].split <span class="hljs-regexp">/\|{1,2}/g</span>
+      <span class="hljs-attribute">description</span>: parts[<span class="hljs-number">2</span>]
+    <span class="hljs-attribute">markdown</span>:    <span class="hljs-function"><span class="hljs-params">(value)</span> -&gt;</span>
+      types = (<span class="hljs-string">"<span class="hljs-subst">#{humanize.article type}</span> <span class="hljs-subst">#{type}</span>"</span> <span class="hljs-keyword">for</span> type <span class="hljs-keyword">in</span> value.types)
+      <span class="hljs-string">"**can throw <span class="hljs-subst">#{types.join <span class="hljs-string">' or '</span>}</span>**<span class="hljs-subst">#{<span class="hljs-keyword">if</span> value.description.length <span class="hljs-keyword">then</span> <span class="hljs-string">'&lt;br/&gt;('</span> <span class="hljs-keyword">else</span> <span class="hljs-string">''</span>}</span><span class="hljs-subst">#{value.description}</span><span class="hljs-subst">#{<span class="hljs-keyword">if</span> value.description.length <span class="hljs-keyword">then</span> <span class="hljs-string">')'</span> <span class="hljs-keyword">else</span> <span class="hljs-string">''</span>}</span>"</span>
+  <span class="hljs-attribute">throws</span>:        <span class="hljs-string">'throw'</span>
+
+  <span class="hljs-attribute">defaultNoValue</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'flags'</span>
+  <span class="hljs-attribute">defaultHasValue</span>:
+    <span class="hljs-attribute">section</span>:     <span class="hljs-string">'metadata'</span></div></div></div></div></body></html>

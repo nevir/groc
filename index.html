@@ -1,120 +1,91 @@
-<!DOCTYPE html><html lang="en"><head><title>index</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="index"><meta name="groc-project-path" content="README.md"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/nevir/groc/blob/master/README.md">README.md</a></div></div><div id="document"><div class="segment"><div class="comments"><div class="wrapper"><h1 id="groc">groc</h1>
-
-<p>Groc takes your <em>documented</em> code, and in an admission that people aren't machines, generates
+<!DOCTYPE html><html lang="en"><head><title>index</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="index"><meta name="groc-project-path" content="README.md"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/nevir/groc/blob/master/README.md">README.md</a></div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="groc">groc</h1>
+<p>Groc takes your <em>documented</em> code, and in an admission that people aren&#39;t machines, generates
 documentation that follows the spirit of literate programming.  Take a look at the
 <a href="http://nevir.github.com/groc/">self-generated documentation</a>, and see if it appeals to you!</p>
-
-<p>It is very heavily influenced by <a href="https://github.com/jashkenas">Jeremy Ashkenas</a>'
+<p>It is very heavily influenced by <a href="https://github.com/jashkenas">Jeremy Ashkenas</a>&#39;
 <a href="http://jashkenas.github.com/docco/">docco</a>, and is an attempt to further enhance the idea (thus,
-groc can't tout the same quick 'n dirty principles of docco).</p>
-
+groc can&#39;t tout the same quick &#39;n dirty principles of docco).</p>
+<h2 id="maintainers">Maintainers</h2>
+<p>Groc, unfortunately, does not have any active maintainers. If you are interested in picking up the
+torch, please toss me an email (ian@nevir.net).</p>
 <h2 id="what-does-it-give-you">What does it give you?</h2>
-
 <p>Groc will:</p>
-
 <ul>
 <li><p>Generate documentation from your source code, by displaying your
 <a href="http://daringfireball.net/projects/markdown/">Markdown</a> formatted comments next to the code
-fragments that they document.</p></li>
-<li><p>Submit your project's documentation to the <a href="http://pages.github.com/">github pages</a> for your
-project.</p></li>
-<li><p>Generate a searchable table of contents for all documented files and headers within your project.</p></li>
-<li><p>Gracefully handle complex hierarchies of source code across multiple folders.</p></li>
-<li><p>Read a configuration file so that you don't have to think when you want your documentation built;
-you just type <code>groc</code>.</p></li>
+fragments that they document.</p>
+</li>
+<li><p>Submit your project&#39;s documentation to the <a href="http://pages.github.com/">github pages</a> for your
+project.</p>
+</li>
+<li><p>Generate a searchable table of contents for all documented files and headers within your project.</p>
+</li>
+<li><p>Gracefully handle complex hierarchies of source code across multiple folders.</p>
+</li>
+<li><p>Read a configuration file so that you don&#39;t have to think when you want your documentation built;
+you just type <code>groc</code>.</p>
+</li>
 </ul>
-
 <h2 id="how">How?</h2>
-
 <h3 id="installing-groc">Installing groc</h3>
-
-<p>Groc depends on <a href="http://nodejs.org/">Node.js</a> and <a href="http://pygments.org/">Pygments</a>.  Once you have
-those installed - and assuming that your node install came with <a href="http://npmjs.org/">npm</a> - you can
-install groc via:</p>
-
-<pre><code>npm install -g groc
-</code></pre>
-
+<p>Groc depends on <a href="http://nodejs.org/">Node.js</a>.  Once you have those installed - and assuming that 
+your node install came with <a href="http://npmjs.org/">npm</a> - you can install groc via:</p>
+<pre><code class="lang-bash">$ npm install -g groc</code></pre>
 <p>For those new to npm, <code>-g</code> indicates that you want groc installed as a global command for your
 environment.  You may need to prefix the command with sudo, depending on how you installed node.</p>
-
 <h3 id="using-groc-cli">Using groc (CLI)</h3>
-
 <p>To generate documentation, just point groc to source files that you want docs for:</p>
-
-<pre><code>groc *.rb
-</code></pre>
-
+<pre><code class="lang-bash">$ groc *.rb</code></pre>
 <p>Groc will also handle extended globbing syntax if you quote arguments:</p>
-
-<pre><code>groc "lib/**/*.coffee" README.md
-</code></pre>
-
+<pre><code class="lang-bash">$ groc <span class="hljs-string">"lib/**/*.coffee"</span> README.md</code></pre>
 <p>By default, groc will drop the generated documentation in the <code>doc/</code> folder of your project, and it
 will treat <code>README.md</code> as the index.  Take a look at your generated docs, and see if everything is
 in order!</p>
-
 <p>Once you are pleased with the output, you can push your docs to your github pages branch:</p>
-
-<pre><code>groc --github "lib/**/*.coffee" README.md
-</code></pre>
-
+<pre><code class="lang-bash">$ groc --github <span class="hljs-string">"lib/**/*.coffee"</span> README.md</code></pre>
 <p>Groc will automagically create and push the <code>gh-pages</code> branch if it is missing.</p>
-
 <p>There are <a href="http://nevir.github.com/groc/cli.html#cli-options">additional options</a> supported by
 groc, if you are interested.</p>
-
 <h3 id="configuring-groc-grocjson">Configuring groc (.groc.json)</h3>
-
 <p>Groc supports a simple JSON configuration format once you know the config values that appeal to you.</p>
-
 <p>Create a <code>.groc.json</code> file in your project root, where each key maps to an option you would pass to
 the <code>groc</code> command.  File names and globs are defined as an array with the key <code>glob</code>.  For
-example, groc's own configuration is:</p>
-
-<pre><code>{
-  "glob": ["lib/**/*.coffee", "README.md", "lib/styles/*/style.sass", "lib/styles/*/*.jade"],
-  "github": true
-}
-</code></pre>
-
+example, groc&#39;s own configuration is:</p>
+<pre><code class="lang-json">{
+  "<span class="hljs-attribute">glob</span>": <span class="hljs-value">[<span class="hljs-string">"lib/**/*.coffee"</span>, <span class="hljs-string">"README.md"</span>, <span class="hljs-string">"lib/styles/*/style.sass"</span>, <span class="hljs-string">"lib/styles/*/*.jade"</span>]</span>,
+  "<span class="hljs-attribute">github</span>": <span class="hljs-value"><span class="hljs-literal">true</span>
+</span>}</code></pre>
 <p>From now on, if you call <code>groc</code> without any arguments, it will use your pre-defined configuration.</p>
-
 <h2 id="literate-programming">Literate programming?</h2>
-
 <p><a href="http://en.wikipedia.org/wiki/Literate_programming">Literate programming</a> is a programming
 methodology coined by <a href="http://en.wikipedia.org/wiki/Donald_Knuth">Donald Knuth</a>.  The primary tenet
 is that you write a program so that the structure of both the code and documentation align with
 your mental model of its behaviors and processes.</p>
-
 <p>Groc aims to provide a happy medium where you can freely write your source files as structured
 documents, while not going out of your way to restructure the code to fit the documentation.
 Here are some suggested guidelines to follow when writing your code:</p>
-
 <ul>
 <li><p>Try to keep the size of each source file down.  It is helpful if each file fulfills a specific
-feature of your application or library.</p></li>
+feature of your application or library.</p>
+</li>
 <li><p>Rather than commenting individual lines of code, write comments that explain the <em>behavior</em> of a
-given method or code block.  Take advantage of the fact that comments can span that method.</p></li>
+given method or code block.  Take advantage of the fact that comments can span that method.</p>
+</li>
 <li><p>Make gratuitous use of lists when explaining processes; step by step explanations are extremely
-easy to follow!</p></li>
-<li><p>Break each source file into sections via headers.  Don't be afraid to split source into even
-smaller files if it makes them more readable.</p></li>
+easy to follow!</p>
+</li>
+<li><p>Break each source file into sections via headers.  Don&#39;t be afraid to split source into even
+smaller files if it makes them more readable.</p>
+</li>
 </ul>
-
 <p>Writing documentation is <em>hard</em>; hopefully groc helps to streamline the process for you!</p>
-
 <h2 id="known-issues">Known Issues</h2>
-
 <ul>
 <li>Groc does not fare well with files that have very long line lengths (minimized
 JavaScript being the prime offender).  Make sure that you exclude them!</li>
 </ul>
-
-<h2 id="whats-in-the-works">What's in the works?</h2>
-
+<h2 id="what39s-in-the-works">What&#39;s in the works?</h2>
 <p>Groc wants to:</p>
-
 <ul>
 <li><a href="https://github.com/nevir/groc/issues/1">Fully support hand-held viewing of documentation</a>.  It
 can almost do this today, but the table of contents is horribly broken in the mobile view.</li>

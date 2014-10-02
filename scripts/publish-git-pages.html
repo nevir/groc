@@ -1,71 +1,77 @@
-<!DOCTYPE html><html lang="en"><head><title>scripts/publish-git-pages</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="scripts/publish-git-pages"><meta name="groc-project-path" content="scripts/publish-git-pages.sh"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/nevir/groc/blob/master/scripts/publish-git-pages.sh">scripts/publish-git-pages.sh</a></div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="nb">set</span> -e <span class="c"># Stop on the first failure that occurs</span>
+<!DOCTYPE html><html lang="en"><head><title>scripts/publish-git-pages</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="scripts/publish-git-pages"><meta name="groc-project-path" content="scripts/publish-git-pages.sh"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/nevir/groc/blob/master/scripts/publish-git-pages.sh">scripts/publish-git-pages.sh</a></div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-keyword">set</span> <span class="hljs-operator">-e</span> <span class="hljs-comment"># Stop on the first failure that occurs</span>
 
-<span class="nv">DOCS_PATH</span><span class="o">=</span>.git/groc-tmp
-<span class="nv">TARGET_BRANCH</span><span class="o">=</span>gh-pages
-<span class="o">[[</span> <span class="nv">$1</span> <span class="o">]]</span> <span class="o">&amp;&amp;</span> <span class="nv">TARGET_REMOTE</span><span class="o">=</span><span class="nv">$1</span> <span class="o">||</span> <span class="nv">TARGET_REMOTE</span><span class="o">=</span>origin</div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Git spits out status information on $stderr, and we don't want to relay that as an error to the
-user.  So we wrap git and do error handling ourselves...</p></div></div><div class="code"><div class="wrapper">exec_git<span class="o">()</span> <span class="o">{</span>
-  <span class="nv">args</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
-  <span class="k">for</span> <span class="o">((</span> <span class="nv">i</span> <span class="o">=</span> 1; i &lt;<span class="o">=</span> <span class="nv">$#;</span> i++ <span class="o">))</span>; <span class="k">do</span>
-<span class="k">    </span><span class="nb">eval </span><span class="nv">arg</span><span class="o">=</span><span class="se">\$</span><span class="nv">$i</span>
-    <span class="k">if</span> <span class="o">[[</span> <span class="nv">$arg</span> <span class="o">==</span> *<span class="se">\ </span>* <span class="o">]]</span>; <span class="k">then</span>
-      <span class="c">#} We assume that double quotes will not be used as part of argument values.</span>
-      <span class="nv">args</span><span class="o">=</span><span class="s2">&quot;$args \&quot;$arg\&quot;&quot;</span>
-    <span class="k">else</span>
-<span class="k">      </span><span class="nv">args</span><span class="o">=</span><span class="s2">&quot;$args $arg&quot;</span>
-    <span class="k">fi</span>
-<span class="k">  done</span>
+DOCS_PATH=.git/groc-tmp
+TARGET_BRANCH=gh-pages
+[[ <span class="hljs-variable">$1</span> ]] &amp;&amp; TARGET_REMOTE=<span class="hljs-variable">$1</span> || TARGET_REMOTE=origin</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Git spits out status information on $stderr, and we don&#39;t want to relay that as an error to the
+user.  So we wrap git and do error handling ourselves...</p></div></div><div class="code"><div class="wrapper"><span class="hljs-function"><span class="hljs-title">exec_git</span></span>() {
+  args=<span class="hljs-string">''</span>
+  <span class="hljs-keyword">for</span> (( i = <span class="hljs-number">1</span>; i &lt;= <span class="hljs-variable">$#</span>; i++ )); <span class="hljs-keyword">do</span>
+    <span class="hljs-built_in">eval</span> arg=\$<span class="hljs-variable">$i</span>
+    <span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$arg</span> == *\ * ]]; <span class="hljs-keyword">then</span>
+      <span class="hljs-comment"># We assume that double quotes will not be used as part of argument values.</span>
+      args=<span class="hljs-string">"<span class="hljs-variable">$args</span> \"<span class="hljs-variable">$arg</span>\""</span>
+    <span class="hljs-keyword">else</span>
+      args=<span class="hljs-string">"<span class="hljs-variable">$args</span> <span class="hljs-variable">$arg</span>"</span>
+    <span class="hljs-keyword">fi</span>
+  <span class="hljs-keyword">done</span>
 
-<span class="k">  </span><span class="nb">set</span> +e
-  <span class="c">#} Even though we wrap the arguments in quotes, bash is splitting on whitespace within.  Why?</span>
-  <span class="nv">result</span><span class="o">=</span><span class="sb">`</span><span class="nb">eval </span>git <span class="nv">$args</span> 2&gt;&amp;1<span class="sb">`</span>
-  <span class="nv">status</span><span class="o">=</span><span class="nv">$?</span>
-  <span class="nb">set</span> -e
+  <span class="hljs-keyword">set</span> +e
+  <span class="hljs-comment"># Even though we wrap the arguments in quotes, bash is splitting on whitespace within.  Why?</span>
+  result=`<span class="hljs-built_in">eval</span> git <span class="hljs-variable">$args</span> <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span>`
+  status=$?
+  <span class="hljs-keyword">set</span> <span class="hljs-operator">-e</span>
 
-  <span class="k">if</span> <span class="o">[[</span> <span class="nv">$status</span> -ne 0 <span class="o">]]</span>; <span class="k">then</span>
-<span class="k">    </span><span class="nb">echo</span> <span class="s2">&quot;$result&quot;</span> &gt;&amp;2
-    <span class="nb">exit</span> <span class="nv">$status</span>
-  <span class="k">fi</span>
+  <span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$status</span> <span class="hljs-operator">-ne</span> <span class="hljs-number">0</span> ]]; <span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$result</span>"</span> &gt;&amp;<span class="hljs-number">2</span>
+    <span class="hljs-keyword">exit</span> <span class="hljs-variable">$status</span>
+  <span class="hljs-keyword">fi</span>
 
-<span class="k">  </span><span class="nb">echo</span> <span class="s2">&quot;$result&quot;</span>
-  <span class="k">return </span>0
-<span class="o">}</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$result</span>"</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+}
 
-<span class="k">if</span> <span class="o">[[</span> <span class="sb">`</span>git status -s<span class="sb">`</span> !<span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="o">]]</span>; <span class="k">then</span>
-<span class="k">  </span><span class="nb">echo</span> <span class="s2">&quot;Please commit or stash your changes before publishing documentation to github!&quot;</span> &gt;&amp;2
-  <span class="nb">exit </span>1
-<span class="k">fi</span>
+<span class="hljs-keyword">if</span> [[ `git status <span class="hljs-operator">-s</span>` != <span class="hljs-string">""</span> ]]; <span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Please commit or stash your changes before publishing documentation to github!"</span> &gt;&amp;<span class="hljs-number">2</span>
+  <span class="hljs-keyword">exit</span> <span class="hljs-number">1</span>
+<span class="hljs-keyword">fi</span>
 
-<span class="nv">CURRENT_BRANCH</span><span class="o">=</span><span class="sb">`</span>git branch 2&gt;/dev/null| sed -n <span class="s1">&#39;/^\*/s/^\* //p&#39;</span><span class="sb">`</span>
-<span class="nv">CURRENT_COMMIT</span><span class="o">=</span><span class="sb">`</span>git rev-parse HEAD<span class="sb">`</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Preserve the project's .gitignore so that we don't check in or otherwise screw up hidden files</p></div></div><div class="code"><div class="wrapper"><span class="k">if</span> <span class="o">[[</span> -e .gitignore <span class="o">]]</span>; <span class="k">then</span>
-<span class="k">  </span>cp .gitignore <span class="nv">$DOCS_PATH</span>/
-<span class="k">fi</span>
+CURRENT_BRANCH=`git branch <span class="hljs-number">2</span>&gt;/dev/null| sed -n <span class="hljs-string">'/^\*/s/^\* //p'</span>`
+CURRENT_COMMIT=`git rev-parse HEAD`</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Preserve the project&#39;s .gitignore so that we don&#39;t check in or otherwise screw up hidden files</p></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">if</span> [[ <span class="hljs-operator">-e</span> .gitignore ]]; <span class="hljs-keyword">then</span>
+  cp .gitignore <span class="hljs-variable">$DOCS_PATH</span>/
+<span class="hljs-keyword">fi</span>
 
-<span class="k">if</span> <span class="o">[[</span> <span class="sb">`</span>git branch --no-color | grep <span class="s2">&quot; $TARGET_BRANCH&quot;</span><span class="sb">`</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="o">]]</span>; <span class="k">then</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Do a fetch from the target remote to see if it was created remotely</p></div></div><div class="code"><div class="wrapper">  exec_git fetch <span class="nv">$TARGET_REMOTE</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Does it exist remotely?</p></div></div><div class="code"><div class="wrapper">  <span class="k">if</span> <span class="o">[[</span> <span class="sb">`</span>git branch -a --no-color | grep <span class="s2">&quot; remotes/$TARGET_REMOTE/$TARGET_BRANCH&quot;</span><span class="sb">`</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="o">]]</span>; <span class="k">then</span>
-<span class="k">    </span><span class="nb">echo</span> <span class="s2">&quot;No &#39;$TARGET_BRANCH&#39; branch exists.  Creating one&quot;</span>
-    exec_git symbolic-ref HEAD refs/heads/<span class="nv">$TARGET_BRANCH</span>
-    rm .git/index</div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Preserve ignored files, but make sure they're actually ignored!</p></div></div><div class="code"><div class="wrapper">    <span class="k">if</span> <span class="o">[[</span> -e <span class="nv">$DOCS_PATH</span>/.gitignore <span class="o">]]</span>; <span class="k">then</span>
-<span class="k">      </span>cp <span class="nv">$DOCS_PATH</span>/.gitignore .gitignore
-      exec_git add .gitignore
-    <span class="k">fi</span>
+<span class="hljs-keyword">if</span> [[ `git branch --no-color | grep <span class="hljs-string">" <span class="hljs-variable">$TARGET_BRANCH</span>"</span>` == <span class="hljs-string">""</span> ]]; <span class="hljs-keyword">then</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Do a fetch from the target remote to see if it was created remotely</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-keyword">exec</span>_git fetch <span class="hljs-variable">$TARGET_REMOTE</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Does it exist remotely?</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-keyword">if</span> [[ `git branch <span class="hljs-operator">-a</span> --no-color | grep <span class="hljs-string">" remotes/<span class="hljs-variable">$TARGET_REMOTE</span>/<span class="hljs-variable">$TARGET_BRANCH</span>"</span>` == <span class="hljs-string">""</span> ]]; <span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"No '<span class="hljs-variable">$TARGET_BRANCH</span>' branch exists.  Creating one"</span>
+    <span class="hljs-keyword">exec</span>_git symbolic-ref HEAD refs/heads/<span class="hljs-variable">$TARGET_BRANCH</span>
+    rm .git/index</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Preserve ignored files, but make sure they&#39;re actually ignored!</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-keyword">if</span> [[ <span class="hljs-operator">-e</span> <span class="hljs-variable">$DOCS_PATH</span>/.gitignore ]]; <span class="hljs-keyword">then</span>
+      cp <span class="hljs-variable">$DOCS_PATH</span>/.gitignore .gitignore
+      <span class="hljs-keyword">exec</span>_git add .gitignore
+    <span class="hljs-keyword">fi</span>
 
-<span class="k">    </span>exec_git clean -fdq
-  <span class="k">else</span>
-<span class="k">    </span><span class="nv">TARGET_REMOTE</span><span class="o">=</span>origin
-    <span class="nb">echo</span> <span class="s2">&quot;No local branch &#39;$TARGET_BRANCH&#39;, checking out &#39;$TARGET_REMOTE/$TARGET_BRANCH&#39; and tracking that&quot;</span>
-    exec_git checkout -b <span class="nv">$TARGET_BRANCH</span> <span class="nv">$TARGET_REMOTE</span>/<span class="nv">$TARGET_BRANCH</span>
-  <span class="k">fi</span>
+    <span class="hljs-keyword">exec</span>_git clean -fdq
+  <span class="hljs-keyword">else</span>
+    TARGET_REMOTE=origin
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"No local branch '<span class="hljs-variable">$TARGET_BRANCH</span>', checking out '<span class="hljs-variable">$TARGET_REMOTE</span>/<span class="hljs-variable">$TARGET_BRANCH</span>' and tracking that"</span>
+    <span class="hljs-keyword">exec</span>_git checkout -b <span class="hljs-variable">$TARGET_BRANCH</span> <span class="hljs-variable">$TARGET_REMOTE</span>/<span class="hljs-variable">$TARGET_BRANCH</span>
+  <span class="hljs-keyword">fi</span>
 
-<span class="k">else</span>
-<span class="k">  </span>exec_git checkout <span class="nv">$TARGET_BRANCH</span>
-<span class="k">fi</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We want to keep in complete sync (deleting old docs, or cruft from previous documentation output)</p></div></div><div class="code"><div class="wrapper">exec_git ls-files | xargs rm
+<span class="hljs-keyword">else</span>
+  <span class="hljs-keyword">exec</span>_git checkout <span class="hljs-variable">$TARGET_BRANCH</span>
+<span class="hljs-keyword">fi</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>We want to keep in complete sync (deleting old docs, or cruft from previous documentation output)</p></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">exec</span>_git ls-files | xargs rm</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>The previous solution below fails to copy .dot-files, therefore we utilize
+<code>find</code>, which in turn also made the <code>if</code>-statement obsolete.</p>
+<blockquote>
+<pre><code>cp -Rf $DOCS_PATH/* .
+if [[ -e $DOCS_PATH/.gitignore ]]; then
+  cp $DOCS_PATH/.gitignore .gitignore
+fi</code></pre>
+</blockquote>
+<p>Alternative solution using <code>tar</code></p>
+<blockquote>
+<pre><code>( cd $DOCS_PATH ; tar --excude .git cf - . ) | tar xkpvvf -</code></pre>
+</blockquote></div></div><div class="code"><div class="wrapper">find <span class="hljs-variable">$DOCS_PATH</span> -maxdepth <span class="hljs-number">1</span> -not -path <span class="hljs-variable">$DOCS_PATH</span> -and -not -path <span class="hljs-variable">$DOCS_PATH</span>/.git -exec cp -Rf <span class="hljs-string">"{}"</span> . \;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Do nothing unless we actually have changes</p></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">if</span> [[ `git status <span class="hljs-operator">-s</span>` != <span class="hljs-string">""</span> ]]; <span class="hljs-keyword">then</span>
+  <span class="hljs-keyword">exec</span>_git add -A
+  <span class="hljs-keyword">exec</span>_git commit -m <span class="hljs-string">"Generated documentation for <span class="hljs-variable">$CURRENT_COMMIT</span>"</span>
+  <span class="hljs-keyword">exec</span>_git push <span class="hljs-variable">$TARGET_REMOTE</span> <span class="hljs-variable">$TARGET_BRANCH</span>
+<span class="hljs-keyword">fi</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Clean up after ourselves</p></div></div><div class="code"><div class="wrapper">rm -rf <span class="hljs-variable">$DOCS_PATH</span>
 
-cp -Rf <span class="nv">$DOCS_PATH</span>/* .
-<span class="k">if</span> <span class="o">[[</span> -e <span class="nv">$DOCS_PATH</span>/.gitignore <span class="o">]]</span>; <span class="k">then</span>
-<span class="k">  </span>cp <span class="nv">$DOCS_PATH</span>/.gitignore .gitignore
-<span class="k">fi</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Do nothing unless we actually have changes</p></div></div><div class="code"><div class="wrapper"><span class="k">if</span> <span class="o">[[</span> <span class="sb">`</span>git status -s<span class="sb">`</span> !<span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="o">]]</span>; <span class="k">then</span>
-<span class="k">  </span>exec_git add -A
-  exec_git commit -m <span class="s2">&quot;Generated documentation for $CURRENT_COMMIT&quot;</span>
-  exec_git push <span class="nv">$TARGET_REMOTE</span> <span class="nv">$TARGET_BRANCH</span>
-<span class="k">fi</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Clean up after ourselves</p></div></div><div class="code"><div class="wrapper">rm -rf <span class="nv">$DOCS_PATH</span>
-
-exec_git checkout <span class="nv">$CURRENT_BRANCH</span></div></div></div></div></body></html>
+<span class="hljs-keyword">exec</span>_git checkout <span class="hljs-variable">$CURRENT_BRANCH</span></div></div></div></div></body></html>

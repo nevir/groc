@@ -1,68 +1,72 @@
-<!DOCTYPE html><html lang="en"><head><title>project</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="project"><meta name="groc-project-path" content="lib/project.coffee"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/nevir/groc/blob/master/lib/project.coffee">lib/project.coffee</a></div></div><div id="document"><div class="segment"><div class="comments"><div class="wrapper"><h1 id="groc-api">groc API</h1></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="nv">fs   = </span><span class="nx">require</span> <span class="s">&#39;fs&#39;</span>
-<span class="nv">path = </span><span class="nx">require</span> <span class="s">&#39;path&#39;</span>
+<!DOCTYPE html><html lang="en"><head><title>project</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="project"><meta name="groc-project-path" content="lib/project.coffee"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/nevir/groc/blob/master/lib/project.coffee">lib/project.coffee</a></div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="groc-api">groc API</h1></div></div></div><div class="segment"><div class="code"><div class="wrapper">fs   = <span class="hljs-built_in">require</span> <span class="hljs-string">'fs'</span>
+path = <span class="hljs-built_in">require</span> <span class="hljs-string">'path'</span>
 
-<span class="nv">spate = </span><span class="nx">require</span> <span class="s">&#39;spate&#39;</span>
+spate = <span class="hljs-built_in">require</span> <span class="hljs-string">'spate'</span>
 
-<span class="nv">CompatibilityHelpers = </span><span class="nx">require</span> <span class="s">&#39;./utils/compatibility_helpers&#39;</span>
-<span class="nv">Logger               = </span><span class="nx">require</span> <span class="s">&#39;./utils/logger&#39;</span>
-<span class="nv">Utils                = </span><span class="nx">require</span> <span class="s">&#39;./utils&#39;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>A core concept of <code>groc</code> is that your code is grouped into a project, and that there is a certain
-amount of context that it lends to your documentation.</p></div></div><div class="code"><div class="wrapper"><span class="c1">#</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>A project:</p></div></div><div class="code"><div class="wrapper"><span class="nv">module.exports = </span><span class="k">class</span> <span class="nx">Project</span>
-  <span class="nv">constructor: </span><span class="nf">(root, outPath, minLogLevel=Logger::INFO) -&gt;</span>
-    <span class="vi">@options = </span><span class="p">{}</span>
-    <span class="vi">@log     = </span><span class="k">new</span> <span class="nx">Logger</span> <span class="nx">minLogLevel</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+CompatibilityHelpers = <span class="hljs-built_in">require</span> <span class="hljs-string">'./utils/compatibility_helpers'</span>
+Logger               = <span class="hljs-built_in">require</span> <span class="hljs-string">'./utils/logger'</span>
+Utils                = <span class="hljs-built_in">require</span> <span class="hljs-string">'./utils'</span>
+styles               = <span class="hljs-built_in">require</span> <span class="hljs-string">'./styles'</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>A core concept of <code>groc</code> is that your code is grouped into a project, and that there is a certain
+amount of context that it lends to your documentation.
+A project:</p></div></div><div class="code"><div class="wrapper"><span class="hljs-built_in">module</span>.<span class="hljs-built_in">exports</span> = <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Project</span></span>
+  <span class="hljs-attribute">constructor</span>: <span class="hljs-function"><span class="hljs-params">(root, outPath, minLogLevel=Logger::INFO)</span> -&gt;</span>
+    <span class="hljs-property">@options</span> = {}
+    <span class="hljs-property">@log</span>     = <span class="hljs-keyword">new</span> Logger minLogLevel</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><ul>
 <li>Has a single root directory that contains (most of) it.</li>
-</ul></div></div><div class="code"><div class="wrapper">    <span class="vi">@root = </span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span> <span class="nx">root</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+</ul></div></div><div class="code"><div class="wrapper">    <span class="hljs-property">@root</span> = path.resolve root</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><ul>
 <li>Generally wants documented generated somewhere within its tree.  We default the output path
 to be relative to the project root, unless you pass an absolute path.</li>
-</ul></div></div><div class="code"><div class="wrapper">    <span class="vi">@outPath = </span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span> <span class="nx">@root</span><span class="p">,</span> <span class="nx">outPath</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+</ul></div></div><div class="code"><div class="wrapper">    <span class="hljs-property">@outPath</span> = path.resolve <span class="hljs-property">@root</span>, outPath</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><ul>
 <li>Contains a set of files to generate documentation from, source code or otherwise.</li>
-</ul></div></div><div class="code"><div class="wrapper">    <span class="vi">@files = </span><span class="p">[]</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
-<li>Should strip specific prefixes of a file's path when generating relative paths for
+</ul></div></div><div class="code"><div class="wrapper">    <span class="hljs-property">@files</span> = []</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><ul>
+<li>Should strip specific prefixes of a file&#39;s path when generating relative paths for
 documentation.  For example, this could be used to ensure that <code>lib/some/source.file</code> maps
 to <code>doc/some/source.file</code> and not <code>doc/lib/some/source.file</code>.</li>
-</ul></div></div><div class="code"><div class="wrapper">    <span class="vi">@stripPrefixes = </span><span class="p">[]</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Annoyingly, we seem to be hitting a race condition within Node 0.10's
-emulation for old-style streams.  For now, we're dropping concurrent doc
-generation to play it safe.  People are still using groc with 0.6.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">oldNode = </span><span class="nx">process</span><span class="p">.</span><span class="nx">version</span><span class="p">.</span><span class="nx">match</span> <span class="sr">/v0\.[0-8]\./</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>This is both a performance (over-)optimization and debugging aid.  Instead of spamming the
+</ul></div></div><div class="code"><div class="wrapper">    <span class="hljs-property">@stripPrefixes</span> = []</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Annoyingly, we seem to be hitting a race condition within Node 0.10&#39;s
+emulation for old-style streams.  For now, we&#39;re dropping concurrent doc
+generation to play it safe.  People are still using groc with 0.6.</p></div></div><div class="code"><div class="wrapper">  oldNode = process.version.match <span class="hljs-regexp">/v0\.[0-8]\./</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>This is both a performance (over-)optimization and debugging aid.  Instead of spamming the
 system with file I/O and overhead all at once, we only process a certain number of source files
 concurrently.  This is similar to what <a href="https://github.com/isaacs/node-graceful-fs">graceful-fs</a>
-accomplishes.</p></div></div><div class="code"><div class="wrapper">  <span class="nv">BATCH_SIZE: </span><span class="k">if</span> <span class="nx">oldNode</span> <span class="k">then</span> <span class="mi">10</span> <span class="k">else</span> <span class="mi">1</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Where the magic happens.</p></div></div><div class="code"><div class="wrapper">  <span class="c1">#</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>Currently, the only supported option is:</p></div></div><div class="code"><div class="wrapper">  <span class="nv">generate: </span><span class="nf">(options, callback) -&gt;</span>
-    <span class="nx">@log</span><span class="p">.</span><span class="nx">trace</span> <span class="s">&#39;Project#Generate(%j, ...)&#39;</span><span class="p">,</span> <span class="nx">options</span>
-    <span class="nx">@log</span><span class="p">.</span><span class="nx">info</span> <span class="s">&#39;Generating documentation...&#39;</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><ul>
+accomplishes.</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-attribute">BATCH_SIZE</span>: <span class="hljs-keyword">if</span> oldNode <span class="hljs-keyword">then</span> <span class="hljs-number">10</span> <span class="hljs-keyword">else</span> <span class="hljs-number">1</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Where the magic happens.
+Currently, the only supported option is:</p></div></div><div class="code"><div class="wrapper">  <span class="hljs-attribute">generate</span>: <span class="hljs-function"><span class="hljs-params">(options, callback)</span> -&gt;</span>
+    <span class="hljs-property">@log</span>.trace <span class="hljs-string">'Project#Generate(%j, ...)'</span>, options
+    <span class="hljs-property">@log</span>.info <span class="hljs-string">'Generating documentation...'</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><ul>
 <li>style: The style prototype to use.  Defaults to <code>styles.Default</code></li>
-</ul></div></div><div class="code"><div class="wrapper">    <span class="nv">style = </span><span class="k">new</span> <span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">style</span> <span class="o">||</span> <span class="nx">styles</span><span class="p">.</span><span class="nx">Default</span><span class="p">)</span> <span class="nx">@</span></div></div></div><div class="segment"><div class="comments"><div class="wrapper"><p>We need to ensure that the project root is a strip prefix so that we properly generate
+</ul></div></div><div class="code"><div class="wrapper">    style = <span class="hljs-keyword">new</span> (options.style || styles.Default) @</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>We need to ensure that the project root is a strip prefix so that we properly generate
 relative paths for our files.  Since strip prefixes are relative, it must be the first prefix,
-so that they can strip from the remainder.</p></div></div><div class="code"><div class="wrapper">    <span class="vi">@stripPrefixes = </span><span class="p">[</span><span class="nx">@root</span> <span class="o">+</span> <span class="nx">CompatibilityHelpers</span><span class="p">.</span><span class="nx">pathSep</span><span class="p">].</span><span class="nx">concat</span> <span class="nx">@stripPrefixes</span>
+so that they can strip from the remainder.</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-property">@stripPrefixes</span> = [<span class="hljs-property">@root</span> + CompatibilityHelpers.pathSep].concat <span class="hljs-property">@stripPrefixes</span>
 
-    <span class="nv">fileMap   = </span><span class="nx">Utils</span><span class="p">.</span><span class="nx">mapFiles</span> <span class="nx">@root</span><span class="p">,</span> <span class="nx">@files</span><span class="p">,</span> <span class="nx">@stripPrefixes</span>
-    <span class="nv">indexPath = </span><span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span> <span class="nx">@root</span><span class="p">,</span> <span class="nx">@index</span>
+    fileMap   = Utils.mapFiles <span class="hljs-property">@root</span>, <span class="hljs-property">@files</span>, <span class="hljs-property">@stripPrefixes</span>
+    indexPath = path.resolve <span class="hljs-property">@root</span>, <span class="hljs-property">@index</span>
 
-    <span class="nv">pool = </span><span class="nx">spate</span><span class="p">.</span><span class="nx">pool</span> <span class="p">(</span><span class="nx">k</span> <span class="k">for</span> <span class="nx">k</span> <span class="k">of</span> <span class="nx">fileMap</span><span class="p">),</span> <span class="nv">maxConcurrency: </span><span class="nx">@BATCH_SIZE</span><span class="p">,</span> <span class="nf">(currentFile, done) =&gt;</span>
-      <span class="nx">@log</span><span class="p">.</span><span class="nx">debug</span> <span class="s">&quot;Processing %s&quot;</span><span class="p">,</span> <span class="nx">currentFile</span>
+    pool = spate.pool <span class="hljs-function"><span class="hljs-params">(k <span class="hljs-keyword">for</span> k <span class="hljs-keyword">of</span> fileMap)</span>, <span class="hljs-title">maxConcurrency</span>: @<span class="hljs-title">BATCH_SIZE</span>, <span class="hljs-params">(currentFile, done)</span> =&gt;</span>
+      <span class="hljs-property">@log</span>.debug <span class="hljs-string">"Processing %s"</span>, currentFile
 
-      <span class="nv">language = </span><span class="nx">Utils</span><span class="p">.</span><span class="nx">getLanguage</span> <span class="nx">currentFile</span>
-      <span class="k">unless</span> <span class="nx">language</span><span class="o">?</span>
-        <span class="nx">@log</span><span class="p">.</span><span class="nx">warn</span> <span class="s">&#39;%s is not in a supported language, skipping.&#39;</span><span class="p">,</span> <span class="nx">currentFile</span>
-        <span class="k">return</span> <span class="nx">done</span><span class="p">()</span>
+      language = Utils.getLanguage currentFile, <span class="hljs-property">@options</span>.languages
+      <span class="hljs-keyword">unless</span> language?
+        <span class="hljs-property">@log</span>.warn <span class="hljs-string">'%s is not in a supported language, skipping.'</span>, currentFile
+        <span class="hljs-keyword">return</span> done()
 
-      <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span> <span class="nx">currentFile</span><span class="p">,</span> <span class="s">&#39;utf-8&#39;</span><span class="p">,</span> <span class="nf">(error, data) =&gt;</span>
-        <span class="k">if</span> <span class="nx">error</span>
-          <span class="nx">@log</span><span class="p">.</span><span class="nx">error</span> <span class="s">&quot;Failed to process %s: %s&quot;</span><span class="p">,</span> <span class="nx">currentFile</span><span class="p">,</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span>
-          <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span>
+      fs.readFile currentFile, <span class="hljs-string">'utf-8'</span>, <span class="hljs-function"><span class="hljs-params">(error, data)</span> =&gt;</span>
+        <span class="hljs-keyword">if</span> error
+          <span class="hljs-property">@log</span>.error <span class="hljs-string">"Failed to process %s: %s"</span>, currentFile, error.message
+          <span class="hljs-keyword">return</span> callback error
 
-        <span class="nv">fileInfo =</span>
-          <span class="nv">language: </span>   <span class="nx">language</span>
-          <span class="nv">sourcePath: </span> <span class="nx">currentFile</span>
-          <span class="nv">projectPath: </span><span class="nx">currentFile</span><span class="p">.</span><span class="nx">replace</span> <span class="sr">///^</span><span class="si">#{</span><span class="nx">Utils</span><span class="p">.</span><span class="nx">regexpEscape</span> <span class="nx">@root</span> <span class="o">+</span> <span class="nx">CompatibilityHelpers</span><span class="p">.</span><span class="nx">pathSep</span><span class="si">}</span><span class="sr">///</span><span class="p">,</span> <span class="s">&#39;&#39;</span>
-          <span class="nv">targetPath: </span> <span class="k">if</span> <span class="nx">currentFile</span> <span class="o">==</span> <span class="nx">indexPath</span> <span class="k">then</span> <span class="s">&#39;index&#39;</span> <span class="k">else</span> <span class="nx">fileMap</span><span class="p">[</span><span class="nx">currentFile</span><span class="p">]</span>
+        fileInfo =
+          <span class="hljs-attribute">language</span>:    language
+          <span class="hljs-attribute">sourcePath</span>:  currentFile
+          <span class="hljs-attribute">projectPath</span>: currentFile.replace <span class="hljs-regexp">///^<span class="hljs-subst">#{Utils.regexpEscape <span class="hljs-property">@root</span> + CompatibilityHelpers.pathSep}</span>///</span>, <span class="hljs-string">''</span>
+          <span class="hljs-attribute">targetPath</span>:  <span class="hljs-keyword">if</span> currentFile == indexPath <span class="hljs-keyword">then</span> <span class="hljs-string">'index'</span> <span class="hljs-keyword">else</span> fileMap[currentFile]
+          <span class="hljs-attribute">pageTitle</span>:   <span class="hljs-keyword">if</span> currentFile == indexPath <span class="hljs-keyword">then</span> (options.indexPageTitle || <span class="hljs-string">'index'</span>) <span class="hljs-keyword">else</span> fileMap[currentFile]
 
-        <span class="nx">style</span><span class="p">.</span><span class="nx">renderFile</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">fileInfo</span><span class="p">,</span> <span class="nx">done</span>
+        style.renderFile data, fileInfo, done
 
-    <span class="nx">pool</span><span class="p">.</span><span class="nx">exec</span> <span class="nf">(error) =&gt;</span>
-      <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span> <span class="k">if</span> <span class="nx">error</span>
+    pool.exec <span class="hljs-function"><span class="hljs-params">(error)</span> =&gt;</span>
+      <span class="hljs-keyword">return</span> callback error <span class="hljs-keyword">if</span> error
 
-      <span class="nx">style</span><span class="p">.</span><span class="nx">renderCompleted</span> <span class="nf">(error) =&gt;</span>
-        <span class="k">return</span> <span class="nx">callback</span> <span class="nx">error</span> <span class="k">if</span> <span class="nx">error</span>
+      style.renderCompleted <span class="hljs-function"><span class="hljs-params">(error)</span> =&gt;</span>
+        <span class="hljs-keyword">return</span> callback error <span class="hljs-keyword">if</span> error
 
-        <span class="nx">@log</span><span class="p">.</span><span class="nx">info</span> <span class="s">&#39;&#39;</span>
-        <span class="nx">@log</span><span class="p">.</span><span class="nx">pass</span> <span class="s">&#39;Documentation generated&#39;</span>
-        <span class="nx">callback</span><span class="p">()</span></div></div></div></div></body></html>
+        <span class="hljs-property">@log</span>.info <span class="hljs-string">''</span>
+        <span class="hljs-property">@log</span>.pass <span class="hljs-string">'Documentation generated'</span>
+        callback()</div></div></div></div></body></html>

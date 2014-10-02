@@ -1,129 +1,296 @@
-<!DOCTYPE html><html lang="en"><head><title>languages</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="languages"><meta name="groc-project-path" content="lib/languages.coffee"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/nevir/groc/blob/master/lib/languages.coffee">lib/languages.coffee</a></div></div><div id="document"><div class="segment"><div class="comments"><div class="wrapper"><h1 id="supported-languages">Supported Languages</h1></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="nv">module.exports = LANGUAGES =</span>
-  <span class="nv">Markdown:</span>
-    <span class="nv">nameMatchers: </span><span class="p">[</span><span class="s">&#39;.md&#39;</span><span class="p">]</span>
-    <span class="nv">commentsOnly: </span><span class="kc">true</span>
+<!DOCTYPE html><html lang="en"><head><title>languages</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="languages"><meta name="groc-project-path" content="lib/languages.coffee"><meta name="groc-github-url" content="https://github.com/nevir/groc"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/nevir/groc/blob/master/lib/languages.coffee">lib/languages.coffee</a></div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="supported-languages">Supported Languages</h1></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-built_in">module</span>.<span class="hljs-built_in">exports</span> = LANGUAGES =
+  <span class="hljs-attribute">Markdown</span>:
+    <span class="hljs-attribute">nameMatchers</span>: [<span class="hljs-string">'.md'</span>, <span class="hljs-string">'.markdown'</span>,<span class="hljs-string">'.mkd'</span>, <span class="hljs-string">'.mkdn'</span>, <span class="hljs-string">'.mdown'</span>]
+    <span class="hljs-attribute">commentsOnly</span>: <span class="hljs-literal">true</span>
 
-  <span class="nv">C:</span>
-    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.c&#39;</span><span class="p">,</span> <span class="s">&#39;.h&#39;</span><span class="p">]</span>
-    <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;c&#39;</span>
-    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;//&#39;</span><span class="p">]</span>
+  <span class="hljs-attribute">C</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.c'</span>, <span class="hljs-string">'.h'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'c'</span>
+    <span class="hljs-attribute">highlightJS</span>:       <span class="hljs-string">'cpp'</span>
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">'//'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
 
-  <span class="nv">CSharp:</span>
-    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.cs&#39;</span><span class="p">]</span>
-    <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;csharp&#39;</span>
-    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;//&#39;</span><span class="p">]</span>
+  <span class="hljs-attribute">CSharp</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.cs'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'csharp'</span>
+    <span class="hljs-attribute">highlightJS</span>:       <span class="hljs-string">'cs'</span>
+    <span class="hljs-attribute">multiLineComment</span>:  [<span class="hljs-string">'/*'</span>, <span class="hljs-string">'*'</span>, <span class="hljs-string">'*/'</span>]
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">'//'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
 
-  <span class="s">&#39;C++&#39;</span><span class="o">:</span>
-    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.cpp&#39;</span><span class="p">,</span> <span class="s">&#39;.hpp&#39;</span><span class="p">,</span> <span class="s">&#39;.c++&#39;</span><span class="p">,</span> <span class="s">&#39;.h++&#39;</span><span class="p">,</span> <span class="s">&#39;.cc&#39;</span><span class="p">,</span> <span class="s">&#39;.hh&#39;</span><span class="p">,</span> <span class="s">&#39;.cxx&#39;</span><span class="p">,</span> <span class="s">&#39;.hxx&#39;</span><span class="p">]</span>
-    <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;cpp&#39;</span>
-    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;//&#39;</span><span class="p">]</span>
+  <span class="hljs-string">'C++'</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.cpp'</span>, <span class="hljs-string">'.hpp'</span>, <span class="hljs-string">'.c++'</span>, <span class="hljs-string">'.h++'</span>, <span class="hljs-string">'.cc'</span>, <span class="hljs-string">'.hh'</span>, <span class="hljs-string">'.cxx'</span>, <span class="hljs-string">'.hxx'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'cpp'</span>
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">'//'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
 
-  <span class="nv">Clojure:</span>
-    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.clj&#39;</span><span class="p">]</span>
-    <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;clojure&#39;</span>
-    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;;;&#39;</span><span class="p">]</span>
+  <span class="hljs-attribute">Clojure</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.clj'</span>, <span class="hljs-string">'.cljs'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'clojure'</span>
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">';;'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
 
-  <span class="nv">CoffeeScript:</span>
-    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.coffee&#39;</span><span class="p">,</span> <span class="s">&#39;Cakefile&#39;</span><span class="p">]</span>
-    <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;coffee-script&#39;</span>
-    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;#&#39;</span><span class="p">]</span>
+  <span class="hljs-attribute">CoffeeScript</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.coffee'</span>, <span class="hljs-string">'Cakefile'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'coffee-script'</span>
+    <span class="hljs-attribute">highlightJS</span>:       <span class="hljs-string">'coffeescript'</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><strong>CoffeScript&#39;s multi-line block-comment styles.</strong></p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><ul>
+<li>Variant 1:
+(Variant 3 is preferred over this syntax, as soon as the pull-request
+ mentioned below has been merged into coffee-script&#39;s codebase.)</li>
+</ul></div></div><div class="code"><div class="wrapper">    <span class="hljs-comment">###* 
+     * Tip: use '-' or '+' for bullet-lists instead of '*' to distinguish
+     * bullet-lists visually from this kind of block comments.  The preceding
+     * whitespaces in the line-matcher and end-matcher are required. Without
+     * them this syntax makes no sense, as it is meant to produce comments
+     * like the following in compiled javascript:
+     *
+     *     /**
+     *      * A sample comment, having a preceding whitespace per line. Useful
+     *      * to embed `@doctags` in javascript compiled from coffeescript.
+     *      * &lt;= COMBINE THESE TWO CHARS =&gt; /
+     *
+     * (The the final comment-mark above has been TWEAKED to not raise an error)
+     ###</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><ul>
+<li>Variant 2:</li>
+</ul></div></div><div class="code"><div class="wrapper">    <span class="hljs-comment">### 
+    Uses the the below defined syntax, without preceding `#` per line. This is
+    the syntax for what the definition is actually meant for !
+    ###</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><ul>
+<li>Variant 3:
+(This syntax produces arkward comments in the compiled javascript, if
+ the pull-request <em>“<a href="https://github.com/jashkenas/coffee-script/pull/3132">Format block-comments
+ better</a>”</em> has
+ not been applied to coffee-script&#39;s codebase …)</li>
+</ul></div></div><div class="code"><div class="wrapper">    <span class="hljs-comment">### 
+    # The block-comment line-matcher `'#'` also works on lines not starting
+    # with `'#'`, because we add unmatched lines to the comments once we are
+    # in a multi-line comment-block and until we left them …
+    ###</span>
+    <span class="hljs-comment">#- Variant 4:</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>  (This definition matches the format used by YUIDoc to parse CoffeeScript
+  comments)</p></div></div><div class="code"><div class="wrapper">    multiLineComment  : [</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Syntax definition for variant 1.</p></div></div><div class="code"><div class="wrapper">      <span class="hljs-string">'###*'</span>,   <span class="hljs-string">' *'</span>,   <span class="hljs-string">' ###'</span>,</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Syntax definition for variant 2 and 3.</p></div></div><div class="code"><div class="wrapper">      <span class="hljs-string">'###'</span> ,   <span class="hljs-string">'#'</span> ,   <span class="hljs-string">'###'</span>,</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Syntax definition for variant 4</p></div></div><div class="code"><div class="wrapper">      <span class="hljs-string">'###*'</span>,   <span class="hljs-string">'#'</span>,    <span class="hljs-string">'###'</span>
+    ]</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>This flag indicates if the end-mark of block-comments (the third value in
+the list of 3-tuples above) must correspond to the initial block-mark (the
+first value in the list of 3-tuples above).  If this flag is missing it
+defaults to <code>true</code>. If true it allows one to nest block-comments in
+different syntax-definitions, like in handlebars or html+php.</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-attribute">strictMultiLineEnd</span>:<span class="hljs-literal">false</span>
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">'#'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
 
-  <span class="nv">Go:</span>
-    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.go&#39;</span><span class="p">]</span>
-    <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;go&#39;</span>
-    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;//&#39;</span><span class="p">]</span>
+  <span class="hljs-attribute">Go</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.go'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'go'</span>
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">'//'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
 
-  <span class="nv">Haskell:</span>
-    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.hs&#39;</span><span class="p">]</span>
-    <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;haskell&#39;</span>
-    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;--&#39;</span><span class="p">]</span>
+  <span class="hljs-attribute">Handlebars</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.handlebars'</span>, <span class="hljs-string">'.hbs'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'html'</span> <span class="hljs-comment"># TODO: is there a handlebars/mustache lexer? Nope. Lame.</span>
+    <span class="hljs-attribute">highlightJS</span>:       <span class="hljs-string">'handlebars'</span>
+    <span class="hljs-attribute">multiLineComment</span>:  [
+      <span class="hljs-string">'&lt;!--'</span>, <span class="hljs-string">''</span>, <span class="hljs-string">'--&gt;'</span>, <span class="hljs-comment"># HTML block comments go first, for code highlighting / segment splitting purposes</span>
+      <span class="hljs-string">'{{!'</span>,  <span class="hljs-string">''</span>, <span class="hljs-string">'}}'</span>   <span class="hljs-comment"># Actual handlebars block comments</span>
+    ]</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>See above for a description of this flag.</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-attribute">strictMultiLineEnd</span>:<span class="hljs-literal">true</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>This one differs from the common <code>ignorePrefix</code> of all other languages !</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'#'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
 
-  <span class="nv">Jade:</span>
-    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.jade&#39;</span><span class="p">]</span>
-    <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;jade&#39;</span>
-    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;//&#39;</span><span class="p">,</span> <span class="s">&#39;//-&#39;</span><span class="p">]</span>
+  <span class="hljs-attribute">Haskell</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.hs'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'haskell'</span>
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">'--'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
 
-  <span class="nv">Java:</span>
-    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.java&#39;</span><span class="p">]</span>
-    <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;java&#39;</span>
-    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;//&#39;</span><span class="p">]</span>
+  <span class="hljs-attribute">Jade</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.jade'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'jade'</span></div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p>TODO: <a href="https://github.com/isagalaev/highlight.js/pull/250">https://github.com/isagalaev/highlight.js/pull/250</a></p></div></div><div class="code"><div class="wrapper">    <span class="hljs-attribute">highlightJS</span>:       <span class="hljs-string">'AUTO'</span>
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">'//'</span>, <span class="hljs-string">'//-'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
 
-  <span class="nv">JavaScript:</span>
-    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.js&#39;</span><span class="p">]</span>
-    <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;javascript&#39;</span>
-    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;//&#39;</span><span class="p">]</span>
+  <span class="hljs-attribute">Java</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.java'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'java'</span>
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">'//'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
 
-  <span class="nv">Jake:</span>
-    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.jake&#39;</span><span class="p">]</span>
-    <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;javascript&#39;</span>
-    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;//&#39;</span><span class="p">]</span>
+  <span class="hljs-attribute">JavaScript</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.js'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'javascript'</span>
+    <span class="hljs-attribute">multiLineComment</span>:  [<span class="hljs-string">'/*'</span>, <span class="hljs-string">'*'</span>, <span class="hljs-string">'*/'</span>]
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">'//'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
 
-  <span class="nv">LaTeX:</span>
-    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.tex&#39;</span><span class="p">,</span> <span class="s">&#39;.latex&#39;</span><span class="p">,</span> <span class="s">&#39;.sty&#39;</span><span class="p">]</span>
-    <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;latex&#39;</span>
-    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;%&#39;</span><span class="p">]</span>
+  <span class="hljs-attribute">Jake</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.jake'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'javascript'</span>
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">'//'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
 
-  <span class="nv">Lua:</span>
-    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.lua&#39;</span><span class="p">]</span>
-    <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;lua&#39;</span>
-    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;--&#39;</span><span class="p">]</span>
+  JSON                :
+    nameMatchers      : [<span class="hljs-string">'.json'</span>]
+    pygmentsLexer     : <span class="hljs-string">'json'</span>
+    codeOnly          : <span class="hljs-literal">true</span>
 
-  <span class="nv">Make:</span>
-    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;Makefile&#39;</span><span class="p">]</span>
-    <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;make&#39;</span>
-    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;#&#39;</span><span class="p">]</span>
+  <span class="hljs-attribute">JSP</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.jsp'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'jsp'</span>
+    <span class="hljs-attribute">multiLineComment</span>:  [
+      <span class="hljs-string">'&lt;%--'</span>, <span class="hljs-string">''</span>, <span class="hljs-string">'--%&gt;'</span>
+    ]
+    <span class="hljs-attribute">strictMultiLineEnd</span>:<span class="hljs-literal">true</span>
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'#'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
 
-  <span class="s">&#39;Objective-C&#39;</span><span class="o">:</span>
-    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.m&#39;</span><span class="p">,</span> <span class="s">&#39;.mm&#39;</span><span class="p">]</span>
-    <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;objc&#39;</span>
-    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;//&#39;</span><span class="p">]</span>
+  <span class="hljs-attribute">LaTeX</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.tex'</span>, <span class="hljs-string">'.latex'</span>, <span class="hljs-string">'.sty'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'latex'</span>
+    <span class="hljs-attribute">highlightJS</span>:       <span class="hljs-string">'tex'</span>
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">'%'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
 
-  <span class="nv">Perl:</span>
-    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.pl&#39;</span><span class="p">,</span> <span class="s">&#39;.pm&#39;</span><span class="p">]</span>
-    <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;perl&#39;</span>
-    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;#&#39;</span><span class="p">]</span>
+  <span class="hljs-attribute">LESS</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.less'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'sass'</span> <span class="hljs-comment"># TODO: is there a less lexer? No. Maybe in the future.</span>
+    <span class="hljs-attribute">highlightJS</span>:       <span class="hljs-string">'scss'</span>
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">'//'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
 
-  <span class="nv">PHP:</span>
-    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="sr">/\.php\d?$/</span><span class="p">,</span> <span class="s">&#39;.fbp&#39;</span><span class="p">]</span>
-    <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;php&#39;</span>
-    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;//&#39;</span><span class="p">]</span>
+  <span class="hljs-attribute">LiveScript</span>:
+    <span class="hljs-attribute">nameMatchers</span>:       [<span class="hljs-string">'.ls'</span>, <span class="hljs-string">'Slakefile'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:      <span class="hljs-string">'livescript'</span>
+    <span class="hljs-attribute">multiLineComment</span>:   [<span class="hljs-string">'/*'</span>, <span class="hljs-string">'*'</span>, <span class="hljs-string">'*/'</span>]
+    <span class="hljs-attribute">singleLineComment</span>:  [<span class="hljs-string">'#'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:       <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:         <span class="hljs-string">'^'</span>
 
-  <span class="nv">Puppet:</span>
-    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.pp&#39;</span><span class="p">]</span>
-    <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;puppet&#39;</span>
-    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;#&#39;</span><span class="p">]</span>
+  <span class="hljs-attribute">Lua</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.lua'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'lua'</span>
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">'--'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
 
-  <span class="nv">Python:</span>
-    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.py&#39;</span><span class="p">]</span>
-    <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;python&#39;</span>
-    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;#&#39;</span><span class="p">]</span>
+  <span class="hljs-attribute">Make</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'Makefile'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'make'</span>
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">'#'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
 
-  <span class="nv">Ruby:</span>
-    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.rb&#39;</span><span class="p">,</span> <span class="s">&#39;.ru&#39;</span><span class="p">,</span> <span class="s">&#39;.gemspec&#39;</span><span class="p">]</span>
-    <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;ruby&#39;</span>
-    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;#&#39;</span><span class="p">]</span>
+  <span class="hljs-attribute">Mustache</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.mustache'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'html'</span> <span class="hljs-comment"># TODO: is there a handlebars/mustache lexer? Nope. Lame.</span>
+    <span class="hljs-attribute">highlightJS</span>:       <span class="hljs-string">'handlebars'</span>
+    <span class="hljs-attribute">multiLineComment</span>:  [<span class="hljs-string">'{{!'</span>, <span class="hljs-string">''</span>, <span class="hljs-string">'}}'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'#'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
 
-  <span class="nv">Sass:</span>
-    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.sass&#39;</span><span class="p">]</span>
-    <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;sass&#39;</span>
-    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;//&#39;</span><span class="p">]</span>
+  <span class="hljs-string">'Objective-C'</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.m'</span>, <span class="hljs-string">'.mm'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'objc'</span>
+    <span class="hljs-attribute">highlightJS</span>:       <span class="hljs-string">'objectivec'</span>
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">'//'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
 
-  <span class="nv">SCSS:</span>
-    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.scss&#39;</span><span class="p">]</span>
-    <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;scss&#39;</span>
-    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;//&#39;</span><span class="p">]</span>
+  <span class="hljs-attribute">Perl</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.pl'</span>, <span class="hljs-string">'.pm'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'perl'</span>
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">'#'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
 
-  <span class="nv">Shell:</span>
-    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.sh&#39;</span><span class="p">]</span>
-    <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;sh&#39;</span>
-    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;#&#39;</span><span class="p">]</span>
+  <span class="hljs-attribute">PHP</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-regexp">/\.php\d?$/</span>, <span class="hljs-string">'.fbp'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'php'</span>
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">'//'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
 
-  <span class="nv">SQL:</span>
-    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.sql&#39;</span><span class="p">]</span>
-    <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;sql&#39;</span>
-    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;--&#39;</span><span class="p">]</span>
+  <span class="hljs-attribute">Puppet</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.pp'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'puppet'</span>
+    <span class="hljs-attribute">highlightJS</span>:       <span class="hljs-string">'AUTO'</span>
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">'#'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
 
-  <span class="nv">YAML:</span>
-    <span class="nv">nameMatchers: </span>     <span class="p">[</span><span class="s">&#39;.yml&#39;</span><span class="p">,</span> <span class="s">&#39;.yaml&#39;</span><span class="p">]</span>
-    <span class="nv">pygmentsLexer: </span>    <span class="s">&#39;yaml&#39;</span>
-    <span class="nv">singleLineComment: </span><span class="p">[</span><span class="s">&#39;#&#39;</span><span class="p">]</span></div></div></div></div></body></html>
+  <span class="hljs-attribute">Python</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.py'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'python'</span>
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">'#'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
+
+  <span class="hljs-attribute">Ruby</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.rb'</span>, <span class="hljs-string">'.ru'</span>, <span class="hljs-string">'.gemspec'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'ruby'</span>
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">'#'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
+
+  <span class="hljs-attribute">Sass</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.sass'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'sass'</span>
+    <span class="hljs-attribute">highlightJS</span>:       <span class="hljs-string">'AUTO'</span>
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">'//'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
+
+  <span class="hljs-attribute">SCSS</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.scss'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'scss'</span>
+    <span class="hljs-attribute">multiLineComment</span>:  [<span class="hljs-string">'/*'</span>, <span class="hljs-string">'*'</span>, <span class="hljs-string">'*/'</span>]
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">'//'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
+
+  <span class="hljs-attribute">Shell</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.sh'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'sh'</span>
+    <span class="hljs-attribute">highlightJS</span>:       <span class="hljs-string">'bash'</span>
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">'#'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
+
+  <span class="hljs-attribute">SQL</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.sql'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'sql'</span>
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">'--'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
+
+  <span class="hljs-attribute">Swift</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.swift'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'swift'</span>
+    <span class="hljs-attribute">highlightJS</span>:       <span class="hljs-string">'swift'</span>
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">'//'</span>]
+    <span class="hljs-attribute">multiLineComment</span>:  [<span class="hljs-string">'/*'</span>, <span class="hljs-string">'*'</span>, <span class="hljs-string">'*/'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
+
+  <span class="hljs-attribute">TypeScript</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.ts'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'ts'</span>
+    <span class="hljs-attribute">multiLineComment</span>:  [<span class="hljs-string">'/*'</span>, <span class="hljs-string">'*'</span>, <span class="hljs-string">'*/'</span>]
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">'//'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span>
+
+  <span class="hljs-attribute">YAML</span>:
+    <span class="hljs-attribute">nameMatchers</span>:      [<span class="hljs-string">'.yml'</span>, <span class="hljs-string">'.yaml'</span>]
+    <span class="hljs-attribute">pygmentsLexer</span>:     <span class="hljs-string">'yaml'</span>
+    <span class="hljs-attribute">highlightJS</span>:       <span class="hljs-string">'AUTO'</span>
+    <span class="hljs-attribute">singleLineComment</span>: [<span class="hljs-string">'#'</span>]
+    <span class="hljs-attribute">ignorePrefix</span>:      <span class="hljs-string">'}'</span>
+    <span class="hljs-attribute">foldPrefix</span>:        <span class="hljs-string">'^'</span></div></div></div></div></body></html>
