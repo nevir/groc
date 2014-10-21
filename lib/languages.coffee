@@ -9,6 +9,7 @@ module.exports = LANGUAGES =
     nameMatchers:      ['.c', '.h']
     pygmentsLexer:     'c'
     highlightJS:       'cpp'
+    multiLineComment:  ['/*', '*', '*/']
     singleLineComment: ['//']
     ignorePrefix:      '}'
     foldPrefix:        '^'
@@ -25,6 +26,7 @@ module.exports = LANGUAGES =
   'C++':
     nameMatchers:      ['.cpp', '.hpp', '.c++', '.h++', '.cc', '.hh', '.cxx', '.hxx']
     pygmentsLexer:     'cpp'
+    multiLineComment:  ['/*', '*', '*/']
     singleLineComment: ['//']
     ignorePrefix:      '}'
     foldPrefix:        '^'
@@ -135,6 +137,7 @@ module.exports = LANGUAGES =
   Java:
     nameMatchers:      ['.java']
     pygmentsLexer:     'java'
+    multiLineComment:  ['/*', '*', '*/']
     singleLineComment: ['//']
     ignorePrefix:      '}'
     foldPrefix:        '^'
@@ -219,6 +222,7 @@ module.exports = LANGUAGES =
     nameMatchers:      ['.m', '.mm']
     pygmentsLexer:     'objc'
     highlightJS:       'objectivec'
+    multiLineComment:  ['/*', '*', '*/']
     singleLineComment: ['//']
     ignorePrefix:      '}'
     foldPrefix:        '^'
