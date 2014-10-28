@@ -5,6 +5,12 @@ module.exports = LANGUAGES =
     nameMatchers: ['.md', '.markdown','.mkd', '.mkdn', '.mdown']
     commentsOnly: true
 
+  Apache:
+    nameMatchers:      ['.htaccess']
+    highlightJS:       'apache'
+    singleLineComment: ['#']
+    foldPrefix:        '^'
+
   C:
     nameMatchers:      ['.c', '.h']
     pygmentsLexer:     'c'
@@ -253,7 +259,7 @@ module.exports = LANGUAGES =
     foldPrefix:        '^'
 
   Ruby:
-    nameMatchers:      ['.rb', '.ru', '.gemspec']
+    nameMatchers:      ['.rb', '.ru', '.gemspec', 'Vagrantfile']
     pygmentsLexer:     'ruby'
     singleLineComment: ['#']
     ignorePrefix:      '}'
