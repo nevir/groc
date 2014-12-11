@@ -32,7 +32,7 @@
     "colors": "~0.6.2",
     "fs-tools": "~0.2.10",
     "glob": "~3.2.7",
-    "highlight.js": "~8.0.0",
+    "highlight.js": ">= 8.0.0",
     "jade": "~0.35.0",
     "marked": "~0.2.10",
     "optimist": "~0.6.0",
