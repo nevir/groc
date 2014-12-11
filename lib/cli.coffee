@@ -87,7 +87,7 @@ module.exports = CLI = (inputArgs, callback) ->
       describe: "The directory to place generated documentation, relative to the project root."
       alias:    'o'
       default:  './doc'
-      type:     'path'
+      type:     'string'
 
     index:
       describe: "The file to use as the index of the generated documentation."
@@ -208,14 +208,14 @@ module.exports = CLI = (inputArgs, callback) ->
   # exclusions defined by `--except` before we add the result to the project's file list.
   files = {}
   for globExpression in argv.glob
-    files[file] = true for file in glob.sync globExpression
+    files[file] = true for file in glob.sync path.resolve(argv.root, globExpression)
 
   for globExpression in argv.except
-    delete files[file] for file in glob.sync globExpression
+    delete files[file] for file in glob.sync path.resolve(argv.root, globExpression)
 
   # There are several properties that we need to configure on a project before we can go ahead and
   # generate its documentation.
-  project.index = argv.index
+  project.index = path.resolve(argv.root, argv.index)
   project.files = (f for f of files)
   project.stripPrefixes = argv.strip
 
