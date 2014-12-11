@@ -211,9 +211,15 @@ module.exports = CLI = (inputArgs, callback) ->
 
   # `Project#generate` can take some options, such as which style to use.  Since we're generating
   # differently depending on whether or not github is enabled, let's set those up now:
+  # If a style was passed in, but it isn't registered, try loading a module.
+  unless argv.style? and (style = styles[argv.style])?
+    try
+      style = require(argv.style) require './styles/base'
+    catch error
+  
   options =
     indexPageTitle: argv['index-page-title']
-    style: styles[argv.style]
+    style: style
 
   # Good to go!
   unless argv.github
