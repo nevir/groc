@@ -79,6 +79,10 @@ module.exports = CLI = (inputArgs, callback) ->
       describe: "Supply your GitHub repository URL (if groc fails to guess it)."
       type:     'string'
 
+    'only-render-newer':
+      describe: "Only render files if the source is newer than the output."
+      default:  true
+
     out:
       describe: "The directory to place generated documentation, relative to the project root."
       alias:    'o'
@@ -222,9 +226,10 @@ module.exports = CLI = (inputArgs, callback) ->
     try
       style = require(argv.style) require './styles/base'
     catch error
-  
+
   options =
     indexPageTitle: argv['index-page-title']
+    onlyRenderNewer: argv['only-render-newer']
     style: style
 
   # Good to go!
