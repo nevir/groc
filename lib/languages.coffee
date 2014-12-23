@@ -104,6 +104,14 @@ module.exports = LANGUAGES =
     ignorePrefix:      '}'
     foldPrefix:        '^'
 
+  Gherkin:
+    nameMatchers:      ['.feature']
+    pygmentsLexer:     'gherkin'
+    highlightJS:       'gherkin'
+    singleLineComment: ['#']
+    ignorePrefix:      '}'
+    foldPrefix:        '^'
+
   Go:
     nameMatchers:      ['.go']
     pygmentsLexer:     'go'
