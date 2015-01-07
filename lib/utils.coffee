@@ -546,7 +546,7 @@ module.exports = Utils =
       result = result.replace('<div class="highlight"><pre>', '').replace('</pre></div>', '')
 
       # Extract our segments from the pygmentized source.
-      highlighted = "\n#{result}\n".split ///.*<span.*#{seg}\s#{div}.*<\/span>.*///
+      highlighted = "\n#{result}\n".split ///.*<span.*#{seg}.*?#{div}.*<\/span>.*///
 
       if highlighted.length != segments.length
         console.log(result)
