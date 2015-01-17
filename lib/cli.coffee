@@ -118,6 +118,12 @@ module.exports = CLI = (inputArgs, callback) ->
       describe: "A path prefix to strip when generating documentation paths (or --no-strip)."
       alias:    't'
 
+    'preserve-extensions':
+      describe: "Include the file extension in the generated file name."
+      alias: 'x'
+      type: 'boolean'
+      default: false
+
     'empty-lines':
       describe: "Allow empty comment lines."
       default:  true
@@ -231,6 +237,7 @@ module.exports = CLI = (inputArgs, callback) ->
     indexPageTitle: argv['index-page-title']
     onlyRenderNewer: argv['only-render-newer']
     style: style
+    preserveExtensions: argv['preserve-extensions']
 
   # Good to go!
   unless argv.github
