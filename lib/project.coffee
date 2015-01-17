@@ -57,7 +57,7 @@ module.exports = class Project
     # so that they can strip from the remainder.
     @stripPrefixes = [@root + CompatibilityHelpers.pathSep].concat @stripPrefixes
 
-    fileMap   = Utils.mapFiles @root, @files, @stripPrefixes
+    fileMap   = Utils.mapFiles @root, @files, @stripPrefixes, options.preserveExtensions
     indexPath = path.resolve @root, @index
 
     pool = spate.pool (k for k of fileMap), maxConcurrency: @BATCH_SIZE, (currentFile, done) =>
