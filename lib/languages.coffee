@@ -165,6 +165,14 @@ module.exports = LANGUAGES =
     ignorePrefix:      '}'
     foldPrefix:        '^'
 
+  JSX:
+    nameMatchers:      ['.jsx']
+    pygmentsLexer:     'javascript'
+    multiLineComment:  ['/*', '*', '*/']
+    singleLineComment: ['//']
+    ignorePrefix:      '}'
+    foldPrefix:        '^'
+
   Jake:
     nameMatchers:      ['.jake']
     pygmentsLexer:     'javascript'
