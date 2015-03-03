@@ -22,7 +22,7 @@ module.exports = LANGUAGES =
     singleLineComment: ['//']
     ignorePrefix:      '}'
     foldPrefix:        '^'
-    
+
   CSS:
     nameMatchers:      ['.css']
     pygmentsLexer:     'css'
@@ -138,7 +138,7 @@ module.exports = LANGUAGES =
     multiLineComment:  ['<!--', '', '-->']
     ignorePrefix:      '}'
     foldPrefix:        '^'
-    
+
   Jade:
     nameMatchers:      ['.jade']
     pygmentsLexer:     'jade'
@@ -307,6 +307,14 @@ module.exports = LANGUAGES =
     nameMatchers:      ['.sql']
     pygmentsLexer:     'sql'
     singleLineComment: ['--']
+    ignorePrefix:      '}'
+    foldPrefix:        '^'
+
+  Stylus:
+    nameMatchers:      ['.styl']
+    highlightJS:       'stylus'
+    multiLineComment:  ['/*', '*', '*/']
+    singleLineComment: ['//']
     ignorePrefix:      '}'
     foldPrefix:        '^'
 
