@@ -22,7 +22,7 @@ module.exports = LANGUAGES =
     singleLineComment: ['//']
     ignorePrefix:      '}'
     foldPrefix:        '^'
-    
+
   CSS:
     nameMatchers:      ['.css']
     pygmentsLexer:     'css'
@@ -111,6 +111,13 @@ module.exports = LANGUAGES =
     ignorePrefix:      '}'
     foldPrefix:        '^'
 
+  Gherkin:
+    nameMatchers:      ['.feature']
+    pygmentsLexer:     'gherkin'
+    singleLineComment: ['#']
+    ignorePrefix:      '}'
+    foldPrefix:        '^'
+
   Handlebars:
     nameMatchers:      ['.handlebars', '.hbs']
     pygmentsLexer:     'html' # TODO: is there a handlebars/mustache lexer? Nope. Lame.
@@ -138,7 +145,7 @@ module.exports = LANGUAGES =
     multiLineComment:  ['<!--', '', '-->']
     ignorePrefix:      '}'
     foldPrefix:        '^'
-    
+
   Jade:
     nameMatchers:      ['.jade']
     pygmentsLexer:     'jade'
