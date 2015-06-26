@@ -83,6 +83,7 @@ module.exports = CLI = (inputArgs, callback) ->
       describe: "Commit message when pushing to Github."
       alias:    'm',
       type:     'string'
+      default:  ''
 
     'only-render-newer':
       describe: "Only render files if the source is newer than the output."
@@ -272,8 +273,9 @@ module.exports = CLI = (inputArgs, callback) ->
         project.log.info ''
         project.log.info 'Publishing documentation to github...'
 
-        # The bash publishing script needs a proper or empty string
-        commitMessage = if argv['commit-message'] then '"' + argv['commit-message'] + '"' else ''
+        # The bash publishing script needs a proper string or no argument at all
+        commitMessage = argv['commit-message']
+        commitMessage = '"' + commitMessage + '"' if commitMessage
 
         # Roughly, the publishing script:
         #
