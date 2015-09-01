@@ -303,6 +303,13 @@ module.exports = LANGUAGES =
     ignorePrefix:      '}'
     foldPrefix:        '^'
 
+  Stylus:
+    nameMatchers:      ['.styl']
+    pygmentsLexer:     'stylus'
+    singleLineComment: ['//']
+    ignorePrefix:      '}'
+    foldPrefix:        '^'
+
   SQL:
     nameMatchers:      ['.sql']
     pygmentsLexer:     'sql'
