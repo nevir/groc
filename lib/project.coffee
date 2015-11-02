@@ -68,12 +68,17 @@ module.exports = class Project
         @log.warn '%s is not in a supported language, skipping.', currentFile
         return done()
 
+      extension = currentFile.match( /\.(\w+)$/ )
+      if extension
+          extension = extension[1]
+
       fileInfo =
         language:    language
         sourcePath:  currentFile
         projectPath: currentFile.replace ///^#{Utils.regexpEscape @root + CompatibilityHelpers.pathSep}///, ''
         targetPath:  if currentFile == indexPath then 'index' else fileMap[currentFile]
         pageTitle:   if currentFile == indexPath then (options.indexPageTitle || 'index') else fileMap[currentFile]
+        sourceExtension: extension
 
       targetFullPath = path.resolve @outPath, "#{fileInfo.targetPath}.html"
       

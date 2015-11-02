@@ -91,6 +91,7 @@ module.exports = class Base
         sourcePath:  fileInfo.sourcePath
         targetPath:  fileInfo.targetPath
         projectPath: fileInfo.projectPath
+        sourceExtension: fileInfo.sourceExtension
 
       # How many levels deep are we?
       pathChunks = path.dirname(fileInfo.targetPath).split(/[\/\\]/)
