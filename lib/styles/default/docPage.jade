@@ -12,7 +12,7 @@ html(lang="en")
   link(rel="stylesheet", type="text/css", media="all", href=relativeRoot + "assets/style.css")
   script(type="text/javascript", src=relativeRoot + "assets/behavior.js")
 
-  body
+  body(data-extension=sourceExtension)
     #meta
       - if (project.githubURL)
         .file-path

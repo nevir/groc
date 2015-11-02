@@ -101,6 +101,8 @@ html, body
 // Conceptually, the layout focuses the user on the commentary first, so we lay out that column.
 body
   max-width: $commentary-column-width
+body[data-extension='md']
+  max-width: initial
 
 // In two-column mode, the segment is actually shifted over a full column to favor code fragments.
 // We may or may not have either .comment or .code sections, so we need to handle all three cases.
@@ -126,7 +128,15 @@ body
 
   .code
     white-space: pre
-
+body[data-extension='md']
+  #document
+    background: $commentary-background-color 
+  .segment
+    padding:     ($common-margin / 2) 0 ($common-margin / 2) 
+    .comments
+      margin-left:  0
+      width:        initial
+    
 // Fit the meta info into the code column
 #meta
   position: absolute
