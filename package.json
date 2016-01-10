@@ -1,6 +1,6 @@
 {
   "name":        "groc",
-  "version":     "0.7.1",
+  "version":     "0.8.0",
   "description": "Documentation generation, in the spirit of literate programming.",
   "keywords":   ["documentation", "docs", "generator"],
   "homepage":    "http://nevir.github.com/groc/",
@@ -28,18 +28,18 @@
     "node": ">= 0.8"
   },
   "dependencies": {
-    "coffee-script": ">= 1.6.3",
-    "colors": "~0.6.2",
-    "fs-tools": "~0.2.10",
-    "glob": "~3.2.7",
-    "highlight.js": "~8.0.0",
-    "jade": "~0.35.0",
-    "marked": "~0.2.10",
-    "optimist": "~0.6.0",
-    "showdown": "~0.3.1",
-    "spate": "~0.1.0",
-    "uglify-js": "~2.4.6",
-    "underscore": "~1.6.0"
+    "coffee-script": "^1.6.3",
+    "colors": "^0.6.2",
+    "fs-tools": "^0.2.10",
+    "glob": "^3.2.7",
+    "highlight.js": "^8.0.0",
+    "jade": "^0.35.0",
+    "marked": "^0.2.10",
+    "optimist": "^0.6.0",
+    "showdown": "^0.3.1",
+    "spate": "^0.1.0",
+    "uglify-js": "^2.4.6",
+    "underscore": "^1.6.0"
   },
   "devDependencies": {},
 

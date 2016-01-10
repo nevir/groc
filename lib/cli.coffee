@@ -79,11 +79,15 @@ module.exports = CLI = (inputArgs, callback) ->
       describe: "Supply your GitHub repository URL (if groc fails to guess it)."
       type:     'string'
 
+    'only-render-newer':
+      describe: "Only render files if the source is newer than the output."
+      default:  true
+
     out:
       describe: "The directory to place generated documentation, relative to the project root."
       alias:    'o'
       default:  './doc'
-      type:     'path'
+      type:     'string'
 
     index:
       describe: "The file to use as the index of the generated documentation."
@@ -113,6 +117,11 @@ module.exports = CLI = (inputArgs, callback) ->
     strip:
       describe: "A path prefix to strip when generating documentation paths (or --no-strip)."
       alias:    't'
+
+    'empty-lines':
+      describe: "Allow empty comment lines."
+      default:  true
+      type:     'boolean'
 
     'whitespace-after-token':
       describe: "Require whitespace after a comment token for a line to be considered a comment."
@@ -189,6 +198,7 @@ module.exports = CLI = (inputArgs, callback) ->
   project.log.minLevel = Logger::LEVELS.TRACE if argv['very-verbose']
 
   # Set up project-specific options as we get them.
+  project.options.allowEmptyLines = !!argv['empty-lines']
   project.options.requireWhitespaceAfterToken = !!argv['whitespace-after-token']
   project.options.showdown = argv.showdown
   project.options.languages = argv.languages
@@ -198,25 +208,34 @@ module.exports = CLI = (inputArgs, callback) ->
   # exclusions defined by `--except` before we add the result to the project's file list.
   files = {}
   for globExpression in argv.glob
-    files[file] = true for file in glob.sync globExpression
+    files[file] = true for file in glob.sync path.resolve(argv.root, globExpression)
 
   for globExpression in argv.except
-    delete files[file] for file in glob.sync globExpression
+    delete files[file] for file in glob.sync path.resolve(argv.root, globExpression)
 
   # There are several properties that we need to configure on a project before we can go ahead and
   # generate its documentation.
-  project.index = argv.index
+  project.index = path.resolve(argv.root, argv.index)
   project.files = (f for f of files)
   project.stripPrefixes = argv.strip
 
   # `Project#generate` can take some options, such as which style to use.  Since we're generating
   # differently depending on whether or not github is enabled, let's set those up now:
+  # If a style was passed in, but it isn't registered, try loading a module.
+  unless argv.style? and (style = styles[argv.style])?
+    try
+      style = require(argv.style) require './styles/base'
+    catch error
+
   options =
     indexPageTitle: argv['index-page-title']
-    style: styles[argv.style]
+    onlyRenderNewer: argv['only-render-newer']
+    style: style
 
   # Good to go!
   unless argv.github
+    project.githubURL = argv['repository-url']
+
     project.generate options, (error) ->
       callback error
 
@@ -254,7 +273,7 @@ module.exports = CLI = (inputArgs, callback) ->
         # 2. Copies the generated docs from `.git/groc-tmp` over any existing files in the branch.
         # 3. Creates a commit with _just_ the generated docs; any additional files are removed.
         # 4. Cleans up and switches back to the user's original branch.
-        script = childProcess.spawn path.resolve(__dirname, '..', 'scripts', 'publish-git-pages.sh'), [remote]
+        script = childProcess.spawn path.resolve(__dirname, '..', 'scripts', 'publish-git-pages.sh'), [remote, projectConfig.commitMessage]
 
         script.stdout.on 'data', (data) -> project.log.info  data.toString().trim()
         script.stderr.on 'data', (data) -> project.log.error data.toString().trim()

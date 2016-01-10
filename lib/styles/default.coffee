@@ -7,10 +7,8 @@ fsTools      = require 'fs-tools'
 jade         = require 'jade'
 uglifyJs     = require 'uglify-js'
 humanize     = require '../utils/humanize'
-Base = require './base'
 
-
-module.exports = class Default extends Base
+module.exports = (Base) -> class Default extends Base
   STATIC_ASSETS: ['style.css']
 
   constructor: (args...) ->
@@ -63,7 +61,7 @@ module.exports = class Default extends Base
         return callback error
 
       try
-        scriptSource = _.template data, @
+        scriptSource = _.template(data)(@)
       catch error
         @log.error 'Failed to interpolate %s: %s', scriptPath, error.message
         return callback error

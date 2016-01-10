@@ -15,6 +15,7 @@ module.exports = LANGUAGES =
     nameMatchers:      ['.c', '.h']
     pygmentsLexer:     'c'
     highlightJS:       'cpp'
+    multiLineComment:  ['/*', '*', '*/']
     singleLineComment: ['//']
     ignorePrefix:      '}'
     foldPrefix:        '^'
@@ -27,10 +28,18 @@ module.exports = LANGUAGES =
     singleLineComment: ['//']
     ignorePrefix:      '}'
     foldPrefix:        '^'
+    
+  CSS:
+    nameMatchers:      ['.css']
+    pygmentsLexer:     'css'
+    multiLineComment:  ['/*', '*', '*/']
+    ignorePrefix:      '}'
+    foldPrefix:        '^'
 
   'C++':
     nameMatchers:      ['.cpp', '.hpp', '.c++', '.h++', '.cc', '.hh', '.cxx', '.hxx']
     pygmentsLexer:     'cpp'
+    multiLineComment:  ['/*', '*', '*/']
     singleLineComment: ['//']
     ignorePrefix:      '}'
     foldPrefix:        '^'
@@ -129,6 +138,13 @@ module.exports = LANGUAGES =
     ignorePrefix:      '}'
     foldPrefix:        '^'
 
+  HTML:
+    nameMatchers:      ['.htm', '.html']
+    pygmentsLexer:     'html'
+    multiLineComment:  ['<!--', '', '-->']
+    ignorePrefix:      '}'
+    foldPrefix:        '^'
+    
   Jade:
     nameMatchers:      ['.jade']
     pygmentsLexer:     'jade'
@@ -141,7 +157,9 @@ module.exports = LANGUAGES =
   Java:
     nameMatchers:      ['.java']
     pygmentsLexer:     'java'
+    multiLineComment:  ['/*', '*', '*/']
     singleLineComment: ['//']
+    multiLineComment:  ['/*', '*', '*/']
     ignorePrefix:      '}'
     foldPrefix:        '^'
 
@@ -169,6 +187,7 @@ module.exports = LANGUAGES =
     nameMatchers:      ['.jsp']
     pygmentsLexer:     'jsp'
     multiLineComment:  [
+      '<!--', '', '-->',
       '<%--', '', '--%>'
     ]
     strictMultiLineEnd:true
@@ -225,6 +244,7 @@ module.exports = LANGUAGES =
     nameMatchers:      ['.m', '.mm']
     pygmentsLexer:     'objc'
     highlightJS:       'objectivec'
+    multiLineComment:  ['/*', '*', '*/']
     singleLineComment: ['//']
     ignorePrefix:      '}'
     foldPrefix:        '^'
