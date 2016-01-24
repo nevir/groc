@@ -5,6 +5,12 @@ module.exports = LANGUAGES =
     nameMatchers: ['.md', '.markdown','.mkd', '.mkdn', '.mdown']
     commentsOnly: true
 
+  Apache:
+    nameMatchers:      ['.htaccess']
+    highlightJS:       'apache'
+    singleLineComment: ['#']
+    foldPrefix:        '^'
+
   C:
     nameMatchers:      ['.c', '.h']
     pygmentsLexer:     'c'
@@ -22,7 +28,7 @@ module.exports = LANGUAGES =
     singleLineComment: ['//']
     ignorePrefix:      '}'
     foldPrefix:        '^'
-    
+
   CSS:
     nameMatchers:      ['.css']
     pygmentsLexer:     'css'
@@ -100,7 +106,7 @@ module.exports = LANGUAGES =
     # defaults to `true`. If true it allows one to nest block-comments in
     # different syntax-definitions, like in handlebars or html+php.
     strictMultiLineEnd:false
-    singleLineComment: ['#']
+    singleLineComment: ['##']
     ignorePrefix:      '}'
     foldPrefix:        '^'
 
@@ -138,7 +144,7 @@ module.exports = LANGUAGES =
     multiLineComment:  ['<!--', '', '-->']
     ignorePrefix:      '}'
     foldPrefix:        '^'
-    
+
   Jade:
     nameMatchers:      ['.jade']
     pygmentsLexer:     'jade'
@@ -273,7 +279,7 @@ module.exports = LANGUAGES =
     foldPrefix:        '^'
 
   Ruby:
-    nameMatchers:      ['.rb', '.ru', '.gemspec']
+    nameMatchers:      ['.rb', '.ru', '.gemspec', 'Vagrantfile']
     pygmentsLexer:     'ruby'
     singleLineComment: ['#']
     ignorePrefix:      '}'
