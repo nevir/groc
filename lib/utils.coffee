@@ -458,7 +458,7 @@ module.exports = Utils =
               currSegment.code.push currSegment.foldMarker
             else
               currSegment.comments.push comment
-        
+
         else
           if options.allowEmptyLines
             currSegment.comments.push ''
@@ -684,7 +684,7 @@ module.exports = Utils =
 
         # showdown generates header ids by lowercasing & dropping non-word characters.  We'd like
         # something a bit more readable.
-        markdown = @gsub markdown, /<h(\d) id="[^"]+">([^<]+)<\/h\d>/g, (match) =>
+        markdown = @gsub markdown, /<h(\d) id="[^"]+">(.+)<\/h\d>/g, (match) =>
           header =
             level: parseInt match[1]
             title: match[2]

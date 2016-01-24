@@ -222,10 +222,10 @@ module.exports = CLI = (inputArgs, callback) ->
   # `Project#generate` can take some options, such as which style to use.  Since we're generating
   # differently depending on whether or not github is enabled, let's set those up now:
   # If a style was passed in, but it isn't registered, try loading a module.
-  if argv.style
+  if argv.style isnt 'Default'
     stylePath = path.resolve process.cwd(), argv.style
     try
-      style = require(stylePath) require './styles/base'
+      style = require(stylePath)(require './styles/base')
     catch error
       console.error "Can't load style from `#{stylePath}!"
       throw error

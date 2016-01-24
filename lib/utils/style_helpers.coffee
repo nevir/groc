@@ -83,6 +83,7 @@ module.exports = StyleHelpers =
       nodes.push
         type:   'file'
         data:    fileData
+        title:   fileData.title
         depth:   file.targetPath.split( path.join('/') ).length
         outline: outlines[file.targetPath]
 
