@@ -52,9 +52,9 @@ parseTypes = (value) ->
   types = (
     for type in value.types
       if type.match /^\.\.\.|\.\.\.$/
-        "any number of `#{humanize.pluralize type.replace(/^\.\.\.|\.\.\.$/, "")}`"
+        "any number of #{humanize.pluralize '`' + type.replace(/^\.\.\.|\.\.\.$/, "") + '`'}"
       else if type.match /\[\]$/
-        "an Array of `#{humanize.pluralize type.replace(/\[\]$/, "")}`"
+        "an Array of #{humanize.pluralize '`' + type.replace(/\[\]$/, "") + '`'}"
       else
         "#{humanize.article type} `#{type}`"
   )
@@ -87,7 +87,7 @@ parseTypes = (value) ->
   varNamePostfix = this.varNamePostfix or ''
   listPrefix = if this.list then (if value.isSubParam then "    *" else "*") else ''
 
-  "#{listPrefix} #{varNamePrefix} `#{value.varName}` #{humanize.joinSentence fragments}.#{varNamePostfix} #{if value.description.length then '<p class="description">' else ''}#{value.description}</p>#{if value.description.length then '' else ''}"
+  "#{listPrefix} #{varNamePrefix} `#{value.varName}` #{humanize.joinSentence fragments}.#{varNamePostfix} #{if value.description.length then '<p class="description">' else ''}#{value.description}#{if value.description.length then '</p>' else ''}"
 
 
 # This is a sample doc tagged block comment

@@ -19,8 +19,8 @@ module.exports = humanize =
       'a'
 
   pluralizationRules: [
-    { regex: /([bcdfghjklmnpqrstvwxz])y$/, replacement: '$1ies' },
-    { regex: /(ch|sh|x|ss|s)$/, replacement: '$1es' },
+    { regex: /([bcdfghjklmnpqrstvwxz])(`|)y$/, replacement: '$1ies' },
+    { regex: /(ch|sh|x|ss|s)(`|)$/, replacement: '$1es' },
     { regex: /$/, replacement: 's' }
   ]
 
