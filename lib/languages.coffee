@@ -28,7 +28,7 @@ module.exports = LANGUAGES =
     singleLineComment: ['//']
     ignorePrefix:      '}'
     foldPrefix:        '^'
-    
+
   CSS:
     nameMatchers:      ['.css']
     pygmentsLexer:     'css'
@@ -106,7 +106,7 @@ module.exports = LANGUAGES =
     # defaults to `true`. If true it allows one to nest block-comments in
     # different syntax-definitions, like in handlebars or html+php.
     strictMultiLineEnd:false
-    singleLineComment: ['#']
+    singleLineComment: ['##']
     ignorePrefix:      '}'
     foldPrefix:        '^'
 
@@ -144,7 +144,7 @@ module.exports = LANGUAGES =
     multiLineComment:  ['<!--', '', '-->']
     ignorePrefix:      '}'
     foldPrefix:        '^'
-    
+
   Jade:
     nameMatchers:      ['.jade']
     pygmentsLexer:     'jade'

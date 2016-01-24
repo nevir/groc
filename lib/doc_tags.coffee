@@ -15,6 +15,81 @@ humanize = require './utils/humanize'
 collapse_space = (value) ->
   value.replace /\s+/g, ' '
 
+
+# parses function parameters
+#
+# @public
+# @method parseValue
+#
+# @param  {String} value Text that follows @param
+#
+# @return {Object}
+parseValue = (value) ->
+  parts = collapse_space(value).match /^\{([^\}]+)\}\s+(\[?)([\w\.\$]+)(?:=([^\s\]]+))?(\]?)\s*(.*)$/
+  types:        (parts[1]?.split /\|{1,2}/g)
+  isOptional:   (parts[2] == '[' and parts[5] == ']')
+  varName:      parts[3]
+  isSubParam:   /\./.test parts[3]
+  defaultValue: parts[4]
+  description:  parts[6]
+
+
+# converts parsed values to markdown text
+#
+# @private
+# @method markdown
+#
+# @param  {Object}   value
+# @param  {String[]} value.types
+# @param  {Boolean}  value.isOptional=false
+# @param  {String}   value.varName
+# @param  {Boolean}  value.isSubParam=false
+# @param  {String}   [value.defaultValue]
+# @param  {String}   [value.description]
+#
+# @return {String} should be in markdown syntax
+parseTypes = (value) ->
+  types = (
+    for type in value.types
+      if type.match /^\.\.\.|\.\.\.$/
+        "any number of `#{humanize.pluralize type.replace(/^\.\.\.|\.\.\.$/, "")}`"
+      else if type.match /\[\]$/
+        "an Array of `#{humanize.pluralize type.replace(/\[\]$/, "")}`"
+      else
+        "#{humanize.article type} `#{type}`"
+  )
+
+  fragments = []
+
+  fragments.push 'is optional' if value.isOptional
+  verb = 'must'
+
+  if types.length > 1
+    verb = 'can'
+  else if types[0] == 'a `mixed`'
+    verb = 'can'
+    types[0] = 'of any type'
+  else if types[0] == 'an Array of Mixeds'
+    verb = 'can'
+    types[0] = 'an Array of any type'
+  else if types[0] == 'any number of Mixeds'
+    verb = 'can'
+    types[0] = 'any number of arguments of any type'
+
+  fragments.push "#{verb} be #{humanize.joinSentence types, 'or'}"
+  fragments.push "has a default value of `#{value.defaultValue}`" if value.defaultValue?
+
+  # Remove leading space and `-` symbol.
+  parsedDesc = (/\s*-\s+(.*)/).exec(value.description)
+  value.description = parsedDesc[1] unless not parsedDesc
+
+  varNamePrefix = this.varNamePrefix or ''
+  varNamePostfix = this.varNamePostfix or ''
+  listPrefix = if this.list then (if value.isSubParam then "    *" else "*") else ''
+
+  "#{listPrefix} #{varNamePrefix} `#{value.varName}` #{humanize.joinSentence fragments}.#{varNamePostfix} #{if value.description.length then '<p class="description">' else ''}#{value.description}</p>#{if value.description.length then '' else ''}"
+
+
 # This is a sample doc tagged block comment
 #
 # @public
@@ -52,6 +127,8 @@ module.exports = DOC_TAGS =
     section:     'type'
   property:
     section:     'type'
+    parseValue:  parseValue
+    markdown:    parseTypes
 
   accessor:
     section:     'flags'
@@ -92,7 +169,7 @@ module.exports = DOC_TAGS =
 
   todo:
     section:     'todo'
-    markdown:    'TODO: {value}'
+    markdown:    '<p class="todo">**TODO:** {value}</p>'
 
   example:
     section:     'example'
@@ -111,69 +188,11 @@ module.exports = DOC_TAGS =
 
   param:
     section:     'params'
-    # parses function parameters
-    #
-    # @public
-    # @method parseValue
-    #
-    # @param  {String} value Text that follows @param
-    #
-    # @return {Object}
-    parseValue:  (value) ->
-      parts = collapse_space(value).match /^\{([^\}]+)\}\s+(\[?)([\w\.\$]+)(?:=([^\s\]]+))?(\]?)\s*(.*)$/
-      types:        (parts[1]?.split /\|{1,2}/g)
-      isOptional:   (parts[2] == '[' and parts[5] == ']')
-      varName:      parts[3]
-      isSubParam:   /\./.test parts[3]
-      defaultValue: parts[4]
-      description:  parts[6]
-
-    # converts parsed values to markdown text
-    #
-    # @private
-    # @method markdown
-    #
-    # @param  {Object}   value
-    # @param  {String[]} value.types
-    # @param  {Boolean}  value.isOptional=false
-    # @param  {String}   value.varName
-    # @param  {Boolean}  value.isSubParam=false
-    # @param  {String}   [value.defaultValue]
-    # @param  {String}   [value.description]
-    #
-    # @return {String} should be in markdown syntax
-    markdown:    (value) ->
-      types = (
-        for type in value.types
-          if type.match /^\.\.\.|\.\.\.$/
-            "any number of #{humanize.pluralize type.replace(/^\.\.\.|\.\.\.$/, "")}"
-          else if type.match /\[\]$/
-            "an Array of #{humanize.pluralize type.replace(/\[\]$/, "")}"
-          else
-            "#{humanize.article type} #{type}"
-      )
-
-      fragments = []
-
-      fragments.push 'is optional' if value.isOptional
-      verb = 'must'
-
-      if types.length > 1
-        verb = 'can'
-      else if types[0] == 'a Mixed'
-        verb = 'can'
-        types[0] = 'of any type'
-      else if types[0] == 'an Array of Mixeds'
-        verb = 'can'
-        types[0] = 'an Array of any type'
-      else if types[0] == 'any number of Mixeds'
-        verb = 'can'
-        types[0] = 'any number of arguments of any type'
-
-      fragments.push "#{verb} be #{humanize.joinSentence types, 'or'}"
-      fragments.push "has a default value of #{value.defaultValue}" if value.defaultValue?
-
-      "#{if value.isSubParam then "    *" else "*"} **#{value.varName} #{humanize.joinSentence fragments}.**#{if value.description.length then '<br/>(' else ''}#{value.description}#{if value.description.length then ')' else ''}"
+    parseValue:  parseValue
+    markdown:    parseTypes
+    varNamePrefix: '<p class="param">'
+    varNamePostfix: '</p>'
+    list:        true
   params:        'param'
   parameters:    'param'
 
@@ -184,8 +203,8 @@ module.exports = DOC_TAGS =
       types:       parts[1].split /\|{1,2}/g
       description: parts[2]
     markdown:     (value) ->
-      types = ("#{humanize.article type} #{type}" for type in value.types)
-      "**returns #{types.join ' or '}**#{if value.description.length then '<br/>(' else ''}#{value.description}#{if value.description.length then ')' else ''}"
+      types = ("#{humanize.article type} `#{type}`" for type in value.types)
+      "<p class='doc-section-sub-heading returns'>Returns #{types.join ' or '}</p>#{if value.description.length then '<p class="returns-description">' else ''}#{value.description}#{if value.description.length then '</p>' else ''}"
   returns:       'return'
   throw:
     section:     'returns'

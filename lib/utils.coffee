@@ -665,7 +665,7 @@ module.exports = Utils =
               tag.markdown = tag.definition.markdown(tag.value)
           else
             if tag.value.length > 0
-              tag.markdown = "#{tag.name} #{tag.value}"
+              tag.markdown = "#{tag.name} `#{tag.value}`"
             else
               tag.markdown = tag.name
 
