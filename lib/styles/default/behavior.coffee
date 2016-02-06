@@ -191,7 +191,7 @@ buildNav = (metaInfo) ->
     if metaInfo.documentPath == 'index'
       sourceURL = metaInfo.githubURL
     else
-      sourceURL = "#{metaInfo.githubURL}/blob/master/#{metaInfo.projectPath}"
+      sourceURL = "#{metaInfo.githubURL}/blob/#{metaInfo.gitBranch}/#{metaInfo.projectPath}"
 
     nav$.find('.tools').prepend """
       <li class="github">
@@ -255,6 +255,7 @@ $ ->
   metaInfo =
     relativeRoot: $('meta[name="groc-relative-root"]').attr('content')
     githubURL:    $('meta[name="groc-github-url"]').attr('content')
+    gitBranch:    $('meta[name="groc-git-branch"]').attr('content')
     documentPath: $('meta[name="groc-document-path"]').attr('content')
     projectPath:  $('meta[name="groc-project-path"]').attr('content')
 

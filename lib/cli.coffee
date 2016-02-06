@@ -79,6 +79,10 @@ module.exports = CLI = (inputArgs, callback) ->
       describe: "Supply your GitHub repository URL (if groc fails to guess it)."
       type:     'string'
 
+    'repository-branch':
+      describe: "Supply your git branch"
+      type:     'string'
+
     'only-render-newer':
       describe: "Only render files if the source is newer than the output."
       default:  true
@@ -235,6 +239,7 @@ module.exports = CLI = (inputArgs, callback) ->
   # Good to go!
   unless argv.github
     project.githubURL = argv['repository-url']
+    project.gitBranch = argv['repository-branch']
 
     project.generate options, (error) ->
       callback error
