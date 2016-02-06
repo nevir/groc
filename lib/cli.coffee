@@ -79,6 +79,11 @@ module.exports = CLI = (inputArgs, callback) ->
       describe: "Supply your GitHub repository URL (if groc fails to guess it)."
       type:     'string'
 
+    'repository-branch':
+      describe: "Supply your git branch"
+      type:     'string'
+      default: 'master'
+
     'only-render-newer':
       describe: "Only render files if the source is newer than the output."
       default:  true
@@ -232,6 +237,7 @@ module.exports = CLI = (inputArgs, callback) ->
     onlyRenderNewer: argv['only-render-newer']
     style: style
 
+  project.gitBranch = argv['repository-branch']
   # Good to go!
   unless argv.github
     project.githubURL = argv['repository-url']
