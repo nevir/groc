@@ -334,3 +334,11 @@ module.exports = LANGUAGES =
     singleLineComment: ['#']
     ignorePrefix:      '}'
     foldPrefix:        '^'
+    
+  Vue:
+    nameMatchers:      ['.vue']
+    pygmentsLexer:     'vue'
+    multiLineComment:  ['/*', '*', '*/']
+    singleLineComment: ['//']
+    ignorePrefix:      '}'
+    foldPrefix:        '^'
