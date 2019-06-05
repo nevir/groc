@@ -4,7 +4,7 @@ path = require 'path'
 _            = require 'underscore'
 coffeeScript = require 'coffee-script'
 fsTools      = require 'fs-tools'
-pug         = require 'pug'
+pug          = require 'pug'
 uglifyJs     = require 'uglify-js'
 humanize     = require '../utils/humanize'
 
