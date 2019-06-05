@@ -4,7 +4,7 @@ path = require 'path'
 _            = require 'underscore'
 coffeeScript = require 'coffee-script'
 fsTools      = require 'fs-tools'
-jade         = require 'jade'
+pug         = require 'pug'
 uglifyJs     = require 'uglify-js'
 humanize     = require '../utils/humanize'
 
@@ -18,7 +18,7 @@ module.exports = (Base) -> class Default extends Base
     @targetAssets = path.resolve @project.outPath, 'assets'
 
     templateData  = fs.readFileSync path.join(@sourceAssets, 'docPage.jade'), 'utf-8'
-    @templateFunc = jade.compile templateData
+    @templateFunc = pug.compile templateData
 
   renderCompleted: (callback) ->
     @log.trace 'styles.Default#renderCompleted(...)'
